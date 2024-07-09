@@ -90,8 +90,8 @@ def get_parser():
         | PAULIOP("_"NUMBER)? 
 
     ?bexpr: bterm 
-        | bexpr "&" bterm -> bool_and
-        | bexpr "|" bterm -> bool_or
+        | bterm ("&" bterm)+ -> bool_and
+        | bterm ("|" bterm)+ -> bool_or
     ?bterm: "!" bterm -> neg
         | "(" bexpr ")"
         | "true" -> true
@@ -104,14 +104,15 @@ def get_parser():
         | aexpr ">"  aexpr -> gt
         | aexpr
     ?aexpr: aterm
-        | aterm "+" aexpr  -> add
-        | aterm "-" aexpr  -> sub 
-        | aterm "*" aexpr  -> mul 
-        | aterm "/" aexpr  -> div
+        | aterm ("+" aexpr)+  -> add
+        | aterm ("-" aexpr)+  -> sub 
+        | aterm ("*" aexpr)+  -> mul 
+        | aterm ("/" aexpr)+  -> div
     ?aterm: NUMBER
         | var
         | "-"aterm -> unary_minus
         | "("aexpr")"
+        | var "(" aterm ("," aterm)* ")" -> func
         
     %import common.NUMBER -> NUMBER
     %import common.WS
@@ -130,7 +131,7 @@ def get_parser():
     SKIP: "skip"
     MEASURE: "meas" 
     """
-    return Lark(hoare_triple_grammar, start='triple', parser='earley')
+    return Lark(hoare_triple_grammar, start='triple', parser = 'earley')
 
 
 ##### tests ##### 
