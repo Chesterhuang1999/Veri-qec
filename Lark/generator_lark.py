@@ -158,13 +158,13 @@ class Combinephase(Transformer):
                             temp.append(phase.children[j])
                     else:
                         temp.append(phase)
-                    if( i > 0):
+                    if(i > 0):
                         op.children.pop(0)
                     else:
                         op.children[0] = Tree('add', temp)
             return Tree('pexpr', children)
                     
-
+class 
 
 ## Perform transformations 
 def assign(t, assertion_tree):

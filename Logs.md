@@ -21,12 +21,16 @@ measurement rule 的实现过程中可能依赖判断2个stabilizer expression�
 Todo: 实现big-or的版本 (7.4 已完成)
 
 ### For (syntactic sugar)
-针对For循环中存在下标为循环变量的情况编写了loops transformer，将下标逐个进行替换之后
+针对For循环中存在下标为循环变量的情况编写了loops transformer，将下标逐个进行替换之后按照串行的方案执行程序对应的替换规则
+
+可能存在的提升空间：目前所有的inference都是串行执行，是否能找到并行执行的操作方法以及判定某个循环内的程序是否可以并行执行。
 
 ---------------------
 
 
 ## Problems and possible solutions 
-1. 目前不支持类似 s_1 := meas g_1 的写法， 需要具体指定stabilizer的值。solution: 在
+1. 目前不支持类似 s_1 := meas g_1 的写法， 需要具体指定stabilizer的值。solution: 
 
 2. 目前不支持在Clifford（非Pauli）的门操作中加入conditional gates
+
+## Development Targets and Plans
