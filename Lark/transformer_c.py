@@ -1,12 +1,13 @@
 #------------
 # author: Chester Huang
-# date: 2024.5.31
-# version: 1.0.1
+# date: 2024.7.9
+# version: 1.1.0
 #------------
 
 from lark import Lark, Transformer, v_args, Tree, Token
+from lark.visitors import merge_transformers
 from lark.reconstruct import Reconstructor
-from parser_lark import get_parser
+from Lark.parser_old import get_parser
 import re
 
 import time
@@ -105,43 +106,82 @@ class Unitary(Transformer):
                 raise ValueError("Invalid number of arguments")
         else: 
             return Tree('pauli', args)    
+
 # Measure rule substitution (need to deal with big operator)
 class Measure(Transformer):
     def __init__(self, var, pexpr):
         self.var_obj = var
         self.pexpr_obj = pexpr
+        self.ismeasure = 0  # record if the measurement op already exists in assertion
+    def pexpr(self, args):
+        child = self.pexpr_obj.children
+        if len(args) == len(child) and all(eq_pauliop(arg,ch) for arg,ch in zip(args, child)):
+                args[0].children[0] = self.var_obj
+                self.ismeasure = 1
+        return Tree('pexpr', args)
     def condition(self, args):
         if args[0].data == "bigor":
             length = len(args[0].children)
             children = [None] * (length + 1)
+            # add new variable in subscripts of bigor
             for i in range(length - 1):
                 children[i + 1] = args[0].children[i]
             children[0] = self.var_obj
             temp1 = args[0].children[length -  1]
-            pexpr = self.pexpr_obj
-            temp2 = [self.var_obj] + pexpr.children[0].children
-            pexpr.children[0] = Tree('pauli',temp2)
-            children[length] = Tree('and',[pexpr, temp1])
+            children[length] = temp1 
+            if self.ismeasure == 0:
+                # create the new pauli operator
+                pexpr = self.pexpr_obj
+                temp2 = [self.var_obj] + pexpr.children[0].children
+                pexpr.children[0] = Tree('pauli',temp2)
+                children[length] = Tree('and',[pexpr, temp1])
+            else:
+                children[length] = temp1
             return Tree('condition',[Tree('bigor', children)])
         else: 
-            pexpr = self.pexpr_obj
-            temp = Tree('pauli', [self.var_obj]+ pexpr.children[0].children)
-            pexpr.children[0] = temp
-            temp1 = Tree('and',[pexpr,args[0]])
-            return Tree('condition', [Tree('bigor', [self.var_obj, temp1])]) 
+            if self.ismeasure == 0:
+                pexpr = self.pexpr_obj
+                temp = Tree('pauli', [self.var_obj]+ pexpr.children[0].children)
+                pexpr.children[0] = temp
+                temp1 = Tree('and',[pexpr,args[0]])
+                return Tree('condition', [Tree('bigor', [self.var_obj,temp1])])
+            else:
+                return Tree('condition', [Tree('bigor', [self.var_obj, args[0]])]) 
+    ## Original verision for archive, direct implement the 
+    # def condition(self, args):
+    #     if args[0].data == "bigor":
+    #         length = len(args[0].children)
+    #         children = [None] * (length + 1)
+    #         # add new variable in subscripts of bigor
+    #         for i in range(length - 1):
+    #             children[i + 1] = args[0].children[i]
+    #         children[0] = self.var_obj
+    #         temp1 = args[0].children[length -  1]
+    #         pexpr = self.pexpr_obj
+    #         # create the new pauli operator
+    #         temp2 = [self.var_obj] + pexpr.children[0].children
+    #         pexpr.children[0] = Tree('pauli',temp2)
+    #         children[length] = Tree('and',[pexpr, temp1])
+    #         return Tree('condition',[Tree('bigor', children)])
+    #     else: 
+    #         pexpr = self.pexpr_obj
+    #         temp = Tree('pauli', [self.var_obj]+ pexpr.children[0].children)
+    #         pexpr.children[0] = temp
+    #         temp1 = Tree('and',[pexpr,args[0]])
+    #         return Tree('condition', [Tree('bigor', [self.var_obj, temp1])]) 
         
-
 #ToDo: Substitution of pauli operator indexes
 class Loops(Transformer):
     def __init__(self, var, value):
         self.var_obj = var
         self.value = value
     def var(self, args):
-        if args[1] == self.var_obj.children[0]: 
+        if args[1] == self.var_obj: 
             args[1] = Token('NUMBER', self.value)
         return Tree('var', args)
 
-### Additional transformers to reformulate the assertion to a compact form
+## Additional transformers to reformulate the assertion to a compact form
+### Combine the phases in the same stabilizer
 class Combinephase(Transformer):
     def pexpr(self, children):
         if(children[0].data != 'pauli'):
@@ -152,27 +192,27 @@ class Combinephase(Transformer):
             for i in reversed(range(length)):
                 op = children[i]
                 if len(op.children) > 2:
-                    phase = op.children[0]
-                    if(phase.data == 'add'):
-                        for j in range(len(phase.children)):
-                            temp.append(phase.children[j])
+                    phase = op.children.pop(0)
+                    if phase.data == 'add':
+                        temp.extend(phase.children)
+                        # for j in range(len(phase.children)):
+                        #     temp.append(phase.children[j])
                     else:
                         temp.append(phase)
-                    if(i > 0):
-                        op.children.pop(0)
-                    else:
-                        op.children[0] = Tree('add', temp)
+                    if i == 0 and len(temp) > 1:
+                        op.children.insert(0, Tree('add',temp))
+                    elif i == 0 and len(temp) == 1:
+                        op.children.insert(0, temp[0])
             return Tree('pexpr', children)
                     
-class 
 
 ## Perform transformations 
 def assign(t, assertion_tree):
     var = t.children[0]
     new_expr = t.children[1]
     assign_transformer = Assign(var, new_expr)
-    #print(assertion_tree)
     return assign_transformer.transform(assertion_tree)
+
 def unitary(t, assertion_tree):
     length = len(t.children)
     if(length == 3):
@@ -184,13 +224,14 @@ def unitary(t, assertion_tree):
         bexp = 1
         unit = t.children[1]
     unitary_transformer = Unitary(var, bexp, unit)
-    return unitary_transformer.transform(assertion_tree)
+    unit = unitary_transformer.__mul__(Combinephase())
+    return Combinephase().transform(unitary_transformer.transform(assertion_tree))
 
 def meas(t, assertion_tree):
     var = t.children[0]
     pexpr = t.children[1]
     meas_transformer = Measure(var, pexpr)
-    return meas_transformer.transform(assertion_tree)
+    return Combinephase().transform(meas_transformer.transform(assertion_tree))
 
 
 # Processing the postcondition via Hoare rules 
@@ -199,7 +240,6 @@ def process(program_tree, assertion_tree):
     length = len(command_list)
     for i in reversed(range(length)):
         t = command_list[i]
-        #assertion_tree = inference(t, assertion_tree)
         if t.data == 'assign':
             assertion_tree = assign(t, assertion_tree)
             # assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)
@@ -213,54 +253,55 @@ def process(program_tree, assertion_tree):
             b, prog1, prog2 = t.children
         elif t.data == 'for':
             var, start, end, child_prog = t.children
-        #print(prog)
             for j in range(int(start), int(end) + 1):
                 loop_transformer = Loops(var, j)
                 child_prog_mod = loop_transformer.transform(child_prog)
                 assertion_tree = process(child_prog_mod, assertion_tree)
     return assertion_tree
-            # switch_dict = {
-            # 'assign': assign,
-            # 'unitary': unitary,
-            # 'meas': meas
-            # }
-            # var, start, end, prog = t.children
-            # fun = switch_dict.get(prog.data)
-            # print(fun)
-            
 
+
+# Check the equality of two pauli expressions, without considering the phase            
+def eq_pauliop(u: Tree,v: Tree):
+   return u.children[-1] == v.children[-1] and u.children[-2] == v.children[-2]
+    
+
+def eq_pexpr(u: Tree, v: Tree):
+    if len(u.children) != len(v.children): 
+        return False
+    return all(eq_pauliop(u.children[i],v.children[i]) for i in range(len(u.children)))
 
 # Generate the precondition from the program and the postcondition
 def precond_generator(program: str, precond: str, postcond: str):
     triple = "{" + precond + "}" + program + "{" + postcond + "}"
+    start = time.time()
     tree = parser.parse(triple)
     _, program_tree, assertion_tree = tree.children
     ### Record the time for processing the AST
-    start = time.time()
-    assertion_tree = process(program_tree, assertion_tree)
-    phase_transformer = Combinephase()
-    assertion_tree = phase_transformer.transform(assertion_tree)
     end = time.time()
     print(end - start)
+    assertion_tree = process(program_tree, assertion_tree)
+    #phase_transformer = Combinephase()
+    #assertion_tree = phase_transformer.transform(assertion_tree)
+   
     return program_tree, assertion_tree
 
+# #Test examples
+# start = time.time()
+# precond = """Z_1Z_2Z_3"""
+# program = """ s_1 := meas Z_1Z_2; s_2 := meas Z_2Z_3; for i in 1 to 3 do q_i *= c_i X end"""
+# ### ''' c_1 := (e_1 & !e_2); q_1 *= c_1 Z; q_2 *= c_2 Z; q_3 *= c_3 Z'''
+# postcond = '''  (-1)^(b_1) Z_1 && Z_1Z_2 && Z_2Z_3 '''
+# program_tree, assertion_tree = precond_generator(program, precond, postcond)
+# end = time.time()
+# print(end - start)
+# print(assertion_tree.children[0])
+# ## A reconstructor for visualizing the generated precondition.
+# ## VC transformation will still be performed on the AST. 
+# assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)
+# cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
 
-# Test examples
-start = time.time()
-precond = ''''''
-program = """ for i in 1 to 3 do q_i *= e_i X end; for i in 1 to 3 do q_i *= c_i X end"""
-### ''' c_1 := (e_1 & !e_2); q_1 *= c_1 Z; q_2 *= c_2 Z; q_3 *= c_3 Z'''
-postcond = '''  (-1)^(b_1) Z_1 && Z_1Z_2 && Z_2Z_3 '''
-program_tree, assertion_tree = precond_generator(program, precond, postcond)
-end = time.time()
-print(end - start)
-## A reconstructor for visualizing the generated precondition.
-## VC transformation will still be performed on the AST. 
-#assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)
-#cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
+# #print(cleaned_assertion)
 
-#print(cleaned_assertion)
-#print(end - start)
 
 ## Archive for test examples
 # for i in 1 to 3 do e_i := 0 end; e_1 := 1; for i in 1 to 3 do q_i *= e_i X end; 
