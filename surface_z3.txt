@@ -1,0 +1,201 @@
+ForAll([s_1,
+        cz_2,
+        cz_3,
+        cz_7,
+        cz_8,
+        s_2,
+        cz_6,
+        cz_11,
+        cz_12,
+        s_3,
+        cz_4,
+        cz_5,
+        cz_9,
+        cz_10,
+        s_4,
+        cz_13,
+        cz_14,
+        s_5,
+        cz_1,
+        s_6,
+        cz_15,
+        s_7,
+        cz_17,
+        cz_18,
+        s_8,
+        cz_16,
+        cz_21,
+        cz_22,
+        s_9,
+        cz_19,
+        cz_20,
+        s_10,
+        cz_23,
+        cz_24,
+        s_11,
+        s_12,
+        cz_25,
+        s_13,
+        cx_1,
+        cx_2,
+        cx_6,
+        cx_7,
+        s_14,
+        cx_8,
+        cx_12,
+        cx_13,
+        s_15,
+        cx_3,
+        cx_4,
+        cx_9,
+        s_16,
+        cx_10,
+        cx_14,
+        cx_15,
+        s_17,
+        s_18,
+        cx_21,
+        cx_22,
+        s_19,
+        cx_11,
+        cx_16,
+        cx_17,
+        s_20,
+        cx_18,
+        cx_23,
+        s_21,
+        cx_19,
+        s_22,
+        cx_20,
+        cx_24,
+        cx_25,
+        s_23,
+        cx_5,
+        s_24],
+       And(And(Extract(4,
+                       2,
+                       Concat(0, ex_1) +
+                       Concat(0, ex_2) +
+                       Concat(0, ex_3) +
+                       Concat(0, ex_4) +
+                       Concat(0, ex_5) +
+                       Concat(0, ex_6) +
+                       Concat(0, ex_7) +
+                       Concat(0, ex_8) +
+                       Concat(0, ex_9) +
+                       Concat(0, ex_10) +
+                       Concat(0, ex_11) +
+                       Concat(0, ex_12) +
+                       Concat(0, ex_13) +
+                       Concat(0, ex_14) +
+                       Concat(0, ex_15) +
+                       Concat(0, ex_16) +
+                       Concat(0, ex_17) +
+                       Concat(0, ex_18) +
+                       Concat(0, ex_19) +
+                       Concat(0, ex_20) +
+                       Concat(0, ex_21) +
+                       Concat(0, ex_22) +
+                       Concat(0, ex_23) +
+                       Concat(0, ex_24) +
+                       Concat(0, ex_25)) ==
+               0,
+               ULE(Concat(0, ex_1) +
+                   Concat(0, ex_2) +
+                   Concat(0, ex_3) +
+                   Concat(0, ex_4) +
+                   Concat(0, ex_5) +
+                   Concat(0, ex_6) +
+                   Concat(0, ex_7) +
+                   Concat(0, ex_8) +
+                   Concat(0, ex_9) +
+                   Concat(0, ex_10) +
+                   Concat(0, ex_11) +
+                   Concat(0, ex_12) +
+                   Concat(0, ex_13) +
+                   Concat(0, ex_14) +
+                   Concat(0, ex_15) +
+                   Concat(0, ex_16) +
+                   Concat(0, ex_17) +
+                   Concat(0, ex_18) +
+                   Concat(0, ex_19) +
+                   Concat(0, ex_20) +
+                   Concat(0, ex_21) +
+                   Concat(0, ex_22) +
+                   Concat(0, ex_23) +
+                   Concat(0, ex_24) +
+                   Concat(0, ex_25),
+                   2),
+               Extract(4,
+                       2,
+                       Concat(0, ez_1) +
+                       Concat(0, ez_2) +
+                       Concat(0, ez_3) +
+                       Concat(0, ez_4) +
+                       Concat(0, ez_5) +
+                       Concat(0, ez_6) +
+                       Concat(0, ez_7) +
+                       Concat(0, ez_8) +
+                       Concat(0, ez_9) +
+                       Concat(0, ez_10) +
+                       Concat(0, ez_11) +
+                       Concat(0, ez_12) +
+                       Concat(0, ez_13) +
+                       Concat(0, ez_14) +
+                       Concat(0, ez_15) +
+                       Concat(0, ez_16) +
+                       Concat(0, ez_17) +
+                       Concat(0, ez_18) +
+                       Concat(0, ez_19) +
+                       Concat(0, ez_20) +
+                       Concat(0, ez_21) +
+                       Concat(0, ez_22) +
+                       Concat(0, ez_23) +
+                       Concat(0, ez_24) +
+                       Concat(0, ez_25)) ==
+               0,
+               ULE(Concat(0, ez_1) +
+                   Concat(0, ez_2) +
+                   Concat(0, ez_3) +
+                   Concat(0, ez_4) +
+                   Concat(0, ez_5) +
+                   Concat(0, ez_6) +
+                   Concat(0, ez_7) +
+                   Concat(0, ez_8) +
+                   Concat(0, ez_9) +
+                   Concat(0, ez_10) +
+                   Concat(0, ez_11) +
+                   Concat(0, ez_12) +
+                   Concat(0, ez_13) +
+                   Concat(0, ez_14) +
+                   Concat(0, ez_15) +
+                   Concat(0, ez_16) +
+                   Concat(0, ez_17) +
+                   Concat(0, ez_18) +
+                   Concat(0, ez_19) +
+                   Concat(0, ez_20) +
+                   Concat(0, ez_21) +
+                   Concat(0, ez_22) +
+                   Concat(0, ez_23) +
+                   Concat(0, ez_24) +
+                   Concat(0, ez_25),
+                   2)),
+           Not(And(s_1 == ez_2 + ez_3 + ez_7 + ez_8,
+                   s_2 == ez_6 + ez_7 + ez_11 + ez_12,
+                   s_3 == ez_4 + ez_5 + ez_9 + ez_10,
+                   s_4 == ez_8 + ez_9 + ez_13 + ez_14,
+                   s_5 == ez_1 + ez_6,
+                   s_6 == ez_10 + ez_15,
+                   s_7 == ez_12 + ez_13 + ez_17 + ez_18,
+                   s_8 == ez_16 + ez_17 + ez_21 + ez_22,
+                   s_9 == ez_14 + ez_15 + ez_19 + ez_20,
+                   s_10 == ez_18 + ez_19 + ez_23 + ez_24,
+                   s_11 == ez_11 + ez_16,
+                   s_12 == ez_20 + ez_25,
+                   s_13 == ex_1 + ex_2 + ex_6 + ex_7,
+                   s_14 == ex_7 + ex_8 + ex_12 + ex_13,
+                   s_15 == ex_3 + ex_4 + ex_8 + ex_9,
+                   s_16 == ex_9 + ex_10 + ex_14 + ex_15,
+                   s_17 == ex_2 + ex_3,
+                   s_18 == ex_21 + ex_22,
+...
