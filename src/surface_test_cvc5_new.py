@@ -15,11 +15,12 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, decoder_cond, bit_
     cass_expr = simplify(VCgeneration(precond, program, postcond))
     #print(cass_expr)
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
-    err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
     #err_variables = {}
     variables = {}
     constraints = []
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
+    
+    err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
     err_gt_expr = tree_to_z3(err_gt_tree.children[0], {}, bit_width,  [], False)
     
     #err_expr = simplify(tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True))

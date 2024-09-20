@@ -1,0 +1,6 @@
+
+*.pyc
+
+/linxi-develop/
+/.vscode/
+__pycache__

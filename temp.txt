@@ -1,4 +1,31 @@
-ForAll([ez_25,
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Tree(Token('RULE', 'condition'), [Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '1')]), Token('NUMBER', '1')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '2')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '3')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '4')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '5')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '6')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '7')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '8')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '9')]), Token('NUMBER', '0')]), Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '10')]), Token('NUMBER', '0')])])])])])])])])])])])
+{}
+ForAll([ez_1,
+        ez_2,
+        ez_3,
+        ez_4,
+        ez_5,
+        ez_6,
+        ez_7,
+        ez_8,
+        ez_9,
+        ez_10,
+        ez_11,
+        ez_12,
+        ez_13,
+        ez_14,
+        ez_15,
+        ez_16,
+        ez_17,
+        ez_18,
+        ez_19,
+        ez_20,
+        ez_21,
+        ez_22,
+        ez_23,
+        ez_24,
+        ez_25,
         ez_26,
         ez_27,
         ez_28,
@@ -25,30 +52,6 @@ ForAll([ez_25,
         ez_49],
        Exists([ezaux_1_49,
                czaux_1_49,
-               ez_1,
-               ez_2,
-               ez_3,
-               ez_4,
-               ez_5,
-               ez_6,
-               ez_7,
-               ez_8,
-               ez_9,
-               ez_10,
-               ez_11,
-               ez_12,
-               ez_13,
-               ez_14,
-               ez_15,
-               ez_16,
-               ez_17,
-               ez_18,
-               ez_19,
-               ez_20,
-               ez_21,
-               ez_22,
-               ez_23,
-               ez_24,
                s_1,
                cz_2,
                cz_3,
@@ -122,79 +125,57 @@ ForAll([ez_25,
                s_23,
                s_24,
                cz_49],
-              And(And(0 == ez_1,
-                      And(0 == ez_2,
-                          And(0 == ez_3,
-                              And(0 == ez_4,
-                                  And(0 == ez_5,
-                                      And(0 == ez_6,
-                                        And(0 == ez_7,
-                                        And(0 == ez_8,
-                                        And(0 == ez_9,
-                                        And(0 == ez_10,
-                                        And(0 == ez_11,
-                                        And(0 == ez_12,
-                                        And(0 == ez_13,
-                                        And(0 == ez_14,
-                                        And(0 == ez_15,
-                                        And(0 == ez_16,
-                                        And(... == ...,
-                                        And(..., ...)))))))))))))))))),
-                  And(... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... +
-                      ... ==
-                      ...,
-                      ...,
-                      ...,
-                      ...),
-                  ...)))
-smtencoding took 670.09ms
-sat
-smtchecking took 5.198sec
+              Or(Not(ULE(... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ... +
+                         ...,
+                         ...)),
+                 ...)))
+smtencoding took 1.080sec
+sur_cond_checker took 1.085sec

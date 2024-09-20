@@ -89,7 +89,26 @@ def auto_complement(a, b):
 #             #     constraints.append(Or(variables[var_name] == BitVecVal(0, bit_width), variables[var_name] == BitVecVal(1, bit_width)))  # Add domain constraint for this variable
 #         return variables[var_name]
 #     else:
-#         raise ValueError(f"Unknown tree node: {tree}")   
+#         raise ValueError(f"Unknown tree node: {tree}")
+
+def const_errors_to_z3(tree, variables):
+    if isinstance(tree, Token) and tree.type == 'NUMBER':
+        return BitVecVal(tree.value, 1)
+    elif tree.data == 'and':
+        return None
+    elif tree.data == 'eq':
+        var_name = const_errors_to_z3(tree.children[0], variables)
+        const_val = const_errors_to_z3(tree.children[1], variables)
+        variables[var_name] = const_val
+        return None
+    elif tree.data == 'var':
+        name = tree.children[0].value
+        index = int(tree.children[1].value)
+        var_name = f"{name}_{index}"
+        return var_name
+    else:
+        raise ValueError(f"Unknown tree node: {tree}")
+    
 def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
@@ -99,7 +118,9 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     elif tree.data == 'or':
         return Or(*[tree_to_z3(child, variables, bit_width,constraints, ifaux) for child in tree.children])
     elif tree.data == 'eq':
-        z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
+        z3_child0, z3_child1 = auto_complement(
+                                    tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), 
+                                    tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
         return z3_child0 == z3_child1
     elif tree.data == 'leq':
         z3_child0 = tree_to_z3(tree.children[0], variables, bit_width, constraints, ifaux) 
