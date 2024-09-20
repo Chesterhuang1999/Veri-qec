@@ -437,8 +437,7 @@ def VCgeneration(precond, program, postcond):
 # cass_tree = simplifyeq().transform(cass_tree)
 # solver = cvc5.Solver()
 # cass_expr = tree_to_cvc5(cass_tree, {}, solver, 1)
-# cass_recon = Reconstructor(parser = get_parser()).reconstruct(cass_tree)
-# clean_cass = re.sub(r'\s*_\s*','_', cass_recon)
+
 
 # print(clean_cass)
 

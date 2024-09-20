@@ -2,47 +2,48 @@ import numpy as np
 import time
 import math
 from collections import defaultdict
-### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
-# postscript x: x-stabilizers, x measurement, z error and corrections   
+
 ### Condition and program generation from check matrix ###
-def decode_cond_gen(H, n, k, dx, dz):
+def decode_cond_gen(H, n, k):
     cond_parts = []
-    max_err_x = int((dx - 1) // 2)
-    max_err_z = int((dz - 1) // 2)
+    max_err = (int(math.sqrt(n)) - 1) // 2
     for i in range(n - k):
         cond_parts.extend(f"s_({i + 1}) == ")
         for j in range(n):
-            if H[i][j] == 1 :
-                cond_parts.extend(f"cz_({j + 1})")
+            if H[i][j] == 1:
+                cond_parts.extend(f"cx_({j + 1})")
                 cond_parts.append("@^")
             if H[i][j + n] == 1:
-                cond_parts.extend(f"cx_({j + 1})")
+                cond_parts.extend(f"cz_({j + 1})")
                 cond_parts.append("@^")
         cond_parts.pop()
         cond_parts.append("&&")
-        
-    cond_parts.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z}) && sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
-
+    #cond_parts.pop()
+    #cond_bool = ''.join(cond_parts)
+    #cond_parts.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err}) && sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err})")
+    cond_parts.append(f"sum i 1 {n} (c_(i)) <= Min(sum i 1 {n} (e_(i)), 1)")
+    #cond_sum = f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err}) && sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err})"
     return ''.join(cond_parts)
-    
+            
 def stab_cond_gen(H, n, k):
     cond_parts = []
     for i in range(n - k):
         for j in range(n):
             if H[i][j] == 1:
-                cond_parts.extend(f"(0,1,{j + 1})")
-            if H[i][j + n] == 1:
                 cond_parts.extend(f"(1,0,{j + 1})")
+            if H[i][j + n] == 1:
+                cond_parts.extend(f"(0,1,{j + 1})")
         cond_parts.append("&&")
     for i in range(k):
         cond_parts.append(f"(-1)^(b_({i + 1}))")
         for j in range(n):
             if H[n - k + i][j] == 1:
-                cond_parts.extend(f"(0,1,{j + 1})")
-            if H[n - k + i][j + n] == 1:
                 cond_parts.extend(f"(1,0,{j + 1})")
-        cond_parts.append("&&")
-    cond_parts.pop()
+            if H[n - k + i][j + n] == 1:
+                cond_parts.extend(f"(0,1,{j + 1})")
+        if i != k - 1:
+            cond_parts.append("&&")
+        
     return ''.join(cond_parts)
 
 def program_gen(H, n, k):   
@@ -53,15 +54,13 @@ def program_gen(H, n, k):
         prog_parts.append(f"s_({i + 1}) := meas")
         for j in range(n):
             if H[i][j] == 1:
-                prog_parts.append(f"(0,1,{j + 1})")
-            if H[i][j + n] == 1:
                 prog_parts.append(f"(1,0,{j + 1})")
+            if H[i][j + n] == 1:
+                prog_parts.append(f"(0,1,{j + 1})")
         prog_parts.append(";")
-    prog_parts.append(f"for i in 1 to {n} do q_(i) *= cx_(i) X end;")
+    prog_parts.append(f"for i in 1 to {n} do q_(i) *= cx_(i) X end; ")
     prog_parts.append(f"for i in 1 to {n} do q_(i) *= cz_(i) Z end")
     return ''.join(prog_parts)
-
-
 ### Condition and program generation for special codes ###
 def rep_cond(n, k): ## n: num of physical qubits, k: num of logical qubits
     #row_ind, col_ind = zip(*((i, j) for i in range(1, n) for j in (i, (i + 1))))
@@ -84,9 +83,9 @@ def rep_program(n):
 
 ##Surface code
 def surface_matrix_gen(n):
-    H = np.zeros((n * n , 2 * n * n), dtype = int)
+    H = np.zeros((n * n, 2 * n * n), dtype = int)
     t = n // 2
-    halfrow = (pow(n, 2) - 1) // 2
+    halfrow = (pow(n, 2) - 1) //2
     z_cnt = 0
     x_cnt = 0
     for i in range(t):
@@ -97,36 +96,35 @@ def surface_matrix_gen(n):
             topl_ev_z = (i2 + 1) * n + (j2 + 1)
             topl_od_x = (i2) * n + (j2 + 1)
             topl_ev_x = (i2 + 1) * n + (j2)
-            for k in [topl_od_x, topl_ev_x]:
-                H[x_cnt][k] = 1
-                H[x_cnt][k + 1] = 1
-                H[x_cnt][k + n] = 1
-                H[x_cnt][k + n + 1] = 1
-                x_cnt += 1
             for k in [topl_od_z, topl_ev_z]:
-                k1 = k + n * n
-                H[halfrow + z_cnt][k1] = 1
-                H[halfrow + z_cnt][k1 + 1] = 1
-                H[halfrow + z_cnt][k1 + n] = 1
-                H[halfrow + z_cnt][k1 + n + 1] = 1
+                H[z_cnt][k] = 1
+                H[z_cnt][k + 1] = 1
+                H[z_cnt][k + n] = 1
+                H[z_cnt][k + n + 1] = 1
                 z_cnt += 1
-        H[x_cnt][i2 * n] = 1
-        H[x_cnt][(i2 + 1) * n] = 1
-        x_cnt += 1
-        temp = (i2 + 2) * n - 1 
-        H[x_cnt][temp] = 1
-        H[x_cnt][temp + n] = 1    
-        x_cnt += 1
-        H[halfrow + z_cnt][i2 + 1 + n * n] = 1
-        H[halfrow + z_cnt][i2 + 2 + n * n] = 1
+            for k in [topl_od_x, topl_ev_x]:
+                k1 = k + n * n
+                H[halfrow + x_cnt][k1] = 1
+                H[halfrow + x_cnt][k1 + 1] = 1
+                H[halfrow + x_cnt][k1 + n] = 1
+                H[halfrow + x_cnt][k1 + n + 1] = 1
+                x_cnt += 1
+        H[z_cnt][i2 + 1] = 1
+        H[z_cnt][i2 + 2] = 1
         z_cnt += 1
-        temp = i2 + (2*n-1) * n
-        H[halfrow + z_cnt][temp] = 1
-        H[halfrow + z_cnt][temp + 1] = 1
+        H[z_cnt][n * (n-1) + i2] = 1
+        H[z_cnt][n * (n-1) + i2 + 1] = 1    
         z_cnt += 1
+        H[halfrow + x_cnt][i2 * n + n * n] = 1
+        H[halfrow + x_cnt][(i2 + 1) * n + n * n] = 1
+        x_cnt += 1
+        temp = (i2 + 2) * n - 1 + n * n
+        H[halfrow + x_cnt][temp] = 1
+        H[halfrow + x_cnt][temp + n] = 1
+        x_cnt += 1
 
     for i in range(n):
-        H[n * n - 1][(i + n) * n] = 1
+        H[n * n - 1][i * n] = 1
     
     return H
 def surface_program(n, x_inds, z_inds):
@@ -227,5 +225,7 @@ def triple_gen(model, n, k):
 # cond1, cond2, surf_prog = triple_gen('surface', n, k)
 
 # #print(cond1)
+
+# print(surface_matrix_gen(3))
 
 #print(decode_cond_gen(H, 3, 1))

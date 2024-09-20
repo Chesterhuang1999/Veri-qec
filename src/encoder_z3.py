@@ -2,6 +2,9 @@ from z3 import *
 from verifier import * 
 import math
 import matplotlib.pyplot as plt
+from dataclasses import dataclass
+from typing import List
+
 
 def auto_complement(a, b):
     if a.size() > b.size():
@@ -10,29 +13,115 @@ def auto_complement(a, b):
         return ZeroExt(b.size() - a.size(), a), b
     else:
         return a, b
-def tree_to_z3(tree, variables, bit_width):
+#def tree_to_z3(tree, variables, bit_width, aux):
+#     if isinstance(tree, Token) and tree.type == 'NUMBER':
+#         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
+#         return BitVecVal(tree.value, bit_width)
+#     elif tree.data == 'and':
+#         return And(*[tree_to_z3(child, variables, bit_width, aux) for child in tree.children])
+#     elif tree.data == 'or':
+#         return Or(*[tree_to_z3(child, variables, bit_width, aux) for child in tree.children])
+#     elif tree.data == 'eq':
+#         z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width, aux), tree_to_z3(tree.children[1], variables, bit_width, aux))
+#         return z3_child0 == z3_child1
+#     elif tree.data == 'leq':
+#         z3_child0 = tree_to_z3(tree.children[0], variables, bit_width) 
+#         if isinstance(tree.children[1], Tree):
+#             if(tree.children[1].data == 'min'):
+#                 min_tree = tree.children[1]
+#                 z3_child10, z3_child11 = tree_to_z3(min_tree, variables, bit_width)
+#                 z3_child0, z3_child10 = auto_complement(z3_child0, z3_child10)
+#                 z3_child1, z3_child11 = auto_complement(z3_child0, z3_child11)
+#                 return And(ULE(z3_child0, z3_child10), ULE(z3_child0, z3_child11))
+        
+#         z3_child0, z3_child1 = auto_complement(z3_child0, tree_to_z3(tree.children[1], variables, bit_width, aux)) 
+#         return ULE(z3_child0, z3_child1)
+#     elif tree.data == 'geq':   
+#         z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width, aux), tree_to_z3(tree.children[1], variables, bit_width, aux))
+#         return UGE(z3_child0, z3_child1) 
+#     elif tree.data == 'xor':
+#         return tree_to_z3(tree.children[0], variables, bit_width, aux) ^ tree_to_z3(tree.children[1], variables, bit_width, aux)
+#     elif tree.data == 'add':
+#         ssum = BitVecVal(0, bit_width)
+#         for child in tree.children:
+#             z3_child = tree_to_z3(child, variables, bit_width, aux)
+#             ext_width = bit_width - z3_child.size()
+#             ssum += ZeroExt(ext_width, z3_child)
+#         aux.cnt += 1
+#         var_name = f"aux_{aux.cnt}"
+#         variables[var_name] = BitVec(var_name, bit_width)
+#         aux.con.append(ssum == variables[var_name])
+#         return ssum
+#     elif tree.data == 'sum':
+#         name = tree.children[0].value
+#         start = int(tree.children[1].value)
+#         end = int(tree.children[2].value)
+#         body = tree.children[3]
+#         ssum = BitVecVal(0, bit_width)
+#         for j in range(start, end+1):
+#             loops_transformer = Loops(name, j)
+#             body_trans = loops_transformer.transform(body)
+#             z3_body_trans = tree_to_z3(body_trans, variables, bit_width, aux)
+#             ext_width = bit_width - z3_body_trans.size()
+#             ssum = ssum + ZeroExt(ext_width, tree_to_z3(body_trans, variables, bit_width, aux))
+#         if 
+#         aux.cnt += 1
+#         var_name = f"aux_{aux.cnt}"
+#         variables[var_name] = BitVec(var_name, bit_width)
+#         aux.con.append(ssum == variables[var_name])
+#         return ssum
+#     # elif tree.data == 'bool_and':
+#     #     return tree_to_z3(tree.children[0], variables, bit_width, aux) & tree_to_z3(tree.children[1], variables, bit_width, aux)
+#     # elif tree.data == 'bool_or':
+#     #     return tree_to_z3(tree.children[0], variables, bit_width, aux) | tree_to_z3(tree.children[1], variables, bit_width, aux)
+#     elif tree.data == 'neg':
+#         return Not(tree_to_z3(tree.children[0], variables, bit_width, aux))
+#     elif tree.data == 'min':
+#         res1,res2 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width, aux), tree_to_z3(tree.children[1], variables, bit_width, aux))
+#         return res1, res2
+#     elif tree.data == 'var':
+#         name = tree.children[0].value
+#         index = int(tree.children[1].value)
+#         var_name = f"{name}_{index}"
+#         if var_name not in variables:
+#             variables[var_name] = BitVec(var_name, 1)
+#             # if bit_width > 1:
+#             #     constraints.append(Or(variables[var_name] == BitVecVal(0, bit_width), variables[var_name] == BitVecVal(1, bit_width)))  # Add domain constraint for this variable
+#         return variables[var_name]
+#     else:
+#         raise ValueError(f"Unknown tree node: {tree}")   
+def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
-        bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value)))+1
+        #bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
         return BitVecVal(tree.value, bit_width)
     elif tree.data == 'and':
-        return And(*[tree_to_z3(child, variables,bit_width) for child in tree.children])
+        return And(*[tree_to_z3(child, variables, bit_width, constraints, ifaux) for child in tree.children])
     elif tree.data == 'or':
-        return Or(*[tree_to_z3(child, variables, bit_width) for child in tree.children])
+        return Or(*[tree_to_z3(child, variables, bit_width,constraints, ifaux) for child in tree.children])
     elif tree.data == 'eq':
-        z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width))
+        z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
         return z3_child0 == z3_child1
     elif tree.data == 'leq':
-        z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width)) 
+        z3_child0 = tree_to_z3(tree.children[0], variables, bit_width, constraints, ifaux) 
+        # if isinstance(tree.children[1], Tree):
+        #     if(tree.children[1].data == 'min'):
+        #         min_tree = tree.children[1]
+        #         z3_child10, z3_child11 = tree_to_z3(min_tree, variables, bit_width, constraints, ifaux)
+        #         z3_child0, z3_child10 = auto_complement(z3_child0, z3_child10)
+        #         z3_child0, z3_child11 = auto_complement(z3_child0, z3_child11)
+        #         return And(ULE(z3_child0, z3_child10), ULE(z3_child0, z3_child11))    
+        z3_child0, z3_child1 = auto_complement(z3_child0, tree_to_z3(tree.children[1], variables, bit_width, constraints, ifaux)) 
         return ULE(z3_child0, z3_child1)
+    
     elif tree.data == 'geq':   
-        z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width))
+        z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
         return UGE(z3_child0, z3_child1) 
     elif tree.data == 'xor':
-        return tree_to_z3(tree.children[0], variables, bit_width) + tree_to_z3(tree.children[1], variables, bit_width)
+        return tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux) + tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux)
     elif tree.data == 'add':
         ssum = BitVecVal(0, bit_width)
         for child in tree.children:
-            z3_child = tree_to_z3(child, variables, bit_width)
+            z3_child = tree_to_z3(child, variables, bit_width,constraints, ifaux)
             ext_width = bit_width - z3_child.size()
             ssum += ZeroExt(ext_width, z3_child)
         return ssum
@@ -45,18 +134,24 @@ def tree_to_z3(tree, variables, bit_width):
         for j in range(start, end+1):
             loops_transformer = Loops(name, j)
             body_trans = loops_transformer.transform(body)
-            z3_body_trans = tree_to_z3(body_trans, variables, bit_width)
+            z3_body_trans = tree_to_z3(body_trans, variables, bit_width,constraints, ifaux)
             ext_width = bit_width - z3_body_trans.size()
-            ssum = ssum + ZeroExt(ext_width, tree_to_z3(body_trans, variables, bit_width))      
-        return ssum
-    elif tree.data == 'bool_and':
-        return tree_to_z3(tree.children[0], variables, bit_width) & tree_to_z3(tree.children[1], variables, bit_width)
-    elif tree.data == 'bool_or':
-        return tree_to_z3(tree.children[0], variables, bit_width) | tree_to_z3(tree.children[1], variables, bit_width)
+            ssum = ssum + ZeroExt(ext_width, tree_to_z3(body_trans, variables, bit_width, constraints, ifaux))
+        if ifaux == True:
+            body_name = str(body.children[0].value)
+            var_name = f"{body_name}aux_{start}_{end}"
+            var_aux = BitVec(var_name, bit_width)
+            if var_aux not in variables:
+                variables[var_name] = var_aux
+                constraints.append((ssum == var_aux))
+            return var_aux
+        else:
+            return ssum
     elif tree.data == 'neg':
-        return Not(tree_to_z3(tree.children[0], variables, bit_width))
+        return Not(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux))
     elif tree.data == 'min':
-        res1,res2 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width))
+        res1,res2 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
+        # return res1, res2
         return If(ULE(res1, res2), res1, res2)
     elif tree.data == 'var':
         name = tree.children[0].value
@@ -64,19 +159,19 @@ def tree_to_z3(tree, variables, bit_width):
         var_name = f"{name}_{index}"
         if var_name not in variables:
             variables[var_name] = BitVec(var_name, 1)
-            # if bit_width > 1:
-            #     constraints.append(Or(variables[var_name] == BitVecVal(0, bit_width), variables[var_name] == BitVecVal(1, bit_width)))  # Add domain constraint for this variable
         return variables[var_name]
     else:
         raise ValueError(f"Unknown tree node: {tree}")
     
 def VCgeneration(precond, program, postcond):
     pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
-    #stab_dict, stab_list = stab_set_gen(pre_tree.children[0])
+    post_recon = Reconstructor(parser = get_parser()).reconstruct(post_tree)
+    clean_post = re.sub(r'\s*_\s*','_', post_recon)
     cass_transformer = qassertion2c(pre_tree)
     cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
     cass_tree = simplifyeq().transform(cass_tree)
-    cass_expr = tree_to_z3(cass_tree, {}, 1)
+    #aux = Auxvar([], 0)
+    cass_expr = tree_to_z3(cass_tree, {}, 1, [], False)
 
     return cass_expr
 

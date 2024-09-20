@@ -1,21 +1,26 @@
-from z3 import *
-
-# Step 1: Create a solver for a specific logic
-solver = SolverFor("QF_BV")
-
-# Step 2: Create some BitVector variables and add constraints
-x = BitVec('x', 32)
-y = BitVec('y', 32)
-
-solver.add(x + y == 10)
-
-# Step 3: Check satisfiability
-print(solver.check())
-
-# Step 4: Export the formula to an SMT-LIB v2 file
-with open('output.smt2', 'w') as f:
-    # Manually write the logic declaration
-    f.write("(set-logic QF_BV)\n")
+from bitwuzla import * 
+from timebudget import timebudget
+@timebudget
+def check_satisfiability(file_path):
+    # Initialize a Bitwuzla instance
     
-    # Write the assertions in SMT-LIB format
-    f.write(solver.to_smt2())
+    tm = TermManager()
+    # Set options (add any specific options if needed)
+    options = Options()
+    bzla = Parser(tm, options)
+    # Example: Enable model generation
+    options.set("produce-models", True)
+
+    # Parse the SMT-LIB file
+    res = bzla.parse(file_path)
+    assertions = bzla.bitwuzla().get_assertions()
+    for a in assertions: 
+        print(a)
+    # Check satisfiability
+
+ 
+
+if __name__ == "__main__":
+    # Path to your formula in SMT-LIB format
+    formula_smt2_path = 'src/surface.smt2'
+    check_satisfiability(formula_smt2_path)
