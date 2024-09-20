@@ -1,7 +1,7 @@
 import sys
 from data import *
-from verifier import *
-from encoder_z3 import tree_to_z3, const_errors_to_z3
+from verifier import precond_generator
+from encoder_z3 import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
 import matplotlib.pyplot as plt
 from timebudget import timebudget 
@@ -19,7 +19,6 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #print(cass_expr)
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_vals_tree, _, _ = precond_generator('skip', err_vals, err_cond)
-    print(err_vals_tree)
     #err_variables = {}
     variables = {}
     # name: (obj: Var | Const)

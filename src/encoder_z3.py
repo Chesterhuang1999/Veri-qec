@@ -1,9 +1,9 @@
 from z3 import *
-from verifier import * 
+from verifier import precond_generator
+from lark import Token
 import math
 import matplotlib.pyplot as plt
-from dataclasses import dataclass
-from typing import List
+
 
 
 def auto_complement(a, b):

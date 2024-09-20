@@ -1,5 +1,5 @@
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Tree(Token('RULE', 'condition'), [Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '1')]), Token('NUMBER', '1')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '2')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '3')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '4')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '5')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '6')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '7')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '8')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '9')]), Token('NUMBER', '0')]), Tree('eq', [Tree(Token('RULE', 'var'), [Token('NAME', 'ez'), Token('NUMBER', '10')]), Token('NUMBER', '0')])])])])])])])])])])])
+Tree('condition', [Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '1')]), Token('NUMBER', '1')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '2')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '3')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '4')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '5')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '6')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '7')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '8')]), Token('NUMBER', '0')]), Tree('and', [Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '9')]), Token('NUMBER', '0')]), Tree('eq', [Tree('var', [Token('NAME', 'ez'), Token('NUMBER', '10')]), Token('NUMBER', '0')])])])])])])])])])])])
 {}
 ForAll([ez_1,
         ez_2,
@@ -177,5 +177,5 @@ ForAll([ez_1,
                          ...,
                          ...)),
                  ...)))
-smtencoding took 1.080sec
-sur_cond_checker took 1.085sec
+smtencoding took 1.200sec
+sur_cond_checker took 1.209sec

@@ -66,7 +66,7 @@ def smtencoding(precond, program, postcond, err_cond, err_vals, decoder_cond, bi
     formula_to_check = ForAll(verr_list, Exists(var_list, And(err_vals_expr, substitution, Or(Not(err_expr), decoding_formula))))
     # 
     #print(formula_to_check)
-    print(formula_to_check)
+    #print(formula_to_check)
     return formula_to_check
 
 
@@ -148,9 +148,9 @@ def sur_cond_checker(distance, enum_bit):
         if sum >= distance:
             continue
         counter += 1
-        # seq_cond_checker(distance, err_vals)
-    print(counter)
-    
+        
+        seq_cond_checker(distance, err_vals)
+
 encode_time = []
 check_time = []
 
@@ -160,7 +160,7 @@ check_time = []
 # Debug
 
 # seq_cond_checker(7, [0 for i in range(24)])
-sur_cond_checker(7, 20)
+sur_cond_checker(7, 24)
 
 
 #print(encode_time, check_time) 
