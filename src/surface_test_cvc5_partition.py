@@ -15,27 +15,32 @@ sys.setrecursionlimit(1000000)
 @timebudget
 def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_cond, bit_width):
     
-    cass_expr = simplify(VCgeneration(precond, program, postcond))
     #print(cass_expr)
-    err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_vals_tree, _, _ = precond_generator('skip', err_vals, err_cond)
-    #err_variables = {}
     variables = {}
-    # name: (obj: Var | Const)
     constraints = []
-    
     const_errors_to_z3(err_vals_tree.children[0], variables)
-    print(variables)
+    # print(variables)
     
+    cass_tree = VCgeneration(precond, program, postcond)
+    cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
+    # cass_expr = simplify(cass_expr)
     
+    # print(f'cass_expr: {cass_expr}')
+    # print(f'cass_tree: {cass_tree}')
+    err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
+    # err_expr = simplify(err_expr)
     
     err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
-    err_gt_expr = tree_to_z3(err_gt_tree.children[0], {}, bit_width,  [], False)
+    err_gt_expr = tree_to_z3(err_gt_tree.children[0], variables, bit_width, [], False)
+    # err_gt_expr = simplify(err_gt_expr)
+    # print(err_gt_expr)
     
     #err_expr = simplify(tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True))
     #decoder_variables = {}
     decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True)
+    # decoder_expr = simplify(decoder_expr)
     #decoder_expr = simplify(tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True))
 
     #decoder_expr = simplify(tree_to_z3(decoder_tree.children[0],decoder_variables, bit_width))
@@ -49,7 +54,7 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
             sym, ind = name.split('_')
             if(sym[0] != 'e'):
                 vdata_list.append(var)
-            elif isinstance(var, BitVecRef):
+            elif not is_bv_value(var):
                 verr_list.append(var)
         else:
             vaux_list.append(var)
@@ -59,6 +64,8 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     # print(vdata_list)
     # print(verr_list)
     decoding_formula = And(cass_expr, decoder_expr)
+    decoding_formula = simplify(decoding_formula)
+    
     #decoding_formula = simplify(And(cass_expr, decoder_expr))
     substitution = And(*constraints)
 
@@ -71,7 +78,8 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
                                      Or(Not(err_gt_expr), 
                                         And(substitution, 
                                             Or(Not(err_expr), decoding_formula)))))
-    
+    # Slow
+    # formula_to_check = simplify(formula_to_check)
     # formula_to_check = ForAll(verr_list, 
     #                           Exists(var_list, 
     #                                  And(err_vals_expr, substitution, 
@@ -80,9 +88,10 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #                           )
     #                    )
     # 
-    #print(formula_to_check)
-    print(formula_to_check)
-    exit(0)
+    # print(formula_to_check)
+    # with open("temp.txt", "w") as f:
+    #     f.write(str(formula_to_check))
+    # exit(0)
     return formula_to_check
 
 
@@ -94,8 +103,9 @@ def smtchecking(formula):
     formula_smt2 = solver.to_smt2()
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic BV)\n" + "\n".join(lines[1:])
-    with open("formula.smt2", "w") as f:
-        f.write(str(formula_smt2))
+    # with open("formula.smt2", "w") as f:
+    #     f.write(str(formula_smt2))
+    # exit(0)
     tm = cvc5.TermManager()
     s2 = cvc5.Solver()
     s2.setOption('produce-models', 'true')  
@@ -157,20 +167,24 @@ def sur_cond_checker(distance, enum_qubit):
     # one_num <= enum
     # error number:
     # [1, distance) [1, enum_qubit + 1)
+    # x1 x2 x3 x4 x5
+    #  3  7  2  1  9
+    # x2 x5
     # C(49, 1) + ... + C(49, 6)
     # sum = 0
     # for one_num in range(1, min(distance, enum_qubit + 1)):
     #     sum += math.comb(enum_qubit, one_num)
     # print(sum * 0.6)
     # exit(0)
-    
+    # QF_BV -> SAT (NP) -> 
+    # M 2^{20} * 01 -> 
     for one_num in range(1, min(distance, enum_qubit + 1)):
         for pos in combinations(range(enum_qubit), one_num):
             # print(pos)
             err_vals = [0 for _ in range(enum_qubit)]
             for j in pos:
                 err_vals[j] = 1
-            print(err_vals)
+            # print(err_vals)
             seq_cond_checker(distance, err_vals)
 
 
@@ -180,6 +194,7 @@ def sur_cond_checker(distance, enum_qubit):
 # Debug
 
 if __name__ == '__main__':
+    # sur_cond_checker(3, 1)
     sur_cond_checker(7, 10)
     # seq_cond_checker(7, [0 for i in range(24)])
     #print(encode_time, check_time) 

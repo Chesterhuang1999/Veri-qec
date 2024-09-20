@@ -1,10 +1,9 @@
 from z3 import *
-from verifier import precond_generator
+from verifier import *
 from lark import Token
 import math
 import matplotlib.pyplot as plt
-
-
+from transformer_bexp2 import Loops
 
 def auto_complement(a, b):
     if a.size() > b.size():
@@ -91,10 +90,13 @@ def auto_complement(a, b):
 #     else:
 #         raise ValueError(f"Unknown tree node: {tree}")
 
+
 def const_errors_to_z3(tree, variables):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         return BitVecVal(tree.value, 1)
     elif tree.data == 'and':
+        for child in tree.children:
+            const_errors_to_z3(child, variables)
         return None
     elif tree.data == 'eq':
         var_name = const_errors_to_z3(tree.children[0], variables)
@@ -108,13 +110,17 @@ def const_errors_to_z3(tree, variables):
         return var_name
     else:
         raise ValueError(f"Unknown tree node: {tree}")
-    
+
+
 def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
         return BitVecVal(tree.value, bit_width)
     elif tree.data == 'and':
         return And(*[tree_to_z3(child, variables, bit_width, constraints, ifaux) for child in tree.children])
+        # return simplify(
+        #     And(*[tree_to_z3(child, variables, bit_width, constraints, ifaux) for child in tree.children])
+        # )
     elif tree.data == 'or':
         return Or(*[tree_to_z3(child, variables, bit_width,constraints, ifaux) for child in tree.children])
     elif tree.data == 'eq':
@@ -186,15 +192,12 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     
 def VCgeneration(precond, program, postcond):
     pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
-    post_recon = Reconstructor(parser = get_parser()).reconstruct(post_tree)
-    clean_post = re.sub(r'\s*_\s*','_', post_recon)
     cass_transformer = qassertion2c(pre_tree)
     cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
     cass_tree = simplifyeq().transform(cass_tree)
-    #aux = Auxvar([], 0)
-    cass_expr = tree_to_z3(cass_tree, {}, 1, [], False)
+    # cass_expr = tree_to_z3(cass_tree, {}, 1, [], False)
 
-    return cass_expr
+    return cass_tree
 
 ##Test 
 # start = time.time()
