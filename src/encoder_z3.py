@@ -92,7 +92,7 @@ def auto_complement(a, b):
 #         raise ValueError(f"Unknown tree node: {tree}")   
 def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
-        #bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
+        bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
         return BitVecVal(tree.value, bit_width)
     elif tree.data == 'and':
         return And(*[tree_to_z3(child, variables, bit_width, constraints, ifaux) for child in tree.children])
