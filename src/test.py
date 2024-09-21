@@ -1,26 +1,13 @@
 from bitwuzla import * 
 from timebudget import timebudget
-@timebudget
-def check_satisfiability(file_path):
-    # Initialize a Bitwuzla instance
+import numpy as np
+
+def fun(choice):
+    err_vals = [1 for _ in range(choice)]
+    str_parts = []
+    for i in range(1, 10):
+        str_parts.append(f"e{choice}_{i+1} == {err_vals[i]}")
     
-    tm = TermManager()
-    # Set options (add any specific options if needed)
-    options = Options()
-    bzla = Parser(tm, options)
-    # Example: Enable model generation
-    options.set("produce-models", True)
+    return '&'.join(str_parts)
 
-    # Parse the SMT-LIB file
-    res = bzla.parse(file_path)
-    assertions = bzla.bitwuzla().get_assertions()
-    for a in assertions: 
-        print(a)
-    # Check satisfiability
-
- 
-
-if __name__ == "__main__":
-    # Path to your formula in SMT-LIB format
-    formula_smt2_path = 'src/surface.smt2'
-    check_satisfiability(formula_smt2_path)
+print(fun('x'), fun('z'))

@@ -1,0 +1,4 @@
+sat
+run_cond_check_main took 837.14ms
+# all tasks are assigned
+sur_cond_checker took 6.563sec
