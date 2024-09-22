@@ -13,7 +13,7 @@
 from lark import Transformer, Tree, Token
 #from lark.visitors import merge_transformers
 from lark.reconstruct import Reconstructor
-from parser_bexp2 import get_parser
+from parser_qec import get_parser
 #from concurrent.futures import ThreadPoolExecutor
 #import re
 import time

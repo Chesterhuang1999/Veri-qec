@@ -1,7 +1,7 @@
 import sys
-from data import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
+from condition_gen import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
 from verifier import precond_generator
-from encoder_z3 import tree_to_z3, const_errors_to_z3, VCgeneration
+from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
 from timebudget import timebudget 
 import cvc5
@@ -165,7 +165,8 @@ def seq_cond_checker(distance, err_vals):
     #                         err_cond_z, err_gt_z, decoder_cond_z, bit_width)
     result_x = smtchecking(formula_x)
     # result_z = smtchecking(formula_z)
-    print(result_x)
+    # print(result_x)
+    return result_x
     # print(result_x, result_z)
 
 @timebudget

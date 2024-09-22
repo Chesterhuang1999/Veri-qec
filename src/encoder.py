@@ -3,7 +3,7 @@ from verifier import *
 from lark import Token
 import math
 import matplotlib.pyplot as plt
-from transformer_bexp2 import Loops
+from transformer import Loops
 
 def auto_complement(a, b):
     if a.size() > b.size():

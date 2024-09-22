@@ -12,11 +12,11 @@
 from lark import Transformer, v_args, Tree, Token
 #from lark.reconstruct import Reconstructor
 #from parser_bexp2 import get_parser
-from transformer_bexp2 import precond_generator, Loops, eq_pauliop, eq_pexpr
+from transformer import precond_generator, Loops, eq_pauliop, eq_pexpr
 
 from collections import defaultdict
 from z3 import *
-from data import *
+from condition_gen import *
 
 ## Overload
 def __xor__(a: Token, b: Token):

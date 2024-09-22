@@ -1,11 +1,13 @@
 import sys
-from data import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
+from condition_gen import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
 from verifier import precond_generator
-from encoder_z3 import tree_to_z3, const_errors_to_z3, VCgeneration
+from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
 import matplotlib.pyplot as plt
 from timebudget import timebudget 
 import cvc5
+
+import time
 sys.setrecursionlimit(1000000)
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   

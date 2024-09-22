@@ -1,6 +1,6 @@
 import sys
-from data import *
-from encoder_z3 import *
+from condition_gen import *
+from encoder import *
 from z3 import *
 import matplotlib.pyplot as plt
 from timebudget import timebudget 
