@@ -8,33 +8,30 @@ import cvc5
 from itertools import combinations
 import math
 sys.setrecursionlimit(1000000)
+
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
 
 # @timebudget
 def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_cond, bit_width):
     
-    # print(cass_expr)
     err_vals_tree, _, _ = precond_generator('skip', err_vals, err_cond)
     variables = {}
     constraints = []
     const_errors_to_z3(err_vals_tree.children[0], variables)
-    # print(variables)
-    
+
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-    
-    # print(f'cass_expr: {cass_expr}')
-    # print(f'cass_tree: {cass_tree}')
+
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
     # err_expr = simplify(err_expr)
-    # print(err_expr)
+
     err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
     err_gt_expr = tree_to_z3(err_gt_tree.children[0], variables, bit_width, [], False)
     # err_gt_expr = simplify(err_gt_expr)
-    # print(err_gt_expr)
+
     
     #err_expr = simplify(tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True))
     #decoder_variables = {}
@@ -42,12 +39,9 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     decoder_expr = simplify(decoder_expr)
     #decoder_expr = simplify(tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True))
 
-    #decoder_expr = simplify(tree_to_z3(decoder_tree.children[0],decoder_variables, bit_width))
     #var_list = [var for var in list(decoder_variables.values()) if var not in list(err_variables.values())]
-    
-    #print(err_gt_expr)
+
     vaux_list, verr_list, vdata_list = [], [], []
-    # print(assigned_errs)
     for name, var in variables.items():
         if var.size() == 1:
             sym, ind = name.split('_')
@@ -59,18 +53,15 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
             vaux_list.append(var)
 
     var_list = vaux_list + vdata_list
-    # print(var_list)
-    # print(vdata_list)
-    # print(verr_list)
+
     decoding_formula = And(cass_expr, decoder_expr)
     decoding_formula = simplify(decoding_formula)
-    
-    #decoding_formula = simplify(And(cass_expr, decoder_expr))
+
     substitution = And(*constraints)
     #formula_to_check = ForAll(var_list,  Or(Not(substitution), And(err_expr, Not(decoding_formula))))
-    #formula_to_check = ForAll(verr_list, Exists(var_list, And(substitution, Or(Not(err_expr), decoding_formula))))
+ 
     #formula_to_check = ForAll(verr_list, Exists(var_list, Implies(err_gt_expr, And(substitution, Or(Not(err_expr), decoding_formula)))))
-    #formula_to_check = ForAll(verr_list, And(substitution, Implies(err_expr, decoding_formula)))
+
 
     ## SMT formula I: If #error <= max_err, then decoding formula is true
     formula_to_check = ForAll(verr_list, 
@@ -78,12 +69,14 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
                                      Or(Not(err_gt_expr), 
                                         And(substitution, 
                                             Or(Not(err_expr), decoding_formula)))))
+    
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
     #                           Exists(vaux_list,
     #                           And(Not(err_expr), err_gt_expr, 
     #                               substitution, Not(decoding_formula))))
     # print(formula_to_check)
+
     # Slow
     # formula_to_check = simplify(formula_to_check)
     # formula_to_check = ForAll(verr_list, 
@@ -94,10 +87,6 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #                           )
     #                    )
     # 
-    # print(formula_to_check)
-    # with open("temp.txt", "w") as f:
-    #     f.write(str(formula_to_check))
-    # exit(0)
     return formula_to_check
 
 
@@ -106,14 +95,11 @@ def smtchecking(formula):
     #t = Tactic('solve-eqs')
     solver = Solver()
     solver.add(formula)
-    # var_list = formula.get_vars()
-    # print(var_list)
+
     formula_smt2 = solver.to_smt2()
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic BV)\n" + "\n".join(lines[1:])
-    # with open("formula.smt2", "w") as f:
-    #     f.write(str(formula_smt2))
-    # exit(0)
+
     # tm = cvc5.TermManager()
 
     s2 = cvc5.Solver()
@@ -161,12 +147,13 @@ def seq_cond_checker(distance, err_vals):
     formula_x = smtencoding(precond_x, program_x, postcond_x, 
                             err_cond_x, err_gt_x, err_val_exprs_str_x,
                             decoder_cond_x, bit_width)
-    # formula_z = smtencoding(precond_z, program_z, postcond_z, 
-    #                         err_cond_z, err_gt_z, decoder_cond_z, bit_width)
+    formula_z = smtencoding(precond_z, program_z, postcond_z, 
+                            err_cond_z, err_gt_z, err_val_exprs_str_z, 
+                            decoder_cond_z, bit_width)
     result_x = smtchecking(formula_x)
-    # result_z = smtchecking(formula_z)
+    result_z = smtchecking(formula_z)
     # print(result_x)
-    return result_x
+    return result_x, result_z
     # print(result_x, result_z)
 
 @timebudget

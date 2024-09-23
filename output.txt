@@ -1,2 +1,0 @@
-run_cond_check_main took 166.201sec
-sur_cond_checker took 332.469sec
