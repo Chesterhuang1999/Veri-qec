@@ -140,12 +140,6 @@ def sur_cond_checker(distance, max_proc_num):
             # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
             result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
-        result_objects = []
-        for i, task in enumerate(tasks):
-            # res = pool.apply_async(worker, (distance, task,))
-            task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, distance, task,), 
-                                                   callback=process_callback, error_callback=process_error))
             # print(res.get())
         pool.close()
         #[res.wait() for res in result_objects]
@@ -159,14 +153,6 @@ def sur_cond_checker(distance, max_proc_num):
         # pool.close()
         # pool.join()
 
-        # for task in tasks:
-        #     # res = pool.apply_async(worker, (distance, task,))
-        #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
-        #     # print(res.get())
-        # pool.close()
-        # pool.join()
-        # print(res)
-
     with open('unsorted_results.txt', 'w') as f:
         for i, ti in enumerate(task_info):
             f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
@@ -174,7 +160,7 @@ def sur_cond_checker(distance, max_proc_num):
             f.write(f'{" | ".join(ti[2])}\n')
 
     # print(len(task_info))
-    # print(task_info)
+    print(task_info[1])
     task_info.sort(key=lambda x: x[-1])
 
     with open('sorted_results.txt', 'w') as f:
@@ -185,6 +171,6 @@ def sur_cond_checker(distance, max_proc_num):
 
 
 if __name__ == "__main__":
-    distance = 7
-    max_proc_num = 100
+    distance = 9
+    max_proc_num = 256
     sur_cond_checker(distance, max_proc_num)

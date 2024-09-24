@@ -19,7 +19,7 @@ sys.setrecursionlimit(1000000)
 # @timebudget
 def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_cond, sym_cond, bit_width):
     
-    err_vals_tree, _, sym_tree = precond_generator('skip', err_vals, sym_cond)
+    err_vals_tree, _, sym_tree  = precond_generator('skip', err_vals, sym_cond)
     variables = {}
     constraints = []
     const_errors_to_z3(err_vals_tree.children[0], variables)
@@ -71,7 +71,7 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
 
 
     ##/* symmetrization */##
-    # sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
+    #sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
     # print(sym_expr)
 
 
@@ -103,12 +103,12 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
 
     ## SMT formula IV: Apply symmetry condition
     # formula_to_check = ForAll(verr_list, 
-    #                         Exists(var_list, 
-    #                             Or(Not(err_gt_expr), 
-    #                                 And(substitution, sym_expr, 
-    #                                     Or(Not(err_expr), decoding_formula),
-    #                                     Or(err_expr, Not(decoding_formula))
-    #                                         )))) 
+    #                      Exists(var_list, 
+    #                            Or(Not(err_gt_expr), 
+    #                                And(substitution, sym_expr, 
+    #                                    Or(Not(err_expr), decoding_formula),
+    #                                    Or(err_expr, Not(decoding_formula))
+    #                                        )))) 
     
     # Slow
     # formula_to_check = simplify(formula_to_check)
@@ -199,12 +199,12 @@ def seq_cond_checker(distance, err_vals):
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
     sym_x, sym_z = sym_gen(distance)
-    # formula_x = smtencoding(precond_x, program_x, postcond_x, 
-    #                         err_cond_x, err_gt_x, err_val_exprs_str_x,
-    #                         decoder_cond_x, bit_width)
-    # formula_z = smtencoding(precond_z, program_z, postcond_z, 
-    #                         err_cond_z, err_gt_z, err_val_exprs_str_z, 
-    #                         decoder_cond_z, bit_width)
+#    formula_x = smtencoding(precond_x, program_x, postcond_x, 
+#                             err_cond_x, err_gt_x, err_val_exprs_str_x,
+#                             decoder_cond_x, bit_width)
+#    formula_z = smtencoding(precond_z, program_z, postcond_z, 
+#                             err_cond_z, err_gt_z, err_val_exprs_str_z, 
+#                             decoder_cond_z, bit_width)
     formula_x = smtencoding(precond_x, program_x, postcond_x, 
                             err_cond_x, err_gt_x, err_val_exprs_str_x,
                             decoder_cond_x, sym_x, bit_width)
