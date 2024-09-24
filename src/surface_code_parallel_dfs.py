@@ -4,13 +4,14 @@ from multiprocessing import Pool
 from surface_code_partition import seq_cond_checker
 from timebudget import timebudget
 
-def worker(distance, err_vals):
+def worker(task_id, distance, err_vals):
     # print(err_vals)
     start = time.time()
     res = seq_cond_checker(distance, err_vals)
     end = time.time()
-    print(res, end - start, err_vals)
-    return res, end - start, err_vals
+    cost_time = end - start
+    # print(err_vals, cost_time)
+    return task_id, cost_time
     # return (res, end - start, err_vals)
     # if str(res) == 'unsat':
     #     return end - start, err_vals
@@ -44,7 +45,7 @@ class subtask_generator:
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
     def easy_enough(self, remained_qubit_num, remained_one_num):
-        if remained_qubit_num == 0:
+        if remained_qubit_num == 1:
             return True
         # if self.one_num_thres >= remained_one_num and \
         #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
@@ -97,13 +98,29 @@ class subtask_generator:
 task_info = []
 
 def process_callback(result):
-    print(result)
+    # print(result)
     global task_info
-    res, time_cost, err_vals = result
-    task_info.append((time_cost, err_vals))
+    task_id, time_cost = result
+    task_info[task_id].append(time_cost)
 
+def process_error(error):
+    print(f'error: {error}')
+
+def analysis_task(task_id: int, task: list):
+    num_bit = 0
+    num_one = 0
+    one_pos = []
+    for i, bit in enumerate(task):
+        if bit == 1:
+            num_one += 1
+            one_pos.append(i)
+        num_bit += 1
+    num_zero = num_bit - num_one
+    info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
+    return [task_id, task, info]
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
+    global task_info
     tg = subtask_generator(distance, max_proc_num)
     tasks = tg()
     with open('task-num.txt', 'w') as f:
@@ -119,28 +136,40 @@ def sur_cond_checker(distance, max_proc_num):
     #//linxi debug
     
     with Pool(processes = max_proc_num) as pool:
-        result_objects = [pool.apply_async(worker, (distance, task,), callback=process_callback) for task in tasks]
+        result_objects = []
+        for i, task in enumerate(tasks):
+            # res = pool.apply_async(worker, (distance, task,))
+            task_info.append(analysis_task(i, task))
+            result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
+            # print(res.get())
         pool.close()
         [res.wait() for res in result_objects]
+        pool.join()
         
         # for task in tasks:
         #     # res = pool.apply_async(worker, (distance, task,))
         #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
         #     # print(res.get())
         # pool.close()
-        
-        pool.join()
-        # res = pool.map(worker, tasks)
+        # pool.join()
         # print(res)
     
-    # global task_info
+    with open('unsorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
+    
     # print(len(task_info))
-    # task_info.sort(key=lambda x: x[0])
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank[{i}] = {ti}\n')
+    # print(task_info)
+    task_info.sort(key=lambda x: x[-1])
+    with open('sorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
 
 if __name__ == "__main__":
-    distance = 11
-    max_proc_num = 256
+    distance = 7
+    max_proc_num = 100
     sur_cond_checker(distance, max_proc_num)
