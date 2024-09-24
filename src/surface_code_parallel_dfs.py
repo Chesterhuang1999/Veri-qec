@@ -1,8 +1,7 @@
 import time
 import math
-from multiprocessing import Pool, Process, cpu_count
+from multiprocessing import Pool
 from surface_code_partition import seq_cond_checker
-from itertools import combinations
 from timebudget import timebudget
 
 
@@ -27,6 +26,7 @@ def estimate_difficulty(remained_qubits, remained_ones):
     if k >= n:
         return 2 ** n
     k = min(k, n - k)
+    # SUM C(n, i) for i \in [0, k]
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
@@ -35,24 +35,44 @@ class subtask_generator:
         self.max_proc_num = max_proc_num
         
         self.num_qubits = distance ** 2
-        
-        self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
-        self.target_task_num =  max_proc_num * 2
-        self.parti_diffi_thres = self.full_difficulty // self.target_task_num
-        self.assigned_bit_thres = 16
         self.tasks = []
+        
+        # self.one_num_thres = distance // 2
+        self.assigned_bit_thres = 16
+        
+        self.target_task_num =  max_proc_num * 2
+        self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
+        self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
     def easy_enough(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
-        
-        assigned_one_num = self.distance - 1 - remained_one_num
+        # if self.one_num_thres >= remained_one_num and \
+        #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
+        #     return True
+        assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
-        if 2 * self.distance * assigned_one_num + assigned_bit_num <= self.num_qubits:
+        
+        # if assigned_one_num < 2:
+        #     return False
+        
+        if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
             return False
         
-
+        # if self.num_qubits - remained_qubit_num < self.assigned_bit_thres:
+        #     return False
+        
+        # if self.num_qubits < 2 * remained_qubit_num:
+        #     return False
+        
+        # assigned bits, assigned ones, remained bits, remained ones
+        # f(a, b, c, d) = 
+        
+        # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
+        #     return False
+        
         return True
+        # return False
     
     def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         # if remained_qubit_num == 0 \
@@ -77,13 +97,15 @@ class subtask_generator:
         return self.tasks
 
 task_info = []
+
 def process_callback(result):
+    # print(result)
     global task_info
-    task_id, cost = result
-    task_info[task_id].append(cost)
+    task_id, time_cost = result
+    task_info[task_id].append(time_cost)
 
 def process_error(error):
-    print(f'Error: {error}')
+    print(f'error: {error}')
 
 def analysis_task(task_id: int, task: list):
     num_bit = 0
@@ -97,7 +119,6 @@ def analysis_task(task_id: int, task: list):
     num_zero = num_bit - num_one
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
-
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
     global task_info
@@ -110,8 +131,14 @@ def sur_cond_checker(distance, max_proc_num):
     #     print(f'task-{cnt}: {t}')
     # exit(0)
     # worker(distance, tasks[0])
+    # exit(0)
     #//linxi debug
     with Pool(processes = max_proc_num) as pool:
+        result_objects = []
+        for i, task in enumerate(tasks):
+            # res = pool.apply_async(worker, (distance, task,))
+            task_info.append(analysis_task(i, task))
+            result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
         result_objects = []
         for i, task in enumerate(tasks):
             # res = pool.apply_async(worker, (distance, task,))
@@ -121,7 +148,15 @@ def sur_cond_checker(distance, max_proc_num):
             # print(res.get())
         pool.close()
         [res.wait() for res in result_objects]
+        [res.wait() for res in result_objects]
         pool.join()
+        
+        # for task in tasks:
+        #     # res = pool.apply_async(worker, (distance, task,))
+        #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
+        #     # print(res.get())
+        # pool.close()
+        # pool.join()
 
         # for task in tasks:
         #     # res = pool.apply_async(worker, (distance, task,))
@@ -149,6 +184,6 @@ def sur_cond_checker(distance, max_proc_num):
 
 
 if __name__ == "__main__":
-    distance = 5
-    max_proc_num = 30
+    distance = 7
+    max_proc_num = 100
     sur_cond_checker(distance, max_proc_num)

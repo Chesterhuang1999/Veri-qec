@@ -1,2 +1,0 @@
-16122226 60 268703
-sur_cond_checker took 156.795sec
