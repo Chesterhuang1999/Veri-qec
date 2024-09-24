@@ -1,0 +1,2083 @@
+solve-node 14, [1, 1, 1]
+solvings: 1
+solve-node 22, [0, 1, 1, 1]
+solvings: 2
+solve-node 26, [1, 0, 1, 1]
+solvings: 3
+solve-node 28, [1, 1, 0, 1]
+solvings: 4
+solved: node-14 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-22 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 36, [0, 0, 1, 1, 1]
+solvings: 3
+solve-node 40, [0, 1, 0, 1, 1]
+solvings: 4
+solve-node 42, [0, 1, 1, 0, 1]
+solvings: 5
+solve-node 46, [1, 0, 0, 1, 1]
+solvings: 6
+solve-node 48, [1, 0, 1, 0, 1]
+solvings: 7
+solved: node-28 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-26 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 50, [1, 1, 0, 0, 1]
+solvings: 6
+solve-node 58, [0, 0, 0, 1, 1, 1]
+solvings: 7
+solve-node 62, [0, 0, 1, 0, 1, 1]
+solvings: 8
+solve-node 64, [0, 0, 1, 1, 0, 1]
+solvings: 9
+solved: node-50 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-48 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-64 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-40 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-46 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-58 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-42 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-62 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-36 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 68, [0, 1, 0, 0, 1, 1]
+solvings: 1
+solve-node 70, [0, 1, 0, 1, 0, 1]
+solvings: 2
+solve-node 72, [0, 1, 1, 0, 0, 1]
+solvings: 3
+solve-node 76, [1, 0, 0, 0, 1, 1]
+solvings: 4
+solve-node 78, [1, 0, 0, 1, 0, 1]
+solvings: 5
+solve-node 80, [1, 0, 1, 0, 0, 1]
+solvings: 6
+solve-node 82, [1, 1, 0, 0, 0, 1]
+solvings: 7
+solve-node 90, [0, 0, 0, 0, 1, 1, 1]
+solvings: 8
+solve-node 94, [0, 0, 0, 1, 0, 1, 1]
+solvings: 9
+solve-node 96, [0, 0, 0, 1, 1, 0, 1]
+solvings: 10
+solve-node 100, [0, 0, 1, 0, 0, 1, 1]
+solvings: 11
+solve-node 102, [0, 0, 1, 0, 1, 0, 1]
+solvings: 12
+solve-node 104, [0, 0, 1, 1, 0, 0, 1]
+solvings: 13
+solve-node 108, [0, 1, 0, 0, 0, 1, 1]
+solvings: 14
+solve-node 110, [0, 1, 0, 0, 1, 0, 1]
+solvings: 15
+solved: node-70 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-104 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-72 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-100 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-108 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-76 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-96 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-80 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-78 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-90 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-94 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-82 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-68 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 112, [0, 1, 0, 1, 0, 0, 1]
+solvings: 3
+solve-node 114, [0, 1, 1, 0, 0, 0, 1]
+solvings: 4
+solve-node 118, [1, 0, 0, 0, 0, 1, 1]
+solvings: 5
+solve-node 120, [1, 0, 0, 0, 1, 0, 1]
+solvings: 6
+solve-node 122, [1, 0, 0, 1, 0, 0, 1]
+solvings: 7
+solve-node 124, [1, 0, 1, 0, 0, 0, 1]
+solvings: 8
+solve-node 126, [1, 1, 0, 0, 0, 0, 1]
+solvings: 9
+solve-node 134, [0, 0, 0, 0, 0, 1, 1, 1]
+solvings: 10
+solve-node 138, [0, 0, 0, 0, 1, 0, 1, 1]
+solvings: 11
+solve-node 140, [0, 0, 0, 0, 1, 1, 0, 1]
+solvings: 12
+solve-node 144, [0, 0, 0, 1, 0, 0, 1, 1]
+solvings: 13
+solve-node 146, [0, 0, 0, 1, 0, 1, 0, 1]
+solvings: 14
+solve-node 148, [0, 0, 0, 1, 1, 0, 0, 1]
+solvings: 15
+solve-node 152, [0, 0, 1, 0, 0, 0, 1, 1]
+solvings: 16
+solve-node 154, [0, 0, 1, 0, 0, 1, 0, 1]
+solvings: 17
+solve-node 156, [0, 0, 1, 0, 1, 0, 0, 1]
+solvings: 18
+solved: node-110 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-102 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 158, [0, 0, 1, 1, 0, 0, 0, 1]
+solvings: 17
+solve-node 162, [0, 1, 0, 0, 0, 0, 1, 1]
+solvings: 18
+solve-node 164, [0, 1, 0, 0, 0, 1, 0, 1]
+solvings: 19
+solve-node 166, [0, 1, 0, 0, 1, 0, 0, 1]
+solvings: 20
+solve-node 168, [0, 1, 0, 1, 0, 0, 0, 1]
+solvings: 21
+solved: node-126 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-146 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-152 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-148 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-138 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-114 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-120 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-124 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-112 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 170, [0, 1, 1, 0, 0, 0, 0, 1]
+solvings: 13
+solve-node 174, [1, 0, 0, 0, 0, 0, 1, 1]
+solvings: 14
+solve-node 176, [1, 0, 0, 0, 0, 1, 0, 1]
+solvings: 15
+solved: node-118 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 178, [1, 0, 0, 0, 1, 0, 0, 1]
+solvings: 15
+solve-node 180, [1, 0, 0, 1, 0, 0, 0, 1]
+solvings: 16
+solved: node-122 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 182, [1, 0, 1, 0, 0, 0, 0, 1]
+solvings: 16
+solve-node 184, [1, 1, 0, 0, 0, 0, 0, 1]
+solvings: 17
+solve-node 192, [0, 0, 0, 0, 0, 0, 1, 1, 1]
+solvings: 18
+solve-node 196, [0, 0, 0, 0, 0, 1, 0, 1, 1]
+solvings: 19
+solve-node 198, [0, 0, 0, 0, 0, 1, 1, 0, 1]
+solvings: 20
+solved: node-140 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-134 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 202, [0, 0, 0, 0, 1, 0, 0, 1, 1]
+solvings: 19
+solve-node 204, [0, 0, 0, 0, 1, 0, 1, 0, 1]
+solvings: 20
+solve-node 206, [0, 0, 0, 0, 1, 1, 0, 0, 1]
+solvings: 21
+solve-node 210, [0, 0, 0, 1, 0, 0, 0, 1, 1]
+solvings: 22
+solve-node 212, [0, 0, 0, 1, 0, 0, 1, 0, 1]
+solvings: 23
+solved: node-144 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-154 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-156 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-158 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-162 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-164 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 214, [0, 0, 0, 1, 0, 1, 0, 0, 1]
+solvings: 18
+solve-node 216, [0, 0, 0, 1, 1, 0, 0, 0, 1]
+solvings: 19
+solve-node 220, [0, 0, 1, 0, 0, 0, 0, 1, 1]
+solvings: 20
+solve-node 222, [0, 0, 1, 0, 0, 0, 1, 0, 1]
+solvings: 21
+solve-node 224, [0, 0, 1, 0, 0, 1, 0, 0, 1]
+solvings: 22
+solve-node 226, [0, 0, 1, 0, 1, 0, 0, 0, 1]
+solvings: 23
+solve-node 228, [0, 0, 1, 1, 0, 0, 0, 0, 1]
+solvings: 24
+solve-node 232, [0, 1, 0, 0, 0, 0, 0, 1, 1]
+solvings: 25
+solve-node 234, [0, 1, 0, 0, 0, 0, 1, 0, 1]
+solvings: 26
+solve-node 236, [0, 1, 0, 0, 0, 1, 0, 0, 1]
+solvings: 27
+solve-node 238, [0, 1, 0, 0, 1, 0, 0, 0, 1]
+solvings: 28
+solved: node-166 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 240, [0, 1, 0, 1, 0, 0, 0, 0, 1]
+solvings: 28
+solved: node-168 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 242, [0, 1, 1, 0, 0, 0, 0, 0, 1]
+solvings: 28
+solved: node-228 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-180 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-174 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-176 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-202 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-204 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-182 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-192 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-178 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-222 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-170 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 246, [1, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 18
+solve-node 248, [1, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 19
+solve-node 250, [1, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 20
+solve-node 252, [1, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 21
+solve-node 254, [1, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 22
+solve-node 256, [1, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 23
+solve-node 258, [1, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 24
+solved: node-184 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 262, [0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 24
+solve-node 264, [0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 25
+solve-node 265, [0, 0, 0, 0, 0, 0, 0, 1, 1, 0]
+solvings: 26
+solve-node 266, [0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+solvings: 27
+solve-node 268, [0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 28
+solve-node 269, [0, 0, 0, 0, 0, 0, 1, 0, 1, 0]
+solvings: 29
+solve-node 270, [0, 0, 0, 0, 0, 0, 1, 0, 1, 1]
+solvings: 30
+solve-node 271, [0, 0, 0, 0, 0, 0, 1, 1, 0, 0]
+solvings: 31
+solve-node 272, [0, 0, 0, 0, 0, 0, 1, 1, 0, 1]
+solvings: 32
+solve-node 274, [0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 33
+solve-node 275, [0, 0, 0, 0, 0, 1, 0, 0, 1, 0]
+solvings: 34
+solve-node 276, [0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+solvings: 35
+solve-node 277, [0, 0, 0, 0, 0, 1, 0, 1, 0, 0]
+solvings: 36
+solve-node 278, [0, 0, 0, 0, 0, 1, 0, 1, 0, 1]
+solvings: 37
+solved: node-196 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-198 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-236 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 279, [0, 0, 0, 0, 0, 1, 1, 0, 0, 0]
+solvings: 35
+solve-node 280, [0, 0, 0, 0, 0, 1, 1, 0, 0, 1]
+solvings: 36
+solve-node 282, [0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 37
+solve-node 283, [0, 0, 0, 0, 1, 0, 0, 0, 1, 0]
+solvings: 38
+solve-node 284, [0, 0, 0, 0, 1, 0, 0, 0, 1, 1]
+solvings: 39
+solve-node 285, [0, 0, 0, 0, 1, 0, 0, 1, 0, 0]
+solvings: 40
+solve-node 286, [0, 0, 0, 0, 1, 0, 0, 1, 0, 1]
+solvings: 41
+solve-node 287, [0, 0, 0, 0, 1, 0, 1, 0, 0, 0]
+solvings: 42
+solve-node 288, [0, 0, 0, 0, 1, 0, 1, 0, 0, 1]
+solvings: 43
+solve-node 289, [0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+solvings: 44
+solve-node 290, [0, 0, 0, 0, 1, 1, 0, 0, 0, 1]
+solvings: 45
+solved: node-210 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-224 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-226 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-234 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-238 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-232 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-206 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 292, [0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 39
+solve-node 293, [0, 0, 0, 1, 0, 0, 0, 0, 1, 0]
+solvings: 40
+solve-node 294, [0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+solvings: 41
+solve-node 295, [0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
+solvings: 42
+solve-node 296, [0, 0, 0, 1, 0, 0, 0, 1, 0, 1]
+solvings: 43
+solve-node 297, [0, 0, 0, 1, 0, 0, 1, 0, 0, 0]
+solvings: 44
+solve-node 298, [0, 0, 0, 1, 0, 0, 1, 0, 0, 1]
+solvings: 45
+solved: node-212 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-214 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-216 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-220 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 299, [0, 0, 0, 1, 0, 1, 0, 0, 0, 0]
+solvings: 42
+solve-node 300, [0, 0, 0, 1, 0, 1, 0, 0, 0, 1]
+solvings: 43
+solve-node 301, [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+solvings: 44
+solve-node 302, [0, 0, 0, 1, 1, 0, 0, 0, 0, 1]
+solvings: 45
+solve-node 304, [0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 46
+solve-node 305, [0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+solvings: 47
+solve-node 306, [0, 0, 1, 0, 0, 0, 0, 0, 1, 1]
+solvings: 48
+solve-node 307, [0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+solvings: 49
+solve-node 308, [0, 0, 1, 0, 0, 0, 0, 1, 0, 1]
+solvings: 50
+solve-node 309, [0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
+solvings: 51
+solve-node 310, [0, 0, 1, 0, 0, 0, 1, 0, 0, 1]
+solvings: 52
+solve-node 311, [0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
+solvings: 53
+solve-node 312, [0, 0, 1, 0, 0, 1, 0, 0, 0, 1]
+solvings: 54
+solve-node 313, [0, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+solvings: 55
+solve-node 314, [0, 0, 1, 0, 1, 0, 0, 0, 0, 1]
+solvings: 56
+solve-node 315, [0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+solvings: 57
+solve-node 316, [0, 0, 1, 1, 0, 0, 0, 0, 0, 1]
+solvings: 58
+solve-node 318, [0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 59
+solve-node 319, [0, 1, 0, 0, 0, 0, 0, 0, 1, 0]
+solvings: 60
+solve-node 320, [0, 1, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 61
+solve-node 321, [0, 1, 0, 0, 0, 0, 0, 1, 0, 0]
+solvings: 62
+solve-node 322, [0, 1, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 63
+solve-node 323, [0, 1, 0, 0, 0, 0, 1, 0, 0, 0]
+solvings: 64
+solve-node 324, [0, 1, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 65
+solve-node 325, [0, 1, 0, 0, 0, 1, 0, 0, 0, 0]
+solvings: 66
+solve-node 326, [0, 1, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 67
+solve-node 327, [0, 1, 0, 0, 1, 0, 0, 0, 0, 0]
+solvings: 68
+solve-node 328, [0, 1, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 69
+solve-node 329, [0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+solvings: 70
+solve-node 330, [0, 1, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 71
+solved: node-240 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-242 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 331, [0, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+solvings: 70
+solve-node 332, [0, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 71
+solve-node 334, [1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 72
+solve-node 335, [1, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+solvings: 73
+solve-node 336, [1, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 74
+solve-node 337, [1, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+solvings: 75
+solve-node 338, [1, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 76
+solved: node-271 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-280 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-266 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-286 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-268 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-256 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-295 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-254 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-293 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-272 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-278 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-282 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-250 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-262 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-246 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 339, [1, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+solvings: 62
+solve-node 340, [1, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 63
+solved: node-252 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-285 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-258 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-302 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-270 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-292 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-299 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-277 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-279 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-297 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-289 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-296 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-300 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-304 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-306 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-308 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-316 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-264 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-269 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-276 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-284 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-288 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-301 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-275 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-298 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-265 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-310 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-314 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-320 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-248 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 341, [1, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+solvings: 34
+solve-node 342, [1, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 35
+solve-node 343, [1, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+solvings: 36
+solve-node 344, [1, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 37
+solve-node 345, [1, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+solvings: 38
+solve-node 346, [1, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 39
+solve-node 347, [1, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+solvings: 40
+solve-node 348, [1, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 41
+solve-node 349, [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 42
+solve-node 350, [1, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 43
+solve-node 354, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 44
+solve-node 356, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 45
+solve-node 358, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 46
+solve-node 360, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 47
+solve-node 362, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 48
+solved: node-274 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-312 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-313 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-318 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 364, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 45
+solved: node-290 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-294 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-309 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-311 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-315 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-326 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-287 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-283 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-307 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solve-node 366, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 37
+solve-node 368, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 38
+solved: node-319 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-328 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-330 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-321 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-327 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-336 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-322 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-337 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-305 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solve-node 370, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 30
+solved: node-323 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-325 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-329 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-332 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-338 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-331 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-334 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-324 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solve-node 372, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 23
+solved: node-335 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-362 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-346 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-360 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-340 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-339 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-342 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-348 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-358 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-343 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-341 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-356 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-344 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-354 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-345 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-347 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-364 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-349 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-350 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solve-node 376, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 5
+solve-node 378, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 6
+solve-node 380, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 7
+solve-node 382, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 8
+solve-node 384, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 9
+solve-node 386, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 10
+solve-node 388, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 11
+solve-node 390, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 12
+solved: node-366 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 392, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 12
+solved: node-368 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 394, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 12
+solved: node-370 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 396, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 12
+solved: node-372 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 400, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 12
+solve-node 402, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 13
+solved: node-376 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 404, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 13
+solved: node-378 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-382 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 406, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 12
+solved: node-390 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-388 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-386 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-392 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-396 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-384 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-394 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-402 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-380 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 408, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 4
+solve-node 410, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 5
+solve-node 412, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 6
+solve-node 414, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 7
+solve-node 416, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 8
+solve-node 418, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 9
+solve-node 420, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 10
+solve-node 422, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 11
+solve-node 426, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 12
+solve-node 428, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 13
+solved: node-400 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 430, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 13
+solve-node 432, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 14
+solved: node-404 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 434, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 14
+solved: node-406 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 436, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 14
+solved: node-422 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-428 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-416 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-410 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-408 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 438, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 10
+solve-node 440, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 11
+solved: node-418 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-432 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-426 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-412 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 442, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 8
+solved: node-420 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-414 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 444, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 7
+solve-node 446, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 8
+solve-node 448, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 9
+solve-node 450, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 10
+solve-node 454, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 11
+solve-node 456, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 12
+solve-node 458, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 13
+solve-node 460, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 14
+solved: node-430 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 462, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 14
+solve-node 464, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solved: node-434 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 466, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solved: node-436 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 468, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solved: node-438 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 470, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solved: node-446 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-444 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-460 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-442 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-462 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-450 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-464 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-458 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-456 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-448 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-454 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-440 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 472, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 4
+solve-node 474, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 5
+solve-node 476, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 6
+solve-node 478, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 7
+solve-node 480, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 8
+solve-node 484, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 9
+solve-node 486, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 10
+solve-node 488, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 11
+solve-node 490, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 12
+solve-node 492, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 13
+solve-node 494, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 14
+solve-node 496, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solve-node 498, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 16
+solved: node-466 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 500, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 16
+solved: node-470 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-468 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 502, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solve-node 504, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 16
+solved: node-486 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-480 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-478 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-484 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-498 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-472 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 506, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 11
+solved: node-494 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-492 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-476 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-490 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-474 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-496 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 508, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 6
+solve-node 510, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 7
+solve-node 512, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 8
+solve-node 516, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 9
+solve-node 518, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 10
+solve-node 520, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 11
+solve-node 522, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 12
+solved: node-488 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 524, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 12
+solve-node 526, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 13
+solve-node 528, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 14
+solve-node 530, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 15
+solve-node 532, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 16
+solve-node 534, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 17
+solved: node-500 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 536, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 17
+solved: node-504 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-502 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 538, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 16
+solve-node 540, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 17
+solved: node-528 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-506 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 542, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 16
+solved: node-518 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-532 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-508 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 544, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 14
+solved: node-522 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-510 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 546, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 13
+solved: node-530 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-520 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-524 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-512 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 548, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 10
+solve-node 549, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+solvings: 11
+solve-node 550, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+solvings: 12
+solve-node 551, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+solvings: 13
+solve-node 552, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+solvings: 14
+solved: node-516 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-526 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 553, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+solvings: 13
+solve-node 554, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+solvings: 14
+solve-node 555, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+solvings: 15
+solve-node 556, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+solvings: 16
+solve-node 557, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+solvings: 17
+solve-node 558, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+solvings: 18
+solve-node 559, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+solvings: 19
+solve-node 560, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+solvings: 20
+solve-node 561, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+solvings: 21
+solve-node 562, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+solvings: 22
+solve-node 563, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 23
+solve-node 564, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 24
+solve-node 565, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 25
+solve-node 566, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 26
+solve-node 567, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 27
+solve-node 568, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 28
+solve-node 569, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 29
+solve-node 570, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 30
+solved: node-534 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 571, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 30
+solve-node 572, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 31
+solved: node-536 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 573, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 31
+solve-node 574, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 32
+solved: node-540 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-538 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 575, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 31
+solve-node 576, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 32
+solve-node 577, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 33
+solve-node 578, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 34
+solved: node-542 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 579, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 34
+solve-node 580, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 35
+solved: node-546 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-544 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 581, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 34
+solve-node 582, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 35
+solve-node 584, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 36
+solved: node-556 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-566 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-550 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-554 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-572 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-552 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-568 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-562 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-571 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-570 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-564 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-557 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-561 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-559 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-569 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-553 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-549 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-558 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-551 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-555 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-560 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-563 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-565 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-567 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-548 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-574 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-573 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-578 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-576 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-577 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-575 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-580 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-582 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-579 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solved: node-584 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-581 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+solve-node 586, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 1
+solve-node 588, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 2
+solved: node-586 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 590, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 2
+solved: node-588 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 592, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 2
+solved: node-590 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solve-node 593, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+solvings: 2
+solve-node 594, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+solvings: 3
+solved: node-592 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-593 is NodeStatus.solved
+Function started:  solved_push_up
+Function ended:  solved_push_up
+solved: node-594 is NodeStatus.solved
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function started:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+Function ended:  solved_push_up
+__call__ took 18.157sec

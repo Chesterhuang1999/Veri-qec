@@ -118,6 +118,7 @@ def analysis_task(task_id: int, task: list):
     num_zero = num_bit - num_one
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
+
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
     global task_info

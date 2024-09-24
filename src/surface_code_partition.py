@@ -7,6 +7,9 @@ from timebudget import timebudget
 import cvc5
 from itertools import combinations
 import math
+import argparse
+import json
+
 sys.setrecursionlimit(1000000)
 
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
@@ -221,8 +224,24 @@ def sur_cond_checker(distance, enum_qubit):
 # Debug
 
 if __name__ == '__main__':
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('--distance', type=int, required=True, 
+                                help='distance')
+    arg_parser.add_argument('--err-vals', type=str, required=True, 
+                                help='error values')
+    
+    cmd_args = arg_parser.parse_args()
+    distance: int = cmd_args.distance
+    err_vals: list = json.loads(cmd_args.err_vals)
+    print(distance, err_vals)
+    for x in err_vals:
+        print(x, type(x))
+    err_vals = [int(x) for x in err_vals]
+    print(distance, err_vals)
+    seq_cond_checker(distance, err_vals)
+    
     # sur_cond_checker(3, 1)
-    sur_cond_checker(5, 4)
+    # sur_cond_checker(5, 4)
     # seq_cond_checker(7, [0 for i in range(24)])
     #print(encode_time, check_time) 
     # x = [2*i+1 for i in range(1, 5)]
