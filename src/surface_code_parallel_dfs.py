@@ -147,7 +147,7 @@ def sur_cond_checker(distance, max_proc_num):
                                                    callback=process_callback, error_callback=process_error))
             # print(res.get())
         pool.close()
-        [res.wait() for res in result_objects]
+        #[res.wait() for res in result_objects]
         [res.wait() for res in result_objects]
         pool.join()
         
