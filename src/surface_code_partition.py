@@ -24,6 +24,9 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
 
+    # print(f'err_cond: {err_cond}')
+    # print(f'decoder_cond: {decoder_cond}')
+    
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
     # err_expr = simplify(err_expr)
