@@ -1,5 +1,5 @@
 import sys
-from condition_gen import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
+from condition import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
 from verifier import precond_generator
 from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
@@ -64,11 +64,12 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
 
 
     ## SMT formula I: If #error <= max_err, then decoding formula is true
-    formula_to_check = ForAll(verr_list, 
-                              Exists(var_list, 
-                                     Or(Not(err_gt_expr), 
-                                        And(substitution, 
-                                            Or(Not(err_expr), decoding_formula)))))
+    # formula_to_check = ForAll(verr_list, 
+    #                           Exists(var_list, 
+    #                                  Or(Not(err_gt_expr), 
+    #                                     And(substitution, 
+    #                                         Or(Not(err_expr), decoding_formula)
+    #                                         ))))
     
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
@@ -77,6 +78,15 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #                               substitution, Not(decoding_formula))))
     # print(formula_to_check)
 
+    ## SMT formula III: Encode both directions together
+    formula_to_check = ForAll(verr_list, 
+                            Exists(var_list, 
+                                Or(Not(err_gt_expr), 
+                                    And(substitution, 
+                                        Or(Not(err_expr), decoding_formula),
+                                        Or(err_expr, Not(decoding_formula))
+                                            ))))
+    
     # Slow
     # formula_to_check = simplify(formula_to_check)
     # formula_to_check = ForAll(verr_list, 

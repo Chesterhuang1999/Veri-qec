@@ -58,14 +58,11 @@ def sur_cond_checker(distance, enum_qubit, max_proc_num):
         pool.join()
         # res = pool.map(worker, tasks)
         # print(res)
-
- 
-
     # main_proc.join()
 
 
 if __name__ == "__main__":
     distance = 7
-    enum_qubit = 13
+    enum_qubit = 12
     max_proc_num = 16
     sur_cond_checker(distance, enum_qubit, max_proc_num)

@@ -175,3 +175,10 @@ def stabs_Reed_Muller(m):
     return classical_RM, x_stabs_mat, z_stabs_mat
 
 #RM, X, Z = stabs_Reed_Muller(3)
+
+# XZZX twisted surface code
+
+def stabs_XZZX(dx, dz):
+    numq = dx * dz
+    stabs_mat = np.zeros((numq + 1, 2 * numq), dtype = int)
+    for i in range()

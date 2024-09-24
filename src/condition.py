@@ -18,7 +18,7 @@ def decode_cond_gen(H, n, k, dx, dz):
                     cond_parts_x.extend(f"cz_({j + 1})")
                     cond_parts_x.append("@^")
             cond_parts_x.pop()
-            cond_parts_x.append("&&")
+            # cond_parts_x.append("&&")
         if np.all(H[i, n:] == 0) == False:
             cond_parts_z.extend(f"s_({i + 1}) == ")
             for j in range(n):
@@ -26,13 +26,13 @@ def decode_cond_gen(H, n, k, dx, dz):
                     cond_parts_z.extend(f"cx_({j + 1})")
                     cond_parts_z.append("@^")
             cond_parts_z.pop()
-            cond_parts_z.append("&&")
+            # cond_parts_z.append("&&")
         
     
     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
     
-    return ''.join(cond_parts_x), ''.join(cond_parts_z)
+    return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
     
 def stab_cond_gen(H, n, k):
     cond_parts_x = []
@@ -165,26 +165,38 @@ def rep_program(n):
 
 ### Condition and program generation for logical operation ###
 #### Here we have to design programs specifically for each code, so only special cases are considered ####
-H = ['H:(1)']
-CNOT = ['CNOT:(1,2)']
-print(H[0].split(':'))
+H = [['H', [1]]]
+CNOT = [['CNOT',[1,2]]]
 def program_gen_logical(matrix, numq, N, gateinfo, code):
     prog_parts_log = []
-    prog_parts_x, prog_parts_z = []
+    prog_parts_x, prog_parts_z = [], []
     
-    for i in range(gateinfo):
-        gate, inds = gateinfo[i].split(':')
+    for i in range(len(gateinfo)):
+        gate, inds = gateinfo[i]
         if gate == 'CNOT':
             assert len(inds[i]) == 2
             k, l = inds[i]
-            if code == 'surface':
+            if code in ('surface', 'steane'):
                 for i in range(numq):
-                    prog_parts_log.append(f"q_({k}), q_{(l)} *= ")
-
+                    q1 = (k - 1) * numq + i
+                    q2 = (l - 1) * numq + i
+                    prog_parts_log.append(f"q_({q1}), q_{(q2)} *= CNOT")
+            # elif code == '':
+            #     for i in range(numq):
+        elif gate == 'H':
+            assert len(inds) == 1
+            k = inds[0]
+            if code in ('surface', 'steane'):
+                for i in range(numq):
+                    q = (k - 1) * numq + i
+                    prog_parts_log.append(f"q_({q}) *= H")
+    prog_log =  ';'.join(prog_parts_log)
     for i in range(numq - 1):
         prog_parts_x = []
+    return prog_log
     
-    
+mat = surface_matrix_gen(3)
+print(program_gen_logical(mat, 9, 2, H, 'surface'))
 
 
 ##### Example: condition generation for surface code (deprecated) #####

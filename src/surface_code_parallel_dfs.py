@@ -21,9 +21,11 @@ def worker(distance, err_vals):
 
 def estimate_difficulty(remained_qubits, remained_ones):
     n = remained_qubits
-    k = min(remained_ones, remained_qubits - remained_ones)
+    k = remained_onesß
+    # k = min(remained_ones, remained_qubits - remained_ones)
     if k >= n:
         return 2 ** n
+    k = min(k, n - k)
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
@@ -38,12 +40,15 @@ class subtask_generator:
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
         
         self.tasks = []
+
     
     def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
-        if remained_qubit_num == 0 \
-           or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
+        # if remained_qubit_num == 0 \
+        #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
+        if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
             self.tasks.append(list(curr_enum_qubits))
             return
+
         curr_enum_qubits.append(0)
         self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()

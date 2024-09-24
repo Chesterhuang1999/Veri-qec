@@ -16,7 +16,7 @@ from transformer import precond_generator, Loops, eq_pauliop, eq_pexpr
 
 from collections import defaultdict
 from z3 import *
-from condition_gen import *
+from condition import *
 
 ## Overload
 def __xor__(a: Token, b: Token):

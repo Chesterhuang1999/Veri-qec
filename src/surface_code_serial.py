@@ -1,5 +1,5 @@
 import sys
-from condition_gen import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
+from condition import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
 from verifier import precond_generator
 from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
