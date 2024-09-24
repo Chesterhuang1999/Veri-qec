@@ -197,7 +197,7 @@ def program_gen_logical(matrix, numq, N, gateinfo, code):
     return prog_log
     
 mat = surface_matrix_gen(3)
-print(program_gen_logical(mat, 9, 2, H, 'surface'))
+# print(program_gen_logical(mat, 9, 2, H, 'surface'))
 
 
 ##### Example: condition generation for surface code (deprecated) #####
