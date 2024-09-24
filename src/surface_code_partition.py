@@ -7,15 +7,16 @@ from timebudget import timebudget
 import cvc5
 from itertools import combinations
 import math
+from collections import defaultdict
 sys.setrecursionlimit(1000000)
 
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
 
 # @timebudget
-def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_cond, bit_width):
+def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_cond, sym_cond, bit_width):
     
-    err_vals_tree, _, _ = precond_generator('skip', err_vals, err_cond)
+    err_vals_tree, _, sym_tree = precond_generator('skip', err_vals, sym_cond)
     variables = {}
     constraints = []
     const_errors_to_z3(err_vals_tree.children[0], variables)
@@ -23,7 +24,6 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
     # err_expr = simplify(err_expr)
@@ -63,6 +63,13 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #formula_to_check = ForAll(verr_list, Exists(var_list, Implies(err_gt_expr, And(substitution, Or(Not(err_expr), decoding_formula)))))
 
 
+    ##/* symmetrization */##
+    # sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
+    # print(sym_expr)
+
+
+    ##/hqf 9.24 / ## 
+
     ## SMT formula I: If #error <= max_err, then decoding formula is true
     # formula_to_check = ForAll(verr_list, 
     #                           Exists(var_list, 
@@ -86,6 +93,15 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
                                         Or(Not(err_expr), decoding_formula),
                                         Or(err_expr, Not(decoding_formula))
                                             ))))
+
+    ## SMT formula IV: Apply symmetry condition
+    # formula_to_check = ForAll(verr_list, 
+    #                         Exists(var_list, 
+    #                             Or(Not(err_gt_expr), 
+    #                                 And(substitution, sym_expr, 
+    #                                     Or(Not(err_expr), decoding_formula),
+    #                                     Or(err_expr, Not(decoding_formula))
+    #                                         )))) 
     
     # Slow
     # formula_to_check = simplify(formula_to_check)
@@ -131,6 +147,27 @@ def smtchecking(formula):
     #     model = s2.getModel([],[])
     # print(model)
     return r
+def coord_to_index(x, y, distance):
+    return x * distance + y
+def sym_gen(n):
+    groups = defaultdict(list)
+    mid = n // 2
+    for i in range(mid):
+        for j in range(n):
+            sind = coord_to_index(i, j, n)
+            groups[sind] = [sind, coord_to_index(n - 1 - i, n - 1 - j, n)]
+    for j in range(mid):
+        sind = coord_to_index(mid, j, n)
+        groups[sind] = [sind, coord_to_index(mid, n - 1 - j, n)]
+    sym_x, sym_z = [], []
+    for value in groups.values():
+        k, l = value[0], value[1]
+        sym_x.append(f"ex_({k + 1}) <= ex_({l + 1})")
+        sym_z.append(f"ez_({k + 1}) <= ez_({l + 1})")
+    sym_x, sym_z = '&&'.join(sym_x), '&&'.join(sym_z)
+    return sym_x, sym_z
+
+
 
 def seq_cond_checker(distance, err_vals):
     num_qubits = distance**2
@@ -154,12 +191,19 @@ def seq_cond_checker(distance, err_vals):
     
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
+    sym_x, sym_z = sym_gen(distance)
+    # formula_x = smtencoding(precond_x, program_x, postcond_x, 
+    #                         err_cond_x, err_gt_x, err_val_exprs_str_x,
+    #                         decoder_cond_x, bit_width)
+    # formula_z = smtencoding(precond_z, program_z, postcond_z, 
+    #                         err_cond_z, err_gt_z, err_val_exprs_str_z, 
+    #                         decoder_cond_z, bit_width)
     formula_x = smtencoding(precond_x, program_x, postcond_x, 
                             err_cond_x, err_gt_x, err_val_exprs_str_x,
-                            decoder_cond_x, bit_width)
+                            decoder_cond_x, sym_x, bit_width)
     formula_z = smtencoding(precond_z, program_z, postcond_z, 
                             err_cond_z, err_gt_z, err_val_exprs_str_z, 
-                            decoder_cond_z, bit_width)
+                            decoder_cond_z, sym_z, bit_width)
     result_x = smtchecking(formula_x)
     result_z = smtchecking(formula_z)
     # print(result_x)

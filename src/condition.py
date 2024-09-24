@@ -18,7 +18,7 @@ def decode_cond_gen(H, n, k, dx, dz):
                     cond_parts_x.extend(f"cz_({j + 1})")
                     cond_parts_x.append("@^")
             cond_parts_x.pop()
-            # cond_parts_x.append("&&")
+            cond_parts_x.append("&&")
         if np.all(H[i, n:] == 0) == False:
             cond_parts_z.extend(f"s_({i + 1}) == ")
             for j in range(n):
@@ -26,13 +26,14 @@ def decode_cond_gen(H, n, k, dx, dz):
                     cond_parts_z.extend(f"cx_({j + 1})")
                     cond_parts_z.append("@^")
             cond_parts_z.pop()
-            # cond_parts_z.append("&&")
+            cond_parts_z.append("&&")
         
     
     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
     
-    return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
+    # return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
+    return ''.join(cond_parts_x), ''.join(cond_parts_z)
     
 def stab_cond_gen(H, n, k):
     cond_parts_x = []
@@ -196,7 +197,7 @@ def program_gen_logical(matrix, numq, N, gateinfo, code):
     return prog_log
     
 mat = surface_matrix_gen(3)
-print(program_gen_logical(mat, 9, 2, H, 'surface'))
+# print(program_gen_logical(mat, 9, 2, H, 'surface'))
 
 
 ##### Example: condition generation for surface code (deprecated) #####

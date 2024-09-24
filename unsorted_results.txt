@@ -1,0 +1,495 @@
+rank: 0 | id: 0 | time: 5.274738311767578
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 24 | num_zero: 24 | num_one: 0 | one_pos: []
+rank: 1 | id: 1 | time: 5.392037868499756
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 23 | num_one: 1 | one_pos: [23]
+rank: 2 | id: 2 | time: 5.472684144973755
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 23 | num_zero: 22 | num_one: 1 | one_pos: [22]
+rank: 3 | id: 3 | time: 5.514619827270508
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 22 | num_zero: 21 | num_one: 1 | one_pos: [21]
+rank: 4 | id: 4 | time: 5.641510248184204
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 21 | num_zero: 20 | num_one: 1 | one_pos: [20]
+rank: 5 | id: 5 | time: 5.767117023468018
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 20 | num_zero: 19 | num_one: 1 | one_pos: [19]
+rank: 6 | id: 6 | time: 5.859567880630493
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 19 | num_zero: 18 | num_one: 1 | one_pos: [18]
+rank: 7 | id: 7 | time: 5.572038888931274
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 18 | num_zero: 17 | num_one: 1 | one_pos: [17]
+rank: 8 | id: 8 | time: 5.867787837982178
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 17 | num_zero: 16 | num_one: 1 | one_pos: [16]
+rank: 9 | id: 9 | time: 6.292633056640625
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [15]
+rank: 10 | id: 10 | time: 6.184895992279053
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [14]
+rank: 11 | id: 11 | time: 4.7697389125823975
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [14, 15]
+rank: 12 | id: 12 | time: 6.466192960739136
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [13]
+rank: 13 | id: 13 | time: 4.755962133407593
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [13, 15]
+rank: 14 | id: 14 | time: 4.87021803855896
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [13, 14]
+rank: 15 | id: 15 | time: 6.490510940551758
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [12]
+rank: 16 | id: 16 | time: 4.7099769115448
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [12, 15]
+rank: 17 | id: 17 | time: 4.870842933654785
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [12, 14]
+rank: 18 | id: 18 | time: 4.694883108139038
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [12, 13]
+rank: 19 | id: 19 | time: 6.29615592956543
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [11]
+rank: 20 | id: 20 | time: 4.809957981109619
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [11, 15]
+rank: 21 | id: 21 | time: 4.644174098968506
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [11, 14]
+rank: 22 | id: 22 | time: 4.660445213317871
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [11, 13]
+rank: 23 | id: 23 | time: 4.808495759963989
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [11, 12]
+rank: 24 | id: 24 | time: 6.013217926025391
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [10]
+rank: 25 | id: 25 | time: 4.509891748428345
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [10, 15]
+rank: 26 | id: 26 | time: 4.319678783416748
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [10, 14]
+rank: 27 | id: 27 | time: 4.585143089294434
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [10, 13]
+rank: 28 | id: 28 | time: 4.551338195800781
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [10, 12]
+rank: 29 | id: 29 | time: 4.441277980804443
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [10, 11]
+rank: 30 | id: 30 | time: 4.792210817337036
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [9]
+rank: 31 | id: 31 | time: 3.4301300048828125
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [9, 15]
+rank: 32 | id: 32 | time: 3.590632915496826
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [9, 14]
+rank: 33 | id: 33 | time: 3.5945889949798584
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [9, 13]
+rank: 34 | id: 34 | time: 3.5900371074676514
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [9, 12]
+rank: 35 | id: 35 | time: 3.5517470836639404
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [9, 11]
+rank: 36 | id: 36 | time: 3.599234104156494
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [9, 10]
+rank: 37 | id: 37 | time: 4.916741847991943
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [8]
+rank: 38 | id: 38 | time: 3.382519006729126
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [8, 15]
+rank: 39 | id: 39 | time: 3.572664976119995
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [8, 14]
+rank: 40 | id: 40 | time: 3.4527220726013184
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [8, 13]
+rank: 41 | id: 41 | time: 3.519710063934326
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [8, 12]
+rank: 42 | id: 42 | time: 3.479681968688965
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [8, 11]
+rank: 43 | id: 43 | time: 3.5153229236602783
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [8, 10]
+rank: 44 | id: 44 | time: 3.4628329277038574
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [8, 9]
+rank: 45 | id: 45 | time: 4.779300689697266
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [7]
+rank: 46 | id: 46 | time: 3.4123640060424805
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [7, 15]
+rank: 47 | id: 47 | time: 3.5294458866119385
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [7, 14]
+rank: 48 | id: 48 | time: 3.3822340965270996
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [7, 13]
+rank: 49 | id: 49 | time: 3.4935302734375
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [7, 12]
+rank: 50 | id: 50 | time: 3.504242181777954
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [7, 11]
+rank: 51 | id: 51 | time: 3.5035018920898438
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [7, 10]
+rank: 52 | id: 52 | time: 3.514643907546997
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [7, 9]
+rank: 53 | id: 53 | time: 3.4817352294921875
+[0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [7, 8]
+rank: 54 | id: 54 | time: 5.08368182182312
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [6]
+rank: 55 | id: 55 | time: 3.3515079021453857
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [6, 15]
+rank: 56 | id: 56 | time: 3.4076449871063232
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [6, 14]
+rank: 57 | id: 57 | time: 3.4678781032562256
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [6, 13]
+rank: 58 | id: 58 | time: 3.4177982807159424
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [6, 12]
+rank: 59 | id: 59 | time: 3.408564805984497
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [6, 11]
+rank: 60 | id: 60 | time: 3.831374168395996
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [6, 10]
+rank: 61 | id: 61 | time: 3.771329164505005
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [6, 9]
+rank: 62 | id: 62 | time: 3.8989031314849854
+[0, 0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [6, 8]
+rank: 63 | id: 63 | time: 3.936876058578491
+[0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [6, 7]
+rank: 64 | id: 64 | time: 6.168483018875122
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [5]
+rank: 65 | id: 65 | time: 3.7475759983062744
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [5, 15]
+rank: 66 | id: 66 | time: 3.8145480155944824
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [5, 14]
+rank: 67 | id: 67 | time: 3.7989537715911865
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [5, 13]
+rank: 68 | id: 68 | time: 3.8380467891693115
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [5, 12]
+rank: 69 | id: 69 | time: 3.955359935760498
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [5, 11]
+rank: 70 | id: 70 | time: 4.018810272216797
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [5, 10]
+rank: 71 | id: 71 | time: 4.048156976699829
+[0, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [5, 9]
+rank: 72 | id: 72 | time: 4.307289123535156
+[0, 0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [5, 8]
+rank: 73 | id: 73 | time: 4.296756029129028
+[0, 0, 0, 0, 0, 1, 0, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [5, 7]
+rank: 74 | id: 74 | time: 4.384383916854858
+[0, 0, 0, 0, 0, 1, 1]
+num_bit: 7 | num_zero: 5 | num_one: 2 | one_pos: [5, 6]
+rank: 75 | id: 75 | time: 6.05254602432251
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [4]
+rank: 76 | id: 76 | time: 4.3078999519348145
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [4, 15]
+rank: 77 | id: 77 | time: 4.387293100357056
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [4, 14]
+rank: 78 | id: 78 | time: 4.632617950439453
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [4, 13]
+rank: 79 | id: 79 | time: 4.836219072341919
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [4, 12]
+rank: 80 | id: 80 | time: 4.5615599155426025
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [4, 11]
+rank: 81 | id: 81 | time: 4.572519063949585
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [4, 10]
+rank: 82 | id: 82 | time: 4.873643159866333
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [4, 9]
+rank: 83 | id: 83 | time: 4.635946989059448
+[0, 0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [4, 8]
+rank: 84 | id: 84 | time: 4.677221775054932
+[0, 0, 0, 0, 1, 0, 0, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [4, 7]
+rank: 85 | id: 85 | time: 4.960890054702759
+[0, 0, 0, 0, 1, 0, 1]
+num_bit: 7 | num_zero: 5 | num_one: 2 | one_pos: [4, 6]
+rank: 86 | id: 86 | time: 4.892937898635864
+[0, 0, 0, 0, 1, 1]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [4, 5]
+rank: 87 | id: 87 | time: 6.278373956680298
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [3]
+rank: 88 | id: 88 | time: 4.730626106262207
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [3, 15]
+rank: 89 | id: 89 | time: 4.6036460399627686
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [3, 14]
+rank: 90 | id: 90 | time: 4.520164728164673
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [3, 13]
+rank: 91 | id: 91 | time: 4.461322069168091
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [3, 12]
+rank: 92 | id: 92 | time: 4.474318027496338
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [3, 11]
+rank: 93 | id: 93 | time: 4.504485845565796
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [3, 10]
+rank: 94 | id: 94 | time: 4.426440954208374
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [3, 9]
+rank: 95 | id: 95 | time: 4.473664045333862
+[0, 0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [3, 8]
+rank: 96 | id: 96 | time: 4.526026010513306
+[0, 0, 0, 1, 0, 0, 0, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [3, 7]
+rank: 97 | id: 97 | time: 4.47830605506897
+[0, 0, 0, 1, 0, 0, 1]
+num_bit: 7 | num_zero: 5 | num_one: 2 | one_pos: [3, 6]
+rank: 98 | id: 98 | time: 4.43078875541687
+[0, 0, 0, 1, 0, 1]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [3, 5]
+rank: 99 | id: 99 | time: 4.42666220664978
+[0, 0, 0, 1, 1, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [3, 4]
+rank: 100 | id: 100 | time: 3.8362600803375244
+[0, 0, 0, 1, 1, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [3, 4, 5]
+rank: 101 | id: 101 | time: 5.2974536418914795
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [2]
+rank: 102 | id: 102 | time: 4.0063512325286865
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [2, 15]
+rank: 103 | id: 103 | time: 4.049262762069702
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [2, 14]
+rank: 104 | id: 104 | time: 3.9854671955108643
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [2, 13]
+rank: 105 | id: 105 | time: 4.043094873428345
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [2, 12]
+rank: 106 | id: 106 | time: 3.739655017852783
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [2, 11]
+rank: 107 | id: 107 | time: 3.795335054397583
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [2, 10]
+rank: 108 | id: 108 | time: 3.5962369441986084
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [2, 9]
+rank: 109 | id: 109 | time: 3.7525439262390137
+[0, 0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [2, 8]
+rank: 110 | id: 110 | time: 3.6917459964752197
+[0, 0, 1, 0, 0, 0, 0, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [2, 7]
+rank: 111 | id: 111 | time: 3.6781561374664307
+[0, 0, 1, 0, 0, 0, 1]
+num_bit: 7 | num_zero: 5 | num_one: 2 | one_pos: [2, 6]
+rank: 112 | id: 112 | time: 3.767673969268799
+[0, 0, 1, 0, 0, 1]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [2, 5]
+rank: 113 | id: 113 | time: 3.69490385055542
+[0, 0, 1, 0, 1, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [2, 4]
+rank: 114 | id: 114 | time: 3.112894058227539
+[0, 0, 1, 0, 1, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [2, 4, 5]
+rank: 115 | id: 115 | time: 3.728764772415161
+[0, 0, 1, 1, 0, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [2, 3]
+rank: 116 | id: 116 | time: 3.0818018913269043
+[0, 0, 1, 1, 0, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [2, 3, 5]
+rank: 117 | id: 117 | time: 3.1526260375976562
+[0, 0, 1, 1, 1]
+num_bit: 5 | num_zero: 2 | num_one: 3 | one_pos: [2, 3, 4]
+rank: 118 | id: 118 | time: 5.437855005264282
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [1]
+rank: 119 | id: 119 | time: 3.6472702026367188
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [1, 15]
+rank: 120 | id: 120 | time: 3.3896141052246094
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [1, 14]
+rank: 121 | id: 121 | time: 3.682370901107788
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [1, 13]
+rank: 122 | id: 122 | time: 3.7687439918518066
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [1, 12]
+rank: 123 | id: 123 | time: 3.8597412109375
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [1, 11]
+rank: 124 | id: 124 | time: 3.752358913421631
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [1, 10]
+rank: 125 | id: 125 | time: 3.901247024536133
+[0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [1, 9]
+rank: 126 | id: 126 | time: 3.939603090286255
+[0, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [1, 8]
+rank: 127 | id: 127 | time: 3.902799129486084
+[0, 1, 0, 0, 0, 0, 0, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [1, 7]
+rank: 128 | id: 128 | time: 3.961249828338623
+[0, 1, 0, 0, 0, 0, 1]
+num_bit: 7 | num_zero: 5 | num_one: 2 | one_pos: [1, 6]
+rank: 129 | id: 129 | time: 3.9187591075897217
+[0, 1, 0, 0, 0, 1]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [1, 5]
+rank: 130 | id: 130 | time: 4.047948837280273
+[0, 1, 0, 0, 1, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [1, 4]
+rank: 131 | id: 131 | time: 3.3359899520874023
+[0, 1, 0, 0, 1, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [1, 4, 5]
+rank: 132 | id: 132 | time: 4.075890064239502
+[0, 1, 0, 1, 0, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [1, 3]
+rank: 133 | id: 133 | time: 3.3385419845581055
+[0, 1, 0, 1, 0, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [1, 3, 5]
+rank: 134 | id: 134 | time: 3.4212939739227295
+[0, 1, 0, 1, 1]
+num_bit: 5 | num_zero: 2 | num_one: 3 | one_pos: [1, 3, 4]
+rank: 135 | id: 135 | time: 4.004448175430298
+[0, 1, 1, 0, 0, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [1, 2]
+rank: 136 | id: 136 | time: 3.2987349033355713
+[0, 1, 1, 0, 0, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [1, 2, 5]
+rank: 137 | id: 137 | time: 3.31904673576355
+[0, 1, 1, 0, 1]
+num_bit: 5 | num_zero: 2 | num_one: 3 | one_pos: [1, 2, 4]
+rank: 138 | id: 138 | time: 3.419785976409912
+[0, 1, 1, 1]
+num_bit: 4 | num_zero: 1 | num_one: 3 | one_pos: [1, 2, 3]
+rank: 139 | id: 139 | time: 5.078796863555908
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 16 | num_zero: 15 | num_one: 1 | one_pos: [0]
+rank: 140 | id: 140 | time: 3.7884199619293213
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [0, 15]
+rank: 141 | id: 141 | time: 3.7362091541290283
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 13 | num_one: 2 | one_pos: [0, 14]
+rank: 142 | id: 142 | time: 3.6618051528930664
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 12 | num_one: 2 | one_pos: [0, 13]
+rank: 143 | id: 143 | time: 3.688380002975464
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 13 | num_zero: 11 | num_one: 2 | one_pos: [0, 12]
+rank: 144 | id: 144 | time: 3.824002981185913
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 12 | num_zero: 10 | num_one: 2 | one_pos: [0, 11]
+rank: 145 | id: 145 | time: 3.7798666954040527
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 11 | num_zero: 9 | num_one: 2 | one_pos: [0, 10]
+rank: 146 | id: 146 | time: 3.735809087753296
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 10 | num_zero: 8 | num_one: 2 | one_pos: [0, 9]
+rank: 147 | id: 147 | time: 3.6949679851531982
+[1, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 9 | num_zero: 7 | num_one: 2 | one_pos: [0, 8]
+rank: 148 | id: 148 | time: 3.186444044113159
+[1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 8 | num_zero: 6 | num_one: 2 | one_pos: [0, 7]
+rank: 149 | id: 149 | time: 3.2674739360809326
+[1, 0, 0, 0, 0, 0, 1]
+num_bit: 7 | num_zero: 5 | num_one: 2 | one_pos: [0, 6]
+rank: 150 | id: 150 | time: 3.0134358406066895
+[1, 0, 0, 0, 0, 1]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [0, 5]
+rank: 151 | id: 151 | time: 2.8973069190979004
+[1, 0, 0, 0, 1, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [0, 4]
+rank: 152 | id: 152 | time: 2.57240891456604
+[1, 0, 0, 0, 1, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [0, 4, 5]
+rank: 153 | id: 153 | time: 2.7805697917938232
+[1, 0, 0, 1, 0, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [0, 3]
+rank: 154 | id: 154 | time: 2.476254940032959
+[1, 0, 0, 1, 0, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [0, 3, 5]
+rank: 155 | id: 155 | time: 2.4660589694976807
+[1, 0, 0, 1, 1]
+num_bit: 5 | num_zero: 2 | num_one: 3 | one_pos: [0, 3, 4]
+rank: 156 | id: 156 | time: 2.649240016937256
+[1, 0, 1, 0, 0, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [0, 2]
+rank: 157 | id: 157 | time: 2.3967573642730713
+[1, 0, 1, 0, 0, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [0, 2, 5]
+rank: 158 | id: 158 | time: 2.416712999343872
+[1, 0, 1, 0, 1]
+num_bit: 5 | num_zero: 2 | num_one: 3 | one_pos: [0, 2, 4]
+rank: 159 | id: 159 | time: 2.3891520500183105
+[1, 0, 1, 1]
+num_bit: 4 | num_zero: 1 | num_one: 3 | one_pos: [0, 2, 3]
+rank: 160 | id: 160 | time: 2.4828431606292725
+[1, 1, 0, 0, 0, 0]
+num_bit: 6 | num_zero: 4 | num_one: 2 | one_pos: [0, 1]
+rank: 161 | id: 161 | time: 2.291719913482666
+[1, 1, 0, 0, 0, 1]
+num_bit: 6 | num_zero: 3 | num_one: 3 | one_pos: [0, 1, 5]
+rank: 162 | id: 162 | time: 2.302938222885132
+[1, 1, 0, 0, 1]
+num_bit: 5 | num_zero: 2 | num_one: 3 | one_pos: [0, 1, 4]
+rank: 163 | id: 163 | time: 2.231574058532715
+[1, 1, 0, 1]
+num_bit: 4 | num_zero: 1 | num_one: 3 | one_pos: [0, 1, 3]
+rank: 164 | id: 164 | time: 2.176050901412964
+[1, 1, 1]
+num_bit: 3 | num_zero: 0 | num_one: 3 | one_pos: [0, 1, 2]

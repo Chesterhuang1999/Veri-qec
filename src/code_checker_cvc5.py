@@ -1,6 +1,7 @@
 import sys
 from condition_multiq import *
 from encoder import *
+from parser_qec import get_parser
 from lark.reconstruct import Reconstructor
 from z3 import *
 import matplotlib.pyplot as plt
@@ -52,7 +53,7 @@ def code_checker_logical(matrix, numq, k, N, dx, dz, circuit):
         err_gt_x = f"sum i 1 {numq} (ez_(i)) <= {dz - 1}"
         _, _, precond_x_tree = precond_generator(program_log, postcond_x, postcond_x)
         _, _, precond_z_tree = precond_generator(program_log, postcond_z, postcond_z)
-        precond_x = 
+        precond_x = Reconstructor(parser = get_parser()).reconstruct(precond_x_tree)
     # program = program_gen_logical(matrix, numq, N)
     # program_gen()
 
