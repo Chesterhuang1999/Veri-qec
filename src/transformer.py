@@ -103,7 +103,7 @@ class Unitary(Transformer):
                 if x1 == 1 and z2 == 1 and x2 == z1:
                     phase = Tree('add', [phase, Token('NUMBER',1)])
                 if phase != 0:
-                    if len(args[0].children[0]) == 4:
+                    if len(args[0].children) == 4:
                         args[0].children[0] = phase
                     else:
                         args[0].children.insert(0, phase)
@@ -160,12 +160,13 @@ class Unitary(Transformer):
                         args[-3] = Tree('neg', [self.bexp])
                         args[-2] = self.bexp
                     return Tree('pauli', args)
-                else: 
+                else:  # X stabilizer
                     if self.bexp == 1:
                         args[-3] = Token('NUMBER','1')
                         args[-2] = Token('NUMBER','0')
-                    args[-3] = self.bexp
-                    args[-2] = Tree('neg', [self.bexp])
+                    else:
+                        args[-3] = self.bexp
+                        args[-2] = Tree('neg', [self.bexp])
                     return Tree('pauli', args)
                 
             else: # S gate(conditional)

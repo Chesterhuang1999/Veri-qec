@@ -86,8 +86,8 @@ def stab_cond_gen_multiq(H, n, k, N):
 def program_gen_qec(H, n, k, N):   
     prog_parts_x = []
     prog_parts_z = []
-    prog_parts_z.append(f"for i in 1 to {n} do q_(i) *= ex_(i) X end")
-    prog_parts_x.append(f"for i in 1 to {n} do q_(i) *= ez_(i) Z end")
+    prog_parts_z.append(f"for i in 1 to {n} do q_(i) *= ex_(i) X end;")
+    prog_parts_x.append(f"for i in 1 to {n} do q_(i) *= ez_(i) Z end;")
     for cnt in range(N):
         ppx = []
         ppz = []
@@ -197,13 +197,13 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
     for i in range(len(gateinfo)):
         gate, inds = gateinfo[i]
         if gate == 'CNOT':
-            assert len(inds[i]) == 2
-            k, l = inds[i]
+            assert len(inds) == 2
+            k, l = inds[0], inds[1]
             if code in ('surface', 'steane'):
                 for i in range(numq):
                     q1 = (k - 1) * numq + i
                     q2 = (l - 1) * numq + i
-                    prog_parts_log.append(f"q_({q1}), q_{(q2)} *= CNOT")
+                    prog_parts_log.append(f"q_({q1}), q_({q2}) *= CNOT")
             # elif code == '':
             #     for i in range(numq):
         elif gate == 'H':
@@ -218,4 +218,4 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
     
 
 mat = surface_matrix_gen(3)
-print(stab_cond_gen_multiq(mat, 9, 1, 2))
+#print(stab_cond_gen_multiq(mat, 9, 1, 2))

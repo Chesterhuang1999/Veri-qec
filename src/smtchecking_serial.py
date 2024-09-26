@@ -56,7 +56,11 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, decoder_cond, bit_
     #formula_to_check = ForAll(var_list,  Or(Not(substitution), And(err_expr, Not(decoding_formula))))
     #formula_to_check = ForAll(verr_list, Exists(var_list, And(substitution, Or(Not(err_expr), decoding_formula))))
     #formula_to_check = ForAll(verr_list, Exists(var_list, Implies(err_gt_expr, And(substitution, Or(Not(err_expr), decoding_formula)))))
-    formula_to_check = ForAll(verr_list, Exists(var_list, Or(Not(err_gt_expr), And(substitution, Or(Not(err_expr), decoding_formula)))))
+    formula_to_check = ForAll(verr_list, 
+                              Exists(var_list, 
+                                    Or(Not(err_gt_expr), 
+                                       And(substitution, 
+                                            Or(Not(err_expr), decoding_formula)))))
     #formula_to_check = ForAll(verr_list, And(substitution, Implies(err_expr, decoding_formula)))
     #print(formula_to_check)
     # 
@@ -92,48 +96,52 @@ def smtchecking(formula):
     print(r)
     return r
 
-@timebudget
-def sur_cond_checker(distance, encode_time, check_time):
-    t1 = time.time()
-    num_qubits = distance**2
-    max_errors = (distance - 1) // 2
-    bit_width = int(math.log2(num_qubits)) + 1
-    max_errors = (distance - 1) // 2 
-    surface_mat = surface_matrix_gen(distance)
-    precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1) 
-    #precond, cond2, x_inds, z_inds = surface(distance, 1)
-    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
-    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
-    err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {distance - 1}"
-    err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {distance - 1}"
-    postcond_x, postcond_z = precond_x, precond_z
 
-    #program = surface_program(distance,x_inds,z_inds)
-    program_x, program_z = program_gen(surface_mat, num_qubits, 1)
-    #decoder_cond = sur_decode_gen(x_inds, z_inds)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
-    formula_x = smtencoding(precond_x, program_x, postcond_x, err_cond_x, err_gt_x, decoder_cond_x, bit_width)
-    formula_z = smtencoding(precond_z, program_z, postcond_z, err_cond_z, err_gt_z, decoder_cond_z, bit_width)
-    t2 = time.time()
-    encode_time.append(t2 - t1)
-    result_x = smtchecking(formula_x)
-    result_z = smtchecking(formula_z)
-    t3 = time.time()
-    check_time.append(t3 - t2)
-    
-encode_time = []
-check_time = []
-sur_cond_checker(5, encode_time, check_time)
-#print(encode_time, check_time) 
-# x = [2*i+1 for i in range(1, 5)]
-# # #x.append(25)
-# for i in x:
-#     sur_cond_checker(i, encode_time, check_time)
+if __name__ == "__main__":
 
-# plt.plot(x, encode_time, label = "Encoding Time"
-# plt.plot(x, check_time, label = "Checking Time")
-# plt.xlabel('Code Distance')
-# plt.ylabel('Time (s)')
-# plt.title('Surface Code Verification Time')
-# plt.legend()
-# plt.savefig('surface_9.png')
+
+    @timebudget
+    def sur_cond_checker(distance, encode_time, check_time):
+        t1 = time.time()
+        num_qubits = distance**2
+        max_errors = (distance - 1) // 2
+        bit_width = int(math.log2(num_qubits)) + 1
+        max_errors = (distance - 1) // 2 
+        surface_mat = surface_matrix_gen(distance)
+        precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1) 
+        #precond, cond2, x_inds, z_inds = surface(distance, 1)
+        err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
+        err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
+        err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {distance - 1}"
+        err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {distance - 1}"
+        postcond_x, postcond_z = precond_x, precond_z
+
+        #program = surface_program(distance,x_inds,z_inds)
+        program_x, program_z = program_gen(surface_mat, num_qubits, 1)
+        #decoder_cond = sur_decode_gen(x_inds, z_inds)
+        decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
+        formula_x = smtencoding(precond_x, program_x, postcond_x, err_cond_x, err_gt_x, decoder_cond_x, bit_width)
+        formula_z = smtencoding(precond_z, program_z, postcond_z, err_cond_z, err_gt_z, decoder_cond_z, bit_width)
+        t2 = time.time()
+        encode_time.append(t2 - t1)
+        result_x = smtchecking(formula_x)
+        result_z = smtchecking(formula_z)
+        t3 = time.time()
+        check_time.append(t3 - t2)
+        
+    encode_time = []
+    check_time = []
+    sur_cond_checker(5, encode_time, check_time)
+    #print(encode_time, check_time) 
+    # x = [2*i+1 for i in range(1, 5)]
+    # # #x.append(25)
+    # for i in x:
+    #     sur_cond_checker(i, encode_time, check_time)
+
+    # plt.plot(x, encode_time, label = "Encoding Time"
+    # plt.plot(x, check_time, label = "Checking Time")
+    # plt.xlabel('Code Distance')
+    # plt.ylabel('Time (s)')
+    # plt.title('Surface Code Verification Time')
+    # plt.legend()
+    # plt.savefig('surface_9.png')
