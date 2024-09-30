@@ -72,12 +72,21 @@ def smtencoding_parti(code, triple, err, decoder_cond, sym_cond, bit_width):
     ##/hqf 9.24 / ## 
 
     ## SMT formula I: If #error <= max_err, then decoding formula is true
-    # formula_to_check = ForAll(verr_list, 
-    #                           Exists(var_list, 
-    #                                  Or(Not(err_gt_expr), 
-    #                                     And(substitution, 
-    #                                         Or(Not(err_expr), decoding_formula)
-    #                                         ))))
+    if code == 'surface':
+        sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
+        formula_to_check = ForAll(verr_list, 
+                            Exists(var_list, 
+                                Or(Not(err_gt_expr), 
+                                    And(substitution, sym_expr, 
+                                        Or(Not(err_expr), decoding_formula)
+                                            ))))
+    else:
+        formula_to_check = ForAll(verr_list, 
+                                Exists(var_list, 
+                                        Or(Not(err_gt_expr), 
+                                            And(substitution, 
+                                                Or(Not(err_expr), decoding_formula)
+                                                ))))
     
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
@@ -86,25 +95,25 @@ def smtencoding_parti(code, triple, err, decoder_cond, sym_cond, bit_width):
     #                               substitution, Not(decoding_formula))))
     # print(formula_to_check)
     ## SMT formula IV: Apply symmetry condition
-    if code == 'surface': 
-        sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
-        formula_to_check = ForAll(verr_list, 
-                            Exists(var_list, 
-                                Or(Not(err_gt_expr), 
-                                    And(substitution, sym_expr, 
-                                        Or(Not(err_expr), decoding_formula),
-                                        Or(err_expr, Not(decoding_formula))
-                                            )))) 
-    ## SMT formula III: Encode both directions together
-    else:
+    # if code == 'surface': 
+    #     sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
+    #     formula_to_check = ForAll(verr_list, 
+    #                         Exists(var_list, 
+    #                             Or(Not(err_gt_expr), 
+    #                                 And(substitution, sym_expr, 
+    #                                     Or(Not(err_expr), decoding_formula),
+    #                                     Or(err_expr, Not(decoding_formula))
+    #                                         )))) 
+    # ## SMT formula III: Encode both directions together
+    # else:
 
-        formula_to_check = ForAll(verr_list, 
-                                Exists(var_list, 
-                                    Or(Not(err_gt_expr), 
-                                        And(substitution, 
-                                            Or(Not(err_expr), decoding_formula),
-                                            Or(err_expr, Not(decoding_formula))
-                                                ))))
+    #     formula_to_check = ForAll(verr_list, 
+    #                             Exists(var_list, 
+    #                                 Or(Not(err_gt_expr), 
+    #                                     And(substitution, 
+    #                                         Or(Not(err_expr), decoding_formula),
+    #                                         Or(err_expr, Not(decoding_formula))
+    #                                             ))))
 
         
     

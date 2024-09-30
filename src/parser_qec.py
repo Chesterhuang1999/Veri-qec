@@ -10,7 +10,7 @@ def get_parser():
     ?program: statement ( ";" statement)*  -> seq 
 
     ?statement: var ":=" "meas" pexpr -> meas
-        | var ":=" pexpr -> assign
+        | var ":=" assatom -> assign
         | var ("," var)* "*=" (bexpr)? UNIT -> unitary
         | "if" bexpr "then" program "else" program "end" -> if
         | "while" bexpr "do" program "end" -> while

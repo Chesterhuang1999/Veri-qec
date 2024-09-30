@@ -71,6 +71,6 @@ def sur_cond_checker(distance, numq, max_proc_num):
 
 
 if __name__ == "__main__":
-    D = 5
+    D = 7
     max_proc_num = 16
     sur_cond_checker(D, D**2,  max_proc_num)

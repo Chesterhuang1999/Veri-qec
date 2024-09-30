@@ -142,8 +142,8 @@ def checker_logical(matrix, numq, k, N, dx, dz, circuit):
         prog_log = program_gen_logic(matrix, numq, N, gateinfo, code)
         args_x = [numq, dx, code, prog_log, pocx, pex, decx, symx, 'x']
         args_z = [numq, dz, code, prog_log, pocz, pez, decz, symz, 'z']
-        task_info_x = []
-        task_info_z = []
+        # task_info_x = []
+        # task_info_z = []
         check_single_layer(args_x, max_proc_num)
         check_single_layer(args_z, max_proc_num)
         #err_vals = enum_generator(numq, enum_qbits)
@@ -151,7 +151,7 @@ def checker_logical(matrix, numq, k, N, dx, dz, circuit):
         
 
 
-### Scenario III: Errors during decoding
+### Scenario III: Errors during decoding (complicated model, use only surface code as an example)
 
 @timebudget
 def code_checker_error(matrix, numq, k, dx, dz):

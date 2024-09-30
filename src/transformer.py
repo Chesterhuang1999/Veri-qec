@@ -234,15 +234,24 @@ class Measure(Transformer):
             else:
                 return Tree('condition', [Tree('bigor', [self.var_obj, args[0]])]) 
         
-
+def find_sym(tree, var, value):
+    for i in range(len(tree.children)):
+        if tree.children[i] == var:
+            tree.children[i] = Token('NUMBER', value)
+        elif isinstance(tree.children[i], Tree):
+            tree.children[i] = find_sym(tree.children[i], var, value)
+    return tree
 #ToDo: Substitution of pauli operator indexes
 class Loops(Transformer):
     def __init__(self, var, value):
         self.var_obj = var
         self.value = value
+    
     def var(self, args):
         if args[1] == self.var_obj: 
             args[1] = Token('NUMBER', self.value)
+        elif isinstance(args[1], Tree):
+            args[1] = find_sym(args[1], self.var_obj, self.value) 
         return Tree('var', args)
 
 
@@ -274,6 +283,13 @@ class Combinephase(Transformer):
                     # elif i == 0 and len(temp) == 1:
                     #     op.children.insert(0, temp[0])
             return Tree('pexpr', children)
+    
+    def add(self, children):
+        all_number = all(isinstance(child, Token) and child.type == 'NUMBER' for child in children)
+        if all_number:
+            return Token('NUMBER', sum([int(child) for child in children]))
+        else:
+            return Tree('add', children)
 
 ### Simplify the phase of each pauli, eliminate even terms                    
 # class Simphase(Transformer):

@@ -37,7 +37,7 @@ def sur_seq_cond_checker(distance, err_vals):
     
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
-    groups = sym_gen(distance)
+    groups = sym_gen(distance, distance)
     sym_x, sym_z = [], []
     for value in groups.values():
         k, l = value[0], value[1]
