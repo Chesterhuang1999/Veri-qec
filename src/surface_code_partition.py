@@ -15,7 +15,7 @@ sys.setrecursionlimit(1000000)
 
  
 
-def sur_seq_cond_checker(distance, err_vals):
+def cond_generator(distance):
     num_qubits = distance**2
     max_errors = (distance - 1) // 2
     bit_width = int(math.log2(num_qubits)) + 1
@@ -29,11 +29,11 @@ def sur_seq_cond_checker(distance, err_vals):
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {distance - 1}"
     postcond_x, postcond_z = precond_x, precond_z
 
-    err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-    err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
+    # err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    # err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
 
-    err_val_exprs_z = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-    err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
+    # err_val_exprs_z = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    # err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
     
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
@@ -46,8 +46,14 @@ def sur_seq_cond_checker(distance, err_vals):
     sym_x, sym_z = '&&'.join(sym_x), '&&'.join(sym_z)
     triple_x = [precond_x, program_x, postcond_x]
     triple_z = [precond_z, program_z, postcond_z]
-    err_x = [err_cond_x, err_gt_x, err_val_exprs_str_x]
-    err_z = [err_cond_z, err_gt_z, err_val_exprs_str_z]
+
+    err_x = [err_cond_x, err_gt_x]
+    err_z = [err_cond_z, err_gt_z]
+    cond_x = [triple_x, err_x, decoder_cond_x, sym_x]
+    cond_z = [triple_z, err_z, decoder_cond_z, sym_z]
+    return cond_x, cond_z, bit_width
+    # err_x = [err_cond_x, err_gt_x, err_val_exprs_str_x]
+    # err_z = [err_cond_z, err_gt_z, err_val_exprs_str_z]
     # sym_x, sym_z = ' '  , ' '
 #    formula_x = smtencoding(precond_x, program_x, postcond_x, 
 #                             err_cond_x, err_gt_x, err_val_exprs_str_x,
@@ -55,6 +61,18 @@ def sur_seq_cond_checker(distance, err_vals):
 #    formula_z = smtencoding(precond_z, program_z, postcond_z, 
 #                             err_cond_z, err_gt_z, err_val_exprs_str_z, 
 #                             decoder_cond_z, bit_width)
+def sur_seq_cond_checker(cond_x, cond_z, bit_width, err_vals):
+
+    triple_x, err_x, decoder_cond_x, sym_x = cond_x
+    triple_z, err_z, decoder_cond_z, sym_z = cond_z
+
+    err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
+
+    err_val_exprs_z = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
+    err_x.append(err_val_exprs_str_x)
+    err_z.append(err_val_exprs_str_z)
     formula_x = smtencoding_parti('surface', triple_x, err_x,
                             decoder_cond_x, sym_x, bit_width)
     formula_z = smtencoding_parti('surface', triple_z, err_z,  
