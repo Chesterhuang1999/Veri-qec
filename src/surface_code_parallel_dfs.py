@@ -143,6 +143,9 @@ def sur_cond_checker(distance, max_proc_num):
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks):
+            if i == 1: 
+                print(task)
+
             # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
             result_objects.append(pool.apply_async(worker, (i, info, task,), callback=process_callback, error_callback=process_error))
@@ -179,6 +182,6 @@ def sur_cond_checker(distance, max_proc_num):
 
 
 if __name__ == "__main__":
-    distance = 9
+    distance = 7
     max_proc_num = 256
     sur_cond_checker(distance, max_proc_num)

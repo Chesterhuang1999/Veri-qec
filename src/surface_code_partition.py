@@ -24,11 +24,11 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     variables = {}
     constraints = []
     const_errors_to_z3(err_vals_tree.children[0], variables)
-
+    print(variables)
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-
+    
     # print(f'err_cond: {err_cond}')
     # print(f'decoder_cond: {decoder_cond}')
     
@@ -64,7 +64,7 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
 
     decoding_formula = And(cass_expr, decoder_expr)
     decoding_formula = simplify(decoding_formula)
-
+    
     substitution = And(*constraints)
     #formula_to_check = ForAll(var_list,  Or(Not(substitution), And(err_expr, Not(decoding_formula))))
  
@@ -79,12 +79,12 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     ##/hqf 9.24 / ## 
 
     ## SMT formula I: If #error <= max_err, then decoding formula is true
-    formula_to_check = ForAll(verr_list, 
-                           Exists(var_list, 
-                                      Or(Not(err_gt_expr), 
-                                         And(substitution, sym_expr, 
-                                             Or(Not(err_expr), decoding_formula)
-                                             ))))
+    # formula_to_check = ForAll(verr_list, 
+    #                        Exists(var_list, 
+    #                                   Or(Not(err_gt_expr), 
+    #                                      And(substitution, sym_expr, 
+    #                                          Or(Not(err_expr), decoding_formula)
+    #                                          ))))
     
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
@@ -103,13 +103,13 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #                                        ))))
 
     ## SMT formula IV: Apply symmetry condition
-    # formula_to_check = ForAll(verr_list, 
-    #                      Exists(var_list, 
-    #                            Or(Not(err_gt_expr), 
-    #                                And(substitution, sym_expr, 
-    #                                    Or(Not(err_expr), decoding_formula),
-    #                                    Or(err_expr, Not(decoding_formula))
-    #                                        )))) 
+    formula_to_check = ForAll(verr_list, 
+                         Exists(var_list, 
+                               Or(Not(err_gt_expr), 
+                                   And(substitution, sym_expr, 
+                                       Or(Not(err_expr), decoding_formula),
+                                       Or(err_expr, Not(decoding_formula))
+                                           )))) 
     
     # Slow
     # formula_to_check = simplify(formula_to_check)
@@ -131,6 +131,7 @@ def smtchecking(formula):
     solver.add(formula)
     
     formula_smt2 = solver.to_smt2()
+    # print(formula_smt2)
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic BV)\n" + "\n".join(lines[1:])
 
@@ -185,10 +186,10 @@ def cond_generator(distance):
     surface_mat = surface_matrix_gen(distance)
     precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1)
     #precond, cond2, x_inds, z_inds = surface(distance, 1)
-    #err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
-    #err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
-    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {max_errors}"
-    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {max_errors}"
+    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
+    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
+    # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {max_errors}"
+    # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {max_errors}"
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {distance - 1}"
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {distance - 1}"
     postcond_x, postcond_z = precond_x, precond_z
@@ -220,7 +221,11 @@ def seq_cond_checker(cond_x, cond_z, bit_width, err_vals):
     t1 = time.time()
     precond_x, program_x, postcond_x, err_cond_x, err_gt_x, decoder_cond_x, sym_x = cond_x
     precond_z, program_z, postcond_z, err_cond_z, err_gt_z, decoder_cond_z, sym_z = cond_z
-
+    # print('precond', precond_x)
+    # print(sym_x)
+    # print('program', program_x)
+    # print('err',err_cond_x, err_gt_x)
+    # print('decode', decoder_cond_x)
     err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
     err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
 
@@ -292,22 +297,24 @@ def seq_cond_checker(cond_x, cond_z, bit_width, err_vals):
 # Debug
 
 if __name__ == '__main__':
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('--distance', type=int, required=True, 
-                                help='distance')
-    arg_parser.add_argument('--err-vals', type=str, required=True, 
-                                help='error values')
+    # arg_parser = argparse.ArgumentParser()
+    # arg_parser.add_argument('--distance', type=int, required=True, 
+    #                             help='distance')
+    # arg_parser.add_argument('--err-vals', type=str, required=True, 
+    #                             help='error values')
     
-    cmd_args = arg_parser.parse_args()
-    distance: int = cmd_args.distance
-    err_vals: list = json.loads(cmd_args.err_vals)
-    print(distance, err_vals)
-    for x in err_vals:
-        print(x, type(x))
-    err_vals = [int(x) for x in err_vals]
-    print(distance, err_vals)
-    seq_cond_checker(distance, err_vals)
-    
+    # cmd_args = arg_parser.parse_args()
+    # distance: int = cmd_args.distance
+    # err_vals: list = json.loads(cmd_args.err_vals)
+    # print(distance, err_vals)
+    # for x in err_vals:
+    #     print(x, type(x))
+    # err_vals = [int(x) for x in err_vals]
+    # print(distance, err_vals)
+    err_vals = [0,0,0,0,0,1]
+    distance = 5
+    cond_x, cond_z, bit_width = cond_generator(distance)
+    resx, resz = seq_cond_checker(cond_x, cond_z, bit_width, err_vals)
     # sur_cond_checker(3, 1)
     # sur_cond_checker(5, 4)
     # seq_cond_checker(7, [0 for i in range(24)])
