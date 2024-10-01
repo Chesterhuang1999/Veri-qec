@@ -111,16 +111,6 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #                                    Or(err_expr, Not(decoding_formula))
     #                                        )))) 
     
-    # Slow
-    # formula_to_check = simplify(formula_to_check)
-    # formula_to_check = ForAll(verr_list, 
-    #                           Exists(var_list, 
-    #                                  And(err_vals_expr, substitution, 
-    #                                      Or(Not(err_expr), decoding_formula)
-    #                                  )
-    #                           )
-    #                    )
-    # 
     return formula_to_check
 
 
@@ -129,7 +119,7 @@ def smtchecking(formula):
     #t = Tactic('solve-eqs')
     solver = Solver()
     solver.add(formula)
-    
+
     formula_smt2 = solver.to_smt2()
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic BV)\n" + "\n".join(lines[1:])
@@ -237,59 +227,10 @@ def seq_cond_checker(cond_x, cond_z, bit_width, err_vals):
     result_x = smtchecking(formula_x)
     result_z = smtchecking(formula_z)
     t4 = time.time()
-    print(t4 - t3, t3 - t2, t2 - t1)
+    # print(t4 - t3, t3 - t2, t2 - t1)
     return result_x, result_z
 
-# @timebudget
-# def sur_cond_checker(distance, enum_qubit):
-#     counter = 0
-#     # assert(enum_qubit <= distance)
-#     num_qubits = distance ** 2
-#     if enum_qubit > num_qubits:
-#         enum_qubit = num_qubits
-    
-#     # if enum_qubit < distance:
-#     #     enum_qubit = distance
-    
-#     # enum_qubit \in [1, d ^ 2]
-#     # one_num <= enum
-#     # error number:
-#     # [1, distance) [1, enum_qubit + 1)
 
-#     err_vals = [0 for _ in range(enum_qubit)]
-#     seq_cond_checker(distance, err_vals)
-#     for one_num in range(1, min(distance, enum_qubit + 1)):
-#         for pos in combinations(range(enum_qubit), one_num):
-#             # print(pos)
-#             err_vals = [0 for _ in range(enum_qubit)]
-#             for j in pos:
-#                 err_vals[j] = 1
-#             # print(err_vals)
-#             seq_cond_checker(distance, err_vals)
-
-# def sur_cond_checker_alt(num_qubits, enum_qubit):
-#     counter = 0
-#     # assert(enum_qubit <= distance)
-#     # num_qubits = distance ** 2
-#     if enum_qubit > num_qubits:
-#         enum_qubit = num_qubits
-
-#     err_vals = [0 for _ in range(enum_qubit)]
-#     if num_qubits > enum_qubit + distance:
-#         seq_cond_checker(num_qubits - enum_qubit, err_vals)
-
-#     for one_num in range(1, min(distance, enum_qubit + 1)):
-#         for pos in combinations(range(enum_qubit), one_num):
-#             # print(pos)
-#             err_vals = [0 for _ in range(enum_qubit)]
-#             for j in pos:
-#                 err_vals[j] = 1
-#             # print(err_vals)
-#             seq_cond_checker(distance, err_val)
-# (1 + t) ^ (d^2) <
-# < d
-# 0 * '1' -> 1 * '1' -> 2 * '1' -> 
-# Debug
 
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser()
@@ -308,19 +249,3 @@ if __name__ == '__main__':
     print(distance, err_vals)
     seq_cond_checker(distance, err_vals)
     
-    # sur_cond_checker(3, 1)
-    # sur_cond_checker(5, 4)
-    # seq_cond_checker(7, [0 for i in range(24)])
-    #print(encode_time, check_time) 
-    # x = [2*i+1 for i in range(1, 5)]
-    # # #x.append(25)
-    # for i in x:
-    #     sur_cond_checker(i, encode_time, check_time)
-
-    # plt.plot(x, encode_time, label = "Encoding Time"
-    # plt.plot(x, check_time, label = "Checking Time")
-    # plt.xlabel('Code Distance')
-    # plt.ylabel('Time (s)')
-    # plt.title('Surface Code Verification Time')
-    # plt.legend()
-    # plt.savefig('surface_9.png')
