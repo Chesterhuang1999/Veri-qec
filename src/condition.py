@@ -29,11 +29,14 @@ def decode_cond_gen(H, n, k, dx, dz):
             cond_parts_z.append("&&")
         
     
-    cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
-    cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
-    
+    #cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
+    #cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
+    #cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= sum i 1 {n} (ez_(i))")
+    #cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= sum i 1 {n} (ex_(i))")
     # return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
-    return ''.join(cond_parts_x), ''.join(cond_parts_z)
+    cond_x = ''.join(cond_parts_x)
+    cond_z = ''.join(cond_parts_z)
+    return cond_x[:-2], cond_z[:-2]
     
 def stab_cond_gen(H, n, k):
     cond_parts_x = []

@@ -71,19 +71,19 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
 
 
     ##/* symmetrization */##
-    #sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
+    sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
     # print(sym_expr)
 
 
     ##/hqf 9.24 / ## 
 
     ## SMT formula I: If #error <= max_err, then decoding formula is true
-    # formula_to_check = ForAll(verr_list, 
-    #                           Exists(var_list, 
-    #                                  Or(Not(err_gt_expr), 
-    #                                     And(substitution, 
-    #                                         Or(Not(err_expr), decoding_formula)
-    #                                         ))))
+    formula_to_check = ForAll(verr_list, 
+                           Exists(var_list, 
+                                      Or(Not(err_gt_expr), 
+                                         And(substitution, sym_expr, 
+                                             Or(Not(err_expr), decoding_formula)
+                                             ))))
     
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
@@ -93,13 +93,13 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     # print(formula_to_check)
 
     ## SMT formula III: Encode both directions together
-    formula_to_check = ForAll(verr_list, 
-                            Exists(var_list, 
-                                Or(Not(err_gt_expr), 
-                                    And(substitution, 
-                                        Or(Not(err_expr), decoding_formula),
-                                        Or(err_expr, Not(decoding_formula))
-                                            ))))
+    #formula_to_check = ForAll(verr_list, 
+    #                        Exists(var_list, 
+    #                            Or(Not(err_gt_expr), 
+    #                                And(substitution, 
+    #                                    Or(Not(err_expr), decoding_formula),
+    #                                    Or(err_expr, Not(decoding_formula))
+    #                                        ))))
 
     ## SMT formula IV: Apply symmetry condition
     # formula_to_check = ForAll(verr_list, 
@@ -184,8 +184,10 @@ def seq_cond_checker(distance, err_vals):
     surface_mat = surface_matrix_gen(distance)
     precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1)
     #precond, cond2, x_inds, z_inds = surface(distance, 1)
-    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
-    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
+    #err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
+    #err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
+    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {max_errors}"
+    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {max_errors}"
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {distance - 1}"
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {distance - 1}"
     postcond_x, postcond_z = precond_x, precond_z

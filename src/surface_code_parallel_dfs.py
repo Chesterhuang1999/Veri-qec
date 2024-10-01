@@ -12,6 +12,7 @@ def worker(task_id, distance, err_vals):
     end = time.time()
     cost = end - start 
     # print(res, end - start, err_vals)
+    print(end - start)
     return task_id, cost
     # if str(res) == 'unsat':
     #     return end - start, err_vals
@@ -125,6 +126,7 @@ def sur_cond_checker(distance, max_proc_num):
     global task_info
     tg = subtask_generator(distance, max_proc_num)
     tasks = tg()
+    print("Task generated. Start checking.")
     #//linxi debug
     # cnt = 0
     # for t in tasks:
@@ -141,6 +143,8 @@ def sur_cond_checker(distance, max_proc_num):
             task_info.append(analysis_task(i, task))
             result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
             # print(res.get())
+            # if (i % 50 == 0):
+                #print(i, task)
         pool.close()
         #[res.wait() for res in result_objects]
         [res.wait() for res in result_objects]
@@ -153,14 +157,14 @@ def sur_cond_checker(distance, max_proc_num):
         # pool.close()
         # pool.join()
 
-    with open('unsorted_results.txt', 'w') as f:
-        for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-            f.write(f'{ti[1]}\n')
-            f.write(f'{" | ".join(ti[2])}\n')
+   # with open('unsorted_results.txt', 'w') as f:
+   #     for i, ti in enumerate(task_info):
+   #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+   #         f.write(f'{ti[1]}\n')
+   #         f.write(f'{" | ".join(ti[2])}\n')
 
     # print(len(task_info))
-    print(task_info[1])
+    # print(task_info[1])
     task_info.sort(key=lambda x: x[-1])
 
     with open('sorted_results.txt', 'w') as f:
@@ -171,6 +175,6 @@ def sur_cond_checker(distance, max_proc_num):
 
 
 if __name__ == "__main__":
-    distance = 9
+    distance = 7
     max_proc_num = 256
     sur_cond_checker(distance, max_proc_num)

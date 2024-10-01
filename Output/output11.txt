@@ -1,0 +1,2 @@
+nohup: ignoring input
+q_(0) *= H;q_(1) *= H;q_(2) *= H;q_(3) *= H;q_(4) *= H;q_(5) *= H;q_(6) *= H;q_(7) *= H;q_(8) *= H
