@@ -1,4 +1,0 @@
-nohup: ignoring input
-Task generated. Start checking.
-33900
-sur_cond_checker took 394.590sec

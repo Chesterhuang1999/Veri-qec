@@ -4,21 +4,33 @@ from multiprocessing import Pool
 from surface_code_partition_merge import *
 from timebudget import timebudget
 import json
+import tblib.pickling_support
+import sys
+
+class ExceptionWrapper(object):
+    def __init__(self, ee):
+        self.ee = ee
+        _, _, self.tb = sys.exc_info()
+    
+    def re_raise(self):
+        raise self.ee.with_traceback(self.tb)
 
 
-def worker(task_id, json_data, err_vals):
+def worker(task_id, distance, err_vals):
+    try:
     # print(err_vals)
-    start = time.time()
-    packed_x = json_data['packed_x']
-    packed_z = json_data['packed_z']
-    # cond_x, cond_z, bit_width = info
-    res = seq_cond_checker(packed_x, packed_z, err_vals)
-    # print(res)
-    end = time.time()
-    cost = end - start 
-    # print(res, end - start, err_vals)
-    #print(end - start, res)
-    return task_id, cost
+        start = time.time()
+        packed_x = cond_x[distance]
+        packed_z = cond_z[distance]
+        # cond_x, cond_z, bit_width = info
+        smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
+        end = time.time()
+        cost = end - start 
+        # print(res, end - start, err_vals)
+        #print(end - start, res)
+        return task_id, smttime
+    except Exception as e:
+        return task_id, ExceptionWrapper(e)
     # if str(res) == 'unsat':
     #     return end - start, err_vals
     # # return end - start, res
@@ -103,15 +115,23 @@ class subtask_generator:
         return self.tasks
 
 task_info = []
-
+err_info = []
 def process_callback(result):
     # print(result)
     global task_info
-    task_id, time_cost = result
-    task_info[task_id].append(time_cost)
+    global err_info
+    if isinstance(result[1], ExceptionWrapper):
+        task_id = result[0]
+        print(task_info[task_id])
+        err_info.append(result[1])
+    else:   
+        task_id, time_cost = result
+        
+        task_info[task_id].append(time_cost)
 
 def process_error(error):
     print(f'error: {error}')
+    
 
 def analysis_task(task_id: int, task: list):
     num_bit = 0
@@ -129,7 +149,8 @@ def analysis_task(task_id: int, task: list):
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
     global task_info
-    cond_x, cond_z = cond_generator(distance)
+    #cond_x, cond_z = cond_generator(distance)
+    
     tg = subtask_generator(distance, max_proc_num)
     tasks = tg()
     print("Task generated. Start checking.")
@@ -145,15 +166,9 @@ def sur_cond_checker(distance, max_proc_num):
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks):
-            if i == 1: 
-                print(task)
-            json_data = json.dumps({
-                'packed_x': cond_x,
-                'packed_z': cond_z
-            })
             # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, json_data, task,), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
             # print(res.get())
             # if (i % 50 == 0):
                 #print(i, task)
@@ -161,7 +176,9 @@ def sur_cond_checker(distance, max_proc_num):
         #[res.wait() for res in result_objects]
         [res.wait() for res in result_objects]
         pool.join()
-        
+    
+    for i, ei in enumerate(err_info):
+        ei.re_raise()
         # for task in tasks:
         #     # res = pool.apply_async(worker, (distance, task,))
         #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
@@ -169,24 +186,36 @@ def sur_cond_checker(distance, max_proc_num):
         # pool.close()
         # pool.join()
 
-   # with open('unsorted_results.txt', 'w') as f:
-   #     for i, ti in enumerate(task_info):
-   #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-   #         f.write(f'{ti[1]}\n')
-   #         f.write(f'{" | ".join(ti[2])}\n')
-
-    print(len(task_info))
-    # print(task_info[1])
-    task_info.sort(key=lambda x: x[-1])
-
-    with open('sorted_results.txt', 'w') as f:
+    with open('unsorted_results.txt', 'w') as f:
         for i, ti in enumerate(task_info):
             f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
             f.write(f'{ti[1]}\n')
             f.write(f'{" | ".join(ti[2])}\n')
 
+    # print(len(task_info))
+    # # print(task_info[1])
+    # task_info.sort(key=lambda x: x[-1])
+
+    # with open('sorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
+
 
 if __name__ == "__main__":
-    distance = 7
+    tblib.pickling_support.install()
+    distance = 9
     max_proc_num = 256
+    global cond_x
+    global cond_z
+    cond_x = defaultdict(tuple)
+    cond_z = defaultdict(tuple)
+    for i in range(1, 5):
+        t1 = time.time()
+        n = 2 * i + 1
+        cond_x[n], cond_z[n] = cond_generator(n)
+        t2 = time.time()
+        print(t2 - t1)
+    
     sur_cond_checker(distance, max_proc_num)

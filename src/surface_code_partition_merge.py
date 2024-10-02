@@ -22,11 +22,11 @@ def smtencoding_constrep(exprs, variables, constraints, err_vals):
     consts = {}
     const_errors_to_z3(err_vals_tree.children[0], consts)
     replace = []
-    for i in consts.keys():
-        replace.append((variables[i], consts[i]))
-        del variables[i]
-   #print(variables)
+    for i, ki in enumerate(consts.keys()):
+        replace.append((variables[ki], consts[ki]))
+        
     cass_expr = simplify(substitute(cass_expr, replace))
+
     decoder_expr = simplify(substitute(decoder_expr, replace))
     err_expr = substitute(err_expr, replace)
     
@@ -43,12 +43,13 @@ def smtencoding_constrep(exprs, variables, constraints, err_vals):
             sym, _ = name.split('_')
             if(sym[0] != 'e'):
                 vdata_list.append(var)
-            else:
+            elif name not in consts.keys():
                 verr_list.append(var)
         else:
             vaux_list.append(var)
 
     var_list = vaux_list + vdata_list
+    # print(verr_list)
     # print(sym_expr)
     # print(var_list)
     ## SMT encoding
@@ -141,7 +142,6 @@ def smtchecking(formula):
     #t = Tactic('solve-eqs')
     solver = Solver()
     solver.add(formula)
-
     formula_smt2 = solver.to_smt2()
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic BV)\n" + "\n".join(lines[1:])
@@ -258,15 +258,16 @@ def seq_cond_checker(packed_x, packed_z, err_vals):
     result_x = smtchecking(formula_x)
     result_z = smtchecking(formula_z)
     t4 = time.time()
-    print(t4 - t3, t3 - t2)
-    return result_x, result_z
+    # print(t4 - t3, t3 - t2)
+    return t4 - t3, result_x, result_z
 
 
 
 
 if __name__ == '__main__':
    
-    distance = 5
-    err_vals = [0,0, 0, 0, 0]
+    distance = 7
+    err_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]
+    #print(err_vals)
     packed_x, packed_z = cond_generator(distance)
     print(seq_cond_checker(packed_x, packed_z, err_vals))
