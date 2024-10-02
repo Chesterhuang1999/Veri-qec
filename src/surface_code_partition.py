@@ -24,7 +24,7 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     variables = {}
     constraints = []
     const_errors_to_z3(err_vals_tree.children[0], variables)
-    print(variables)
+    # print(variables)
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
@@ -34,6 +34,7 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
+    # print(err_expr)
     # err_expr = simplify(err_expr)
 
     err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
@@ -74,17 +75,18 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     ##/* symmetrization */##
     sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
     # print(sym_expr)
+    # print(sym_expr)
 
 
     ##/hqf 9.24 / ## 
 
     ## SMT formula I: If #error <= max_err, then decoding formula is true
-    # formula_to_check = ForAll(verr_list, 
-    #                        Exists(var_list, 
-    #                                   Or(Not(err_gt_expr), 
-    #                                      And(substitution, sym_expr, 
-    #                                          Or(Not(err_expr), decoding_formula)
-    #                                          ))))
+    formula_to_check = ForAll(verr_list, 
+                           Exists(var_list, 
+                                      Or(Not(err_gt_expr), 
+                                         And(substitution, 
+                                             Or(Not(err_expr), Not(sym_expr), decoding_formula)
+                                             ))))
     
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
@@ -103,13 +105,13 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, err_vals, decoder_
     #                                        ))))
 
     ## SMT formula IV: Apply symmetry condition
-    formula_to_check = ForAll(verr_list, 
-                         Exists(var_list, 
-                               Or(Not(err_gt_expr), 
-                                   And(substitution, sym_expr, 
-                                       Or(Not(err_expr), decoding_formula),
-                                       Or(err_expr, Not(decoding_formula))
-                                           )))) 
+    # formula_to_check = ForAll(verr_list, 
+    #                      Exists(var_list, 
+    #                            Or(Not(err_gt_expr), 
+    #                                And(substitution,
+    #                                    Or(Not(err_expr), decoding_formula),
+    #                                    Or(err_expr, Not(decoding_formula))
+    #                                        )))) 
     
     # Slow
     # formula_to_check = simplify(formula_to_check)
@@ -171,8 +173,8 @@ def sym_gen(n):
     sym_x, sym_z = [], []
     for value in groups.values():
         k, l = value[0], value[1]
-        sym_x.append(f"ex_({k + 1}) <= ex_({l + 1})")
-        sym_z.append(f"ez_({k + 1}) <= ez_({l + 1})")
+        sym_x.append(f"ez_({k + 1}) <= ez_({l + 1})")
+        sym_z.append(f"ex_({k + 1}) <= ex_({l + 1})")
     sym_x, sym_z = '&&'.join(sym_x), '&&'.join(sym_z)
     return sym_x, sym_z
 
@@ -238,9 +240,11 @@ def seq_cond_checker(cond_x, cond_z, bit_width, err_vals):
     formula_z = smtencoding(precond_z, program_z, postcond_z, 
                             err_cond_z, err_gt_z, err_val_exprs_str_z, 
                             decoder_cond_z, sym_z, bit_width)
+    print(formula_x)
     t3 = time.time()
     result_x = smtchecking(formula_x)
     result_z = smtchecking(formula_z)
+    print(result_x, result_z)
     t4 = time.time()
     print(t4 - t3, t3 - t2, t2 - t1)
     return result_x, result_z
@@ -311,8 +315,8 @@ if __name__ == '__main__':
     #     print(x, type(x))
     # err_vals = [int(x) for x in err_vals]
     # print(distance, err_vals)
-    err_vals = [0,0,0,0,0,1]
-    distance = 5
+    err_vals = [0,0]
+    distance = 3
     cond_x, cond_z, bit_width = cond_generator(distance)
     resx, resz = seq_cond_checker(cond_x, cond_z, bit_width, err_vals)
     # sur_cond_checker(3, 1)

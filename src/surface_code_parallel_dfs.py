@@ -1,15 +1,18 @@
 import time
 import math
 from multiprocessing import Pool
-from surface_code_partition import *
+from surface_code_partition_merge import *
 from timebudget import timebudget
+import json
 
 
-def worker(task_id, info, err_vals):
+def worker(task_id, json_data, err_vals):
     # print(err_vals)
     start = time.time()
-    cond_x, cond_z, bit_width = info
-    res = seq_cond_checker(cond_x, cond_z, bit_width, err_vals)
+    packed_x = json_data['packed_x']
+    packed_z = json_data['packed_z']
+    # cond_x, cond_z, bit_width = info
+    res = seq_cond_checker(packed_x, packed_z, err_vals)
     # print(res)
     end = time.time()
     cost = end - start 
@@ -126,8 +129,7 @@ def analysis_task(task_id: int, task: list):
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
     global task_info
-    cond_x, cond_z, bit_width = cond_generator(distance)
-    info = [cond_x, cond_z, bit_width]
+    cond_x, cond_z = cond_generator(distance)
     tg = subtask_generator(distance, max_proc_num)
     tasks = tg()
     print("Task generated. Start checking.")
@@ -145,10 +147,13 @@ def sur_cond_checker(distance, max_proc_num):
         for i, task in enumerate(tasks):
             if i == 1: 
                 print(task)
-
+            json_data = json.dumps({
+                'packed_x': cond_x,
+                'packed_z': cond_z
+            })
             # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, info, task,), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, json_data, task,), callback=process_callback, error_callback=process_error))
             # print(res.get())
             # if (i % 50 == 0):
                 #print(i, task)
