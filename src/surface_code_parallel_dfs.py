@@ -16,12 +16,12 @@ class ExceptionWrapper(object):
         raise self.ee.with_traceback(self.tb)
 
 
-def worker(task_id, distance, err_vals):
+def worker(task_id, err_vals):
     try:
     # print(err_vals)
         start = time.time()
-        packed_x = cond_x[distance]
-        packed_z = cond_z[distance]
+        # packed_x = cond_x[distance]
+        # packed_z = cond_z[distance]
         # cond_x, cond_z, bit_width = info
         smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
         end = time.time()
@@ -149,6 +149,8 @@ def analysis_task(task_id: int, task: list):
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
     global task_info
+    global packed_x
+    global packed_z
     #cond_x, cond_z = cond_generator(distance)
     
     tg = subtask_generator(distance, max_proc_num)
@@ -163,12 +165,14 @@ def sur_cond_checker(distance, max_proc_num):
     # worker(distance, tasks[0]i
     # exit(0)
     #//linxi debug
+    packed_x, packed_z = cond_generator(distance)
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks):
             # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
+            # result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, task,), callback=process_callback, error_callback=process_error))
             # print(res.get())
             # if (i % 50 == 0):
                 #print(i, task)
@@ -207,15 +211,15 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
     distance = 9
     max_proc_num = 256
-    global cond_x
-    global cond_z
-    cond_x = defaultdict(tuple)
-    cond_z = defaultdict(tuple)
-    for i in range(1, 5):
-        t1 = time.time()
-        n = 2 * i + 1
-        cond_x[n], cond_z[n] = cond_generator(n)
-        t2 = time.time()
-        print(t2 - t1)
+    # global cond_x
+    # global cond_z
+    # cond_x = defaultdict(tuple)
+    # cond_z = defaultdict(tuple)
+    # for i in range(1, 5):
+    #     t1 = time.time()
+    #     n = 2 * i + 1
+    #     cond_x[n], cond_z[n] = cond_generator(n)
+    #     t2 = time.time()
+    #     print(t2 - t1)
     
     sur_cond_checker(distance, max_proc_num)
