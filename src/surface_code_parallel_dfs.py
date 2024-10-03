@@ -3,7 +3,7 @@ import math
 from multiprocessing import Pool
 from surface_code_partition_merge import *
 from timebudget import timebudget
-import json
+import datetime
 import tblib.pickling_support
 import sys
 
@@ -114,8 +114,64 @@ class subtask_generator:
         self.generate_tasks(self.num_qubits, self.distance - 1, [])
         return self.tasks
 
-task_info = []
-err_info = []
+processed_job = 0
+solved_job = 0
+unsolved_job = 0
+sat_job = 0
+unsat_job = 0
+
+def get_current_infos(not_done = True):
+    curr_time = time.time()
+    cost_time = curr_time - start_time
+    estimated_time = cost_time / processed_job * total_job
+    left_time = estimated_time - cost_time
+    
+    ret = ""
+    if not_done:
+        ret += " ++++++ show progress ++++++ " + "\n"
+    ret += "start time: " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time)) + "\n"
+    ret += "current time: " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(curr_time)) + "\n"
+    ret += "cost time: " + str(datetime.timedelta(seconds=cost_time)) + "\n"
+    if not_done:
+        ret += "left time: " + str(datetime.timedelta(seconds=left_time)) + "\n"
+        ret += "estimated time: " + str(datetime.timedelta(seconds=estimated_time)) + "\n"
+        ret += "estimated finished time: " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time + estimated_time)) + "\n"
+    ret += "instance per seconed(all process): {:.2f}".format(processed_job / cost_time) + "\n"
+    ret += "instance average runtime(s): {:.2f}".format(cost_time * max_process_num / processed_job) + "\n"
+    if not_done:
+        ret += "finished persent: {:.2f}%".format(processed_job / total_job * 100.0) + "\n"
+    ret += "processed jobs: {}".format(processed_job) + "\n"
+    
+    unprocessed_job = total_job - processed_job
+    ret += "unprocessed jobs: {}".format(unprocessed_job) + "\n"
+    return ret
+
+def process_callback(result):
+    # global processed_job
+    # global solved_job
+    global processed_job
+    # global solved_job
+    # global unsolved_job
+    # global sat_job
+    # global unsat_job
+    # global total_job
+    # global start_time
+    task_id, time_cost = result
+        
+    processed_job += 1
+    # job : str = result[0]
+    # cnt : int = result[1]
+    # state : str = result[2]
+    # assert(False)
+    if processed_job % 10 == 0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+    
+    
 def process_callback(result):
     # print(result)
     global task_info
@@ -124,14 +180,25 @@ def process_callback(result):
         task_id = result[0]
         print(task_info[task_id])
         err_info.append(result[1])
-    else:   
-        task_id, time_cost = result
-        
-        task_info[task_id].append(time_cost)
-
+        return
+    global processed_job
+    global last_print
+    
+    task_id, time_cost = result
+    task_info[task_id].append(time_cost)
+    curr_time = time.time()
+    processed_job += 1
+    if curr_time - last_print > 1.0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+        last_print = curr_time
+    
 def process_error(error):
     print(f'error: {error}')
-    
 
 def analysis_task(task_id: int, task: list):
     num_bit = 0
@@ -151,11 +218,22 @@ def sur_cond_checker(distance, max_proc_num):
     global task_info
     global packed_x
     global packed_z
-    #cond_x, cond_z = cond_generator(distance)
+    global total_job
+    global start_time
+    global max_process_num
+    global task_info
+    global err_info
+    global last_print
     
+    max_process_num = max_proc_num
+    start_time = time.time()
+    last_print = start_time
+    #cond_x, cond_z = cond_generator(distance)
     tg = subtask_generator(distance, max_proc_num)
     tasks = tg()
     print("Task generated. Start checking.")
+    total_job = len(tasks)
+    print(f"total_job: {total_job}")
     #//linxi debug
     # cnt = 0
     # for t in tasks:
@@ -165,6 +243,8 @@ def sur_cond_checker(distance, max_proc_num):
     # worker(distance, tasks[0]i
     # exit(0)
     #//linxi debug
+    task_info = []
+    err_info = []
     packed_x, packed_z = cond_generator(distance)
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
@@ -210,7 +290,7 @@ def sur_cond_checker(distance, max_proc_num):
 if __name__ == "__main__":
     tblib.pickling_support.install()
     distance = 9
-    max_proc_num = 256
+    max_proc_num = 125
     # global cond_x
     # global cond_z
     # cond_x = defaultdict(tuple)
