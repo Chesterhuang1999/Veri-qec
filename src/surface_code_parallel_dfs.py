@@ -205,17 +205,17 @@ def sur_cond_checker(distance, max_proc_num):
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
-    distance = 9
+    distance = 11
     max_proc_num = 256
     global cond_x
     global cond_z
     cond_x = defaultdict(tuple)
     cond_z = defaultdict(tuple)
-    for i in range(1, 5):
-        t1 = time.time()
-        n = 2 * i + 1
-        cond_x[n], cond_z[n] = cond_generator(n)
-        t2 = time.time()
-        print(t2 - t1)
+    # for i in range(1, 5):
+    t1 = time.time()
+    # n = 2 * i + 1
+    cond_x[distance], cond_z[distance] = cond_generator(distance)
+    t2 = time.time()
+    print(t2 - t1)
     
-    sur_cond_checker(distance, max_proc_num)
+    sur_cond_checker(distance, max_proc_num)    

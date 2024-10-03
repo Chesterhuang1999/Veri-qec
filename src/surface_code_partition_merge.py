@@ -16,7 +16,8 @@ sys.setrecursionlimit(1000000)
 
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
-def smtencoding_constrep(exprs, variables, constraints, err_vals):
+def smtencoding_constrep(expr, variables, constraints, err_vals):
+    
     cass_expr, decoder_expr, err_expr, err_gt_expr, sym_expr = exprs
     err_vals_tree, _, _ = precond_generator('skip', err_vals, 'true')
     consts = {}
@@ -25,18 +26,22 @@ def smtencoding_constrep(exprs, variables, constraints, err_vals):
     for i, ki in enumerate(consts.keys()):
         replace.append((variables[ki], consts[ki]))
         
-    cass_expr = simplify(substitute(cass_expr, replace))
+    # cass_expr = simplify(substitute(cass_expr, replace))
 
-    decoder_expr = simplify(substitute(decoder_expr, replace))
-    err_expr = substitute(err_expr, replace)
+    # decoder_expr = simplify(substitute(decoder_expr, replace))
+    # err_expr = substitute(err_expr, replace)
     
-    err_gt_expr = substitute(err_gt_expr, replace)
-    #constraints = simplify(substitute(constraints ,replace))
-    sym_expr = simplify(substitute(sym_expr, replace))
-    substitution = And(*constraints)
-    substitution = simplify(substitute(substitution, replace))
-    decoding_formula = And(cass_expr, decoder_expr)
+    # err_gt_expr = substitute(err_gt_expr, replace)
+    # #constraints = simplify(substitute(constraints ,replace))
+    # sym_expr = simplify(substitute(sym_expr, replace))
+    # substitution = And(*constraints)
+    # substitution = simplify(substitute(substitution, replace))
+    # decoding_formula = And(cass_expr, decoder_expr)
+
     # print(substitution)
+
+    expr = simplify(substitute(expr, replace))
+    print(expr)
     vaux_list, verr_list, vdata_list = [], [], []
     for name, var in variables.items():
         if var.size() == 1:
@@ -54,13 +59,13 @@ def smtencoding_constrep(exprs, variables, constraints, err_vals):
     # print(var_list)
     ## SMT encoding
     ## SMT formula I: If #error <= max_err, then decoding formula is true
-    formula_to_check = ForAll(verr_list, 
-                           Exists(var_list, 
-                                      Or(Not(err_gt_expr), 
-                                         And(substitution, 
-                                             Or(Not(err_expr), Not(sym_expr), decoding_formula)
-                                             ))))
-    
+    # formula_to_check = ForAll(verr_list, 
+    #                        Exists(var_list, 
+    #                                   Or(Not(err_gt_expr), 
+    #                                      And(substitution, 
+    #                                          Or(Not(err_expr), Not(sym_expr), decoding_formula)
+    #                                          ))))
+    formula_to_check = ForAll(verr_list, Exists(var_list, expr))
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
     #                           Exists(vaux_list,
@@ -118,10 +123,10 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, decoder_cond, sym_
 
     #var_list = [var for var in list(decoder_variables.values()) if var not in list(err_variables.values())]
 
-    # decoding_formula = And(cass_expr, decoder_expr)
-    # decoding_formula = simplify(decoding_formula)
+    decoding_formula = And(cass_expr, decoder_expr)
+    decoding_formula = simplify(decoding_formula)
 
-    # substitution = And(*constraints)
+    substitution = And(*constraints)
     #formula_to_check = ForAll(var_list,  Or(Not(substitution), And(err_expr, Not(decoding_formula))))
  
     #formula_to_check = ForAll(verr_list, Exists(var_list, Implies(err_gt_expr, And(substitution, Or(Not(err_expr), decoding_formula)))))
@@ -130,10 +135,11 @@ def smtencoding(precond, program, postcond, err_cond, err_gt, decoder_cond, sym_
     ##/* symmetrization */##
     sym_expr = tree_to_z3(sym_tree.children[0], variables, bit_width, [], False)
     
-    ##/hqf 9.24 / ## 
-    exprs = [cass_expr, decoder_expr, err_expr, err_gt_expr, sym_expr]
-
-    return exprs, variables, constraints
+    ##/hqf 10.03 / ## 
+    # exprs = [cass_expr, decoder_expr, err_expr, err_gt_expr, sym_expr]
+    formula = Or(Not(err_gt_expr), And(substitution, 
+                Or(Not(err_expr), Not(sym_expr), decoding_formula)))
+    return formula, variables, constraints
   
 
 
@@ -240,12 +246,12 @@ def seq_cond_checker(packed_x, packed_z, err_vals):
     err_val_exprs_z = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
     err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
     # packed_x, packed_z = cond_generator(distance)
-    exprs_x, variables_x, constraints_x = packed_x
+    expr_x, variables_x, constraints_x = packed_x
     
-    exprs_z, variables_z, constraints_z = packed_z
-    formula_x = smtencoding_constrep(exprs_x, variables_x, constraints_x,
+    expr_z, variables_z, constraints_z = packed_z
+    formula_x = smtencoding_constrep(expr_x, variables_x, constraints_x,
                                       err_val_exprs_str_x)
-    formula_z = smtencoding_constrep(exprs_z, variables_z, constraints_z,                    
+    formula_z = smtencoding_constrep(expr_z, variables_z, constraints_z,                    
                                       err_val_exprs_str_z)
     # print(formula_x)
     # formula_x = smtencoding(precond_x, program_x, postcond_x, 
@@ -266,8 +272,8 @@ def seq_cond_checker(packed_x, packed_z, err_vals):
 
 if __name__ == '__main__':
    
-    distance = 7
-    err_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]
+    distance = 3
+    err_vals = [0, 0]
     #print(err_vals)
     packed_x, packed_z = cond_generator(distance)
     print(seq_cond_checker(packed_x, packed_z, err_vals))

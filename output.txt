@@ -1,0 +1,3 @@
+nohup: ignoring input
+2.9279725551605225
+Task generated. Start checking.
