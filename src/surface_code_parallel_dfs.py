@@ -18,7 +18,6 @@ class ExceptionWrapper(object):
 
 def worker(task_id, err_vals):
     try:
-    # print(err_vals)
         start = time.time()
         # packed_x = cond_x[distance]
         # packed_z = cond_z[distance]
@@ -26,8 +25,7 @@ def worker(task_id, err_vals):
         smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
         end = time.time()
         cost = end - start 
-        # print(res, end - start, err_vals)
-        #print(end - start, res)
+
         return task_id, smttime
     except Exception as e:
         return task_id, ExceptionWrapper(e)
@@ -44,7 +42,7 @@ def estimate_difficulty(remained_qubits, remained_ones):
     if k >= n:
         return 2 ** n
     k = min(k, n - k)
-    # SUM C(n, i) for i \in [0, k]
+    
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
@@ -80,11 +78,6 @@ class subtask_generator:
         # if self.num_qubits - remained_qubit_num < self.assigned_bit_thres:
         #     return False
         
-        # if self.num_qubits < 2 * remained_qubit_num:
-        #     return False
-        
-        # assigned bits, assigned ones, remained bits, remained ones
-        # f(a, b, c, d) = 
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
         #     return False
@@ -245,11 +238,11 @@ def sur_cond_checker(distance, max_proc_num):
         # pool.close()
         # pool.join()
 
-    with open('unsorted_results.txt', 'w') as f:
-        for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-            f.write(f'{ti[1]}\n')
-            f.write(f'{" | ".join(ti[2])}\n')
+    # with open('unsorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
 
     # print(len(task_info))
     # # print(task_info[1])
@@ -265,11 +258,12 @@ def sur_cond_checker(distance, max_proc_num):
 if __name__ == "__main__":
     tblib.pickling_support.install()
     distance = 9
-    max_proc_num = 125
+    max_proc_num = 256
     # global cond_x
     # global cond_z
     # cond_x = defaultdict(tuple)
     # cond_z = defaultdict(tuple)
+    
     # for i in range(1, 5):
     #     t1 = time.time()
     #     n = 2 * i + 1

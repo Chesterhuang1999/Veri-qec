@@ -324,6 +324,11 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
             f.write(f'{ti[1]}\n')
             f.write(f'{" | ".join(ti[2])}\n')
     end = time.time()
+
+    
+    processed_job = 0
+    unprocessed_job = 0
+
     return round(end - start, 5)
     # with open('corrections.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
@@ -336,20 +341,20 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
 if __name__ == "__main__": 
     tblib.pickling_support.install()
     runtime = []
-    x = [4 * i + 1 for i in range(1, 10)]
-    for i in range(1, 10):
-        distance = 4 * i + 1
-        max_sample_num = 500
-        max_proc_num = 250
-        timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
-        runtime.append(timei)
+    # x = [4 * i + 1 for i in range(1, 10)]
+    # for i in range(1, 10):
+    distance = 51
+    max_sample_num = 500
+    max_proc_num = 250
+    timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+    runtime.append(timei)
 
-    plt.plot(x, runtime, label = 'runtime')
-    plt.xlabel('distance')
-    plt.ylabel('runtime')
-    plt.legend()
-    plt.title('Runtime of Surface Code Checker')
-    plt.savefig('surface_code_test_runtime.png')
+    # plt.plot(x, runtime, label = 'runtime')
+    # plt.xlabel('distance')
+    # plt.ylabel('runtime')
+    # plt.legend()
+    # plt.title('Runtime of Surface Code Checker')
+    # plt.savefig('surface_code_test_runtime.png')
     # err_vals_test = task_generator(distance, 3)
     # print(err_vals_test)
     # packed_x, packed_z = formulagen_testing(distance)

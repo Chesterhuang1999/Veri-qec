@@ -18,7 +18,7 @@ sys.setrecursionlimit(1000000)
 # postscript x: x-stabilizers, x measurement, z error and corrections   
 def smtencoding_constrep(expr, variables, constraints, err_vals):
     
-    cass_expr, decoder_expr, err_expr, err_gt_expr, sym_expr = exprs
+    # cass_expr, decoder_expr, err_expr, err_gt_expr, sym_expr = expr
     err_vals_tree, _, _ = precond_generator('skip', err_vals, 'true')
     consts = {}
     const_errors_to_z3(err_vals_tree.children[0], consts)
@@ -41,7 +41,7 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
     # print(substitution)
 
     expr = simplify(substitute(expr, replace))
-    print(expr)
+    # print(expr)
     vaux_list, verr_list, vdata_list = [], [], []
     for name, var in variables.items():
         if var.size() == 1:
