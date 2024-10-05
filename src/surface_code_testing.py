@@ -1,13 +1,31 @@
+## import system-based packages
 import numpy as np
-from verifier import precond_generator
-from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
-from condition import *
+import datetime
 import time
 import cvc5
 import math
-from collections import defaultdict
 from z3 import *
-from surface_code_partition_merge import smtchecking, sym_gen, cond_generator
+from multiprocessing import Pool
+import tblib.pickling_support
+import sys
+from timebudget import timebudget
+import matplotlib.pyplot as plt
+## import customized functions
+from verifier import precond_generator
+from encoder import tree_to_z3, VCgeneration
+from condition import *
+
+sys.setrecursionlimit(1000000)
+
+## Handling errors
+class ExceptionWrapper(object):
+    def __init__(self, ee):
+        self.ee = ee
+        _, _, self.tb = sys.exc_info()
+
+    def re_raise(self):
+        raise self.ee.with_traceback(self.tb)    
+
 
 
 def smtencoding_testing(precond, program, postcond, decoder_cond, bit_width):
@@ -24,7 +42,7 @@ def smtencoding_testing(precond, program, postcond, decoder_cond, bit_width):
 
     decoding_formula = And(cass_expr, decoder_expr)
     decoding_formula = simplify(decoding_formula)
-
+    # print(decoding_formula)
     substitution = And(*constraints)
     formula = And(substitution, decoding_formula)
     return formula, variables
@@ -34,37 +52,56 @@ def constrep_testing(expr, variables, consts):
     for i in consts.keys():
         replace.append((variables[i], consts[i]))
     formula_to_check = simplify(substitute(expr, replace))
+    # print(formula_to_check)
     return formula_to_check
 
 ## Try use bitwuzla
 def smtchecking_testing(formula):
     solver = SolverFor("QF_BV")
     solver.add(formula)
-    r = solver.check()
-    print(r)
+    # r = solver.check()
+    # print(r)
 
-    model = solver.model()
-    print(model)
-    # formula_smt2 = solver.to_smt2()
-    # lines = formula_smt2.splitlines()
-    # formula_smt2 = f"(set-logic QF_BV)\n" + "\n".join(lines[1:])
+    formula_smt2 = solver.to_smt2()
+    lines = formula_smt2.splitlines()
+    formula_smt2 = f"(set-logic QF_BV)\n" + "\n".join(lines[1:]) + f"\n(get-model)"
 
-    # # tm = cvc5.TermManager()
+    # tm = cvc5.TermManager()
 
-    # s2 = cvc5.Solver()
-    # s2.setOption('produce-models', 'true')  
-    # cvc5_parser = cvc5.InputParser(s2)
+    s2 = cvc5.Solver()
+    s2.setOption('produce-models', 'true')  
+    cvc5_parser = cvc5.InputParser(s2)
 
-    # cvc5_parser.setStringInput(cvc5.InputLanguage.SMT_LIB_2_6, formula_smt2, "MyInput")
+    cvc5_parser.setStringInput(cvc5.InputLanguage.SMT_LIB_2_6, formula_smt2, "MyInput")
 
-    # sm = cvc5_parser.getSymbolManager()
-    # while True:
-    #     cmd = cvc5_parser.nextCommand()
-    #     if cmd.isNull():
-    #         break
-    #     cmd.invoke(s2, sm)
+    sm = cvc5_parser.getSymbolManager()
+    temp = 0
+    while True:
+        cmd = cvc5_parser.nextCommand()
+        if cmd.isNull():
+            #print(temp)
+            break
+        temp = cmd.invoke(s2, sm)
     
-    # r = s2.checkSat()
+    r = s2.checkSat()
+    if str(r) == 'sat':
+        vars = sm.getDeclaredTerms()
+        correction = []
+        cvars = []
+        for i in vars:
+            vstr = i.getSymbol().split('_')
+            if(len(vstr) == 2) and vstr[0] != 's':
+                cvars.append(i)
+        res_lines = (s2.getModel([], cvars)).decode('utf-8').splitlines()[1:-1]
+        for i, line in enumerate(res_lines):
+            
+            if(line[-2] == '1'):
+                elems = line.split(' ')
+                # print(elems)
+                correction.append(elems[1])
+
+        return r
+
     return r
 def formulagen_testing(distance):
     num_qubits = distance**2
@@ -77,7 +114,7 @@ def formulagen_testing(distance):
     postcond_x, postcond_z = precond_x, precond_z
 
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
+    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test')
     
     packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, bit_width)
     packed_z = smtencoding_testing(precond_z, program_z, postcond_z, decoder_cond_z, bit_width)
@@ -95,6 +132,7 @@ def seq_cond_checker_testing(packed_x, packed_z, err_vals):
 
     formula_x = constrep_testing(expr_x, variables_x, consts_x)
     formula_z = constrep_testing(expr_z, variables_z, consts_z)
+    #print(formula_z)
     t3 = time.time()
     result_x = smtchecking_testing(formula_x)
     result_z = smtchecking_testing(formula_z)
@@ -102,10 +140,221 @@ def seq_cond_checker_testing(packed_x, packed_z, err_vals):
     return t4 - t3, result_x, result_z 
 
 
+def worker(task_id, err_vals):
+    try: 
+        start = time.time()
+        smttime, resx, resz = seq_cond_checker_testing(packed_x, packed_z, err_vals)
+        pos = np.where(err_vals == 1)[0]
+        print(resx, resz, len(pos), pos)
+        # print(resx, resz)
+        end = time.time()
+        cost = end - start
+
+        return task_id, cost
+    except Exception as e:
+        return task_id, ExceptionWrapper(e)
+##Random generate samples for testing
+def random_sample(D):
+    length = D**2
+    max_ham_weight = D - 2
+    num_ones = np.random.randint(1, max_ham_weight + 1)
+    
+    indices = np.random.choice(length, num_ones, replace = False)
+    # bin_arr = np.zeros(length, dtype = int)
+    # bin_arr[indices] = 1
+
+    return indices
+
+def task_generator(distance, max_sample_num):
+    tasks = []
+    cnt = 0 
+    uniq_samples = set()
+    while cnt < max_sample_num:
+        sample = random_sample(distance)
+        if tuple(sample) not in uniq_samples:
+            uniq_samples.add(tuple(sample))
+            cnt += 1
+            bin_arr = np.zeros(distance**2, dtype = int)
+            bin_arr[sample] = 1
+            tasks.append(bin_arr)
+    
+
+    return tasks
+            
+
+processed_job = 0
+solved_job = 0
+unsolved_job = 0
+sat_job = 0 
+unsat_job = 0
+
+def get_current_infos(not_done = True):
+    curr_time = time.time()
+    cost_time = curr_time - start_time
+    estimated_time = cost_time / processed_job * total_job
+    left_time = estimated_time - cost_time
+    
+    ret = ""
+    if not_done:
+        ret += " ++++++ show progress ++++++ " + "\n"
+    ret += "start time: " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time)) + "\n"
+    ret += "current time: " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(curr_time)) + "\n"
+    ret += "cost time: " + str(datetime.timedelta(seconds=cost_time)) + "\n"
+    if not_done:
+        ret += "left time: " + str(datetime.timedelta(seconds=left_time)) + "\n"
+        ret += "estimated time: " + str(datetime.timedelta(seconds=estimated_time)) + "\n"
+        ret += "estimated finished time: " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start_time + estimated_time)) + "\n"
+    ret += "instance per seconed(all process): {:.2f}".format(processed_job / cost_time) + "\n"
+    ret += "instance average runtime(s): {:.2f}".format(cost_time * max_process_num / processed_job) + "\n"
+    if not_done:
+        ret += "finished persent: {:.2f}%".format(processed_job / total_job * 100.0) + "\n"
+    ret += "processed jobs: {}".format(processed_job) + "\n"
+    
+    unprocessed_job = total_job - processed_job
+    ret += "unprocessed jobs: {}".format(unprocessed_job) + "\n"
+    return ret
+
+    
+def process_callback(result):
+    # print(result)
+    global task_info
+    global err_info
+    global corr_info
+    if isinstance(result[1], ExceptionWrapper):
+        task_id = result[0]
+        print(task_info[task_id])
+        err_info.append(result[1])
+        return
+    global processed_job
+    global last_print
+    
+    task_id, time_cost = result
+    # if len(resx) > 1 or len(resz) > 1:
+    #     corr_info[task_id] = [resx[1], resz[1]] ## print corrections 
+    task_info[task_id].append(time_cost)
+    curr_time = time.time()
+    processed_job += 1
+    if curr_time - last_print > 10.0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+        last_print = curr_time
+    
+def process_error(error):
+    print(f'error: {error}')
+
+def analysis_task(task_id: int, task: list):
+    num_bit = 0
+    num_one = 0
+    one_pos = []
+    for i, bit in enumerate(task):
+        if bit == 1:
+            num_one += 1
+            one_pos.append(i)
+        num_bit += 1
+    num_zero = num_bit - num_one
+    info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
+    return [task_id, task, info]
+
+
+def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
+
+    global task_info
+    global packed_x
+    global packed_z
+    global total_job
+    global start_time
+    global max_process_num
+    global err_info
+    global last_print
+    start = time.time()
+    max_process_num = max_proc_num
+    start_time = time.time()
+    last_print = start_time
+    #cond_x, cond_z = cond_generator(distance)
+    tasks = task_generator(distance, max_sample_num)
+    print("Task generated. Start checking.")
+    total_job = len(tasks)
+    print(f"total_job: {total_job}")
+ 
+    task_info = []
+    err_info = []
+    # corr_info = defaultdict(list)
+    packed_x, packed_z = formulagen_testing(distance)
+    with Pool(processes = max_proc_num) as pool:
+        result_objects = []
+        for i, task in enumerate(tasks):
+            # res = pool.apply_async(worker, (distance, task,))
+            task_info.append(analysis_task(i, task))
+            # result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, task,), callback=process_callback, error_callback=process_error))
+            # print(res.get())
+            # if (i % 50 == 0):
+                #print(i, task)
+        pool.close()
+        #[res.wait() for res in result_objects]
+        [res.wait() for res in result_objects]
+        pool.join()
+    
+    for i, ei in enumerate(err_info):
+        ei.re_raise()
+        # for task in tasks:
+        #     # res = pool.apply_async(worker, (distance, task,))
+        #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
+        #     # print(res.get())
+        # pool.close()
+        # pool.join()
+
+    # with open('unsorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
+
+    # print(len(task_info))
+    # # print(task_info[1])
+    task_info.sort(key=lambda x: x[-1])
+
+    with open('sorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
+    end = time.time()
+    return round(end - start, 5)
+    # with open('corrections.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         if i in corr_info.keys():
+    #             f.write(f'rank: {i} | id: {ti[0]} |\n')  
+    #             f.write(f'{ti[1]}\n')
+    #             f.write(f'corrections:{corr_info[i]}\n')
+
 
 if __name__ == "__main__": 
-    distance = 3
-    err_vals = [1,0,0,0,0,0,0,0,0]
+    tblib.pickling_support.install()
+    runtime = []
+    x = [4 * i + 1 for i in range(1, 10)]
+    for i in range(1, 10):
+        distance = 4 * i + 1
+        max_sample_num = 500
+        max_proc_num = 250
+        timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+        runtime.append(timei)
 
-    packed_x, packed_z = formulagen_testing(distance)
-    print(seq_cond_checker_testing(packed_x, packed_z, err_vals))
+    plt.plot(x, runtime, label = 'runtime')
+    plt.xlabel('distance')
+    plt.ylabel('runtime')
+    plt.legend()
+    plt.title('Runtime of Surface Code Checker')
+    plt.savefig('surface_code_test_runtime.png')
+    # err_vals_test = task_generator(distance, 3)
+    # print(err_vals_test)
+    # packed_x, packed_z = formulagen_testing(distance)
+    # for i in range(3):
+
+    #     print(seq_cond_checker_testing(packed_x, packed_z, err_vals_test[i]))
+    
+    

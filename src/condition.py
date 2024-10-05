@@ -5,7 +5,7 @@ from collections import defaultdict
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
 ### Condition and program generation from check matrix ###
-def decode_cond_gen(H, n, k, dx, dz):
+def decode_cond_gen(H, n, k, dx, dz, alts):
     cond_parts_x = []
     cond_parts_z = []
     max_err_x = int((dx - 1) // 2)
@@ -28,6 +28,12 @@ def decode_cond_gen(H, n, k, dx, dz):
             cond_parts_z.pop()
             cond_parts_z.append("&&")
         
+    # if alts == 'verify':
+    #     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
+    #     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
+    # elif alts == 'test':
+    #     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= sum i 1 {n} (ez_(i))")
+    #     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= sum i 1 {n} (ex_(i))")
     
     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")

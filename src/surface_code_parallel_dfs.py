@@ -146,31 +146,6 @@ def get_current_infos(not_done = True):
     ret += "unprocessed jobs: {}".format(unprocessed_job) + "\n"
     return ret
 
-def process_callback(result):
-    # global processed_job
-    # global solved_job
-    global processed_job
-    # global solved_job
-    # global unsolved_job
-    # global sat_job
-    # global unsat_job
-    # global total_job
-    # global start_time
-    task_id, time_cost = result
-        
-    processed_job += 1
-    # job : str = result[0]
-    # cnt : int = result[1]
-    # state : str = result[2]
-    # assert(False)
-    if processed_job % 10 == 0:
-        info = "{}/{}: finish job file[{}], cost_time: {}" \
-                .format(processed_job, total_job, task_id, time_cost)
-        print(info)
-        print(task_info[task_id])
-        print(get_current_infos())
-        sys.stdout.flush()
-    
     
 def process_callback(result):
     # print(result)
@@ -186,6 +161,7 @@ def process_callback(result):
     
     task_id, time_cost = result
     task_info[task_id].append(time_cost)
+    
     curr_time = time.time()
     processed_job += 1
     if curr_time - last_print > 1.0:
@@ -221,7 +197,6 @@ def sur_cond_checker(distance, max_proc_num):
     global total_job
     global start_time
     global max_process_num
-    global task_info
     global err_info
     global last_print
     

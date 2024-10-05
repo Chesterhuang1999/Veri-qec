@@ -218,7 +218,7 @@ def cond_generator(distance):
     # err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
     
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance)
+    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'verify')
     sym_x, sym_z = sym_gen(distance)
    
 
