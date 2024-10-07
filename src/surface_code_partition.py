@@ -45,7 +45,7 @@ def cond_generator(distance):
     triple_x = [precond_x, program_x, postcond_x]
     triple_z = [precond_z, program_z, postcond_z]
 
-    # err_x = [err_cond_x, err_gt_x]
+    err_x = [err_cond_x, err_gt_x]
     err_z = [err_cond_z, err_gt_z]
     cond_x = [triple_x, err_x, decoder_cond_x, sym_x]
     cond_z = [triple_z, err_z, decoder_cond_z, sym_z]
@@ -64,7 +64,8 @@ def cond_generator(distance):
     return cond_x, cond_z, bit_width
 
 def sur_seq_cond_checker(cond_x, cond_z, bit_width, err_vals):
-    triple_x, err_x, decoder_cond_x, sym_x = 
+    triple_x, err_x, decoder_cond_x, sym_x = cond_x
+    triple_z, err_z, decoder_cond_z, sym_z = cond_z
     err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
     err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
 

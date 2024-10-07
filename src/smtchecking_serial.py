@@ -14,8 +14,10 @@ sys.setrecursionlimit(1000000)
 @timebudget
 def smtencoding(precond, program, postcond, err_cond, err_gt, decoder_cond, bit_width):
     
-    cass_expr = simplify(VCgeneration(precond, program, postcond))
-    #print(cass_expr)
+
+    cass_tree = VCgeneration(precond, program, postcond)
+    cass_expr = tree_to_z3(cass_tree, {}, bit_width, [], False)
+    # print(cass_expr)
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     #err_variables = {}
     variables = {}
@@ -131,7 +133,7 @@ if __name__ == "__main__":
         
     encode_time = []
     check_time = []
-    sur_cond_checker(5, encode_time, check_time)
+    sur_cond_checker(7, encode_time, check_time)
     #print(encode_time, check_time) 
     # x = [2*i+1 for i in range(1, 5)]
     # # #x.append(25)
