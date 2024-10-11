@@ -54,37 +54,8 @@ def seq_checker_logical(args, err_vals):
     formula = smtencoding_parti(code, [prc, program, poc], [erc, egt, err_val_str], dec, sym, bit_width)
     result = smtchecking(formula)
     return result
-# def seq_checker_logical(args, err_vals):
 
-#     matrix, numq, k, N, d, gateinfo, code, poc, pe, dec, sym = args
-#     ex_max = (dx - 1) // 2
-#     ez_max = (dz - 1) // 2
-#     bit_width = int(math.log2(numq)) + 1
-#     program_log = program_gen_logic(matrix, numq, N, gateinfo, code)
-#     program_x = ';'.join([program_log, pex])
-#     program_z = ';'.join([program_log, pez])
-#     # print(program_x, program_z)
-#     decoder_cond_x, decoder_cond_z = decode_cond_gen_multiq(matrix, numq, k, N, dx, dz)
-#     err_cond_z = f"sum i 1 {numq} (ex_(i)) <= {ex_max}"
-#     err_cond_x = f"sum i 1 {numq} (ez_(i)) <= {ez_max}"
-#     err_gt_z = f"sum i 1 {numq} (ex_(i)) <= {dx - 1}"
-#     err_gt_x = f"sum i 1 {numq} (ez_(i)) <= {dz - 1}"
-#     _, _, precond_x_tree = precond_generator(program_log, postcond_x, postcond_x)
-#     _, _, precond_z_tree = precond_generator(program_log, postcond_z, postcond_z)
-#     precond_x = re.sub(r'\s*_\s*','_', Reconstructor(parser = get_parser()).reconstruct(precond_x_tree))
-#     precond_z = re.sub(r'\s*_\s*','_', Reconstructor(parser = get_parser()).reconstruct(precond_z_tree))
-#     triple_x = [precond_x, program_x, postcond_x]
-#     triple_z = [precond_z, program_z, postcond_z]
-#     err_x = [err_cond_x, err_gt_x, err_vals_expr_x]
-#     err_z = [err_cond_z, err_gt_z, err_vals_expr_z]
-#     formula_x = smtencoding_parti(code, triple_x, err_x,
-#                                     decoder_cond_x, sym_x, bit_width)
-#     formula_z = smtencoding_parti(code, triple_z, err_z, 
-#                                     decoder_cond_z, sym_z, bit_width)
-#     result_x = smtchecking(formula_x)
-#     result_z = smtchecking(formula_z)
-#     return result_x, result_z
-def worker(task_id, args, err_vals):
+def worker_logical(task_id, args, err_vals):
     start = time.time()
     res = seq_checker_logical(args, err_vals)
     end = time.time()
@@ -103,7 +74,7 @@ def check_single_layer(args, max_proc_num):
         for i, task in enumerate(tasks):
             # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, args, task,), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker_logical, (i, args, task,), callback=process_callback, error_callback=process_error))
             # print(res.get())
         pool.close()
         #[res.wait() for res in result_objects]
@@ -113,11 +84,11 @@ def check_single_layer(args, max_proc_num):
     print(task_info)
     task_info.sort(key=lambda x: x[-1])
     
-    with open('sorted_results.txt', 'w') as f:
-        for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-            f.write(f'{ti[1]}\n')
-            f.write(f'{" | ".join(ti[2])}\n')
+    # with open('sorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
 
     task_info.clear()
 
@@ -155,7 +126,8 @@ def checker_logical(matrix, numq, k, N, dx, dz, circuit):
 
 @timebudget
 def code_checker_error(matrix, numq, k, dx, dz):
-    
+    pass
+#
 
 
 ### Scenario IV: Errors during both

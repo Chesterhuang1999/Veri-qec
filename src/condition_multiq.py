@@ -15,9 +15,10 @@ from encoder import *
 
 
 ### Condition and program generation from check matrix ###
-def decode_cond_gen_multiq(H, n, k, N, dx, dz): 
+def decode_cond_gen_multiq(H, n, N, dx, dz): 
     cond_parts_x = []
     cond_parts_z = []
+    k = H.shape[0] - n
     max_err_x = int((dx - 1) // 2)
     max_err_z = int((dz - 1) // 2)
     # start = (rnd - 1) * N
@@ -48,10 +49,51 @@ def decode_cond_gen_multiq(H, n, k, N, dx, dz):
         cond_parts_z.append(''.join(cpz))
     return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
 
-def decode_cond_gen_mul(H, n, k, N, rnd):
-   pass
+def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
+    dec_x = []
+    dec_z = []
+    k = H.shape[0] - n
+    max_err_x = int((dx - 1) // 2)
+    max_err_z = int((dz - 1) // 2)
 
-def stab_cond_gen_multiq(H, n, k, N):
+    for m in range(rnd):
+        dec_parts_x = []
+        dec_parts_z = []
+        for cnt in range(N):
+            for i in range(n - k):
+                posx = np.where(H[i, :n] == 1)[0]
+                if len(posx) > 0:
+                    dec_parts_x.append(f"s_({i + 1 + (m * N + cnt) * (n - k)}) == ")
+                    for j in posx:
+                        dec_parts_x.append(f"cz_({j + 1 + (m * N + cnt) * n})")
+                        dec_parts_x.append("@^")
+                    if m > 0:
+                        dec_parts_x.append(f"c_({i + 1 + ((m - 1)* N + cnt) * (n-k)})")
+                    else:
+                        dec_parts_x.pop()
+                    dec_parts_x.append("&&")
+                posz = np.where(H[i, n:] == 1)[0]
+                if len(posz) > 0:
+                    dec_parts_z.append(f"s_({i + 1 + (m * N + cnt) * (n - k)}) == ")
+                    for j in posz:
+                        dec_parts_z.append(f"cx_({j + 1 + (m * N + cnt) * n})")
+                        dec_parts_z.append("@^")
+                    dec_parts_z.pop()
+                    dec_parts_z.append("&&")
+
+            dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+            dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
+            
+        dec_x.append(''.join(dec_parts_x))
+        dec_z.append(''.join(dec_parts_z))
+    
+    
+    return ''.join(dec_x)[:-2], ''.join(dec_z)[:-2]
+   
+
+
+def stab_cond_gen_multiq(H, n, N):
+    k = H.shape[0] - n  
     cond_parts_x = []
     cond_parts_z = []
     for cnt in range(N):
@@ -93,7 +135,8 @@ def stab_cond_gen_multiq(H, n, k, N):
     return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
 
 ### Generation of error correction programs ### 
-def program_gen_qec(H, n, k, N):   
+def program_gen_qec(H, n, N):   
+    k = H.shape[0] - n
     prog_parts_x = []
     prog_parts_z = []
     prog_parts_z.append(f"for i in 1 to {n} do q_(i) *= ex_(i) X end;")
@@ -120,31 +163,32 @@ def program_gen_qec(H, n, k, N):
     prog_parts_x.append(f"for i in 1 to {n} do q_(i) *= cz_(i) Z end")
     return ''.join(prog_parts_x), ''.join(prog_parts_z)
 
-def program_gen_qec_mul(H, n, k, N, rnd):
+def program_gen_qec_mul(H, n, N, rnd):
     prog_x, prog_z = [], []
+    k = H.shape[0] - n
     for m in range(rnd):
+        totq = N * n
         prog_parts_x = []
         prog_parts_z = []
-        prog_parts_z.append(f"for i in {1} to {n} do q_(i) *= ex_(i + {m * n}) X end;")
-        prog_parts_x.append(f"for i in {1} to {n} do q_(i) *= ez_(i + {m * n}) Z end;")
+        prog_parts_z.append(f"for i in {1} to {totq} do q_(i) *= ex_(i + {m * totq}) X end;")
+        prog_parts_x.append(f"for i in {1} to {totq} do q_(i) *= ez_(i + {m * totq}) Z end;")
         for cnt in range(N):
-            s_base = cnt * (n - k) + m * (n - k)
-            print(s_base)
+            s_base = cnt * (n - k) + m * N * (n - k)
             q_base = cnt * n 
             ppx = []
             ppz = []
             for i in range(n - k):
                 if (np.all(H[i,:n] == 0) == False):
-                    if m >= 1:
-                        ppx.append(f"s_({i + 1 + s_base}) := s_({i + 1 + s_base}) + e_({i + 1 + s_base});")
+                    # if m >= 1:
+                        # ppx.append(f"s_({i + 1 + s_base}) := s_({i + 1 + s_base}) + e_({i + 1 + s_base});")
                     ppx.append(f"s_({i + 1 + s_base}) := meas")
                     for j in range(n):
                         if H[i][j] == 1:
                             ppx.append(f"(0,1,{j + 1 + q_base})")
                     ppx.append(";")
                 if (np.all(H[i,n:] == 0) == False):
-                    if m >= 1:
-                        ppz.append(f"s_({i + 1 + s_base}) := s_({i + 1 + s_base}) + e_({i + 1 + s_base});")
+                    # if m >= 1:
+                    #     ppz.append(f"s_({i + 1 + s_base}) := s_({i + 1 + s_base}) + e_({i + 1 + s_base});")
                     ppz.append(f"s_({i + 1 + s_base}) := meas")
                     for j in range(n):
                         if H[i][j + n] == 1:
@@ -153,9 +197,9 @@ def program_gen_qec_mul(H, n, k, N, rnd):
 
             prog_parts_x.append(''.join(ppx))
             prog_parts_z.append(''.join(ppz))
-        if m == rnd - 1:
-            prog_parts_z.append(f"for i in {1} to {n} do q_(i) *= cx_(i) X end")
-            prog_parts_x.append(f"for i in {1} to {n} do q_(i) *= cz_(i) Z end")
+        
+        prog_parts_z.append(f"for i in {1} to {totq} do q_(i) *= cx_(i + {m * totq}) X end")
+        prog_parts_x.append(f"for i in {1} to {totq} do q_(i) *= cz_(i + {m * totq}) Z end")
         tempx = ''.join(prog_parts_x)
         tempz = ''.join(prog_parts_z)
         if tempx[-1] == ';':
@@ -174,8 +218,8 @@ def program_gen_qec_mul(H, n, k, N, rnd):
     # print("prog_x: ", prog_x)   
     # print("prog_z: ", prog_z)
     # return prog_x, 
-    return prog_x, prog_z
-
+    progx, progz = ';'.join(prog_x), ';'.join(prog_z)
+    return progx, progz
 
 
 ### Condition and program generation for special codes ###

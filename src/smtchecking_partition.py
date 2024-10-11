@@ -13,15 +13,20 @@ def smtencoding_parti(code, triple, err, decoder_cond, sym_cond, bit_width):
     precond, program, postcond = triple
     err_cond, err_gt, err_vals = err
     # print(precond, program, postcond, err_cond, err_gt, err_vals)
-    err_vals_tree, _, sym_tree  = precond_generator('skip', err_vals, sym_cond)
+    err_vals_tree, _, sym_tree, _  = precond_generator('skip', err_vals, sym_cond)
     variables = {}
     constraints = []
     const_errors_to_z3(err_vals_tree.children[0], variables)
 
-    cass_tree = VCgeneration(precond, program, postcond)
+    cass_tree, midround_trees = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
+    midround_exprs = []
+    for i, aux in enumerate(midround_trees):
+        expr = tree_to_z3(aux, variables, bit_width, [], False)
+        midround_exprs.append(expr)
 
+    midround_expr = And(*midround_exprs)
     # print(f'err_cond: {err_cond}')
     # print(f'decoder_cond: {decoder_cond}')
     
