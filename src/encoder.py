@@ -242,8 +242,8 @@ def VCgeneration(precond, program, postcond):
 if __name__ == "__main__":
 # start = time.time()
     precond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3)&& (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) """
-    program = """for i in 1 to 7 do q_(i) *= ex_(i) X end; s_(1) := meas (1,0,1)(1,0,3)(1,0,5)(1,0,7); s_(2) := meas (1,0,2)(1,0,3)(1,0,6)(1,0,7); 
-s_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); s_(1) := c_(1)@^c_(3) @^c_(5)@^c_(7); for i in 1 to 7 do q_(i) *= cx_(i) X end"""
+    program = """for i in 1 to 7 do q_(i) *= ex_(i) X end; sz_(1) := meas (1,0,1)(1,0,3)(1,0,5)(1,0,7); sz_(2) := meas (1,0,2)(1,0,3)(1,0,6)(1,0,7); 
+sz_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); for i in 1 to 7 do q_(i) *= cx_(i) X end"""
     postcond =  """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3)&& (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) """
 
 
@@ -258,10 +258,50 @@ s_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); s_(1) := c_(1)@^c_(3) @^c_(5)@^c_(7)
 # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 
     cass_tree = VCgeneration(precond, program, postcond)
-    print(recon_string(cass_tree))
-    cass_expr = simplify(tree_to_z3(cass_tree, {}, 1, [], False))
-    print(cass_expr)
-                         
+    variables = {}
+    cass_expr = simplify(tree_to_z3(cass_tree.children[1], variables, 3, [], False))
+    logic_expr = simplify(tree_to_z3(cass_tree.children[0], {}, 3, [], False))
+    # print(cass_expr)
+    decoder_cond = """ sz_(1) == cx_(1) @^ cx_(3) @^ cx_(5)@^ cx_(7) && sz_(2) == cx_(2) @^ cx_(3) @^ cx_(6) @^ cx_(7) && 
+    sz_(3) == cx_(4) @^ cx_(5) @^ cx_(6) @^ cx_(7)"""
+    sum_min = """sum i 1 7 (cx_(i))"""
+    # variables_dec = {}
+    decoder_tree,_, sum_tree = precond_generator('skip', decoder_cond, sum_min)
+    decoder_expr = simplify(tree_to_z3(decoder_tree.children[0], {}, 3, [], False))
+    var_corr = {}
+    sum_expr = simplify(tree_to_z3(sum_tree.children[0], var_corr, 3, [], False))                      
+    # var_corr = list(var_corr.values())
+    
+    decoding_formula = And(cass_expr, decoder_expr)
+    
+    consts_x = {}
+    replace = []
+    s1 = z3.Optimize()
+    err_vals = [0,1,0,0,0,0,1]
+    for i, ei in enumerate(err_vals):
+        consts_x[f'ex_{i+1}'] = BitVecVal(ei, 1)
+    for i in consts_x.keys():
+        replace.append((variables[i], consts_x[i]))
+
+    decoding_formula = simplify(substitute(decoding_formula, replace))
+    logic_expr = simplify(substitute(logic_expr, replace))
+    print(logic_expr)
+    # print(decoding_formula)
+    s1.add(decoding_formula)
+    s1.minimize(sum_expr)
+    if s1.check() == sat:
+        model = s1.model()
+       
+    else: 
+        print("unsat")
+    replace = []
+    for i in var_corr.keys():
+        replace.append((var_corr[i], model[var_corr[i]]))
+    print(replace)
+    logic_expr = substitute(logic_expr, replace)
+    s2 = z3.Solver()
+    
+    
 
 
 # ## error condition and decoder condition generation 

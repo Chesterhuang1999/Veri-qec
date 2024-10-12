@@ -451,10 +451,9 @@ def precond_generator(program: str, precond: str, postcond: str):
     t2 = time.time()
     ### Record the time for processing the AST
     post_tree, auxes = process(program_tree, post_tree)
-    # print(auxes)
     t3 = time.time()
     #print(end - start)
-    if len(auxes) != []:
+    if len(auxes) > 0:
         return pre_tree, program_tree, post_tree, auxes
     else:
         return pre_tree, program_tree, post_tree
