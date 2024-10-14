@@ -128,9 +128,23 @@ def gaussian_elimination(matrix):
     r = gf2_matrix_rank(matrix[:, :n]) # Rank of G1
   
     ## Gaussian elimination of G1
+    # i, j = 0, m - 1
+    # while(i < j):
+    #     while(np.all(matrix[i, :n] == 0) == False):
+    #         i += 1
+    #     while(np.all(matrix[j,:n] == 0) == True):
+    #         j -= 1
+    #     if i < j:
+    #         matrix[[i, j], :] = matrix[[j, i], :]
+    botnz = m - 1
     for i in range(m):
         if np.all(matrix[i, :n] == 0) == True:
-            continue
+            j = botnz
+            while(j > i and np.all(matrix[j, :n] == 0) == True):
+                j -= 1
+            if j > i: 
+                matrix[[i, j], :] = matrix[[j, i], :]
+                botnz = j - 1
         # swap the pivot col to the diagonal line
         if matrix[i, i] == 0:
             for j in range(i + 1, n):
@@ -141,30 +155,40 @@ def gaussian_elimination(matrix):
                     #col_swaps[n + i], col_swaps[n + j] = col_swaps[n + j], col_swaps[n + i]
                     break
 
-        
+        # print(matrix[i,:n]) 
+        # print(matrix[i+1,:n])           
         for j in range(i + 1, m):
             if matrix[j, i] == 1:
                 matrix[j, :] ^= matrix[i, :]
+        
+        # print(matrix[i + 1,:n])
 
-    i, j = 0, m - 1
-    while(i < j):
-        while(np.all(matrix[i, :n] == 0) == False):
-            i += 1
-        while(np.all(matrix[j,:n] == 0) == True):
-            j -= 1
-        if i < j:
-         matrix[[i, j], :] = matrix[[j, i], :]
+    # i, j = 0, m - 1
+    # while(i < j):
+    #     while(np.all(matrix[i, :n] == 0) == False):
+    #         i += 1
+    #     while(np.all(matrix[j,:n] == 0) == True):
+    #         j -= 1
+    #     if i < j:
+    #      matrix[[i, j], :] = matrix[[j, i], :]
 
     for i in range(r-1, -1, -1):
         for j in range(i):
             if matrix[j, i] == 1:
                 matrix[j, :] ^= matrix[i, :]
     
+
+    ### Gaussian elimination of G2, bottom right part
     #r2 = np.linalg.matrix_rank(matrix[r:, n+r:]) # Rank of G2
-    
+    botnz = m - 1
     for i in range(r, m):
         if np.all(matrix[i, n+r:] == 0) == True: 
-            continue
+            j = botnz
+            while(j > i and np.all(matrix[j, n+r:] == 0) == True):
+                j -= 1
+            if j > i:
+                matrix[[i, j], :] = matrix[[j, i], :]
+                botnz = j - 1
         if matrix[i, n + i] == 0:
             for j in range(i + 1, n):
                 if matrix[i, n + j] == 1:
@@ -176,14 +200,14 @@ def gaussian_elimination(matrix):
             if matrix[j, n + i] == 1:
                 matrix[j, :] ^= matrix[i, :]
 
-    i, j = r, m - 1
-    while(i < j):
-        while(np.all(matrix[i, n:] == 0) == False and i < j):
-            i += 1
-        while(np.all(matrix[j,n:] == 0) == True and i < j):
-            j -= 1
-        if i < j:
-         matrix[[i, j], :] = matrix[[j, i], :]
+    # i, j = r, m - 1
+    # while(i < j):
+    #     while(np.all(matrix[i, n:] == 0) == False and i < j):
+    #         i += 1
+    #     while(np.all(matrix[j,n:] == 0) == True and i < j):
+    #         j -= 1
+    #     if i < j:
+    #      matrix[[i, j], :] = matrix[[j, i], :]
     for i in range(m - 1, r - 1, -1):
         
         for j in range(r, i):
@@ -238,3 +262,6 @@ def stab_matrix_transformation(matrix, n):
     #                     break  # 按位异或消元
     return matrix
     
+
+if __name__ == '__main__':
+    pass

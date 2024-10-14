@@ -5,7 +5,7 @@ from collections import defaultdict
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
 ### Condition and program generation from check matrix ###
-def decode_cond_gen(H, n, k, dx, dz, alts):
+def decode_cond_gen(H, n, k, dx, dz, alts = 'verify'):
     cond_parts_x = []
     cond_parts_z = []
     max_err_x = int((dx - 1) // 2)
@@ -34,11 +34,14 @@ def decode_cond_gen(H, n, k, dx, dz, alts):
     # elif alts == 'test':
     #     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= sum i 1 {n} (ez_(i))")
     #     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= sum i 1 {n} (ex_(i))")
+    if alts == 'test-opt':
+        return ''.join(cond_parts_x)[:-2], ''.join(cond_parts_z)[: -2]
+
     
     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")
     return ''.join(cond_parts_x), ''.join(cond_parts_z)
-    # return ''.join(cond_parts_x)[:-2], ''.join(cond_parts_z)[: -2]
+    
     #cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= sum i 1 {n} (ez_(i))")
     #cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= sum i 1 {n} (ex_(i))")
     # return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)

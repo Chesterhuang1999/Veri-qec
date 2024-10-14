@@ -4,6 +4,7 @@ import math
 
 from dataclasses import dataclass
 import galois
+
 from linalg_GF import *
 from scipy.sparse import csr_matrix, csc_matrix, coo_matrix, kron
 
@@ -39,7 +40,6 @@ def stabs_Tanner(k, m, Ca, Cb):
     ng = len(G)
     na = len(A) 
     nb = len(B)
-    
     Cplx = [((g,(0,0)), (a*g, (0,1)),(a*g*b,(1,1)), (g*b, (1,0))) for g in G for a in A for b in B]
     nc = len(Cplx)
     Cplx_dict = dict([(Cplx[j], j) for j in range(nc)]) 
@@ -70,7 +70,6 @@ def stabs_Tanner(k, m, Ca, Cb):
                     Cplx_dict[((g*b.inv(),(0,0)),(a*g*b.inv(),(0,1)),(a*g, (1,1)),(g,(1,0)))]
                 )
     
-    
     IX = (IgX) * nc + IcX
    
     JX = (IaX) * nb + IbX
@@ -84,24 +83,27 @@ def stabs_Tanner(k, m, Ca, Cb):
     HZt = coo_matrix((VZ, (IZ, JZ)), shape = (nc * 2 * ng, na * nb))
     HXt = HXt.toarray()
     HZt = HZt.toarray()
-   
+ 
     HXt = np.reshape(HXt @ kron(Ca.T, Cb.T), (nc, -1), order = 'F')
     HZt = np.reshape(HZt @ kron(Cat.T, Cbt.T), (nc, -1), order = "F")
 
     HXt = HXt.T
     HZt = HZt.T
     n1, n2 = HXt.shape ## n2 is number of physical qubits, n1 is number of stabilizers
+    # print(n1, n2)
     matrix = np.zeros((2*n1, 2*n2), dtype = int)
-    print(gf2_matrix_rank(HXt), gf2_matrix_rank(HZt))
     matrix[:n1, :n2] = HXt
     matrix[n1:, n2:] = HZt
     matrix = stab_matrix_transformation(matrix, n2)
-    k = n2 - 2 * n1
+    k = n2 - matrix.shape[0]
+    
     rank = np.linalg.matrix_rank(matrix[:n1, :n2])
+
     log_Z, log_X = logical_op_gen(matrix, rank, n2, k)
+    stabs_mat = np.concatenate((matrix, log_X, log_Z), axis = 0)    
     x_stabs_mat = np.concatenate((matrix, log_X), axis = 0)
     z_stabs_mat = np.concatenate((matrix, log_Z), axis = 0)
-    return x_stabs_mat, z_stabs_mat
+    return stabs_mat
 
 Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0]
                    ,[1, 0, 1, 1, 0, 1, 0],
@@ -111,6 +113,15 @@ Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0],
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
 
+Rep51 = np.array([[1, 1, 0, 0, 0],
+                  [1, 0, 1, 0, 0],
+                  [1, 0, 0, 1, 0],
+                  [1, 0, 0, 0, 1]])
+Par54 = np.array([[1, 1, 1, 1, 1]])
+
+Rep31 = np.array([[1, 1, 0],
+                  [1, 0, 1]])
+Par32 = np.array([[1, 1, 1]])
 #Rm13, _, _ = stabs_Reed_Muller(3)
 
 
@@ -142,9 +153,10 @@ def stabs_hyp_prod(C1, C2):
     K = k1*k2 + k1t*k2t
     rank = gf2_matrix_rank(HX)
     log_Z, log_X = logical_op_gen(matrix, rank, N, K) 
-    x_stabs_mat = np.concatenate(matrix, log_X, axis = 0)
-    z_stabs_mat = np.concatenate(matrix, log_Z, axis = 0)
-    return x_stabs_mat, z_stabs_mat
+    stabs_mat = np.concatenate((matrix, log_X, log_Z), axis = 0)
+    # x_stabs_mat = np.concatenate(matrix, log_X, axis = 0)
+    # z_stabs_mat = np.concatenate(matrix, log_Z, axis = 0)
+    return stabs_mat
 
 classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
                         [0, 1, 1 ,0, 1, 0, 0],
@@ -153,9 +165,10 @@ classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
                         [1, 0, 0, 0, 1, 1, 0],
                         [0, 1, 0, 0, 0, 1, 1],
                         [1, 0, 1, 0, 0, 0, 1]], dtype = int)
-HX, HZ = stabs_hyp_prod(classical734, classical734)
+# HX, HZ = stabs_hyp_prod(classical734, classical734)
 
-
+if __name__ == '__main__':
+    stabs_mat = stabs_Tanner(1, 1, Rep31, Par32)
 ## Subsystem codes (not a stabilizer code, incompatible with current codes )
 # def stabs_subsystem(HX1, HZ1, HX2, HZ2):
 #     mx1, nx1 = HX1.shape

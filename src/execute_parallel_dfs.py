@@ -1,7 +1,7 @@
 import time
 import math
 from multiprocessing import Pool
-from surface_code_partition_merge import *
+from smt_partition_merge import *
 from timebudget import timebudget
 import datetime
 import tblib.pickling_support
@@ -185,7 +185,7 @@ def analysis_task(task_id: int, task: list):
     return [task_id, task, info]
 
 @timebudget 
-def cond_checker(mat, max_proc_num):
+def cond_checker(matrix, distance, max_proc_num, is_sym = False):
     global task_info
     global packed_x
     global packed_z
@@ -194,48 +194,34 @@ def cond_checker(mat, max_proc_num):
     global max_process_num
     global err_info
     global last_print
-@timebudget
-def sur_cond_checker(distance, max_proc_num):
-    global task_info
-    global packed_x
-    global packed_z
-    global total_job
-    global start_time
-    global max_process_num
-    global err_info
-    global last_print
-    
+
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
-    #cond_x, cond_z = cond_generator(distance)
-    tg = subtask_generator(distance, max_proc_num)
-    tasks = tg()
+    numq = matrix.shape[1] // 2
+
+    tg = subtask_generator(distance, numq, max_proc_num)
+    tasks = tg() 
     print("Task generated. Start checking.")
     total_job = len(tasks)
     print(f"total_job: {total_job}")
 
     task_info = []
     err_info = []
-    packed_x, packed_z = cond_generator(distance)
+    packed_x, packed_z = cond_generator(matrix, distance, is_sym)
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks):
-            # res = pool.apply_async(worker, (distance, task,))
             task_info.append(analysis_task(i, task))
-            # result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
             result_objects.append(pool.apply_async(worker, (i, task,), callback=process_callback, error_callback=process_error))
-            # print(res.get())
             # if (i % 50 == 0):
                 #print(i, task)
         pool.close()
-        #[res.wait() for res in result_objects]
         [res.wait() for res in result_objects]
         pool.join()
     
     for i, ei in enumerate(err_info):
         ei.re_raise()
- 
 
     # with open('unsorted_results.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
@@ -243,21 +229,85 @@ def sur_cond_checker(distance, max_proc_num):
     #         f.write(f'{ti[1]}\n')
     #         f.write(f'{" | ".join(ti[2])}\n')
 
-    # print(len(task_info))
-    # # print(task_info[1])
-    # task_info.sort(key=lambda x: x[-1])
+    task_info.sort(key=lambda x: x[-1])
 
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
+    with open('sorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
+
+
+
+def sur_cond_checker(distance, max_proc_num):
+    matrix = surface_matrix_gen(distance)
+    cond_checker(matrix, distance, max_proc_num, is_sym = True)
+# @timebudget
+# def sur_cond_checker(distance, max_proc_num):
+#     global task_info
+#     global packed_x
+#     global packed_z
+#     global total_job
+#     global start_time
+#     global max_process_num
+#     global err_info
+#     global last_print
+    
+#     max_process_num = max_proc_num
+#     start_time = time.time()
+#     last_print = start_time
+#     #cond_x, cond_z = cond_generator(distance)
+#     tg = subtask_generator(distance, max_proc_num)
+#     tasks = tg()
+#     print("Task generated. Start checking.")
+#     total_job = len(tasks)
+#     print(f"total_job: {total_job}")
+
+#     task_info = []
+#     err_info = []
+#     packed_x, packed_z = cond_generator(distance)
+#     with Pool(processes = max_proc_num) as pool:
+#         result_objects = []
+#         for i, task in enumerate(tasks):
+#             # res = pool.apply_async(worker, (distance, task,))
+#             task_info.append(analysis_task(i, task))
+#             # result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
+#             result_objects.append(pool.apply_async(worker, (i, task,), callback=process_callback, error_callback=process_error))
+#             # print(res.get())
+#             # if (i % 50 == 0):
+#                 #print(i, task)
+#         pool.close()
+#         #[res.wait() for res in result_objects]
+#         [res.wait() for res in result_objects]
+#         pool.join()
+    
+#     for i, ei in enumerate(err_info):
+#         ei.re_raise()
+ 
+
+#     # with open('unsorted_results.txt', 'w') as f:
+#     #     for i, ti in enumerate(task_info):
+#     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+#     #         f.write(f'{ti[1]}\n')
+#     #         f.write(f'{" | ".join(ti[2])}\n')
+
+#     # print(len(task_info))
+#     # # print(task_info[1])
+#     # task_info.sort(key=lambda x: x[-1])
+
+#     # with open('sorted_results.txt', 'w') as f:
+#     #     for i, ti in enumerate(task_info):
+#     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+#     #         f.write(f'{ti[1]}\n')
+#     #         f.write(f'{" | ".join(ti[2])}\n')
 
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
-    distance = 9
-    max_proc_num = 256
+    distance = 5
+    max_proc_num = 1
+    matrix = surface_matrix_gen(distance)
+    cond_checker(matrix, distance, max_proc_num)
     # global cond_x
     # global cond_z
     # cond_x = defaultdict(tuple)
@@ -270,4 +320,4 @@ if __name__ == "__main__":
     #     t2 = time.time()
     #     print(t2 - t1)
     
-    sur_cond_checker(distance, max_proc_num)    
+    # sur_cond_checker(distance, max_proc_num)    

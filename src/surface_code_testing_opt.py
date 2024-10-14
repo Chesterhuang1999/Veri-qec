@@ -149,7 +149,7 @@ def formulagen_testing(distance):
     postcond_x, postcond_z = precond_x, precond_z
 
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test')
+    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test-opt')
     sum_x = f"sum i 1 {num_qubits} (cz_(i))"
     sum_z = f"sum i 1 {num_qubits} (cx_(i))"
     packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, sum_x, bit_width)
