@@ -11,7 +11,6 @@ import sys
 from timebudget import timebudget
 import matplotlib.pyplot as plt
 ## import customized functions
-
 from verifier import precond_generator
 from encoder import tree_to_z3, VCgeneration
 from condition import *
@@ -29,32 +28,47 @@ class ExceptionWrapper(object):
 
 
 
-def smtencoding_testing(precond, program, postcond, decoder_cond, bit_width):
+def smtencoding_testing(precond, program, postcond, decoder_cond, sum_cond, bit_width):
     variables = {}
     constraints = []
     # const_errors_to_z3(err_vals_tree.children[0], variables)
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-
-    decoder_tree, _, _ = precond_generator('skip', decoder_cond, 'true')
-    decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True)
+    childs = cass_expr.children()
+    logic_expr_list = []
+    cass_expr_list = []
+    for child in childs:
+        name = child.children()[0].sexpr().split('_')[0]
+        if name == 's':
+            cass_expr_list.append(child)
+        else:
+            logic_expr_list.append(child)
+    cass_expr = And(*cass_expr_list)
+    if len(logic_expr_list) > 1:
+        logic_expr = And(*logic_expr_list)
+    else: 
+        logic_expr = logic_expr_list[0]    
+    decoder_tree, _, sum_tree = precond_generator('skip', decoder_cond, sum_cond)
+    decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, [], False)
     decoder_expr = simplify(decoder_expr)
-
+    var_corr = {}
+    sum_expr = tree_to_z3(sum_tree.children[0], var_corr, bit_width, [], False)
     decoding_formula = And(cass_expr, decoder_expr)
     decoding_formula = simplify(decoding_formula)
     # print(decoding_formula)
-    substitution = And(*constraints)
-    formula = And(substitution, decoding_formula)
-    return formula, variables
-def constrep_testing(expr, variables, consts):
+    # substitution = And(*constraints)
+    # formula = And(substitution, decoding_formula)
+    return decoding_formula, logic_expr, sum_expr, variables, var_corr
+def constrep_testing(expr, logic, variables, consts):
     
     replace = []
     for i in consts.keys():
         replace.append((variables[i], consts[i]))
     formula_to_check = simplify(substitute(expr, replace))
+    logic = simplify(substitute(logic, replace))
     # print(formula_to_check)
-    return formula_to_check
+    return formula_to_check, logic
 
 ## Try use bitwuzla
 def smtchecking_testing(formula):
@@ -104,6 +118,26 @@ def smtchecking_testing(formula):
         return r
 
     return r
+
+def smtchecking_opt(formula, logic_expr, sum_expr, var_corr):
+    s = z3.Optimize()
+    s.add(formula)
+    s.minimize(sum_expr)
+    r = s.check()
+    if r == sat:
+        m = s.model()
+        replace = []
+        for v in var_corr.values():
+            # print(m[v])
+            replace.append((v, m[v]))
+    # print(replace)    
+    # print(logic_expr)
+    result = simplify(substitute(logic_expr, replace))
+    # print(result)
+    return result
+
+
+
 def formulagen_testing(distance):
     num_qubits = distance**2
     # max_errors = (distance - 1) // 2
@@ -116,9 +150,10 @@ def formulagen_testing(distance):
 
     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test')
-    
-    packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, bit_width)
-    packed_z = smtencoding_testing(precond_z, program_z, postcond_z, decoder_cond_z, bit_width)
+    sum_x = f"sum i 1 {num_qubits} (cz_(i))"
+    sum_z = f"sum i 1 {num_qubits} (cx_(i))"
+    packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, sum_x, bit_width)
+    packed_z = smtencoding_testing(precond_z, program_z, postcond_z, decoder_cond_z, sum_z, bit_width)
 
     return packed_x, packed_z
 def seq_cond_checker_testing(packed_x, packed_z, err_vals):
@@ -128,15 +163,18 @@ def seq_cond_checker_testing(packed_x, packed_z, err_vals):
         consts_x[f'ez_{(i+1)}'] = BitVecVal(ei,1)
         consts_z[f'ex_{(i+1)}'] = BitVecVal(ei,1)
     
-    expr_x, variables_x = packed_x
-    expr_z, variables_z = packed_z
+    expr_x, logic_x, sum_x, variables_x, var_corr_x = packed_x
+    expr_z, logic_z, sum_z, variables_z, var_corr_z = packed_z
 
-    formula_x = constrep_testing(expr_x, variables_x, consts_x)
-    formula_z = constrep_testing(expr_z, variables_z, consts_z)
+    formula_x, logic_x = constrep_testing(expr_x, logic_x, variables_x, consts_x)
+    formula_z, logic_z = constrep_testing(expr_z, logic_z, variables_z, consts_z)
+    # print(formula_x, logic_x)
     #print(formula_z)
     t3 = time.time()
-    result_x = smtchecking_testing(formula_x)
-    result_z = smtchecking_testing(formula_z)
+    # result_x = smtchecking_testing(formula_x)
+    # result_z = smtchecking_testing(formula_z)
+    result_x = smtchecking_opt(formula_x, logic_x, sum_x, var_corr_x)
+    result_z = smtchecking_opt(formula_z, logic_z, sum_z, var_corr_z)
     t4 = time.time()
     return t4 - t3, result_x, result_z 
 
@@ -147,9 +185,9 @@ def worker(task_id, err_vals):
         smttime, resx, resz = seq_cond_checker_testing(packed_x, packed_z, err_vals)
         pos = np.where(err_vals == 1)[0]
         # print(resx, resz, len(pos), pos)
-        with open('Details/surface_code_testing-55.txt', 'a') as f:
-            f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos} | time: {smttime}\n')
-            f.write(f'result_x: {resx} | result_z: {resz}\n')
+        # with open('Details/surface_code_testing-11.txt', 'a') as f:
+        #     f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos} | time: {smttime}\n')
+        #     f.write(f'result_x: {resx} | result_z: {resz}\n')
         # print(resx, resz)
         end = time.time()
         cost = end - start
@@ -288,8 +326,6 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
     err_info = []
     # corr_info = defaultdict(list)
     packed_x, packed_z = formulagen_testing(distance)
-    end_gen = time.time()
-    print(f"Generation time: {end_gen - start}")
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks):
@@ -322,13 +358,13 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
 
     # print(len(task_info))
     # # print(task_info[1])
-    # task_info.sort(key=lambda x: x[-1])
+    task_info.sort(key=lambda x: x[-1])
 
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
+    with open('sorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
     end = time.time()
 
     
@@ -349,7 +385,7 @@ if __name__ == "__main__":
     # runtime = []
     # x = [4 * i + 1 for i in range(1, 10)]
     # for i in range(1, 10):
-    distance = 55
+    distance = 13
     max_sample_num = 500
     max_proc_num = 250
     timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)

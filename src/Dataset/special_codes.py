@@ -4,7 +4,7 @@ from scipy.linalg import lu
 from scipy.sparse import csc_matrix, block_diag, kron, eye
 import math
 import galois
-import time
+# import time
 from collections import defaultdict
 from linalg_GF import *
 
@@ -18,14 +18,19 @@ def stabs_steane():
     css_1 = np.array([[1, 0, 1, 0, 1, 0, 1],[0, 1, 1, 0, 0, 1, 1],[0, 0, 0, 1, 1, 1, 1]])
     matrix[0:3, 0:n] = css_1    
     matrix[3:, n:] = css_1
-    x_stabs = np.zeros((n, 2*n), dtype = int)
-    z_stabs = np.zeros((n, 2*n), dtype = int)
-    x_stabs[0:n, :] = matrix
-    z_stabs[0:n, :] = matrix
+    stabs = np.zeros((n+1, 2*n), dtype = int)
+
+    # x_stabs = np.zeros((n, 2*n), dtype = int)
+    # z_stabs = np.zeros((n, 2*n), dtype = int)
+    # x_stabs[0:n, :] = matrix
+    # z_stabs[0:n, :] = matrix
     logs = np.array([[1, 1, 1, 1, 1, 1, 1]])
-    x_stabs[n, 0:n] = logs
-    z_stabs[n, n:] = logs
-    return x_stabs, z_stabs
+    stabs[0:n - 1, :] = matrix
+    stabs[n - 1, 0:n] = logs
+    stabs[n, n:] = logs
+    # x_stabs[n, 0:n] = logs
+    # z_stabs[n, n:] = logs
+    return stabs
 
 ## [[2^r, 2^r - r- 2, 3]] Goettsman code
 def stabs_goettsman(m):
@@ -33,8 +38,9 @@ def stabs_goettsman(m):
     k = n - m - 2
     d = 3
     matrix = np.zeros((n - k, 2*n), dtype = int)
-    x_stabs_matrix = np.zeros((n, 2*n), dtype = int) 
-    z_stabs_matrix = np.zeros((n, 2*n), dtype = int)
+    # x_stabs_matrix = np.zeros((n, 2*n), dtype = int) 
+    # z_stabs_matrix = np.zeros((n, 2*n), dtype = int)
+    stabs_matrix = np.zeros((n + k, 2*n), dtype = int)
     for i in range(n):
         matrix[0][i] = 1
         matrix[1][i + n] = 1
@@ -64,8 +70,13 @@ def stabs_goettsman(m):
 
     matrix[[1, m+1]] = matrix[[m+1, 1]]
     rank = np.linalg.matrix_rank(matrix[:, :n])
-    x_stabs_matrix, z_stabs_matrix = stab_matrix_transformation(matrix, rank, n, k, d)
-    return x_stabs_matrix, z_stabs_matrix
+    logs_Z, logs_X = logical_op_gen(matrix, rank, n, k)
+    stabs_matrix[0:n - k, :] = matrix
+    stabs_matrix[n - k:n, 0:n] = logs_X
+    stabs_matrix[n:n + k, n:] = logs_Z
+    # x_stabs_matrix, z_stabs_matrix = stab_matrix_transformation(matrix, rank, n, k, d)
+    # return x_stabs_matrix, z_stabs_matrix
+    return stabs_matrix
 ## [[6, 1, 3]] stabilizer code
 def stabs_613():
     matrix = np.zeros((5,12), dtype = int)
@@ -75,14 +86,17 @@ def stabs_613():
     matrix[3] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
     matrix[4] = [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0]
 
-    x_stabs_mat = np.zeros((6, 12), dtype = int)    
-    z_stabs_mat = np.zeros((6, 12), dtype = int)
-    x_stabs_mat[0:5, :] = matrix
-    z_stabs_mat[0:5, :] = matrix
-    x_stabs_mat[5] = [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]
-    z_stabs_mat[5] = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
-
-    return x_stabs_mat, z_stabs_mat
+    # x_stabs_mat = np.zeros((6, 12), dtype = int)    
+    # z_stabs_mat = np.zeros((6, 12), dtype = int)
+    # x_stabs_mat[0:5, :] = matrix
+    # z_stabs_mat[0:5, :] = matrix
+    stabs_mat = np.zeros((7, 12), dtype = int)
+    # x_stabs_mat[5] = [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+    # z_stabs_mat[5] = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+    stabs_mat[0:5, :] = matrix
+    stabs_mat[5] = [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+    stabs_mat[6] = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+    return stabs_mat
 ## [[11, 1, 5]] stabilizer code
 def stabs_1115():
     matrix = np.zeros((10, 22), dtype = int)
@@ -114,15 +128,19 @@ def stabs_1115():
         for j in x_nonz[i]:
             matrix[i][j] = 1
     
-    x_stabs_mat = np.zeros((11, 22), dtype = int) 
-    z_stabs_mat = np.zeros((11, 22), dtype = int)
-    x_stabs_mat[0:10, :] = matrix
-    z_stabs_mat[0:10, :] = matrix
-    
+    # x_stabs_mat = np.zeros((11, 22), dtype = int) 
+    # z_stabs_mat = np.zeros((11, 22), dtype = int)
+    # x_stabs_mat[0:10, :] = matrix
+    # z_stabs_mat[0:10, :] = matrix
+    stabs = np.zeros((12, 22), dtype = int)
+    stabs[0:10, :] = matrix
+
     for i in range(6, 11):
-        x_stabs_mat[10, i] = 1
-        z_stabs_mat[10, i + 11] = 1
-    return x_stabs_mat, z_stabs_mat
+        # x_stabs_mat[10, i] = 1
+        # z_stabs_mat[10, i + 11] = 1
+        stabs[10, i] = 1    
+        stabs[11, i + 11] = 1
+    return stabs
 
 ## Brown-Fawzi random circuit code
 def Brown_Fawzi(n, k, d):
@@ -165,14 +183,18 @@ def stabs_Reed_Muller(m):
     rank = np.linalg.matrix_rank(matrix[:, :n])
     matrix = stab_matrix_transformation(matrix, n)
 
-  
-    x_stabs_mat[n - 1, 0:n] = np.ones((1, n), dtype = int)
-    z_stabs_mat[n - 1, n:] = np.ones((1, n), dtype = int)
+    stabs_mat = np.zeros((n + 1, 2*n), dtype = int)
+    stabs_mat[0:n - 1, :] = matrix
+    stabs_mat[n - 1, 0:n] = np.ones((1, n), dtype = int)
+    stabs_mat[n, n:] = np.ones((1, n), dtype = int)
+    # x_stabs_mat[n - 1, 0:n] = np.ones((1, n), dtype = int)
+    # z_stabs_mat[n - 1, n:] = np.ones((1, n), dtype = int)
     
     #gadget = gadget[1:, 1:]
     
 
-    return classical_RM, x_stabs_mat, z_stabs_mat
+    # return classical_RM, x_stabs_mat, z_stabs_mat
+    return classical_RM, stabs_mat
 
 #RM, X, Z = stabs_Reed_Muller(3)
 
@@ -180,5 +202,52 @@ def stabs_Reed_Muller(m):
 
 def stabs_XZZX(dx, dz):
     numq = dx * dz
-    stabs_mat = np.zeros((numq + 1, 2 * numq), dtype = int)
-    for i in range()
+    stabs = np.zeros((numq + 1, 2 * numq), dtype = int)
+    cnt = 0
+    for i in range(dx - 1):
+        for j in range(dz - 1):
+            base = i * dz + j
+            stabs[cnt][base] = 1
+            stabs[cnt][base + 1 + numq] = 1
+            stabs[cnt][base + dz + numq] = 1
+            stabs[cnt][base + dz + 1] = 1
+            cnt += 1
+    ex_max = (dx - 1) // 2
+    ez_max = (dz - 1) // 2
+    for i in range(ez_max):
+        stabs[cnt][2 * i + 1 + numq] = 1
+        stabs[cnt][2 * i + 2] = 1
+        cnt += 1
+        bottom = (dz - 1) * dx
+        stabs[cnt][bottom + 2 * i] = 1
+        stabs[cnt][bottom + 2 * i + 1 + numq] = 1
+        cnt += 1
+    for i in range(ex_max):
+        stabs[cnt][2 * i * dz + numq] = 1
+        stabs[cnt][(2 * i + 1) * dz] = 1
+        cnt += 1
+        stabs[cnt][(dz - 1) + (2 * i + 1) * dz] = 1
+        stabs[cnt][(dz - 1) + (2 * i + 2) * dz + numq] = 1
+        cnt += 1
+    
+    for i in range(dz):
+        if i % 2 == 0:
+            stabs[cnt][i] = 1
+        else:
+            stabs[cnt][i + numq] = 1
+    
+    cnt += 1
+    
+    for i in range(dx):
+        if i % 2 == 0:
+            stabs[cnt][i * dz + numq] = 1
+        else:
+            stabs[cnt][i * dz] = 1
+
+    return stabs
+        
+
+
+if __name__ == "__main__":  
+    stabs_mat = stabs_XZZX(3, 3)
+    print(stabs_mat)

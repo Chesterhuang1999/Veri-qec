@@ -7,6 +7,9 @@ import datetime
 import tblib.pickling_support
 import sys
 
+##Import special codes
+from Dataset import special_codes
+
 class ExceptionWrapper(object):
     def __init__(self, ee):
         self.ee = ee
@@ -46,11 +49,12 @@ def estimate_difficulty(remained_qubits, remained_ones):
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, max_proc_num) -> None:
+    def __init__(self, distance, numq, max_proc_num) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
         
-        self.num_qubits = distance ** 2
+        # self.num_qubits = distance ** 2
+        self.num_qubits = numq
         self.tasks = []
         
         # self.one_num_thres = distance // 2
@@ -75,8 +79,6 @@ class subtask_generator:
         if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
             return False
         
-        # if self.num_qubits - remained_qubit_num < self.assigned_bit_thres:
-        #     return False
         
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
@@ -182,6 +184,16 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
+@timebudget 
+def cond_checker(mat, max_proc_num):
+    global task_info
+    global packed_x
+    global packed_z
+    global total_job
+    global start_time
+    global max_process_num
+    global err_info
+    global last_print
 @timebudget
 def sur_cond_checker(distance, max_proc_num):
     global task_info
@@ -202,15 +214,7 @@ def sur_cond_checker(distance, max_proc_num):
     print("Task generated. Start checking.")
     total_job = len(tasks)
     print(f"total_job: {total_job}")
-    #//linxi debug
-    # cnt = 0
-    # for t in tasks:
-    #     cnt += 1
-    #     print(f'task-{cnt}: {t}')
-    # exit(0)
-    # worker(distance, tasks[0]i
-    # exit(0)
-    #//linxi debug
+
     task_info = []
     err_info = []
     packed_x, packed_z = cond_generator(distance)
@@ -231,12 +235,7 @@ def sur_cond_checker(distance, max_proc_num):
     
     for i, ei in enumerate(err_info):
         ei.re_raise()
-        # for task in tasks:
-        #     # res = pool.apply_async(worker, (distance, task,))
-        #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
-        #     # print(res.get())
-        # pool.close()
-        # pool.join()
+ 
 
     # with open('unsorted_results.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
