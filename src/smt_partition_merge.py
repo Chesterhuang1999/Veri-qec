@@ -150,16 +150,17 @@ def smtchecking(formula):
     return r
 def coord_to_index(x, y, distance):
     return x * distance + y
-def sym_gen(n):
+def sym_gen(dx, dz):
     groups = defaultdict(list)
-    mid = n // 2
-    for i in range(mid):
-        for j in range(n):
-            sind = coord_to_index(i, j, n)
-            groups[sind] = [sind, coord_to_index(n - 1 - i, n - 1 - j, n)]
-    for j in range(mid):
-        sind = coord_to_index(mid, j, n)
-        groups[sind] = [sind, coord_to_index(mid, n - 1 - j, n)]
+    midx = dx // 2
+    midz = dz // 2
+    for i in range(midx):
+        for j in range(dz):
+            sind = coord_to_index(i, j, dz)
+            groups[sind] = [sind, coord_to_index(dx - 1 - i, dz - 1 - j, dz)]
+    for j in range(midz):
+        sind = coord_to_index(midx, j, dz)
+        groups[sind] = [sind, coord_to_index(midx, dz - 1 - j, dz)]
     sym_x, sym_z = [], []
     for value in groups.values():
         k, l = value[0], value[1]
@@ -170,18 +171,19 @@ def sym_gen(n):
 
 
 
-def cond_generator(matrix, distance, is_sym = False):
+def cond_generator(matrix, dx, dz, is_sym = False):
     num_qubits = matrix.shape[1] // 2
-    max_errors = (distance - 1) // 2
+    ez_max = (dz - 1) // 2
+    ex_max = (dx - 1) // 2
     bit_width = int(math.log2(num_qubits)) + 1
     # surface_mat = surface_matrix_gen(distance)
     # precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1)
     precond_x, precond_z = stab_cond_gen(matrix, num_qubits, 1)
 
-    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {max_errors}"
-    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {max_errors}"
-    err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {distance - 1}"
-    err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {distance - 1}"
+    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {ex_max}"
+    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
+    err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {2 * ex_max}"
+    err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}"
     postcond_x, postcond_z = precond_x, precond_z
 
     # err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
@@ -193,11 +195,11 @@ def cond_generator(matrix, distance, is_sym = False):
     # program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     # decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'verify')
     program_x, program_z = program_gen(matrix, num_qubits, 1)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(matrix, num_qubits, 1, distance, distance, 'verify')
+    decoder_cond_x, decoder_cond_z = decode_cond_gen(matrix, num_qubits, 1, dx, dz, 'verify')
     # print(decoder_cond_x, decoder_cond_z)
     sym_x, sym_z = None, None
     if is_sym:
-        sym_x, sym_z = sym_gen(distance)
+        sym_x, sym_z = sym_gen(dx, dz)
     
     packed_x = smtencoding(bit_width, precond_x, program_x, postcond_x, 
                             err_cond_x, err_gt_x, 
@@ -208,6 +210,21 @@ def cond_generator(matrix, distance, is_sym = False):
     
     return packed_x, packed_z
 
+def seq_cond_checker_part(packed_expr, err_vals, opt):
+    t2 = time.time()
+    expr, variables, constraints = packed_expr
+    if opt == 'x':
+        err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    else:
+        err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    
+    err_val_exprs_str = ' && '.join(err_val_exprs)
+
+    formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
+    t3 = time.time()
+    result = smtchecking(formula)
+    t4 = time.time()
+    return t4 - t3, result
 
 def seq_cond_checker(packed_x, packed_z, err_vals):
     # precond_x, program_x, postcond_x, err_cond_x, err_gt_x, decoder_cond_x, sym_x = cond_x
@@ -245,8 +262,10 @@ def seq_cond_checker(packed_x, packed_z, err_vals):
 
 if __name__ == '__main__':
    
-    distance = 3
-    err_vals = [0, 0]
+    distance = 5
+    err_vals = [0, 0,0,0,0,0,0,0,0,0,0, 1]
+    matrix = surface_matrix_gen(distance)
     #print(err_vals)
-    packed_x, packed_z = cond_generator(matrix, distance, True)
-    print(seq_cond_checker(packed_x, packed_z, err_vals))
+    packed_x, packed_z = cond_generator(matrix, distance, distance, True)
+    print(seq_cond_checker_part(packed_x, err_vals, 'x'))
+    print(seq_cond_checker_part(packed_z, err_vals, 'z'))

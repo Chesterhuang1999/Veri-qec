@@ -9,6 +9,7 @@ import sys
 
 ##Import special codes
 from Dataset import special_codes
+from Dataset import qldpc_codes
 
 class ExceptionWrapper(object):
     def __init__(self, ee):
@@ -19,24 +20,25 @@ class ExceptionWrapper(object):
         raise self.ee.with_traceback(self.tb)
 
 
-def worker(task_id, err_vals):
+def worker(task_id, err_vals, opt):
     try:
+        # print(task_id)
         start = time.time()
         # packed_x = cond_x[distance]
         # packed_z = cond_z[distance]
         # cond_x, cond_z, bit_width = info
-        smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
+        # smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
+        if opt == 'x':
+            smttime, res = seq_cond_checker_part(packed_x, err_vals, opt)
+        else:
+            smttime, res = seq_cond_checker_part(packed_z, err_vals, opt)
         end = time.time()
         cost = end - start 
 
         return task_id, smttime
     except Exception as e:
         return task_id, ExceptionWrapper(e)
-    # if str(res) == 'unsat':
-    #     return end - start, err_vals
-    # # return end - start, res
-    # else:
-    #     return end - start
+
 
 def estimate_difficulty(remained_qubits, remained_ones):
     n = remained_qubits
@@ -185,7 +187,7 @@ def analysis_task(task_id: int, task: list):
     return [task_id, task, info]
 
 @timebudget 
-def cond_checker(matrix, distance, max_proc_num, is_sym = False):
+def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
     global packed_x
     global packed_z
@@ -199,23 +201,30 @@ def cond_checker(matrix, distance, max_proc_num, is_sym = False):
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
-
-    tg = subtask_generator(distance, numq, max_proc_num)
-    tasks = tg() 
+    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    tg_x = subtask_generator(dx, numq, max_proc_num)
+    tasks_x = tg_x() 
+    tg_z = subtask_generator(dz, numq, max_proc_num)
+    tasks_z = tg_z()
     print("Task generated. Start checking.")
-    total_job = len(tasks)
+    total_job = len(tasks_x) + len(tasks_z)
     print(f"total_job: {total_job}")
 
     task_info = []
     err_info = []
-    packed_x, packed_z = cond_generator(matrix, distance, is_sym)
+    
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
-        for i, task in enumerate(tasks):
+        for i, task in enumerate(tasks_x):
+            opt = 'x'
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, task,), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, task, opt), callback=process_callback, error_callback=process_error))
             # if (i % 50 == 0):
                 #print(i, task)
+        for i, task in enumerate(tasks_z):
+            opt = 'z'
+            task_info.append(analysis_task(i + len(tasks_x), task))
+            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), callback=process_callback, error_callback=process_error))
         pool.close()
         [res.wait() for res in result_objects]
         pool.join()
@@ -228,7 +237,8 @@ def cond_checker(matrix, distance, max_proc_num, is_sym = False):
     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
     #         f.write(f'{ti[1]}\n')
     #         f.write(f'{" | ".join(ti[2])}\n')
-
+    # for info in task_info:
+    #     print(info)
     task_info.sort(key=lambda x: x[-1])
 
     with open('sorted_results.txt', 'w') as f:
@@ -241,7 +251,7 @@ def cond_checker(matrix, distance, max_proc_num, is_sym = False):
 
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, max_proc_num, is_sym = True)
+    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
 # @timebudget
 # def sur_cond_checker(distance, max_proc_num):
 #     global task_info
@@ -304,20 +314,13 @@ def sur_cond_checker(distance, max_proc_num):
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
-    distance = 5
-    max_proc_num = 1
-    matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, max_proc_num)
-    # global cond_x
-    # global cond_z
-    # cond_x = defaultdict(tuple)
-    # cond_z = defaultdict(tuple)
-    
-    # for i in range(1, 5):
-    #     t1 = time.time()
-    #     n = 2 * i + 1
-    #     cond_x[n], cond_z[n] = cond_generator(n)
-    #     t2 = time.time()
-    #     print(t2 - t1)
-    
+    dx = 9
+    dz = 5
+    max_proc_num = 240
+    # matrix = surface_matrix_gen(dx)
+    # matrix = special_codes.stabs_Reed_Muller(4)[1]
+    # print(matrix)
+    sur_cond_checker(dx, max_proc_num)
+
+
     # sur_cond_checker(distance, max_proc_num)    

@@ -5,7 +5,7 @@ import math
 from dataclasses import dataclass
 import galois
 
-from linalg_GF import *
+from .linalg_GF import *
 from scipy.sparse import csr_matrix, csc_matrix, coo_matrix, kron
 
 

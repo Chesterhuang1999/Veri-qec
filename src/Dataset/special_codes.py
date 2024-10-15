@@ -6,7 +6,7 @@ import math
 import galois
 # import time
 from collections import defaultdict
-from linalg_GF import *
+from .linalg_GF import *
 
 ##### Stabilizer code check matrix generation #####
 
