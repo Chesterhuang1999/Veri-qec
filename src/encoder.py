@@ -12,6 +12,8 @@ def auto_complement(a, b):
         return ZeroExt(b.size() - a.size(), a), b
     else:
         return a, b
+
+
 #def tree_to_z3(tree, variables, bit_width, aux):
 #     if isinstance(tree, Token) and tree.type == 'NUMBER':
 #         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
@@ -192,7 +194,9 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     
 def VCgeneration(precond, program, postcond):
     pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
+    # print(post_tree)
     cass_transformer = qassertion2c(pre_tree)
+    # print(cass_tree)
     cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
     cass_tree = simplifyeq().transform(cass_tree)
     # cass_expr = tree_to_z3(cass_tree, {}, 1, [], False)

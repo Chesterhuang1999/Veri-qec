@@ -6,8 +6,9 @@ import math
 import galois
 # import time
 from collections import defaultdict
-from .linalg_GF import *
 
+# from .linalg_GF import *
+from Dataset.linalg_GF import *
 ##### Stabilizer code check matrix generation #####
 
 ## Steane code
@@ -40,7 +41,7 @@ def stabs_goettsman(m):
     matrix = np.zeros((n - k, 2*n), dtype = int)
     # x_stabs_matrix = np.zeros((n, 2*n), dtype = int) 
     # z_stabs_matrix = np.zeros((n, 2*n), dtype = int)
-    stabs_matrix = np.zeros((n + k, 2*n), dtype = int)
+    # stabs_matrix = np.zeros((n + k, 2*n), dtype = int)
     for i in range(n):
         matrix[0][i] = 1
         matrix[1][i + n] = 1
@@ -70,10 +71,12 @@ def stabs_goettsman(m):
 
     matrix[[1, m+1]] = matrix[[m+1, 1]]
     rank = np.linalg.matrix_rank(matrix[:, :n])
+    matrix = stab_matrix_transformation(matrix, n)
     logs_Z, logs_X = logical_op_gen(matrix, rank, n, k)
-    stabs_matrix[0:n - k, :] = matrix
-    stabs_matrix[n - k:n, 0:n] = logs_X
-    stabs_matrix[n:n + k, n:] = logs_Z
+    stabs_matrix = np.concatenate((matrix, logs_X, logs_Z), axis = 0)
+    # stabs_matrix[0:n - k, :] = matrix
+    # stabs_matrix[n - k:n, 0:n] = logs_X
+    # stabs_matrix[n:n + k, n:] = logs_Z
     # x_stabs_matrix, z_stabs_matrix = stab_matrix_transformation(matrix, rank, n, k, d)
     # return x_stabs_matrix, z_stabs_matrix
     return stabs_matrix
@@ -167,6 +170,7 @@ def stabs_Reed_Muller(m):
         gen_c1 = temp_mat
         i += 1 
     classical_RM = gen_c1
+    # print(classical_RM)
     gf = galois.GF(2)
     gen_c1_gf = gen_c1.view(gf)
     #print(isinstance(gen_c1_gf, galois.FieldArray))
@@ -181,7 +185,7 @@ def stabs_Reed_Muller(m):
     x_stabs_mat[:n - 1, :] = matrix
     z_stabs_mat[:n - 1, :] = matrix
     rank = np.linalg.matrix_rank(matrix[:, :n])
-    matrix = stab_matrix_transformation(matrix, n)
+    # matrix = stab_matrix_transformation(matrix, n)
 
     stabs_mat = np.zeros((n + 1, 2*n), dtype = int)
     stabs_mat[0:n - 1, :] = matrix
@@ -190,11 +194,10 @@ def stabs_Reed_Muller(m):
     # x_stabs_mat[n - 1, 0:n] = np.ones((1, n), dtype = int)
     # z_stabs_mat[n - 1, n:] = np.ones((1, n), dtype = int)
     
-    #gadget = gadget[1:, 1:]
     
 
     # return classical_RM, x_stabs_mat, z_stabs_mat
-    return classical_RM, stabs_mat
+    return stabs_mat
 
 #RM, X, Z = stabs_Reed_Muller(3)
 
@@ -218,9 +221,9 @@ def stabs_XZZX(dx, dz):
         stabs[cnt][2 * i + 1 + numq] = 1
         stabs[cnt][2 * i + 2] = 1
         cnt += 1
-        bottom = (dz - 1) * dx
+        bottom = (dx - 1) * dz
         stabs[cnt][bottom + 2 * i] = 1
-        stabs[cnt][bottom + 2 * i + 1 + numq] = 1
+        stabs[cnt][bottom + 2 * i+ 1 + numq] = 1
         cnt += 1
     for i in range(ex_max):
         stabs[cnt][2 * i * dz + numq] = 1
@@ -246,8 +249,67 @@ def stabs_XZZX(dx, dz):
 
     return stabs
         
+### Stabilizers that detect single qubit errors
 
+## 3D [[8,3,2]] color code, minimum 
+def stabs_832code():
+    matrix = np.zeros((11, 16), dtype = int)
+    matrix[0,:8] = np.ones((1, 8), dtype = int)
+    matrix[1,8:] = [1,1,1,1,0,0,0,0]
+    matrix[2,8:] = [1,1,0,0,1,1,0,0]
+    matrix[3,8:] = [1,0,1,0,1,0,1,0]
+    matrix[4,8:] = [0,0,0,0,1,1,1,1]
+    matrix[5,:8] = [1,1,1,1,0,0,0,0]
+    matrix[6,:8] = [1,1,0,0,1,1,0,0]
+    matrix[7,:8] = [1,0,1,0,1,0,1,0]
+    matrix[8,8:] = [1,0,0,0,1,0,0,0]
+    matrix[9,8:] = [1,0,1,0,0,0,0,0]
+    matrix[10,8:] = [1,1,0,0,0,0,0,0]
 
+    return matrix
+
+## [[3k+8, k, 2]] triorthogonal code
+def stabs_triotho(k):
+    assert k % 2 == 0
+    M = np.array([[1,1,1,1],
+                  [1,1,1,1]])
+    N = np.array([[1,1,1,0,0,0],
+                  [0,0,0,1,1,1]])
+    U = np.array([[0,1,0,1],
+                  [0,0,1,1],
+                  [1,1,1,1]])
+    V = np.array([[1,0,1,1,0,1],
+                  [0,1,1,0,1,1],
+                  [0,0,0,0,0,0]])
+    L = np.zeros((k, 3 * k + 8), dtype = int)
+    S = np.concatenate((U, U), axis = 1)
+
+    for i in range(k // 2):
+        S = np.concatenate((S, V), axis = 1)
+        L[2 * i: 2*i + 2, 4:8] = M
+        L[2 * i: 2*i + 2, 8 + 6 * i: 14 + 6 * i] = N
+    
+    G = np.concatenate((L, S), axis = 0)
+    
+    SO = np.zeros((3, 3 * k + 8), dtype = int)
+    SX = np.concatenate((S, SO), axis = 1)
+    O = np.zeros((k, 3 * k + 8), dtype = int)
+    LX = np.concatenate((L, O), axis = 1)
+    LZ = np.concatenate((O, L), axis = 1)
+
+    G_orth = find_null_space_GF2(G)
+
+    m, n = G_orth.shape
+    GO = np.zeros((m, n), dtype = int)
+    SZ = np.concatenate((GO, G_orth), axis = 1)
+    
+    matrix = np.concatenate((SX, SZ, LX, LZ), axis = 0)
+    
+    return matrix
+
+## [[6k+2, 3k, 2]] campbell-howard code
+def stabs_choward(k):
+    pass 
 if __name__ == "__main__":  
-    stabs_mat = stabs_XZZX(3, 3)
+    stabs_mat = stabs_Reed_Muller(3)
     print(stabs_mat)

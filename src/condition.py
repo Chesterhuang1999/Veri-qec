@@ -36,7 +36,6 @@ def decode_cond_gen(H, n, k, dx, dz, alts = 'verify'):
     #     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= sum i 1 {n} (ex_(i))")
     if alts == 'test-opt':
         return ''.join(cond_parts_x)[:-2], ''.join(cond_parts_z)[: -2]
-
     
     cond_parts_x.append(f"sum i 1 {n} (cz_(i)) <= Min(sum i 1 {n} (ez_(i)), {max_err_z})")
     cond_parts_z.append(f"sum i 1 {n} (cx_(i)) <= Min(sum i 1 {n} (ex_(i)), {max_err_x})")

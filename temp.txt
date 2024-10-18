@@ -1,5 +1,6 @@
 nohup: ignoring input
+343 12 19
+343
 Task generated. Start checking.
-total_job: 500
-Generation time: 5855.621138095856
-49102.39015
+total_job: 400
+520.1168053150177

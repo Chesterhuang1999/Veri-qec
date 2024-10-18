@@ -1,7 +1,10 @@
 import time
+import numpy as np
 import math
 from multiprocessing import Pool
-from smt_partition_merge import *
+# from smt_partition_merge import *
+from smt_detect_only import *
+
 from timebudget import timebudget
 import datetime
 import tblib.pickling_support
@@ -22,11 +25,10 @@ class ExceptionWrapper(object):
 
 def worker(task_id, err_vals, opt):
     try:
-        # print(task_id)
         start = time.time()
         # packed_x = cond_x[distance]
         # packed_z = cond_z[distance]
-        # cond_x, cond_z, bit_width = info
+       
         # smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
         if opt == 'x':
             smttime, res = seq_cond_checker_part(packed_x, err_vals, opt)
@@ -34,8 +36,11 @@ def worker(task_id, err_vals, opt):
             smttime, res = seq_cond_checker_part(packed_z, err_vals, opt)
         end = time.time()
         cost = end - start 
-
-        return task_id, smttime
+        # if str(res) != 'sat':
+        #     print(task_id)
+        #     print(err_vals)
+        #     print(res)
+        return task_id, smttime, str(res)
     except Exception as e:
         return task_id, ExceptionWrapper(e)
 
@@ -77,9 +82,15 @@ class subtask_generator:
         
         # if assigned_one_num < 2:
         #     return False
-        
-        if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+
+        ### For detection task ###
+
+        if assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
             return False
+
+        ### For verification task ###
+        # if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+        #     return False
         
         
         
@@ -156,8 +167,9 @@ def process_callback(result):
     global processed_job
     global last_print
     
-    task_id, time_cost = result
+    task_id, time_cost, res_smt = result
     task_info[task_id].append(time_cost)
+    task_info[task_id].append(res_smt)
     
     curr_time = time.time()
     processed_job += 1
@@ -202,12 +214,13 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     last_print = start_time
     numq = matrix.shape[1] // 2
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    tg_x = subtask_generator(dx, numq, max_proc_num)
+    tg_x = subtask_generator(dz, numq, max_proc_num)
     tasks_x = tg_x() 
-    tg_z = subtask_generator(dz, numq, max_proc_num)
+    tg_z = subtask_generator(dx, numq, max_proc_num)
     tasks_z = tg_z()
     print("Task generated. Start checking.")
     total_job = len(tasks_x) + len(tasks_z)
+    print(len(tasks_x))
     print(f"total_job: {total_job}")
 
     task_info = []
@@ -216,7 +229,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks_x):
-            opt = 'x'
+            opt = 'x'    
             task_info.append(analysis_task(i, task))
             result_objects.append(pool.apply_async(worker, (i, task, opt), callback=process_callback, error_callback=process_error))
             # if (i % 50 == 0):
@@ -234,16 +247,16 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
     # with open('unsorted_results.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]}| result: {ti[-1]}\n')
     #         f.write(f'{ti[1]}\n')
     #         f.write(f'{" | ".join(ti[2])}\n')
-    # for info in task_info:
-    #     print(info)
-    task_info.sort(key=lambda x: x[-1])
+    # # for info in task_info:
+    # #     print(info)
+    task_info.sort(key=lambda x: x[0])
 
     with open('sorted_results.txt', 'w') as f:
         for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
             f.write(f'{ti[1]}\n')
             f.write(f'{" | ".join(ti[2])}\n')
 
@@ -254,15 +267,6 @@ def sur_cond_checker(distance, max_proc_num):
     cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
 # @timebudget
 # def sur_cond_checker(distance, max_proc_num):
-#     global task_info
-#     global packed_x
-#     global packed_z
-#     global total_job
-#     global start_time
-#     global max_process_num
-#     global err_info
-#     global last_print
-    
 #     max_process_num = max_proc_num
 #     start_time = time.time()
 #     last_print = start_time
@@ -293,34 +297,28 @@ def sur_cond_checker(distance, max_proc_num):
     
 #     for i, ei in enumerate(err_info):
 #         ei.re_raise()
- 
-
-#     # with open('unsorted_results.txt', 'w') as f:
-#     #     for i, ti in enumerate(task_info):
-#     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-#     #         f.write(f'{ti[1]}\n')
-#     #         f.write(f'{" | ".join(ti[2])}\n')
-
-#     # print(len(task_info))
-#     # # print(task_info[1])
-#     # task_info.sort(key=lambda x: x[-1])
-
-#     # with open('sorted_results.txt', 'w') as f:
-#     #     for i, ti in enumerate(task_info):
-#     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
-#     #         f.write(f'{ti[1]}\n')
-#     #         f.write(f'{" | ".join(ti[2])}\n')
 
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
-    dx = 9
-    dz = 5
-    max_proc_num = 240
-    # matrix = surface_matrix_gen(dx)
-    # matrix = special_codes.stabs_Reed_Muller(4)[1]
+    # dx = 3
+    # dz = 3
+    max_proc_num = 20
+    classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
+                        [0, 1, 1 ,0, 1, 0, 0],
+                        [0, 0, 1, 1, 0, 1, 0],
+                        [0, 0, 0, 1, 1, 0, 1],
+                        [1, 0, 0, 0, 1, 1, 0],
+                        [0, 1, 0, 0, 0, 1, 1],
+                        [1, 0, 1, 0, 0, 0, 1]], dtype = int)
+    matrix = special_codes.stabs_triotho(6)
+    dx = 4
+    dz = 3
+    # matrix = surface_matrix_gen(3)
+    
     # print(matrix)
-    sur_cond_checker(dx, max_proc_num)
+    cond_checker(matrix, dx, dz, max_proc_num)
+    # sur_cond_checker(dx, max_proc_num)
 
 
     # sur_cond_checker(distance, max_proc_num)    

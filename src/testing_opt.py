@@ -9,12 +9,12 @@ from multiprocessing import Pool
 import tblib.pickling_support
 import sys
 from timebudget import timebudget
-import matplotlib.pyplot as plt
+
 ## import customized functions
 from verifier import precond_generator
 from encoder import tree_to_z3, VCgeneration
 from condition import *
-
+from Dataset import qldpc_codes, linalg_GF, special_codes
 sys.setrecursionlimit(1000000)
 
 ## Handling errors
@@ -30,7 +30,6 @@ class ExceptionWrapper(object):
 
 def smtencoding_testing(precond, program, postcond, decoder_cond, sum_cond, bit_width):
     variables = {}
-    constraints = []
     # const_errors_to_z3(err_vals_tree.children[0], variables)
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
@@ -127,67 +126,115 @@ def smtchecking_opt(formula, logic_expr, sum_expr, var_corr):
     if r == sat:
         m = s.model()
         replace = []
+        corr = []
         for v in var_corr.values():
             # print(m[v])
             replace.append((v, m[v]))
-    # print(replace)    
-    # print(logic_expr)
+            if m[v] == 1:
+                corr.append((v, m[v]))
+
     result = simplify(substitute(logic_expr, replace))
-    # print(result)
-    return result
+    if result == True:
+        return corr
+    else:
+        return result
+    # return result, corr
 
 
-
-def formulagen_testing(distance):
-    num_qubits = distance**2
-    # max_errors = (distance - 1) // 2
-    bit_width = int(math.log2(num_qubits)) + 1
-    # max_errors = (distance - 1) // 2 
-    surface_mat = surface_matrix_gen(distance)
-
-    precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1)
+def formulagen_testing(matrix, dx, dz):
+    num_qubits = matrix.shape[1] // 2
+    k = matrix.shape[0] - num_qubits
+    bit_width = int(math.log2(num_qubits)) + 1 
+    
+    precond_x, precond_z = stab_cond_gen(matrix, num_qubits, k)
     postcond_x, postcond_z = precond_x, precond_z
 
-    program_x, program_z = program_gen(surface_mat, num_qubits, 1)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test-opt')
+    program_x, program_z = program_gen(matrix, num_qubits, k)
+    decoder_cond_x, decoder_cond_z = decode_cond_gen(matrix, num_qubits, k, dx, dz, 'test-opt')
     sum_x = f"sum i 1 {num_qubits} (cz_(i))"
     sum_z = f"sum i 1 {num_qubits} (cx_(i))"
     packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, sum_x, bit_width)
     packed_z = smtencoding_testing(precond_z, program_z, postcond_z, decoder_cond_z, sum_z, bit_width)
 
     return packed_x, packed_z
-def seq_cond_checker_testing(packed_x, packed_z, err_vals):
-    consts_x = {}
-    consts_z = {}
-    for i, ei in enumerate(err_vals):
-        consts_x[f'ez_{(i+1)}'] = BitVecVal(ei,1)
-        consts_z[f'ex_{(i+1)}'] = BitVecVal(ei,1)
+# def formulagen_testing(distance):
+#     num_qubits = distance**2
+#     # max_errors = (distance - 1) // 2
+#     bit_width = int(math.log2(num_qubits)) + 1
+#     # max_errors = (distance - 1) // 2 
+#     surface_mat = surface_matrix_gen(distance)
+
+#     precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1)
+#     postcond_x, postcond_z = precond_x, precond_z
+
+#     program_x, program_z = program_gen(surface_mat, num_qubits, 1)
+#     decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test-opt')
+#     sum_x = f"sum i 1 {num_qubits} (cz_(i))"
+#     sum_z = f"sum i 1 {num_qubits} (cx_(i))"
+#     packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, sum_x, bit_width)
+#     packed_z = smtencoding_testing(precond_z, program_z, postcond_z, decoder_cond_z, sum_z, bit_width)
+
+#     return packed_x, packed_z
+# def seq_cond_checker_testing(packed_x, packed_z, err_vals):
+#     consts_x = {}
+#     consts_z = {}
+#     for i, ei in enumerate(err_vals):
+#         consts_x[f'ez_{(i+1)}'] = BitVecVal(ei,1)
+#         consts_z[f'ex_{(i+1)}'] = BitVecVal(ei,1)
     
-    expr_x, logic_x, sum_x, variables_x, var_corr_x = packed_x
-    expr_z, logic_z, sum_z, variables_z, var_corr_z = packed_z
+#     expr_x, logic_x, sum_x, variables_x, var_corr_x = packed_x
+#     expr_z, logic_z, sum_z, variables_z, var_corr_z = packed_z
 
-    formula_x, logic_x = constrep_testing(expr_x, logic_x, variables_x, consts_x)
-    formula_z, logic_z = constrep_testing(expr_z, logic_z, variables_z, consts_z)
-    # print(formula_x, logic_x)
-    #print(formula_z)
+#     formula_x, logic_x = constrep_testing(expr_x, logic_x, variables_x, consts_x)
+#     formula_z, logic_z = constrep_testing(expr_z, logic_z, variables_z, consts_z)
+#     # print(formula_x, logic_x)
+#     #print(formula_z)
+#     t3 = time.time()
+#     # result_x = smtchecking_testing(formula_x)
+#     # result_z = smtchecking_testing(formula_z)
+#     result_x = smtchecking_opt(formula_x, logic_x, sum_x, var_corr_x)
+#     result_z = smtchecking_opt(formula_z, logic_z, sum_z, var_corr_z)
+#     t4 = time.time()
+#     return t4 - t3, result_x, result_z 
+def seq_cond_checker_testing(packed_expr, err_vals, opt):
+    consts = {}
+
+    for i, ei in enumerate(err_vals):
+        if opt == 'x':
+            consts[f'ez_{(i+1)}'] = BitVecVal(ei,1)
+        else:
+            consts[f'ex_{(i+1)}'] = BitVecVal(ei,1)
+    
+    expr, logic, sum_expr, variables, var_corr = packed_expr
+ 
+
+    formula, logic = constrep_testing(expr, logic, variables, consts)
+    # formula_z, logic_z = constrep_testing(expr_z, logic_z, variables_z, consts_z)
+    # print(formula)
     t3 = time.time()
-    # result_x = smtchecking_testing(formula_x)
-    # result_z = smtchecking_testing(formula_z)
-    result_x = smtchecking_opt(formula_x, logic_x, sum_x, var_corr_x)
-    result_z = smtchecking_opt(formula_z, logic_z, sum_z, var_corr_z)
+ 
+    result = smtchecking_opt(formula, logic, sum_expr, var_corr)
+    # result_z = smtchecking_opt(formula_z, logic_z, sum_z, var_corr_z)
     t4 = time.time()
-    return t4 - t3, result_x, result_z 
+    return t4 - t3, result
 
 
-def worker(task_id, err_vals):
+
+def worker(task_id, err_vals, opt):
     try: 
         start = time.time()
-        smttime, resx, resz = seq_cond_checker_testing(packed_x, packed_z, err_vals)
+        
+        if opt == 'x':
+            smttime, res = seq_cond_checker_testing(packed_x, err_vals, opt)
+        else:
+            smttime, res = seq_cond_checker_testing(packed_z, err_vals, opt)
         pos = np.where(err_vals == 1)[0]
         # print(resx, resz, len(pos), pos)
-        # with open('Details/surface_code_testing-11.txt', 'a') as f:
-        #     f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos} | time: {smttime}\n')
-        #     f.write(f'result_x: {resx} | result_z: {resz}\n')
+        # print(pos, res)
+        # res = res[1] if res[0] == 'True' else res[0]
+        with open('Details/surface_code_testing_opt-Tanner.txt', 'a') as f:
+            f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos}\n')
+            f.write(f'error_type: {opt} | result: {res} \n')
         # print(resx, resz)
         end = time.time()
         cost = end - start
@@ -196,33 +243,36 @@ def worker(task_id, err_vals):
     except Exception as e:
         return task_id, ExceptionWrapper(e)
 ##Random generate samples for testing
-def random_sample(D):
-    length = D**2
-    max_ham_weight = D - 2
+def random_sample(N, D):
+    max_ham_weight = D - 1
     num_ones = np.random.randint(1, max_ham_weight + 1)
     
-    indices = np.random.choice(length, num_ones, replace = False)
+    indices = np.random.choice(N, num_ones, replace = False)
     # bin_arr = np.zeros(length, dtype = int)
     # bin_arr[indices] = 1
 
     return indices
-
-def task_generator(distance, max_sample_num):
+def random_sample_fixd(N, D):
+    
+    num_ones = (D - 1) // 2
+    indices = np.random.choice(N, num_ones, replace = False)
+    return indices
+def task_generator(numq, distance, max_sample_num):
     tasks = []
     cnt = 0 
     uniq_samples = set()
     while cnt < max_sample_num:
-        sample = random_sample(distance)
+        sample = random_sample_fixd(numq, distance)
         if tuple(sample) not in uniq_samples:
             uniq_samples.add(tuple(sample))
             cnt += 1
-            bin_arr = np.zeros(distance**2, dtype = int)
+            bin_arr = np.zeros(numq, dtype = int)
             bin_arr[sample] = 1
             tasks.append(bin_arr)
     
-
     return tasks
             
+
 
 processed_job = 0
 solved_job = 0
@@ -261,7 +311,7 @@ def process_callback(result):
     # print(result)
     global task_info
     global err_info
-    global corr_info
+
     if isinstance(result[1], ExceptionWrapper):
         task_id = result[0]
         print(task_info[task_id])
@@ -271,19 +321,18 @@ def process_callback(result):
     global last_print
     
     task_id, time_cost = result
-    # if len(resx) > 1 or len(resz) > 1:
-    #     corr_info[task_id] = [resx[1], resz[1]] ## print corrections 
+    
     task_info[task_id].append(time_cost)
-    # curr_time = time.time()
-    # processed_job += 1
-    # if curr_time - last_print > 10.0:
-    #     info = "{}/{}: finish job file[{}], cost_time: {}" \
-    #             .format(processed_job, total_job, task_id, time_cost)
-    #     print(info)
-    #     print(task_info[task_id])
-    #     print(get_current_infos())
-    #     sys.stdout.flush()
-    #     last_print = curr_time
+    curr_time = time.time()
+    processed_job += 1
+    if curr_time - last_print > 10.0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+        last_print = curr_time
     
 def process_error(error):
     print(f'error: {error}')
@@ -301,9 +350,8 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
-
-def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
-
+@timebudget
+def cond_checker_testing(matrix, dx, dz, max_sample_num, max_proc_num):
     global task_info
     global packed_x
     global packed_z
@@ -312,52 +360,49 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
     global max_process_num
     global err_info
     global last_print
-    start = time.time()
+    
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
-    #cond_x, cond_z = cond_generator(distance)
-    tasks = task_generator(distance, max_sample_num)
+    numq = matrix.shape[1] // 2
+    print(numq)
+    
+    tasks_x = task_generator(numq, dz, max_sample_num)
+    tasks_z = task_generator(numq, dx, max_sample_num)
     print("Task generated. Start checking.")
-    total_job = len(tasks)
-    print(f"total_job: {total_job}")
- 
+    print(f"total_job: {len(tasks_x) + len(tasks_z)}")
+    total_job = len(tasks_x) + len(tasks_z)
     task_info = []
     err_info = []
-    # corr_info = defaultdict(list)
-    packed_x, packed_z = formulagen_testing(distance)
+    packed_x, packed_z = formulagen_testing(matrix, dx, dz)
+    time_gen = time.time() - start_time
+    print(time_gen)
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
-        for i, task in enumerate(tasks):
-            # res = pool.apply_async(worker, (distance, task,))
+        for i, task in enumerate(tasks_x):
+            opt = 'x'
             task_info.append(analysis_task(i, task))
-            # result_objects.append(pool.apply_async(worker, (i, distance, task,), callback=process_callback, error_callback=process_error))
-            result_objects.append(pool.apply_async(worker, (i, task,), callback=process_callback, error_callback=process_error))
-            # print(res.get())
-            # if (i % 50 == 0):
-                #print(i, task)
+
+            result_objects.append(pool.apply_async(worker, (i, task, opt), callback=process_callback, error_callback=process_error))
+        
+        for i, task in enumerate(tasks_z):
+            xlen = len(tasks_x)
+            task_info.append(analysis_task(i + xlen, task))
+            result_objects.append(pool.apply_async(worker, (i + xlen, task, 'z'), callback=process_callback, error_callback=process_error))
+        
         pool.close()
-        #[res.wait() for res in result_objects]
         [res.wait() for res in result_objects]
         pool.join()
     
     for i, ei in enumerate(err_info):
         ei.re_raise()
-        # for task in tasks:
-        #     # res = pool.apply_async(worker, (distance, task,))
-        #     res = pool.apply_async(worker, (distance, task,), callback=process_callback)
-        #     # print(res.get())
-        # pool.close()
-        # pool.join()
 
     # with open('unsorted_results.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
     #         f.write(f'{ti[1]}\n')
     #         f.write(f'{" | ".join(ti[2])}\n')
-
-    # print(len(task_info))
-    # # print(task_info[1])
+   
     task_info.sort(key=lambda x: x[-1])
 
     with open('sorted_results.txt', 'w') as f:
@@ -365,32 +410,77 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
             f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
             f.write(f'{ti[1]}\n')
             f.write(f'{" | ".join(ti[2])}\n')
-    end = time.time()
+    # end = time.time()
 
     
     processed_job = 0
     unprocessed_job = 0
 
-    return round(end - start, 5)
-    # with open('corrections.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         if i in corr_info.keys():
-    #             f.write(f'rank: {i} | id: {ti[0]} |\n')  
-    #             f.write(f'{ti[1]}\n')
-    #             f.write(f'corrections:{corr_info[i]}\n')
+    # return round(end - start_time, 5)
 
+
+def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
+    matrix = surface_matrix_gen(distance)   
+    cond_checker_testing(matrix, distance, distance, max_sample_num, max_proc_num)
+
+    # # with open('unsorted_results.txt', 'w') as f:
+    # #     for i, ti in enumerate(task_info):
+    # #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    # #         f.write(f'{ti[1]}\n')
+    # #         f.write(f'{" | ".join(ti[2])}\n')
+
+    # # print(len(task_info))
+    # # # print(task_info[1])
+    # task_info.sort(key=lambda x: x[-1])
+
+    # with open('sorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
+    # end = time.time()
+
+    
+    # processed_job = 0
+    # unprocessed_job = 0
+
+    # return round(end - start, 5)
 
 if __name__ == "__main__": 
     tblib.pickling_support.install()
-    # runtime = []
-    # x = [4 * i + 1 for i in range(1, 10)]
-    # for i in range(1, 10):
-    distance = 13
-    max_sample_num = 500
-    max_proc_num = 250
-    timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
-    # runtime.append(timei)
-    print(timei)
+
+    distance = 20
+    max_sample_num = 200
+    max_proc_num = 240
+    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+                   [1, 0, 1, 1, 0, 1, 0],
+                   [0, 1, 1, 1, 0, 0, 1]])
+    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+                   [0, 1, 0, 0, 1, 0, 1],
+                   [0, 0, 1, 0, 0, 1, 1],
+                   [0 ,0, 0, 1, 1, 1, 1]])
+    Rep51 = np.array([[1, 1, 0, 0, 0],
+                  [1, 0, 1, 0, 0],
+                  [1, 0, 0, 1, 0],
+                  [1, 0, 0, 0, 1]])
+    Par54 = np.array([[1, 1, 1, 1, 1]])
+    Rep31 = np.array([[1, 1, 0],
+                  [1, 0, 1]])
+    Par32 = np.array([[1, 1, 1]])
+
+    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    matrix = special_codes.stabs_triotho(2)
+    # print(matrix)
+    # n = matrix.shape[1] // 2
+    # k = matrix.shape[0] - n
+    
+    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    # print(n, dx_max, dz_max)
+    # cond_checker_testing(matrix, dx_max, dz_max, max_sample_num, max_proc_num)
+
+    # sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+    
     # plt.plot(x, runtime, label = 'runtime')
     # plt.xlabel('distance')
     # plt.ylabel('runtime')

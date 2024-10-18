@@ -1,10 +1,10 @@
 
 *.pyc
-
+/src/Dataset/*.pyc
 /linxi-develop/
 /.vscode/
 __pycache__
-/src/Archive/
+/Archive/
 /src/Fig/
 /MISC/
 /Details/

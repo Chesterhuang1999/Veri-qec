@@ -97,8 +97,8 @@ def find_null_space_GF2(G):
     free_columns = [col for col in range(num_cols) if col not in pivot_columns]
 
 
-    print(pivot_columns)
-    print(free_columns)
+    # print(pivot_columns)
+    # print(free_columns)
     
    
     null_space_basis = []
@@ -177,7 +177,7 @@ def gaussian_elimination(matrix):
             if matrix[j, i] == 1:
                 matrix[j, :] ^= matrix[i, :]
     
-
+    
     ### Gaussian elimination of G2, bottom right part
     #r2 = np.linalg.matrix_rank(matrix[r:, n+r:]) # Rank of G2
     botnz = m - 1
@@ -200,6 +200,7 @@ def gaussian_elimination(matrix):
             if matrix[j, n + i] == 1:
                 matrix[j, :] ^= matrix[i, :]
 
+    
     # i, j = r, m - 1
     # while(i < j):
     #     while(np.all(matrix[i, n:] == 0) == False and i < j):
@@ -210,13 +211,14 @@ def gaussian_elimination(matrix):
     #      matrix[[i, j], :] = matrix[[j, i], :]
     for i in range(m - 1, r - 1, -1):
         
-        for j in range(r, i):
+        for j in range(i):
             if matrix[j, n + i] == 1:
                 matrix[j, :] ^= matrix[i, :]
-    
+
     nz = m - 1
     while(np.all(matrix[nz, n:] == 0) == True):
         nz -= 1
+    
     
     matrix = matrix[:nz + 1, :]
 

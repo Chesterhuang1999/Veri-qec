@@ -15,7 +15,7 @@ from lark import Transformer, Tree, Token
 from lark.reconstruct import Reconstructor
 from parser_qec import get_parser
 #from concurrent.futures import ThreadPoolExecutor
-#import re
+import re
 import time
 #import cProfile
 parser = get_parser()
@@ -37,6 +37,10 @@ def find_pos(list, index):
         else:
             m = mid - 1
     return l
+
+def recon_string(tree):
+    first_recon = Reconstructor(parser = get_parser()).reconstruct(tree)
+    return re.sub(r'\s*_\s*','_', first_recon)
 ### Substitution/Transformation rules
 # A transformer class to perform substitution on the tree
 class Assign(Transformer):
@@ -372,14 +376,14 @@ def eq_pexpr(u: Tree, v: Tree):
 # Generate the precondition from the program and the postcondition
 
 def precond_generator(program: str, precond: str, postcond: str):
-    t1 = time.time()
+    
     triple = "{" + precond + "}" + program + "{" + postcond + "}"
     tree = parser.parse(triple)
     pre_tree, program_tree, post_tree = tree.children
-    t2 = time.time()
+    
     ### Record the time for processing the AST
     post_tree = process(program_tree, post_tree)
-    t3 = time.time()
+    
     #print(end - start)
     return pre_tree, program_tree, post_tree
 
@@ -406,12 +410,11 @@ def precond_generator(program: str, precond: str, postcond: str):
 
 # postcond = """(-1)^(b_(1))(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
 # start = time.time()
-# t1, t2, _, program_tree, assertion_tree = precond_generator(program, precond, postcond)
-# print(t1, t2)
-# end = time.time()
+# _, program_tree, assertion_tree = precond_generator(program, precond, postcond)
+
 # print(program_tree)
 # print(assertion_tree)
-# print(end - start)
+
 # ## A reconstructor for visualizing the generated precondition.
 # ## VC transformation will still be performed on the AST. 
 # assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)
