@@ -39,7 +39,7 @@ def smtencoding_meas_err(precond, program, postcond, decoder_cond, bit_width):
     if len(result) > 1:
         midrnd_trees = result[1]
         midrnd_exprs = []
-        for i, aux in enumerate(midrnd_trees):
+        for aux in midrnd_trees:
             expr = tree_to_z3(aux, variables, bit_width, [], False)
             midrnd_exprs.append(expr)
             # print(expr)
@@ -48,7 +48,7 @@ def smtencoding_meas_err(precond, program, postcond, decoder_cond, bit_width):
     decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True)
     decoder_expr = simplify(decoder_expr)
     print(decoder_expr)
-    if len(result) >1:
+    if len(result) > 1:
         decoding_formula = simplify(And(cass_expr, midrnd_expr, decoder_expr))
     else:
         decoding_formula = simplify(And(cass_expr, decoder_expr))
@@ -136,7 +136,7 @@ def seq_checker_meas_err(packed_x, packed_z, err_vals):
     expr_z, variables_z = packed_z
     
     formula_x = constrep_meas_err(expr_x, variables_x, consts_x)
-    print(formula_x)
+    # print(formula_x)
     formula_z = constrep_meas_err(expr_z, variables_z, consts_z)
 
     t3 = time.time()

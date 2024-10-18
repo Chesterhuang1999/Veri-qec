@@ -483,6 +483,7 @@ if __name__ == "__main__":
     postcond = """(-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
     start = time.time()
     pre_tree, program_tree, assertion_tree, auxes = precond_generator(program, precond, postcond)
+    print(assertion_tree)
     # print(auxes)
     for aux in auxes:
         print(recon_string(aux))    

@@ -15,7 +15,7 @@ from encoder import *
 
 
 ### Condition and program generation from check matrix ###
-def decode_cond_gen_multiq(H, n, N, dx, dz): 
+def decode_cond_gen(H, n, N, dx, dz): 
     cond_parts_x = []
     cond_parts_z = []
     k = H.shape[0] - n

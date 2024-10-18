@@ -93,13 +93,13 @@ def check_single_layer(args, max_proc_num):
     task_info.clear()
 
 @timebudget
-def checker_logical(matrix, numq, k, N, dx, dz, circuit):
+def checker_logical(matrix, numq, N, rnd, dx, dz, circuit):
     # precond = stab_cond_gen(matrix, numq, k)
     max_proc_num = 16
-    pocx, pocz = stab_cond_gen_multiq(matrix, numq, k, N)
+    pocx, pocz = stab_cond_gen_multiq(matrix, numq , N)
     code = 'surface'
-    pex, pez = program_gen_qec(matrix, numq, k,  N)
-    decx, decz = decode_cond_gen_multiq(matrix, numq, k, N, dx, dz)
+    pex, pez = program_gen_qec_mul(matrix, numq, N, rnd)
+    decx, decz = decode_cond_gen_mul(matrix, numq, N, rnd, dx, dz)
     groups = sym_gen(dx, dz)
     symx, symz = [], []
     for value in groups.values():

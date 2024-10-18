@@ -5,4 +5,5 @@
 /.vscode/
 __pycache__
 /src/Archive/
-
+/Figures/
+/MISC/
