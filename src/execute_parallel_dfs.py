@@ -2,8 +2,8 @@ import time
 import numpy as np
 import math
 from multiprocessing import Pool
-# from smt_partition_merge import *
-from smt_detect_only import *
+from smt_partition_merge import *
+# from smt_detect_only import *
 
 from timebudget import timebudget
 import datetime
@@ -77,23 +77,25 @@ class subtask_generator:
     def easy_enough(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
+        if remained_qubit_num == 1:
+            return True
         # if self.one_num_thres >= remained_one_num and \
         #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         #     return True
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
-        
+        # print(assigned_one_num, assigned_bit_num)
         # if assigned_one_num < 2:
         #     return False
 
         ### For detection task ###
 
-        if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-            return False
+        # if assigned_one_num * self.distance + 4 * assigned_bit_num < self.num_qubits:
+        #     return False
 
         ### For verification task ###
-        # if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
-        #     return False
+        if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+            return False
         
         
         
@@ -217,6 +219,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
+    print(numq)
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
     tg_x = subtask_generator(dz, numq, max_proc_num)
     tasks_x = tg_x() 
@@ -308,28 +311,29 @@ if __name__ == "__main__":
     # dx = 3
     # dz = 3
     max_proc_num = 235
-    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
-                   [1, 0, 1, 1, 0, 1, 0],
-                   [0, 1, 1, 1, 0, 0, 1]])
-    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
-                   [0, 1, 0, 0, 1, 0, 1],
-                   [0, 0, 1, 0, 0, 1, 1],
-                   [0 ,0, 0, 1, 1, 1, 1]])
-    Rep51 = np.array([[1, 1, 0, 0, 0],
-                  [1, 0, 1, 0, 0],
-                  [1, 0, 0, 1, 0],
-                  [1, 0, 0, 0, 1]])
-    Par54 = np.array([[1, 1, 1, 1, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    n = matrix.shape[1] // 2
-    k = matrix.shape[0] - n
+    sur_cond_checker(3, 4)
+    # Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+    #                [1, 0, 1, 1, 0, 1, 0],
+    #                [0, 1, 1, 1, 0, 0, 1]])
+    # Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+    #                [0, 1, 0, 0, 1, 0, 1],
+    #                [0, 0, 1, 0, 0, 1, 1],
+    #                [0 ,0, 0, 1, 1, 1, 1]])
+    # Rep51 = np.array([[1, 1, 0, 0, 0],
+    #               [1, 0, 1, 0, 0],
+    #               [1, 0, 0, 1, 0],
+    #               [1, 0, 0, 0, 1]])
+    # Par54 = np.array([[1, 1, 1, 1, 1]])
+    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    # n = matrix.shape[1] // 2
+    # k = matrix.shape[0] - n
     
-    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    print(dx_max, dz_max)
-    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # matrix = surface_matrix_gen(3)
+    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    # print(dx_max, dz_max)
+    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    # # matrix = surface_matrix_gen(3)
     
-    # print(matrix)
-    cond_checker(matrix, 8, 7, max_proc_num)
+    # # print(matrix)
+    # cond_checker(matrix, 8, 7, max_proc_num)
 

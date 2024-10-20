@@ -206,15 +206,20 @@ def cond_generator(matrix, dx, dz, is_sym = False):
 
     return packed_x, packed_z
 
-def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog):              
+def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog):  
+    t1 = time.time()            
     post_tree, _, meas_tree = precond_generator(program, postcond, precond)
     variables = {}
     constraints = []
     meas_cond = recon_string(meas_tree)
     phase_tree = VCgeneration(precond, err_prog, meas_cond)
     phase_expr = simplify(tree_to_z3(phase_tree, variables, bit_width, [], False))
+    t2 = time.time()
+    print(t2 - t1)
     meas_transformer = qassertion2c(meas_tree)
     cass_tree = meas_transformer.transform(post_tree.children[0])
+    t3 = time.time()
+    print(t3 - t2)
     # cass_tree_x = simplifyeq().transform(cass_tree_x)
     cass_expr = simplify(tree_to_z3(cass_tree, {}, bit_width, [], False))
     err_tree = precond_generator('skip', err_cond, 'true')[0]
@@ -224,7 +229,8 @@ def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog
     # print(detect_formula)
     # expr = And(substitution, Or(Not(err_expr), detect_formula))
     expr = And(substitution, err_expr, Not(detect_formula))
-    
+    t4 = time.time()
+    print(t4 - t3)
     return expr, variables
 
 def seq_cond_checker_part(packed_expr, err_vals, opt):
