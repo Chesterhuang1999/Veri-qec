@@ -85,7 +85,7 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-
+    print(cass_expr)
     
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
@@ -196,6 +196,7 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     # program_x, program_z = program_gen(surface_mat, num_qubits, 1)
     # decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'verify')
     program_x, program_z = program_gen(matrix, num_qubits, k)
+    
     decoder_cond_x, decoder_cond_z = decode_cond_gen(matrix, num_qubits, k, dx, dz, 'verify')
 
     sym_x, sym_z = None, None
@@ -256,8 +257,8 @@ def seq_cond_checker(packed_x, packed_z, err_vals):
 
 if __name__ == '__main__':
    
-    distance = 5
-    err_vals = [0, 0,0,0,0,0,0,0,0,0,0, 1]
+    distance = 3
+    err_vals = [0]
     matrix = surface_matrix_gen(distance)
     #print(err_vals)
     packed_x, packed_z = cond_generator(matrix, distance, distance, True)

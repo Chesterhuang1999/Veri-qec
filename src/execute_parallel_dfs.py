@@ -2,8 +2,8 @@ import time
 import numpy as np
 import math
 from multiprocessing import Pool
-# from smt_partition_merge import *
-from smt_detect_only import *
+from smt_partition_merge import *
+# from smt_detect_only import *
 
 from timebudget import timebudget
 import datetime
@@ -25,7 +25,7 @@ class ExceptionWrapper(object):
 
 
 def worker(task_id, err_vals, opt):
-    global is_counter
+    
     try:
         start = time.time()
         # packed_x = cond_x[distance]
@@ -38,13 +38,14 @@ def worker(task_id, err_vals, opt):
             smttime, res = seq_cond_checker_part(packed_z, err_vals, opt)
         end = time.time()
         cost = end - start 
-        if str(res) == 'sat' and is_counter == 0:
-            # print(task_id)
-            print(opt)
-            is_counter = 1
+        # if str(res) == 'sat' and is_counter == 0:
+        #     # print(task_id)
+        #     print(opt)
+        #     is_counter = 1
         #     print(res)
         return task_id, smttime, str(res)
     except Exception as e:
+        print(e)
         return task_id, ExceptionWrapper(e)
 
 
@@ -88,12 +89,12 @@ class subtask_generator:
 
         ### For detection task ###
 
-        if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-            return False
+        # if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
+        #     return False
 
         ### For verification task ###
-        # if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
-        #     return False
+        if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+            return False
         
         
         
@@ -211,8 +212,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
-    global is_counter
-    is_counter = 0
+    # global is_counter
+    # is_counter = 0
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
@@ -224,7 +225,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     tasks_z = tg_z()
     print("Task generated. Start checking.")
     total_job = len(tasks_x) + len(tasks_z)
-    print(len(tasks_x))
+    print(tasks_x)
+    print(tasks_z)
     print(f"total_job: {total_job}")
 
     task_info = []
@@ -307,29 +309,29 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
     # dx = 3
     # dz = 3
-    max_proc_num = 235
-    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
-                   [1, 0, 1, 1, 0, 1, 0],
-                   [0, 1, 1, 1, 0, 0, 1]])
-    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
-                   [0, 1, 0, 0, 1, 0, 1],
-                   [0, 0, 1, 0, 0, 1, 1],
-                   [0 ,0, 0, 1, 1, 1, 1]])
-    Rep51 = np.array([[1, 1, 0, 0, 0],
-                  [1, 0, 1, 0, 0],
-                  [1, 0, 0, 1, 0],
-                  [1, 0, 0, 0, 1]])
-    Par54 = np.array([[1, 1, 1, 1, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    n = matrix.shape[1] // 2
-    k = matrix.shape[0] - n
+    max_proc_num = 2
+    # Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+    #                [1, 0, 1, 1, 0, 1, 0],
+    #                [0, 1, 1, 1, 0, 0, 1]])
+    # Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+    #                [0, 1, 0, 0, 1, 0, 1],
+    #                [0, 0, 1, 0, 0, 1, 1],
+    #                [0 ,0, 0, 1, 1, 1, 1]])
+    # Rep51 = np.array([[1, 1, 0, 0, 0],
+    #               [1, 0, 1, 0, 0],
+    #               [1, 0, 0, 1, 0],
+    #               [1, 0, 0, 0, 1]])
+    # Par54 = np.array([[1, 1, 1, 1, 1]])
+    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    # n = matrix.shape[1] // 2
+    # k = matrix.shape[0] - n
     
-    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    print(dx_max, dz_max)
-    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    # print(dx_max, dz_max)
+    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    cond_checker(matrix, 8, 7, max_proc_num)
+    sur_cond_checker(3, max_proc_num)
 
