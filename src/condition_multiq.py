@@ -53,42 +53,49 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
     dec_x = []
     dec_z = []
     k = H.shape[0] - n
-    max_err_x = int((dx - 1) // 2)
-    max_err_z = int((dz - 1) // 2)
-
+    max_err_x = (dx - 1) // 2
+    max_err_z = (dz - 1) // 2
+    meas_corr_x = []
+    meas_corr_z = []
     for m in range(rnd):
         dec_parts_x = []
         dec_parts_z = []
         for cnt in range(N):
             for i in range(n - k):
                 posx = np.where(H[i, :n] == 1)[0]
+                index = i + 1 + (m * N + cnt) * (n - k)
                 if len(posx) > 0:
-                    dec_parts_x.append(f"s_({i + 1 + (m * N + cnt) * (n - k)}) == ")
+                    dec_parts_x.append(f"s_({index}) == ")
                     for j in posx:
                         dec_parts_x.append(f"cz_({j + 1 + (m * N + cnt) * n})")
                         dec_parts_x.append("@^")
                     if m > 0:
-                        dec_parts_x.append(f"c_({i + 1 + ((m - 1)* N + cnt) * (n-k)})")
+                        dec_parts_x.append(f"c_({index - N * (n-k)})")
+                        meas_corr_x.append(index - N * (n-k))
                     else:
                         dec_parts_x.pop()
                     dec_parts_x.append("&&")
                 posz = np.where(H[i, n:] == 1)[0]
                 if len(posz) > 0:
-                    dec_parts_z.append(f"s_({i + 1 + (m * N + cnt) * (n - k)}) == ")
+                    dec_parts_z.append(f"s_({index}) == ")
                     for j in posz:
                         dec_parts_z.append(f"cx_({j + 1 + (m * N + cnt) * n})")
                         dec_parts_z.append("@^")
-                    dec_parts_z.pop()
+                    if m > 0:
+                        dec_parts_z.append(f"c_({index - N * (n-k)})")
+                        meas_corr_z.append(index - N * (n-k))
+                    else:
+                        dec_parts_z.pop()
                     dec_parts_z.append("&&")
 
-            dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
-            dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
+            # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+            # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
             
         dec_x.append(''.join(dec_parts_x))
         dec_z.append(''.join(dec_parts_z))
     
     
-    return ''.join(dec_x)[:-2], ''.join(dec_z)[:-2]
+    return ''.join(dec_x)[:-2], ''.join(dec_z)[:-2], meas_corr_x, meas_corr_z
    
 
 
