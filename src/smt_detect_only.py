@@ -116,7 +116,7 @@ def smtchecking(formula):
     if str(r) == 'sat':
         vars = sm.getDeclaredTerms()
         res_lines = (s2.getModel([], vars)).decode('utf-8').splitlines()[1:-1]
-        print(res_lines)
+        # print(res_lines)
     # if r.isSat():
     #     model = s2.getModel([],[])
     # print(model)
@@ -251,11 +251,31 @@ if __name__ == '__main__':
     dz = 2
     
     err_vals = [1]
+    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+                   [1, 0, 1, 1, 0, 1, 0],
+                   [0, 1, 1, 1, 0, 0, 1]])
+    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+                   [0, 1, 0, 0, 1, 0, 1],
+                   [0, 0, 1, 0, 0, 1, 1],
+                   [0 ,0, 0, 1, 1, 1, 1]])
+    # matrix = special_codes.stabs_triotho(256)
+    Rep51 = np.array([[1, 1, 0, 0, 0],
+                  [1, 0, 1, 0, 0],
+                  [1, 0, 0, 1, 0],
+                  [1, 0, 0, 0, 1]])
+    Par54 = np.array([[1, 1, 1, 1, 1]])
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
     
-    matrix = special_codes.stabs_triotho(256)
-    distance = 3
-    # matrix = surface_matrix_gen(distance)
-    #print(err_vals)
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    # print(weight_min)
+    # print(n, dx_max, dz_max)
+    matrix = special_codes.stabs_triotho(6)
+    dx = 4
+    dz = 3
     packed_x, packed_z = cond_generator(matrix, dx, dz, False)
     print(seq_cond_checker_part(packed_x, err_vals, 'x'))
     print(seq_cond_checker_part(packed_z, err_vals, 'z'))

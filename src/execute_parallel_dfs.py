@@ -14,6 +14,7 @@ import sys
 from Dataset import special_codes
 from Dataset import qldpc_codes
 
+sys.setrecursionlimit(1000000)
 class ExceptionWrapper(object):
     def __init__(self, ee):
         self.ee = ee
@@ -24,6 +25,7 @@ class ExceptionWrapper(object):
 
 
 def worker(task_id, err_vals, opt):
+    global is_counter
     try:
         start = time.time()
         # packed_x = cond_x[distance]
@@ -36,9 +38,10 @@ def worker(task_id, err_vals, opt):
             smttime, res = seq_cond_checker_part(packed_z, err_vals, opt)
         end = time.time()
         cost = end - start 
-        # if str(res) != 'sat':
-        #     print(task_id)
-        #     print(err_vals)
+        if str(res) == 'sat' and is_counter == 0:
+            # print(task_id)
+            print(opt)
+            is_counter = 1
         #     print(res)
         return task_id, smttime, str(res)
     except Exception as e:
@@ -85,7 +88,7 @@ class subtask_generator:
 
         ### For detection task ###
 
-        if assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+        if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
             return False
 
         ### For verification task ###
@@ -208,7 +211,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
-
+    global is_counter
+    is_counter = 0
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
@@ -303,22 +307,29 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
     # dx = 3
     # dz = 3
-    max_proc_num = 20
-    classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
-                        [0, 1, 1 ,0, 1, 0, 0],
-                        [0, 0, 1, 1, 0, 1, 0],
-                        [0, 0, 0, 1, 1, 0, 1],
-                        [1, 0, 0, 0, 1, 1, 0],
-                        [0, 1, 0, 0, 0, 1, 1],
-                        [1, 0, 1, 0, 0, 0, 1]], dtype = int)
-    matrix = special_codes.stabs_triotho(6)
-    dx = 4
-    dz = 3
+    max_proc_num = 235
+    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+                   [1, 0, 1, 1, 0, 1, 0],
+                   [0, 1, 1, 1, 0, 0, 1]])
+    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+                   [0, 1, 0, 0, 1, 0, 1],
+                   [0, 0, 1, 0, 0, 1, 1],
+                   [0 ,0, 0, 1, 1, 1, 1]])
+    Rep51 = np.array([[1, 1, 0, 0, 0],
+                  [1, 0, 1, 0, 0],
+                  [1, 0, 0, 1, 0],
+                  [1, 0, 0, 0, 1]])
+    Par54 = np.array([[1, 1, 1, 1, 1]])
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
+    
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    print(dx_max, dz_max)
+    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    cond_checker(matrix, dx, dz, max_proc_num)
-    # sur_cond_checker(dx, max_proc_num)
+    cond_checker(matrix, 8, 7, max_proc_num)
 
-
-    # sur_cond_checker(distance, max_proc_num)    

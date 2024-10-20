@@ -219,7 +219,7 @@ def seq_cond_checker_testing(packed_expr, err_vals, opt):
     return t4 - t3, result
 
 
-
+### Parallel checking ### 
 def worker(task_id, err_vals, opt):
     try: 
         start = time.time()
@@ -450,8 +450,8 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
 
     distance = 20
-    max_sample_num = 200
-    max_proc_num = 240
+    max_sample_num = 20
+    max_proc_num = 20
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
                    [0, 1, 1, 1, 0, 0, 1]])
@@ -468,16 +468,16 @@ if __name__ == "__main__":
                   [1, 0, 1]])
     Par32 = np.array([[1, 1, 1]])
 
-    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    matrix = special_codes.stabs_triotho(2)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Rep31, Par32)
+    # matrix = special_codes.stabs_triotho(2)
     # print(matrix)
-    # n = matrix.shape[1] // 2
-    # k = matrix.shape[0] - n
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
     
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # print(n, dx_max, dz_max)
-    # cond_checker_testing(matrix, dx_max, dz_max, max_sample_num, max_proc_num)
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    print(n, dx_max, dz_max)
+    cond_checker_testing(matrix, dx_max, dz_max, max_sample_num, max_proc_num)
 
     # sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
     

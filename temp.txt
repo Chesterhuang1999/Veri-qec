@@ -1,6 +1,1 @@
-nohup: ignoring input
-343 12 19
-343
-Task generated. Start checking.
-total_job: 400
-520.1168053150177
+nohup: 忽略输入

@@ -1,5 +1,6 @@
 
 *.pyc
+*.txt
 /src/Dataset/*.pyc
 /linxi-develop/
 /.vscode/
