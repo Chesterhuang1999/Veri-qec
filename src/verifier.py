@@ -1,8 +1,8 @@
 
 #------------
 # author: Chester Huang
-# date: 2024.7.10
-# version: 1.0.0
+# date: 2024.7.20
+# version: 1.2.0
 #------------
 
 
@@ -12,7 +12,7 @@
 from lark import Transformer, v_args, Tree, Token
 #from lark.reconstruct import Reconstructor
 #from parser_bexp2 import get_parser
-from transformer import precond_generator, Loops, eq_pauliop, eq_pexpr
+from transformer import precond_generator, eq_pauliop, eq_pexpr, recon_string
 
 from collections import defaultdict
 from z3 import *
@@ -39,14 +39,15 @@ def find_stab_rep(stab_dict, stab_list, s):
     l = len(s.children)
     phase = Token('NUMBER','0')
     is_matched = 0
+    stab_dict_cpy = stab_dict.copy()
     while is_matched == 0:
-        for s_c in stab_dict[l]:
+        for s_c in stab_dict_cpy[l]:
             if eq_pexpr(s, s_c):
                 if len(s_c.children[0].children) == 4:
                     phase = s_c.children[0].children[0]
                 #phase_set.append((s,phase))
                 is_matched = 1
-                stab_dict[l].remove(s_c) 
+                stab_dict_cpy[l].remove(s_c) 
                 break
         if is_matched == 1:
             break
@@ -56,7 +57,7 @@ def find_stab_rep(stab_dict, stab_list, s):
             for j in range(1 + i, length):
                 temp_mul = stab_mul(stab_list_cpy[i],stab_list_cpy[j])
                 if len(temp_mul.children) > 0:
-                    stab_dict[len(temp_mul.children)].add(temp_mul)
+                    stab_dict_cpy[len(temp_mul.children)].add(temp_mul)
                     stab_list.append(temp_mul)
                     #print(temp_mul)
 #         raise Exception
@@ -136,7 +137,11 @@ class qassertion2c(Transformer):
         self.base = base
         self.dict, self.list = stab_set_gen(base)
     def pexpr(self, args):  
-        phase_desired = find_stab_rep(self.dict, self.list, Tree('pexpr', args))
+        # print(self.dict, self.list)
+        dict_temp = self.dict
+        list_temp = self.list
+        phase_desired = find_stab_rep(dict_temp, list_temp, Tree('pexpr', args))
+        
         # extract the phase
         phase = Token('NUMBER','0')
         if len(args[0].children) == 4:
@@ -144,6 +149,7 @@ class qassertion2c(Transformer):
             #print(args[0].children[0])
         ## generate the condition
         return Tree('eq', [phase_desired, phase])
+
 
 ### Simplification for classical assertion
 def is_num(t):
@@ -234,182 +240,8 @@ class simplifyeq(Transformer):
             return Tree(data, [terms[0],self.build_tree(terms[1:], data)])
         
 
-### SMT encoding
-    
-# def auto_complement(a, b):
-#     if a.size() > b.size():
-#         return a, ZeroExt(a.size() - b.size(), b)
-#     elif a.size() < b.size():
-#         return ZeroExt(b.size() - a.size(), a), b
-#     else:
-#         return a, b
-# def tree_to_z3(tree, variables, bit_width):
-#     if isinstance(tree, Token) and tree.type == 'NUMBER':
-#         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value)))+1
-#         return BitVecVal(tree.value, bit_width)
-#     elif tree.data == 'and':
-#         return And(*[tree_to_z3(child, variables,bit_width) for child in tree.children])
-#     elif tree.data == 'or':
-#         return Or(*[tree_to_z3(child, variables, bit_width) for child in tree.children])
-#     elif tree.data == 'eq':
-#         z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width))
-#         return z3_child0 == z3_child1
-#     elif tree.data == 'leq':
-#         z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width)) 
-#         return ULE(z3_child0, z3_child1)
-#     elif tree.data == 'geq':   
-#         z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width))
-#         return UGE(z3_child0, z3_child1) 
-#     elif tree.data == 'xor':
-#         return tree_to_z3(tree.children[0], variables, bit_width) + tree_to_z3(tree.children[1], variables, bit_width)
-#     elif tree.data == 'add':
-#         ssum = BitVecVal(0, bit_width)
-#         for child in tree.children:
-#             z3_child = tree_to_z3(child, variables, bit_width)
-#             ext_width = bit_width - z3_child.size()
-#             ssum += ZeroExt(ext_width, z3_child)
-#         return ssum
-#     elif tree.data == 'sum':
-#         name = tree.children[0].value
-#         start = int(tree.children[1].value)
-#         end = int(tree.children[2].value)
-#         body = tree.children[3]
-#         ssum = BitVecVal(0, bit_width)
-#         for j in range(start, end+1):
-#             loops_transformer = Loops(name, j)
-#             body_trans = loops_transformer.transform(body)
-#             z3_body_trans = tree_to_z3(body_trans, variables, bit_width)
-#             ext_width = bit_width - z3_body_trans.size()
-#             ssum = ssum + ZeroExt(ext_width, tree_to_z3(body_trans, variables, bit_width))      
-#         return ssum
-#     elif tree.data == 'bool_and':
-#         return tree_to_z3(tree.children[0], variables, bit_width) & tree_to_z3(tree.children[1], variables, bit_width)
-#     elif tree.data == 'bool_or':
-#         return tree_to_z3(tree.children[0], variables, bit_width) | tree_to_z3(tree.children[1], variables, bit_width)
-#     elif tree.data == 'neg':
-#         return Not(tree_to_z3(tree.children[0], variables, bit_width))
-#     elif tree.data == 'min':
-#         res1,res2 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width), tree_to_z3(tree.children[1], variables, bit_width))
-#         return If(ULE(res1, res2), res1, res2)
-#     elif tree.data == 'var':
-#         name = tree.children[0].value
-#         index = int(tree.children[1].value)
-#         var_name = f"{name}_{index}"
-#         if var_name not in variables:
-#             variables[var_name] = BitVec(var_name, 1)
-#             # if bit_width > 1:
-#             #     constraints.append(Or(variables[var_name] == BitVecVal(0, bit_width), variables[var_name] == BitVecVal(1, bit_width)))  # Add domain constraint for this variable
-#         return variables[var_name]
-#     else:
-#         raise ValueError(f"Unknown tree node: {tree}")
-    
-# def auto_complement_cvc5(a, b, solver):
-#     a_size = a.getSort().getBitVectorSize()
-#     b_size = b.getSort().getBitVectorSize()
 
-#     if a_size > b_size:
-#         zero_ext = solver.mkTerm(Kind.BITVECTOR_ZERO_EXTEND, a_size - b_size, b)
-#         return a, zero_ext
-#     elif a_size < b_size:
-#         zero_ext = solver.mkTerm(Kind.BITVECTOR_ZERO_EXTEND, b_size - a_size, a)
-#         return zero_ext, b
-#     else:
-#         return a, b
 
-# def tree_to_cvc5(tree, variables, solver, bit_width):
-#     if isinstance(tree,Token) and tree.type == 'NUMBER':
-#         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value)))
-#         return solver.mkBitVector(bit_width, int(tree.value))
-#     elif tree.data == 'and':
-#         return solver.mkterm(Kind.BITVECTOR_AND, *[tree_to_cvc5(child, variables, solver, bit_width) for child in tree.children])
-#     elif tree.data == 'or':
-#         return solver.mkTerm(Kind.BITVECTOR_OR, *[tree_to_cvc5(child, variables, solver, bit_width) for child in tree.children])
-#     elif tree.data == 'eq':
-#         child0, child1 = auto_complement(tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                                          tree_to_cvc5(tree.children[1], variables, solver, bit_width), solver)
-#         return solver.mkTerm(Kind.EQUAL, child0, child1)
-#     elif tree.data == 'leq':
-#         child0, child1 = auto_complement_cvc5(tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                                          tree_to_cvc5(tree.children[1], variables, solver, bit_width), solver)
-#         return solver.mkTerm(Kind.BITVECTOR_ULE, child0, child1)
-#     elif tree.data == 'geq':
-#         cvc5_child0, cvc5_child1 = auto_complement_cvc5(tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                                                    tree_to_cvc5(tree.children[1], variables, solver, bit_width), solver)
-#         return solver.mkTerm(Kind.BITVECTOR_UGE, cvc5_child0, cvc5_child1)
-#     elif tree.data == 'xor':
-#         return solver.mkTerm(Kind.BITVECTOR_XOR, tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                              tree_to_cvc5(tree.children[1], variables, solver, bit_width))
-#     elif tree.data == 'add':
-#         ssum = solver.mkBitVector(bit_width, 0)
-#         for child in tree.children:
-#             cvc5_child = tree_to_cvc5(child, variables, solver, bit_width)
-#             ext_width = bit_width - cvc5_child.getBitVectorSize()
-#             ssum = solver.mkTerm(Kind.BITVECTOR_ADD, ssum, solver.mkTerm(Kind.BITVECTOR_ZERO_EXTEND, ext_width, cvc5_child))
-#         return ssum
-#     elif tree.data == 'sum':
-#         name = tree.children[0].value
-#         start = int(tree.children[1].value)
-#         end = int(tree.children[2].value)
-#         body = tree.children[3]
-#         ssum = solver.mkBitVector(bit_width, 0)
-#         for j in range(start, end + 1):
-#             loops_transformer = Loops(name, j)
-#             body_trans = loops_transformer.transform(body)
-#             cvc5_body_trans = tree_to_cvc5(body_trans, variables, solver, bit_width)
-#             ext_width = bit_width - cvc5_body_trans.getBitVectorSize()
-#             ssum = solver.mkTerm(Kind.BITVECTOR_ADD, ssum,
-#                                  solver.mkTerm(Kind.BITVECTOR_ZERO_EXTEND, ext_width, cvc5_body_trans))
-#         return ssum
-#     elif tree.data == 'bool_and':
-#         return solver.mkTerm(Kind.AND, tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                              tree_to_cvc5(tree.children[1], variables, solver, bit_width))
-#     elif tree.data == 'bool_or':
-#         return solver.mkTerm(Kind.OR, tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                              tree_to_cvc5(tree.children[1], variables, solver, bit_width))
-#     elif tree.data == 'neg':
-#         return solver.mkTerm(Kind.NOT, tree_to_cvc5(tree.children[0], variables, solver, bit_width))
-#     elif tree.data == 'min':
-#         res1, res2 = auto_complement(tree_to_cvc5(tree.children[0], variables, solver, bit_width),
-#                                      tree_to_cvc5(tree.children[1], variables, solver, bit_width))
-#         return solver.mkTerm(Kind.ITE, solver.mkTerm(Kind.BITVECTOR_ULE, res1, res2), res1, res2)
-#     elif tree.data == 'var':
-#         name = tree.children[0].value
-#         index = int(tree.children[1].value)
-#         var_name = f"{name}_{index}"
-#         if var_name not in variables:
-#             variables[var_name] = solver.mkConst(solver.mkBitVectorSort(1), var_name)
-#         return variables[var_name]
-#     else:
-#         raise ValueError(f"Unknown tree node: {tree}")
-            
-
-# def VCgeneration(precond, program, postcond):
-#     pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
-#     #stab_dict, stab_list = stab_set_gen(pre_tree.children[0])
-#     cass_transformer = qassertion2c(pre_tree)
-#     cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
-#     cass_tree = simplifyeq().transform(cass_tree)
-#     cass_expr = tree_to_z3(cass_tree, {}, 1)
-
-#     return cass_expr
-
-# # Test: Surface code
-
-# # start = time.time()
-# # distance = 5
-# # num_logical = 1
-# # precond1, precond2, program = triple_gen('surface', distance, num_logical)
-# # postcond1 = precond1
-# # postcond2 = precond2
-
-# # cass_expr1 = VCgeneration(precond1, program, postcond1)
-# # cass_expr2 = VCgeneration(precond2, program, postcond2)
-
-# # num_qubits = distance**2
-# # bit_width = int(math.log2(num_qubits)) + 1 
-# # max_errors = (distance - 1) // 2
-# # err_cond = f"sum i 1 {num_qubits} (ex_(i)) <= 1 && sum i 1 {num_qubits} (ez_(i)) <= 1"
-# # decoder_cond = decode_cond_gen(surface_matrix_gen(distance))
 # # ## Test: Steane code 
 # # ### Precondition generation
 # # start = time.time()
@@ -424,73 +256,27 @@ class simplifyeq(Transformer):
 # # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 # # pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
 
-# # ### Reshape the generated precondition, extract classical part
+
+if __name__ == '__main__':
+    precond = """ (-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
+
+    program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
+    for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
+
+    postcond = """(-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
+    start = time.time()
+    pre_tree, program_tree, assertion_tree, auxes = precond_generator(program, precond, postcond)
+    # print(recon_string(assertion_tree))
+    cass_transformer = qassertion2c(pre_tree)
+    cass_tree = cass_transformer.transform(assertion_tree.children[0].children[-1])
+    cass_tree = simplifyeq().transform(cass_tree)
+    
+    # print(recon_string(cass_tree))
+    for i, aux in enumerate(auxes):
+        cass_transformer = qassertion2c(pre_tree)
+        aux = cass_transformer.transform(aux)
+        aux = simplifyeq().transform(aux)
+        print(recon_string(aux))    
 
 
-# # cass_transformer = qassertion2c(pre_tree)
-# # cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
 
-# # cass_tree = simplifyeq().transform(cass_tree)
-# # solver = cvc5.Solver()
-# # cass_expr = tree_to_cvc5(cass_tree, {}, solver, 1)
-
-
-# # print(clean_cass)
-
-
-# # # ### SMT encoding
-
-# # # ## Error condition for successful decoding (Can be read from file)
-# # err_cond = """ sum i 1 7 (ex_(i)) <= 1 && sum i 1 7 (ez_(i)) <= 1 """
-# # # ## Decoding condition of a minimum-weight perfect matching (should be read from file)
-# # decoder_cond_bool = """ sz_(1) == cx_(1) @^ cx_(3) @^ cx_(5)@^ cx_(7) && sz_(2) == cx_(2) @^ cx_(3) @^ cx_(6) @^ cx_(7) && sz_(3) == cx_(4) @^ cx_(5) @^ cx_(6) @^ cx_(7) &&
-# # sx_(1) == cz_(1) @^ cz_(3) @^ cz_(5) @^ cz_(7)  && sx_(2) == cz_(2) @^ cz_(3) @^ cz_(6) @^ cz_(7) && sx_(3) == cz_(4) @^ cz_(5) @^ cz_(6) @^ cz_(7)"""
-
-# # decoder_cond_int = """ sum i 1 7 (cx_(i)) <= Min( sum i 1 7 (ex_(i)), 1) && sum i 1 7 (cz_(i)) <= Min( sum i 1 7 (ez_(i)), 1) """
-
-# # err_tree, _, decoder_tree_int = precond_generator('skip', err_cond, decoder_cond_int)
-# # _, _, decoder_tree_bool = precond_generator('skip', err_cond, decoder_cond_bool)
-
-
-# # # #### P_c: error condition
-# # variables_e = {} 
-# # err_expr = simplify(tree_to_cvc5(err_tree.children[0], variables_e,  3))
-
-# # # #### P_f decoding condition (divided into integer and boolean part to support different interpretation for addition)
-
-
-# # decoder_expr_int = tree_to_cvc5(decoder_tree_int.children[0],{}, 5)
-
-# # variables = {}
-
-# # decoder_expr_bool = simplify(tree_to_cvc5(decoder_tree_bool.children[0], variables, 5))
-# # decoding_formula = And(cass_expr, decoder_expr_int, decoder_expr_bool)
-
-# # print(cass_expr)
-# # print(decoder_expr_bool)
-# # print(err_expr)
-
-# # print(decoder_expr_bool)
-
-
-# # # F = err_expr
-# # G = decoding_formula1
-
-
-# # equivalence = ForAll(forall_var_list, Not(Implies(F, G)))
-
-# # solver = Solver()
-
-# # solver.add(equivalence)
-
-
-# # # Check satisfiability
-# # if solver.check() == sat:
-# #     print("Satisfiable")
-# #     model = solver.model()
-# #     print(model)
-# #     #print(model.eval(sum_c))
-# # else:
-# #     print("Unsatisfiable")
-# # end = time.time()
-# # print(end - start)

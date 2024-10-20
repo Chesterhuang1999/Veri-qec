@@ -74,9 +74,11 @@ class ParallelNode:
             parent_id = self.parent.id
         ret = f'id: {self.id}'
         ret += f', parent: {parent_id}'
-        ret += f', status: {self.status}\n'
+        ret += f', status: {self.status}'
+        ret += f', reason: {self.reason}\n'
         ret += f'children: {[child.id for child in self.children]}\n'
         ret += f'time-infos: {self.time_infos}\n'
+        ret += f'err_vals: {self.err_vals}\n'
         return ret
     
     def get_solve_start_time(self):
@@ -132,10 +134,11 @@ class ParallelTree:
         self.unpartitions.append(node)
     
     # def is_easy_enough(self, node: ParallelNode, is_solve: True):
-    def is_easy_enough(self, node: ParallelNode):
+    # hard enough to partition
+    def is_worth_partition(self, node: ParallelNode):
         remained_qubit_num, remained_one_num = node.remained_qubit_num, node.remained_one_num
         if remained_qubit_num == 1:
-            return True
+            return False
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         # k is greater and the task is harder
@@ -146,9 +149,22 @@ class ParallelTree:
         #     # is partition
         #     k = 1.5
         # if k * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
-        if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+        estimate_assigned = 2 * assigned_one_num * self.distance + assigned_bit_num
+        if estimate_assigned > self.num_qubits:
+            # too easy
             return False
         return True
+    
+    def is_easy_to_solve(self, node: ParallelNode):
+        remained_qubit_num, remained_one_num = node.remained_qubit_num, node.remained_one_num
+        if remained_qubit_num == 1:
+            return True
+        assigned_one_num = (self.distance - 1) - remained_one_num
+        assigned_bit_num = self.num_qubits - remained_qubit_num
+        estimate_assigned = 3 * assigned_one_num * self.distance + assigned_bit_num
+        if estimate_assigned > self.num_qubits:
+            return True
+        return False
     
     def is_too_easy(self, node: ParallelNode):
         return node.remained_qubit_num == 1 or node.remained_one_num == 0
@@ -163,22 +179,24 @@ class ParallelTree:
                 self.unpartitions.popleft()
                 continue
             # if not self.is_easy_enough(node, False):
-            if not self.is_easy_enough(node):
+            if self.is_worth_partition(node):
                 self.unpartitions.popleft()
                 return node
+            # return None
             solving_time = self.get_node_solving_time(node)
             if solving_time == None or solving_time < 5.0:
                 return None
             else:
-                print(f'solving_time: {solving_time}')
+                # print(f'solving_time: {solving_time}')
                 self.unpartitions.popleft()
                 return node
         return None
     
     def partition_node(self, node: ParallelNode):
-        self.make_node(node, node.remained_qubit_num - 1, node.remained_one_num, node.err_vals + [0])
-        if node.remained_one_num > 0:
-            self.make_node(node, node.remained_qubit_num - 1, node.remained_one_num - 1, node.err_vals + [1])
+        if node.remained_qubit_num > 1:
+            self.make_node(node, node.remained_qubit_num - 1, node.remained_one_num, node.err_vals + [0])
+            if node.remained_one_num > 0:
+                self.make_node(node, node.remained_qubit_num - 1, node.remained_one_num - 1, node.err_vals + [1])
     
     # @linxi_debug
     def get_next_waiting_node(self):
@@ -193,9 +211,10 @@ class ParallelTree:
                 if node.status.is_solved():
                     continue
                 # if self.is_easy_enough(node, True):
-                if self.is_easy_enough(node):
+                # if self.is_easy_enough(node):
+                #     return node
+                if self.is_easy_to_solve(node):
                     return node
-                # return node
         # return None
     
     def get_solving_number(self):
@@ -206,13 +225,14 @@ class ParallelTree:
     
     # # precond: node is solving
     # # terminate: unsolved or solving
-    # def terminate_node(self, node: ParallelNode, reason: NodeSolvedReason):
-    #     self.update_node_status(node, 
-    #                 NodeStatus.terminated, 
-    #                 reason)
-    #     if node.assign_to != None:
-    #         node.assign_to.terminate()
-    #         node.assign_to = None
+    def terminate_node(self, node: ParallelNode):
+        print(f'terminate node-{node.id}, {node.err_vals}')
+        self.update_node_status(node, 
+                    NodeStatus.terminated, 
+                    NodeSolvedReason.itself)
+        if node.assign_to != None:
+            node.assign_to.terminate()
+            node.assign_to = None
     
     def get_node_solving_time(self, node: ParallelNode):
         solve_start_time = node.get_solve_start_time()
@@ -273,3 +293,12 @@ class ParallelTree:
                            NodeSolvedReason.itself,
                            self.get_current_time())
         self.solvings.append(node)
+    
+    def _output_tree(self, node: ParallelNode):
+        print(node)
+        for child in node.children:
+            self._output_tree(child)
+        
+    def output_tree(self):
+        self._output_tree(self.root)
+        

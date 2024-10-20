@@ -45,6 +45,13 @@ class ParallelSolver:
             return True
         return False
     
+    def need_terminate(self, node: ParallelNode):
+        solving_time = self.tree.get_node_solving_time(node)
+        if solving_time > 12.0:
+            return True
+        else:
+            return False
+    
     # True for still running
     def check_solving_status(self, node: ParallelNode):
         if not node.status.is_solving():
@@ -52,15 +59,12 @@ class ParallelSolver:
         # print(f'check node-{node.id}, {node.err_vals}')
         sta: NodeStatus = self.check_subprocess_status(node.assign_to)
         if sta.is_solving():
-            return True
-            ### TBD ###
-            # if self.need_terminate(t):
-            #     self.update_task_status(t, 'terminated')
-            #     self.terminate_task(t)
-            #     self.sync_ended_to_partitioner()
-            #     return False
-            # else:
-            #     return True
+            if self.need_terminate(node):
+                self.tree.terminate_node(node)
+                return False
+            else:
+                return True
+        
         node.assign_to = None
         print(f'{self.tree.get_node_solving_time(node)}, node-{node.id} solved, {node.err_vals}')
         self.tree.node_solved(node)
@@ -101,7 +105,7 @@ class ParallelSolver:
                 text=True
             )
         self.tree.assign_node(node, p)
-        print(f'solve-node {node.id}, {node.err_vals}')
+        # print(f'solve-node {node.id}, {node.err_vals}')
     
     def process_waiting_tasks(self):
         # cnt = 0
@@ -127,19 +131,7 @@ class ParallelSolver:
             if self.check_solvings_status():
                 break
             self.process_waiting_tasks()
-
-def analysis_task(task_id: int, task: list):
-    num_bit = 0
-    num_one = 0
-    one_pos = []
-    for i, bit in enumerate(task):
-        if bit == 1:
-            num_one += 1
-            one_pos.append(i)
-        num_bit += 1
-    num_zero = num_bit - num_one
-    info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
-    return [task_id, task, info]
+        self.tree.output_tree()
 
 if __name__ == "__main__":
     distance = 7

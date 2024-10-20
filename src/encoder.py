@@ -5,6 +5,15 @@ import math
 import matplotlib.pyplot as plt
 from transformer import Loops
 
+## For testing ## 
+import re
+from lark.reconstruct import Reconstructor
+from parser_qec import get_parser
+def recon_string(tree):
+    assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(tree)
+    cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
+
+    return cleaned_assertion
 def auto_complement(a, b):
     if a.size() > b.size():
         return a, ZeroExt(a.size() - b.size(), b)
@@ -193,18 +202,53 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
         raise ValueError(f"Unknown tree node: {tree}")
     
 def VCgeneration(precond, program, postcond):
-    pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
-    # print(post_tree)
-    cass_transformer = qassertion2c(pre_tree)
-    # print(cass_tree)
-    cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
-    cass_tree = simplifyeq().transform(cass_tree)
+    # pre_tree, prog_tree, post_tree, auxes = precond_generator(program, precond, postcond)
+    result = precond_generator(program, precond, postcond)
+    if len(result) == 4:
+        pre_tree, prog_tree, post_tree, auxes = result
+        cass_transformer = qassertion2c(pre_tree)
+        cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
+        cass_tree = simplifyeq().transform(cass_tree)
+        aux_trees = []
+        for i, aux in enumerate(auxes):
+            cass_transformer = qassertion2c(pre_tree)
+            aux = cass_transformer.transform(aux)
+        
+            aux = simplifyeq().transform(aux)
+            aux_trees.append(aux)
+        return cass_tree, aux_trees
+    
+    else:
+        pre_tree, prog_tree, post_tree = result
+        cass_transformer = qassertion2c(pre_tree)
+        cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
+        cass_tree = simplifyeq().transform(cass_tree)
+        return cass_tree
+    # # print(recon_string(pre_tree))
+    # cass_transformer = qassertion2c(pre_tree)
+    # cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
+    # cass_tree = simplifyeq().transform(cass_tree)
+    # aux_trees = []
+    # for i, aux in enumerate(auxes):
+    #     cass_transformer = qassertion2c(pre_tree)
+    #     aux = cass_transformer.transform(aux)
+        
+    #     aux = simplifyeq().transform(aux)
+    #     aux_trees.append(aux)
+        
     # cass_expr = tree_to_z3(cass_tree, {}, 1, [], False)
 
-    return cass_tree
+    # return cass_tree, aux_trees
 
 ##Test 
+if __name__ == "__main__":
 # start = time.time()
+    precond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3)&& (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) """
+    program = """for i in 1 to 7 do q_(i) *= ex_(i) X end; sz_(1) := meas (1,0,1)(1,0,3)(1,0,5)(1,0,7); sz_(2) := meas (1,0,2)(1,0,3)(1,0,6)(1,0,7); 
+sz_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); for i in 1 to 7 do q_(i) *= cx_(i) X end"""
+    postcond =  """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3)&& (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) """
+
+
 # precond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 
 # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 
@@ -215,7 +259,51 @@ def VCgeneration(precond, program, postcond):
 # postcond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 
 # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 
-# cass_expr = VCgeneration(precond, program, postcond)
+    cass_tree = VCgeneration(precond, program, postcond)
+    variables = {}
+    cass_expr = simplify(tree_to_z3(cass_tree.children[1], variables, 3, [], False))
+    logic_expr = simplify(tree_to_z3(cass_tree.children[0], {}, 3, [], False))
+    # print(cass_expr)
+    decoder_cond = """ sz_(1) == cx_(1) @^ cx_(3) @^ cx_(5)@^ cx_(7) && sz_(2) == cx_(2) @^ cx_(3) @^ cx_(6) @^ cx_(7) && 
+    sz_(3) == cx_(4) @^ cx_(5) @^ cx_(6) @^ cx_(7)"""
+    sum_min = """sum i 1 7 (cx_(i))"""
+    # variables_dec = {}
+    decoder_tree,_, sum_tree = precond_generator('skip', decoder_cond, sum_min)
+    decoder_expr = simplify(tree_to_z3(decoder_tree.children[0], {}, 3, [], False))
+    var_corr = {}
+    sum_expr = simplify(tree_to_z3(sum_tree.children[0], var_corr, 3, [], False))                      
+    # var_corr = list(var_corr.values())
+    
+    decoding_formula = And(cass_expr, decoder_expr)
+    
+    consts_x = {}
+    replace = []
+    s1 = z3.Optimize()
+    err_vals = [0,1,0,0,0,0,1]
+    for i, ei in enumerate(err_vals):
+        consts_x[f'ex_{i+1}'] = BitVecVal(ei, 1)
+    for i in consts_x.keys():
+        replace.append((variables[i], consts_x[i]))
+
+    decoding_formula = simplify(substitute(decoding_formula, replace))
+    logic_expr = simplify(substitute(logic_expr, replace))
+    print(logic_expr)
+    # print(decoding_formula)
+    s1.add(decoding_formula)
+    s1.minimize(sum_expr)
+    if s1.check() == sat:
+        model = s1.model()
+       
+    else: 
+        print("unsat")
+    replace = []
+    for i in var_corr.keys():
+        replace.append((var_corr[i], model[var_corr[i]]))
+    print(replace)
+    logic_expr = substitute(logic_expr, replace)
+    s2 = z3.Solver()
+    
+    
 
 
 # ## error condition and decoder condition generation 

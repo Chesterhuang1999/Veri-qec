@@ -7,7 +7,7 @@
 ### Transformers of the parse tree for assertions based on the inference rules. 
 
 
-## Temporarily, it is used as a test file for bitstring representation of stabilizers
+## Update 10.9: Add processes (decode transformer for )
 
 
 from lark import Transformer, Tree, Token
@@ -20,7 +20,11 @@ import time
 #import cProfile
 parser = get_parser()
 
+def recon_string(tree):
+    assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(tree)
+    cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
 
+    return cleaned_assertion
 ## Customized function for operator overloading and useful gadgets
 def tree_sorted_key(tree):
     return int(tree.children[-1]) if tree.data == 'pauli' else None
@@ -107,7 +111,7 @@ class Unitary(Transformer):
                 if x1 == 1 and z2 == 1 and x2 == z1:
                     phase = Tree('add', [phase, Token('NUMBER',1)])
                 if phase != 0:
-                    if len(args[0].children[0]) == 4:
+                    if len(args[0].children) == 4:
                         args[0].children[0] = phase
                     else:
                         args[0].children.insert(0, phase)
@@ -164,12 +168,13 @@ class Unitary(Transformer):
                         args[-3] = Tree('neg', [self.bexp])
                         args[-2] = self.bexp
                     return Tree('pauli', args)
-                else: 
+                else:  # X stabilizer
                     if self.bexp == 1:
                         args[-3] = Token('NUMBER','1')
                         args[-2] = Token('NUMBER','0')
-                    args[-3] = self.bexp
-                    args[-2] = Tree('neg', [self.bexp])
+                    else:
+                        args[-3] = self.bexp
+                        args[-2] = Tree('neg', [self.bexp])
                     return Tree('pauli', args)
                 
             else: # S gate(conditional)
@@ -206,6 +211,8 @@ class Measure(Transformer):
                     args[0].children[0] = self.var_obj
                 else:
                     args[0].children.insert(0, self.var_obj)
+                # if len(args[0].children) == 3:
+                #     args[0].children.insert(0, self.var_obj)
                 self.ismeasure = 1
         return Tree('pexpr', args)
     def condition(self, args):
@@ -237,15 +244,24 @@ class Measure(Transformer):
             else:
                 return Tree('condition', [Tree('bigor', [self.var_obj, args[0]])]) 
         
-
+def find_sym(tree, var, value):
+    for i in range(len(tree.children)):
+        if tree.children[i] == var:
+            tree.children[i] = Token('NUMBER', value)
+        elif isinstance(tree.children[i], Tree):
+            tree.children[i] = find_sym(tree.children[i], var, value)
+    return tree
 #ToDo: Substitution of pauli operator indexes
 class Loops(Transformer):
     def __init__(self, var, value):
         self.var_obj = var
         self.value = value
+    
     def var(self, args):
         if args[1] == self.var_obj: 
             args[1] = Token('NUMBER', self.value)
+        elif isinstance(args[1], Tree):
+            args[1] = find_sym(args[1], self.var_obj, self.value) 
         return Tree('var', args)
 
 
@@ -277,6 +293,13 @@ class Combinephase(Transformer):
                     # elif i == 0 and len(temp) == 1:
                     #     op.children.insert(0, temp[0])
             return Tree('pexpr', children)
+    
+    def add(self, children):
+        all_number = all(isinstance(child, Token) and child.type == 'NUMBER' for child in children)
+        if all_number:
+            return Token('NUMBER', sum([int(child) for child in children]))
+        else:
+            return Tree('add', children)
 
 ### Simplify the phase of each pauli, eliminate even terms                    
 # class Simphase(Transformer):
@@ -304,7 +327,42 @@ class Combinephase(Transformer):
 #                 sym_cache.append(calc(c))
 #             else: 
 #             return 
-            
+
+class Decode(Transformer):
+    def __init__(self, var, pexpr):
+        self.var_obj = var
+        self.pexpr_obj = pexpr
+    def condition(self, args):
+        if args[0].data == "bigor":
+            children = args[0].children[-1]
+            stabs = self.flatten_terms(children)
+            for i in range(len(stabs)):
+                if eq_pexpr(stabs[i], self.pexpr_obj):
+                    new_stab = stabs[i]
+                    targets = new_stab.children[0].children[0]
+                    phases = self.flatten_terms(targets)
+                    new_phase = [elem for elem in phases if elem.children[0][0] != 'c']
+                    meas_err = Tree('var', [Token('NAME', 'e'), self.var_obj.children[1]])
+                    new_phase.append(meas_err)
+                    # new_phase.append(self.var_obj)
+                    new_stab.children[0].children[0] = self.tree_recon(new_phase, 'xor')
+                    return new_stab
+    def flatten_terms(self, expr):
+        if isinstance(expr, Tree) and expr.data in ('xor', 'add', 'and') :
+            terms = []
+            for child in expr.children:
+                terms.extend(self.flatten_terms(child))
+            return terms
+        else:
+            return [expr]
+    
+    def tree_recon(self, elems, data):
+        tree = Tree(data, [elems[0], elems[1]])
+        if len(elems) > 2:
+            for i in range(len(elems) - 2):
+                tree = Tree(data, [elems[i + 2], tree])
+        return tree
+
                 
 ## Perform transformations 
 def assign(t, assertion_tree):
@@ -333,12 +391,19 @@ def meas(t, assertion_tree):
     meas_transformer = Measure(var, pexpr)
     return Combinephase().transform(meas_transformer.transform(assertion_tree))
 
-
+def decode(t, assertion_tree):
+    var = t.children[0]
+    pexpr = t.children[1]
+    decode_transformer = Decode(var, pexpr)
+    return decode_transformer.transform(assertion_tree)
 # Processing the postcondition via Hoare rules 
+
 
 def process(program_tree, assertion_tree):
     command_list =  program_tree.children
     length = len(command_list)
+    seen_meas = set()
+    auxes = []
     for i in reversed(range(length)):
         t = command_list[i]
         if t.data == 'assign':
@@ -349,7 +414,14 @@ def process(program_tree, assertion_tree):
         elif t.data == 'unitary':
             assertion_tree = unitary(t,assertion_tree)
         elif t.data == 'meas':
+            pexpr = t.children[1]
+            if pexpr in seen_meas:
+                intme_tree = decode(t, assertion_tree)
+                auxes.append(intme_tree)
+            else:
+                seen_meas.add(pexpr)
             assertion_tree = meas(t,assertion_tree)
+            
         elif t.data == 'if':
             b, prog1, prog2 = t.children
         elif t.data == 'for':
@@ -357,8 +429,8 @@ def process(program_tree, assertion_tree):
             for j in range(int(start), int(end) + 1):
                 loop_transformer = Loops(var, j)
                 child_prog_mod = loop_transformer.transform(child_prog)
-                assertion_tree = process(child_prog_mod, assertion_tree)
-    return assertion_tree
+                assertion_tree, _ = process(child_prog_mod, assertion_tree)
+    return assertion_tree, auxes
 
 
 
@@ -382,10 +454,13 @@ def precond_generator(program: str, precond: str, postcond: str):
     pre_tree, program_tree, post_tree = tree.children
     
     ### Record the time for processing the AST
-    post_tree = process(program_tree, post_tree)
-    
+    post_tree, auxes = process(program_tree, post_tree)
+    t3 = time.time()
     #print(end - start)
-    return pre_tree, program_tree, post_tree
+    if len(auxes) > 0:
+        return pre_tree, program_tree, post_tree, auxes
+    else:
+        return pre_tree, program_tree, post_tree
 
 
 
@@ -402,24 +477,30 @@ def precond_generator(program: str, precond: str, postcond: str):
 # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 
 
-
+if __name__ == "__main__":
 # Test example: Repetition code
-# precond = """ (-1)^(b_(1))(1,0,3) && (1,0,1)(1,0,2) && (1,0,2)(1,0,3)"""
+    precond = """ (-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
 
-# program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; sx_(1) := meas (0,1,1)(0,1,2); sx_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end"""
+    program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
+    for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
 
-# postcond = """(-1)^(b_(1))(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
-# start = time.time()
-# _, program_tree, assertion_tree = precond_generator(program, precond, postcond)
-
-# print(program_tree)
-# print(assertion_tree)
-
+    postcond = """(-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
+    start = time.time()
+    pre_tree, program_tree, assertion_tree, auxes = precond_generator(program, precond, postcond)
+    print(assertion_tree)
+    # print(auxes)
+    for aux in auxes:
+        print(recon_string(aux))    
+    # print(program_tree)
+    clean_cass = recon_string(assertion_tree)
+    clean_pre = recon_string(pre_tree)
+    # print(assertion_tree)
+    print(clean_cass)
 # ## A reconstructor for visualizing the generated precondition.
 # ## VC transformation will still be performed on the AST. 
-# assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)
-# cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
+    # assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)
+    # cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
 
-# print(cleaned_assertion)
+    # print(cleaned_assertion)
 
 

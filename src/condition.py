@@ -187,6 +187,7 @@ def program_gen_logical(matrix, numq, N, gateinfo, code):
     
     for i in range(len(gateinfo)):
         gate, inds = gateinfo[i]
+        print(gate, inds)
         if gate == 'CNOT':
             assert len(inds[i]) == 2
             k, l = inds[i]
