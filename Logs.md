@@ -50,4 +50,15 @@ Technical details:
 1. Try to optimize the z3 smt encoding, variable's bitwidth should = 1 and reconstruct the integer addition (maybe full adder is prefered)
 2. Find benchmarks of stabilizer codes and convert to programs and assertions 
 3. Implement the cnot rules for substituting pauli operators
-4. Try 01 integer programming tools, like Gurobi 
+4. Try 01 integer programming tools, like Gurobi
+
+
+
+
+
+
+
+## 10.24 Update 
+
+### Current methods that are not good enough in codes
+1. VCgeneration, include measurement error

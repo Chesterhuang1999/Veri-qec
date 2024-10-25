@@ -1,124 +1,95 @@
-import time
+## import system-based packages
 import numpy as np
-import math
-from multiprocessing import Pool
-# from smt_partition_merge import *
-from smt_detect_only import *
-
-from timebudget import timebudget
 import datetime
+import time
+import cvc5
+import math
+from z3 import *
+from multiprocessing import Pool
 import tblib.pickling_support
 import sys
+from timebudget import timebudget
 
-##Import special codes
-from Dataset import special_codes
-from Dataset import qldpc_codes
-
+## import customized codes
+from Dataset import qldpc_codes, linalg_GF, special_codes
+from smt_testing_code import *
 sys.setrecursionlimit(1000000)
+
+## Handling errors
 class ExceptionWrapper(object):
     def __init__(self, ee):
         self.ee = ee
         _, _, self.tb = sys.exc_info()
-    
+
     def re_raise(self):
-        raise self.ee.with_traceback(self.tb)
+        raise self.ee.with_traceback(self.tb)    
 
-
+### Parallel checking ### 
 def worker(task_id, err_vals, opt):
-    
-    try:
+    try: 
         start = time.time()
         
         if opt == 'x':
-            smttime, res = seq_cond_checker_part(packed_x, err_vals, opt)
+            smttime, res = seq_cond_checker_testing(packed_x, err_vals, opt)
         else:
-            smttime, res = seq_cond_checker_part(packed_z, err_vals, opt)
+            smttime, res = seq_cond_checker_testing(packed_z, err_vals, opt)
+        pos = np.where(err_vals == 1)[0]
+        # print(resx, resz, len(pos), pos)
+        # print(pos, res)
+        # res = res[1] if res[0] == 'True' else res[0]
+        with open('Details/surface_code_testing_opt-35.txt', 'a') as f:
+            f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos}\n')
+            f.write(f'error_type: {opt} | result: {res} \n')
+        # print(resx, resz)
         end = time.time()
-        cost = end - start 
+        cost = end - start
 
-        return task_id, smttime, str(res)
+        return task_id, cost
     except Exception as e:
-        print(e)
         return task_id, ExceptionWrapper(e)
-
-
-def estimate_difficulty(remained_qubits, remained_ones):
-    n = remained_qubits
-    k = remained_ones
-    # k = min(remained_ones, remained_qubits - remained_ones)
-    if k >= n:
-        return 2 ** n
-    k = min(k, n - k)
+##Random generate samples for testing
+def random_sample(N, D, probs):
+    max_ham_weight = D - 1
+    elems = np.arange(D - 1) + 1
     
-    return sum(math.comb(n, i) for i in range(k + 1))
+    # num_ones = np.random.randint(1, max_ham_weight + 1)
+    num_ones = np.random.choice(elems, 1, p = probs)[0]
+    # print(num_ones)
+    indices = np.random.choice(N, num_ones, replace = False)
+    # bin_arr = np.zeros(length, dtype = int)
+    # bin_arr[indices] = 1
 
-class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num) -> None:
-        self.distance = distance
-        self.max_proc_num = max_proc_num
-        
-        # self.num_qubits = distance ** 2
-        self.num_qubits = numq
-        self.tasks = []
-        
-        # self.one_num_thres = distance // 2
-        self.assigned_bit_thres = 16
-        
-        self.target_task_num =  max_proc_num * 2
-        self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
-        self.parti_diffi_thres = self.full_difficulty // self.target_task_num
-
-    def easy_enough(self, remained_qubit_num, remained_one_num):
-        if remained_qubit_num == 1:
-            return True
-        # if self.one_num_thres >= remained_one_num and \
-        #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        #     return True
-        assigned_one_num = (self.distance - 1) - remained_one_num
-        assigned_bit_num = self.num_qubits - remained_qubit_num
-        
-        # if assigned_one_num < 2:
-        #     return False
-
-        ### For detection task ###
-
-        # if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-        #     return False
-
-        ### For verification task ###
-        if 2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
-            return False
-        
+    return indices
+def random_sample_fixd(N, D):
     
-        return True
-        # return False
+    num_ones = (D - 1) // 2
+    indices = np.random.choice(N, num_ones, replace = False)
+    return indices
+def task_generator(numq, distance, max_sample_num):
+    tasks = []
+    cnt = 0 
+    uniq_samples = set()
+    p0 = 1 / (2 - math.pow(1/2, distance - 2))
+    probs = [p0]
+    for i in range(1, distance - 1):
+        probs.append(probs[-1] / 2)
+    while cnt < max_sample_num:
+        sample = random_sample(numq, distance, probs)
+        if tuple(sample) not in uniq_samples:
+            uniq_samples.add(tuple(sample))
+            cnt += 1
+            bin_arr = np.zeros(numq, dtype = int)
+            bin_arr[sample] = 1
+            tasks.append(bin_arr)
     
-    def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
-        # if remained_qubit_num == 0 \
-        #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        if self.easy_enough(remained_qubit_num, remained_one_num):
-            self.tasks.append(list(curr_enum_qubits))
-            return
+    return tasks
+            
 
-        curr_enum_qubits.append(0)
-        self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
-        curr_enum_qubits.pop()
-        
-        if remained_one_num > 0:
-
-            curr_enum_qubits.append(1)
-            self.generate_tasks(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
-            curr_enum_qubits.pop()
-    
-    def __call__(self):
-        self.generate_tasks(self.num_qubits, self.distance - 1, [])
-        return self.tasks
 
 processed_job = 0
 solved_job = 0
 unsolved_job = 0
-sat_job = 0
+sat_job = 0 
 unsat_job = 0
 
 def get_current_infos(not_done = True):
@@ -152,6 +123,7 @@ def process_callback(result):
     # print(result)
     global task_info
     global err_info
+
     if isinstance(result[1], ExceptionWrapper):
         task_id = result[0]
         print(task_info[task_id])
@@ -160,13 +132,12 @@ def process_callback(result):
     global processed_job
     global last_print
     
-    task_id, time_cost, res_smt = result
-    task_info[task_id].append(time_cost)
-    task_info[task_id].append(res_smt)
+    task_id, time_cost = result
     
+    task_info[task_id].append(time_cost)
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 1.0:
+    if curr_time - last_print > 10.0:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
@@ -191,8 +162,8 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
-@timebudget 
-def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
+@timebudget
+def cond_checker_testing(matrix, dx, dz, max_sample_num, max_proc_num):
     global task_info
     global packed_x
     global packed_z
@@ -201,38 +172,35 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
-    # global is_counter
-    # is_counter = 0
+    
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    tg_x = subtask_generator(dz, numq, max_proc_num)
-    tasks_x = tg_x() 
-    tg_z = subtask_generator(dx, numq, max_proc_num)
-    tasks_z = tg_z()
+    
+    tasks_x = task_generator(numq, dz, max_sample_num)
+    tasks_z = task_generator(numq, dx, max_sample_num)
     print("Task generated. Start checking.")
+    print(f"total_job: {len(tasks_x) + len(tasks_z)}")
     total_job = len(tasks_x) + len(tasks_z)
-    print(tasks_x)
-    print(tasks_z)
-    print(f"total_job: {total_job}")
-
     task_info = []
     err_info = []
-    
+    packed_x, packed_z = formulagen_testing(matrix, dx, dz)
+    time_gen = time.time() - start_time
+    print(time_gen)
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks_x):
-            opt = 'x'    
+            opt = 'x'
             task_info.append(analysis_task(i, task))
+
             result_objects.append(pool.apply_async(worker, (i, task, opt), callback=process_callback, error_callback=process_error))
-            # if (i % 50 == 0):
-                #print(i, task)
+        
         for i, task in enumerate(tasks_z):
-            opt = 'z'
-            task_info.append(analysis_task(i + len(tasks_x), task))
-            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), callback=process_callback, error_callback=process_error))
+            xlen = len(tasks_x)
+            task_info.append(analysis_task(i + xlen, task))
+            result_objects.append(pool.apply_async(worker, (i + xlen, task, 'z'), callback=process_callback, error_callback=process_error))
+        
         pool.close()
         [res.wait() for res in result_objects]
         pool.join()
@@ -242,30 +210,36 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
     # with open('unsorted_results.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]}| result: {ti[-1]}\n')
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
     #         f.write(f'{ti[1]}\n')
     #         f.write(f'{" | ".join(ti[2])}\n')
-    # # for info in task_info:
-    # #     print(info)
-    task_info.sort(key=lambda x: x[0])
+   
+    task_info.sort(key=lambda x: x[-1])
 
     with open('sorted_results.txt', 'w') as f:
         for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-1]}\n')
             f.write(f'{ti[1]}\n')
             f.write(f'{" | ".join(ti[2])}\n')
+   
+
+    
+    processed_job = 0
+    unprocessed_job = 0
+
+
+def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
+    matrix = surface_matrix_gen(distance)   
+    cond_checker_testing(matrix, distance, distance, max_sample_num, max_proc_num)
 
 
 
-def sur_cond_checker(distance, max_proc_num):
-    matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
-
-if __name__ == "__main__":
+if __name__ == "__main__": 
     tblib.pickling_support.install()
-    # dx = 3
-    # dz = 3
-    max_proc_num = 2
+
+    distance = 35
+    max_sample_num = 500
+    max_proc_num = 250
     # Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
     #                [1, 0, 1, 1, 0, 1, 0],
     #                [0, 1, 1, 1, 0, 0, 1]])
@@ -278,16 +252,23 @@ if __name__ == "__main__":
     #               [1, 0, 0, 1, 0],
     #               [1, 0, 0, 0, 1]])
     # Par54 = np.array([[1, 1, 1, 1, 1]])
-    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    # Rep31 = np.array([[1, 1, 0],
+    #               [1, 0, 1]])
+    # Par32 = np.array([[1, 1, 1]])
+
+    # matrix = qldpc_codes.stabs_Tanner(1, 1, Rep31, Par32)
+    # # matrix = special_codes.stabs_triotho(2)
+    # # print(matrix)
     # n = matrix.shape[1] // 2
     # k = matrix.shape[0] - n
     
     # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
     # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # print(dx_max, dz_max)
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # matrix = surface_matrix_gen(3)
-    
-    # print(matrix)
-    sur_cond_checker(3, max_proc_num)
+    # print(n, dx_max, dz_max)
+    # cond_checker_testing(matrix, dx_max, dz_max, max_sample_num, max_proc_num)
 
+    sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+    # print(task_generator(25, 5, 10))
+  
+    
+    

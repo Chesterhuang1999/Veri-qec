@@ -200,29 +200,72 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
         return variables[var_name]
     else:
         raise ValueError(f"Unknown tree node: {tree}")
+
+
+def VCgeneration_meas(precond, prog_qec, postcond, prog_log = None):
+    # print(prog_qec)
+    result_meas = precond_generator(prog_qec, postcond, postcond)
     
+    pre_tree, prog_tree, post_tree, auxes = result_meas
+    # print(recon_string(pre_tree))   
+    aux_trees = []
+    for i, aux in enumerate(auxes):
+        
+        cass_transformer = qassertion2c(pre_tree)
+        aux = cass_transformer.transform(aux)
+    
+        aux = simplifyeq().transform(aux)
+        
+        aux_trees.append(aux)
+    
+    if prog_log != None: 
+        program = f"{prog_log}; {prog_qec}"
+        result_log = precond_generator(program, precond, postcond)
+        pre_tree_log, prog_tree_log, post_tree_log, _ = result_log
+        # print(recon_string(pre_tree_log))
+        cass_transformer = qassertion2c(pre_tree_log)
+        cass_tree = cass_transformer.transform(post_tree_log.children[0].children[-1])
+    else:
+        cass_transformer = qassertion2c(pre_tree)
+        cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
+    
+    # print(recon_string(cass_tree))
+    # exit(0)
+    return cass_tree, aux_trees
 def VCgeneration(precond, program, postcond):
     # pre_tree, prog_tree, post_tree, auxes = precond_generator(program, precond, postcond)
+    
     result = precond_generator(program, precond, postcond)
     if len(result) == 4:
         pre_tree, prog_tree, post_tree, auxes = result
+        # print(recon_string(pre_tree))
+        # print(recon_string(post_tree))
+        # exit(0)
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
         cass_tree = simplifyeq().transform(cass_tree)
+        # print(recon_string(cass_tree))
+        # exit(0)
+        
         aux_trees = []
         for i, aux in enumerate(auxes):
+            # print(recon_string(aux))
             cass_transformer = qassertion2c(pre_tree)
             aux = cass_transformer.transform(aux)
         
             aux = simplifyeq().transform(aux)
+            # print(recon_string(aux))
             aux_trees.append(aux)
+        
         return cass_tree, aux_trees
     
     else:
         pre_tree, prog_tree, post_tree = result
+        
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
         cass_tree = simplifyeq().transform(cass_tree)
+        
         return cass_tree
     # # print(recon_string(pre_tree))
     # cass_transformer = qassertion2c(pre_tree)

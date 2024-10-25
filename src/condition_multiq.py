@@ -313,8 +313,8 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
             k, l = inds[0], inds[1]
             if code in ('surface', 'steane'):
                 for i in range(numq):
-                    q1 = (k - 1) * numq + i
-                    q2 = (l - 1) * numq + i
+                    q1 = (k - 1) * numq + i + 1
+                    q2 = (l - 1) * numq + i + 1
                     prog_parts_log.append(f"q_({q1}), q_({q2}) *= CNOT")
             # elif code == '':
         elif gate == 'H':
@@ -322,7 +322,7 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
             k = inds[0]
             if code in ('surface', 'steane'):
                 for i in range(numq):
-                    q = (k - 1) * numq + i
+                    q = (k - 1) * numq + i + 1
                     prog_parts_log.append(f"q_({q}) *= H")
     prog_log =  ';'.join(prog_parts_log)
     return prog_log
