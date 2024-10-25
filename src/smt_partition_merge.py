@@ -85,7 +85,6 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-    print(cass_expr)
     
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
@@ -212,7 +211,7 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     
     return packed_x, packed_z
 
-def seq_cond_checker_part(packed_expr, err_vals, opt):
+def seq_cond_checker(packed_expr, err_vals, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
     if opt == 'x':
@@ -228,29 +227,30 @@ def seq_cond_checker_part(packed_expr, err_vals, opt):
     t4 = time.time()
     return t4 - t3, result
 
-def seq_cond_checker(packed_x, packed_z, err_vals):
+# def seq_cond_checker(packed_x, packed_z, err_vals):
     
-    t2 = time.time()
-    err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-    err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
+#     t2 = time.time()
+    
+#     err_val_exprs_x = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+#     err_val_exprs_str_x = ' && '.join(err_val_exprs_x)
 
-    err_val_exprs_z = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-    err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
-    
-    expr_x, variables_x, constraints_x = packed_x
-    
-    expr_z, variables_z, constraints_z = packed_z
-    formula_x = smtencoding_constrep(expr_x, variables_x, constraints_x,
-                                      err_val_exprs_str_x)
-    formula_z = smtencoding_constrep(expr_z, variables_z, constraints_z,                    
-                                      err_val_exprs_str_z)
+#     err_val_exprs_z = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+#     err_val_exprs_str_z = ' && '.join(err_val_exprs_z)
 
-    t3 = time.time()
-    result_x = smtchecking(formula_x)
-    result_z = smtchecking(formula_z)
-    t4 = time.time()
-    # print(t4 - t3, t3 - t2)
-    return t4 - t3, result_x, result_z
+#     expr_x, variables_x, constraints_x = packed_x
+
+#     expr_z, variables_z, constraints_z = packed_z
+#     formula_x = smtencoding_constrep(expr_x, variables_x, constraints_x,
+#                                     err_val_exprs_str_x)
+#     formula_z = smtencoding_constrep(expr_z, variables_z, constraints_z,                    
+#                                     err_val_exprs_str_z)
+
+#     t3 = time.time()
+#     result_x = smtchecking(formula_x)
+#     result_z = smtchecking(formula_z)
+#     t4 = time.time()
+#     # print(t4 - t3, t3 - t2)
+#     return t4 - t3, result_x, result_z
 
 
 

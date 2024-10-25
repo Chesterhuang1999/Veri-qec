@@ -90,11 +90,20 @@ class Unitary(Transformer):
             else:
                 z1 = z1 ^ z2
                 x2 = x1 ^ x2 
-                phase = args[0].children[0] if len(args[0].children) == 4 else Token('NUMBER',0)
+                phase = args[0].children[0] if len(args[0].children) == 4 else None
+                if phase != None:
+                    args[0].children.pop(0)
+                if x1 == 1 and z2 == 1 and x2 == z1:
+                    if phase == None:
+                        phase = Token('NUMBER', '1')
+                    else:
+                        phase = Tree('xor', [phase, Token('NUMBER','1')])
+                
                 if pos1 == -1: ## the stabilizer doesn't act on q1
                     if (z1,x1) != (0,0):
                         args.insert(find_pos(args, v_ind1), Tree('pauli',[Token('NUMBER', z1), Token('NUMBER', x1), Token('NUMBER', v_ind1)])) 
                 else:
+                    pos1 = find_pos(args, v_ind1)
                     if (z1, x1) == (0,0):
                         args.pop(pos1)
                     else:
@@ -104,13 +113,13 @@ class Unitary(Transformer):
                     if (z2, x2) != (0,0):
                         args.insert(find_pos(args, v_ind2), Tree('pauli',[Token('NUMBER', z2), Token('NUMBER', x2), Token('NUMBER', v_ind2)]))
                 else:
+                    pos2 = find_pos(args, v_ind2)
                     if (z2, x2) == (0,0):
                         args.pop(pos2)
                     else:
                         args[pos2] = Tree('pauli', [Token('NUMBER', z2), Token('NUMBER', x2), Token('NUMBER', v_ind2)])
-                if x1 == 1 and z2 == 1 and x2 == z1:
-                    phase = Tree('add', [phase, Token('NUMBER',1)])
-                if phase != 0:
+                
+                if phase != None:
                     if len(args[0].children) == 4:
                         args[0].children[0] = phase
                     else:
