@@ -31,10 +31,10 @@ def worker(task_id, err_vals, indices, opt):
         
         if opt == 'x':
             # smttime, res = seq_cond_checker(packed_x, err_vals, opt)
-            smttime, res = seq_cond_checker(packed_x, err_vals, opt)
+            smttime, res = seq_cond_checker(packed_x, err_vals, indices, opt)
         else:
             # smttime, res = seq_cond_checker(packed_z, err_vals, opt)
-            smttime, res = seq_cond_checker(packed_z, err_vals, opt)
+            smttime, res = seq_cond_checker(packed_z, err_vals, indices, opt)
         end = time.time()
         cost = end - start 
 
@@ -96,7 +96,7 @@ class subtask_generator:
         return True
         # return False
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
-    def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
+    def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         # if remained_qubit_num == 0 \
         #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
@@ -106,44 +106,44 @@ class subtask_generator:
 
         curr_enum_qubits.append(0)
         # curr_seg_qubits.append(0)
-        self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
+        self.generate_tasks_II(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
         if remained_one_num > 0 :
             curr_enum_qubits.append(1)
             # curr_seg_qubits.append(0)
-            self.generate_tasks(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
+            self.generate_tasks_II(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
-    # ### Constraint I: The number of 1s in each length d segment is at most 1
-    # def generate_tasks_I(self, remained_qubit_num, remained_one_num, curr_seg_count, curr_enum_qubits: list):
+    ### Constraint I: The number of 1s in each length d segment is at most 1
+    def generate_tasks_I(self, remained_qubit_num, remained_one_num, curr_seg_count, curr_enum_qubits: list):
         
-    #     if self.easy_enough(remained_qubit_num, remained_one_num):
-    #         self.tasks.append(list(curr_enum_qubits))
-    #         return
+        if self.easy_enough(remained_qubit_num, remained_one_num):
+            self.tasks.append(list(curr_enum_qubits))
+            return
         
-    #     if remained_qubit_num % self.distance == 0:
-    #         curr_seg_count = 0
+        if remained_qubit_num % self.distance == 0:
+            curr_seg_count = 0
 
-    #     curr_enum_qubits.append(0)
-    #     # curr_seg_qubits.append(0)
-    #     self.generate_tasks_I(remained_qubit_num - 1, remained_one_num, curr_seg_count, curr_enum_qubits)
-    #     curr_enum_qubits.pop()
+        curr_enum_qubits.append(0)
+        # curr_seg_qubits.append(0)
+        self.generate_tasks_I(remained_qubit_num - 1, remained_one_num, curr_seg_count, curr_enum_qubits)
+        curr_enum_qubits.pop()
         
-    #     if remained_one_num > 0 and curr_seg_count < 1:
-    #         curr_enum_qubits.append(1)
-    #         # curr_seg_qubits.append(0)
-    #         self.generate_tasks_I(remained_qubit_num - 1, remained_one_num - 1, curr_seg_count + 1, curr_enum_qubits)
-    #         curr_enum_qubits.pop()
+        if remained_one_num > 0 and curr_seg_count < 1:
+            curr_enum_qubits.append(1)
+            # curr_seg_qubits.append(0)
+            self.generate_tasks_I(remained_qubit_num - 1, remained_one_num - 1, curr_seg_count + 1, curr_enum_qubits)
+            curr_enum_qubits.pop()
 
     def __call__(self):
-        # if self.method == 'II':
-        #     num_ones = (self.distance**2 - 1) // 3
-        #     selected_set = np.random.choice(self.num_qubits, num_ones, replace = False)
-        #     self.generate_tasks_II(num_ones, self.distance - 1, [])
-        #     return self.tasks, selected_set
-        # elif self.method == 'I':
-        self.generate_tasks(self.num_qubits, self.distance - 1, [])
+        if self.method == 'II':
+            num_ones = (self.distance**2 - 1) // 3
+            selected_set = np.random.choice(self.num_qubits, num_ones, replace = False)
+            self.generate_tasks_II(num_ones, self.distance - 1, [])
+            return self.tasks, selected_set
+        elif self.method == 'I':
+            self.generate_tasks_I(self.num_qubits, self.distance - 1, 0, [])
             return self.tasks
 
 processed_job = 0
@@ -232,8 +232,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
-    # global indices_x
-    # global indices_z
+    global indices_x
+    global indices_z
     # global is_counter
     # is_counter = 0
     max_process_num = max_proc_num
@@ -241,10 +241,10 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     last_print = start_time
     numq = matrix.shape[1] // 2
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    tg_x = subtask_generator(dz, numq, max_proc_num)
-    tasks_x = tg_x()
-    tg_z = subtask_generator(dx, numq, max_proc_num)
-    tasks_z = tg_z()
+    tg_x = subtask_generator(dz, numq, max_proc_num, 'I')
+    tasks_x, indices_x = tg_x()
+    tg_z = subtask_generator(dx, numq, max_proc_num, 'I')
+    tasks_z, indices_z = tg_z()
     # print(tasks_x)
     # print(tasks_z)
     
@@ -262,13 +262,13 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         for i, task in enumerate(tasks_x):
             opt = 'x'    
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, task, opt), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, task, indices_x, opt), callback=process_callback, error_callback=process_error))
             # if (i % 50 == 0):
                 #print(i, task)
         for i, task in enumerate(tasks_z):
             opt = 'z'
             task_info.append(analysis_task(i + len(tasks_x), task))
-            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, indices_z, opt), callback=process_callback, error_callback=process_error))
         pool.close()
         [res.wait() for res in result_objects]
         pool.join()

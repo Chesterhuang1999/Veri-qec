@@ -230,17 +230,17 @@ def cond_generator(matrix, dx, dz, is_sym = False):
 def seq_cond_checker(packed_expr, err_vals, indices, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
-    if len(indices) == 0:
-        if opt == 'x':
-            err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-        else:
-            err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    # if len(indices) == 0:
+    if opt == 'x':
+        err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
     else:
-        if opt == 'x':
-            err_val_exprs = [f'(ez_({indices[i] + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-            err_val_exprs.extend(f'(ez_({i + 1})) == 0' for i in range(len()))
-        else:
-            err_val_exprs = [f'(ex_({indices[i] + 1})) == {err_vals[i]}' for i in range(len(err_vals))]    
+        err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    # else:
+    #     if opt == 'x':
+    #         err_val_exprs = [f'(ez_({indices[i] + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+    #         err_val_exprs.extend(f'(ez_({i + 1})) == 0' for i in range(len()))
+    #     else:
+    #         err_val_exprs = [f'(ex_({indices[i] + 1})) == {err_vals[i]}' for i in range(len(err_vals))]    
     err_val_exprs_str = ' && '.join(err_val_exprs)
 
     formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
