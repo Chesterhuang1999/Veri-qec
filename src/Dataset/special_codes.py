@@ -6,8 +6,9 @@ import math
 import galois
 # import time
 from collections import defaultdict
+from itertools import product
 
-# from .linalg_GF import *
+# from linalg_GF import *
 from Dataset.linalg_GF import *
 ##### Stabilizer code check matrix generation #####
 
@@ -32,7 +33,39 @@ def stabs_steane():
     # x_stabs[n, 0:n] = logs
     # z_stabs[n, n:] = logs
     return stabs
+## [[2d^2, 2, d]] Toric code
+def stabs_Toric(d):
+    nq = d ** 2
+    mat = np.zeros((2 * nq + 2, 4 * nq), dtype = int)
+    ## Z stabilizers
+    for i in range(d):
+        for j in range(d):
+            if i != d - 1 or j != d - 1:
+                sbase = i * d + j
+                
+                mat[sbase + nq - 1, 2 * nq + sbase] = 1
+                mat[sbase + nq - 1, 2 * nq +((i+1) %d) * d + j] = 1
+                mat[sbase + nq - 1, 3 * nq + sbase] = 1
+                mat[sbase + nq - 1, 3 * nq + i * d + (j+1)%d] = 1
+    ## X stabilizers
+    for i in range(d**2  - 1):
+        ai = i // d
+        bi = i % d
+        
+        l, r, t, b = ai * d + bi, nq + ai * d + bi, ai *d + (bi + d - 1) % d,nq + ((ai + d - 1) % d) * d + bi
+        
+        mat[i, ai * d + bi] = 1
+        mat[i, nq + ai * d + bi] = 1
+        mat[i, ai *d + (bi + d - 1) % d] = 1
+        mat[i, nq + ((ai + d - 1) % d) * d + bi] = 1
 
+    for i in range(d):
+        mat[2 * nq - 2, i * d] = 1
+        mat[2 * nq - 1, i + nq] = 1
+        mat[2 * nq, 3 * nq + i * d] = 1
+        mat[2 * nq + 1, 2 * nq + i] = 1
+    
+    return mat
 ## [[2^r, 2^r - r- 2, 3]] Goettsman code
 def stabs_goettsman(m):
     n = int(math.pow(2, m))
@@ -268,6 +301,33 @@ def stabs_832code():
 
     return matrix
 
+
+## [[12, 2, 4]] carbon code 
+def stabs_carbon():
+    HX = np.zeros((5, 12), dtype = int)
+    for i in range(3):
+        for j in range(3):
+            HX[i, 2*i + j] = 1
+            HX[i, (2*i + j + 6) % 12] = 1
+    for i in range(6):
+        HX[3, i] = 1
+        HX[4, i + 6] = 1
+    while True:
+        perm_index = np.random.permutation(12)
+        temp = HX[:, perm_index]
+        if np.all(symplectic_product(HX, temp) == 0) == True:
+            HZ = temp 
+            break 
+    # print(HZ)
+    matrix = np.zeros((10, 24), dtype = int)
+    matrix[:5, :12] = HX
+    matrix[5:10, 12:] = HZ
+    rank = np.linalg.matrix_rank(matrix[:, :12])
+    # print(rank)
+    log_Z, log_X = logical_op_gen(matrix, rank, 12, 2)
+    assert np.all(symplectic_product(matrix, matrix) == 0)
+    stabs_mat = np.concatenate((matrix, log_X, log_Z), axis = 0)
+    return stabs_mat 
 ## [[3k+8, k, 2]] triorthogonal code
 def stabs_triotho(k):
     assert k % 2 == 0
@@ -302,14 +362,61 @@ def stabs_triotho(k):
     m, n = G_orth.shape
     GO = np.zeros((m, n), dtype = int)
     SZ = np.concatenate((GO, G_orth), axis = 1)
-    
+    # assert np.all(symplectic_product(matrix, matrix) == 0)
     matrix = np.concatenate((SX, SZ, LX, LZ), axis = 0)
     
     return matrix
 
 ## [[6k+2, 3k, 2]] campbell-howard code
-def stabs_choward(k):
-    pass 
+def stabs_camp_howard(k):
+    K = np.array([[1,1,0,1,1,0,0,0,0,0,0,0,0,0],
+                  [1,0,1,1,0,1,0,0,0,0,0,0,0,0],
+                  [0,1,1,1,0,0,1,0,0,0,0,0,0,0],
+                  [1,1,1,1,1,1,1,1,0,1,1,0,0,0],
+                  [1,1,1,1,1,1,1,0,1,1,0,1,0,0],
+                  [0,0,0,0,0,0,0,1,1,1,0,0,1,0],
+                  [1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
+    # [[8,3,2]]
+    # K = np.array([[1,1,0,1,1,0,0,0],
+    #               [1,0,1,1,0,1,0,0],
+    #               [0,1,1,1,0,0,1,0]])
+    S = np.array([[1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
+    # L = np.concatenate((K, S), axis = 0)
+    H_orig = find_null_space_GF2(K)
+    # print(H_orig)
+    # H_X = find_null_space_GF2(S)
+
+    # print(H_X)
+    # print(H_orig @ S.T % 2)
+    k1, n = H_orig.shape[1] - H_orig.shape[0], H_orig.shape[1]
+    # print(k1, n)
+    # s1 = np.ones((1, n), dtype = int)
+    # for i in range (n - k1):
+    #     H_orig[i, -1] = H_orig[i, -1] ^ 1
+    
+    # # print((H_orig @ K.T) % 2)
+    # H_orig = H_orig[:-1,:]
+    
+    matrix = np.zeros((n - k1 + 1, 2 * n), dtype = int)
+    matrix[0,:n] = S
+    # matrix[0, n - 1] = 1
+    matrix[1: n - k1 + 1, n:] = H_orig
+    # print(H_orig)
+    # print((H_orig @ np.ones((1,n), dtype = int).T) )
+    rank = np.linalg.matrix_rank(matrix[:, :n])
+    logs_Z, logs_X = logical_op_gen(stab_matrix_transformation(matrix, n), rank, n, k1 - 1)
+    # logs_X[2,:] = logs_X[2,:] ^ logs_X[0,:]
+    stabs_mat = np.concatenate((matrix, logs_X, logs_Z), axis = 0)
+    assert np.all(symplectic_product(matrix, matrix) == 0)
+    print(logs_Z)
+    print(logs_X)
+    # print(symplectic_product(matrix, logs_X))
+    # print(symplectic_product(matrix, logs_Z))
+    # print(symplectic_product(logs_X, logs_Z))
+    # print(symplectic_product(matrix, matrix))
+    # print(logs_X)
+    # print(logs_Z)
+    return stabs_mat
 if __name__ == "__main__":  
-    stabs_mat = stabs_Reed_Muller(3)
-    print(stabs_mat)
+    mat = stabs_camp_howard(2)
+    # print(stabs_mat)

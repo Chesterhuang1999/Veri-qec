@@ -9,9 +9,9 @@ from multiprocessing import Pool
 import tblib.pickling_support
 import sys
 from timebudget import timebudget
-import matplotlib.pyplot as plt
-## import customized functions
 
+## import customized functions
+from Dataset import qldpc_codes, special_codes
 from verifier import precond_generator
 from encoder import tree_to_z3, VCgeneration
 from condition import *
@@ -85,9 +85,10 @@ def smtchecking_testing(formula):
         temp = cmd.invoke(s2, sm)
     
     r = s2.checkSat()
+    correction = []
     if str(r) == 'sat':
         vars = sm.getDeclaredTerms()
-        correction = []
+        
         cvars = []
         for i in vars:
             vstr = i.getSymbol().split('_')
@@ -101,21 +102,21 @@ def smtchecking_testing(formula):
                 # print(elems)
                 correction.append(elems[1])
 
-        return r
-
-    return r
-def formulagen_testing(distance):
-    num_qubits = distance**2
+       
+    return r, correction
+def formulagen_testing(matrix, distance):
+    num_qubits = matrix. shape[1] // 2
+    k = matrix.shape[0] - num_qubits
     # max_errors = (distance - 1) // 2
     bit_width = int(math.log2(num_qubits)) + 1
     # max_errors = (distance - 1) // 2 
-    surface_mat = surface_matrix_gen(distance)
+    # matrix = matrixrix_gen(distance)
 
-    precond_x, precond_z = stab_cond_gen(surface_mat, num_qubits, 1)
+    precond_x, precond_z = stab_cond_gen(matrix, num_qubits, k)
     postcond_x, postcond_z = precond_x, precond_z
 
-    program_x, program_z = program_gen(surface_mat, num_qubits, 1)
-    decoder_cond_x, decoder_cond_z = decode_cond_gen(surface_mat, num_qubits, 1, distance, distance, 'test')
+    program_x, program_z = program_gen(matrix, num_qubits, k)
+    decoder_cond_x, decoder_cond_z = decode_cond_gen(matrix, num_qubits, k, distance, distance, 'test')
     
     packed_x = smtencoding_testing(precond_x, program_x, postcond_x, decoder_cond_x, bit_width)
     packed_z = smtencoding_testing(precond_z, program_z, postcond_z, decoder_cond_z, bit_width)
@@ -147,9 +148,9 @@ def worker(task_id, err_vals):
         smttime, resx, resz = seq_cond_checker_testing(packed_x, packed_z, err_vals)
         pos = np.where(err_vals == 1)[0]
         # print(resx, resz, len(pos), pos)
-        with open('Details/surface_code_testing-55.txt', 'a') as f:
-            f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos} | time: {smttime}\n')
-            f.write(f'result_x: {resx} | result_z: {resz}\n')
+        # with open('Details/surface_code_testing-9.txt', 'a') as f:
+        #     f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos} | time: {smttime}\n')
+        #     f.write(f'result_x: {resx} | result_z: {resz}\n')
         # print(resx, resz)
         end = time.time()
         cost = end - start
@@ -158,32 +159,37 @@ def worker(task_id, err_vals):
     except Exception as e:
         return task_id, ExceptionWrapper(e)
 ##Random generate samples for testing
-def random_sample(D):
-    length = D**2
-    max_ham_weight = D - 2
-    num_ones = np.random.randint(1, max_ham_weight + 1)
+def random_sample(N, D, probs):
+    max_ham_weight = D - 1
+    elems = np.arange(D - 1) + 1
     
-    indices = np.random.choice(length, num_ones, replace = False)
+    # num_ones = np.random.randint(1, max_ham_weight + 1)
+    num_ones = np.random.choice(elems, 1, p = probs)[0]
+    # print(num_ones)
+    indices = np.random.choice(N, num_ones, replace = False)
     # bin_arr = np.zeros(length, dtype = int)
     # bin_arr[indices] = 1
-
     return indices
 
-def task_generator(distance, max_sample_num):
+def task_generator(numq, distance, max_sample_num):
     tasks = []
     cnt = 0 
     uniq_samples = set()
+    p0 = 1 / (2 - math.pow(1/2, distance - 2))
+    probs = [p0]
+    for i in range(1, distance - 1):
+        probs.append(probs[-1] / 2)
     while cnt < max_sample_num:
-        sample = random_sample(distance)
+        sample = random_sample(numq, distance, probs)
         if tuple(sample) not in uniq_samples:
             uniq_samples.add(tuple(sample))
             cnt += 1
-            bin_arr = np.zeros(distance**2, dtype = int)
+            bin_arr = np.zeros(numq, dtype = int)
             bin_arr[sample] = 1
             tasks.append(bin_arr)
     
-
     return tasks
+            
             
 
 processed_job = 0
@@ -236,16 +242,16 @@ def process_callback(result):
     # if len(resx) > 1 or len(resz) > 1:
     #     corr_info[task_id] = [resx[1], resz[1]] ## print corrections 
     task_info[task_id].append(time_cost)
-    # curr_time = time.time()
-    # processed_job += 1
-    # if curr_time - last_print > 10.0:
-    #     info = "{}/{}: finish job file[{}], cost_time: {}" \
-    #             .format(processed_job, total_job, task_id, time_cost)
-    #     print(info)
-    #     print(task_info[task_id])
-    #     print(get_current_infos())
-    #     sys.stdout.flush()
-    #     last_print = curr_time
+    curr_time = time.time()
+    processed_job += 1
+    if curr_time - last_print > 10.0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+        last_print = curr_time
     
 def process_error(error):
     print(f'error: {error}')
@@ -263,8 +269,9 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
-
-def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
+@timebudget
+def cond_checker_testing(matrix, dx, dz, max_sample_num, max_proc_num):
+# def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
 
     global task_info
     global packed_x
@@ -279,15 +286,17 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
     start_time = time.time()
     last_print = start_time
     #cond_x, cond_z = cond_generator(distance)
-    tasks = task_generator(distance, max_sample_num)
+    numq = matrix.shape[1] // 2
+    distance = dx
+    tasks = task_generator(numq, distance, max_sample_num)
     print("Task generated. Start checking.")
     total_job = len(tasks)
     print(f"total_job: {total_job}")
- 
+    
     task_info = []
     err_info = []
     # corr_info = defaultdict(list)
-    packed_x, packed_z = formulagen_testing(distance)
+    packed_x, packed_z = formulagen_testing(matrix, distance)
     end_gen = time.time()
     print(f"Generation time: {end_gen - start}")
     with Pool(processes = max_proc_num) as pool:
@@ -335,26 +344,81 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
     processed_job = 0
     unprocessed_job = 0
 
-    return round(end - start, 5)
+    return round(end_gen - start, 5), round(end - end_gen, 5)
     # with open('corrections.txt', 'w') as f:
     #     for i, ti in enumerate(task_info):
     #         if i in corr_info.keys():
     #             f.write(f'rank: {i} | id: {ti[0]} |\n')  
     #             f.write(f'{ti[1]}\n')
     #             f.write(f'corrections:{corr_info[i]}\n')
-
+def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
+    matrix = surface_matrix_gen(distance)   
+    t1, t2 = cond_checker_testing(matrix, distance, distance, max_sample_num, max_proc_num) 
+    return t1, t2
 
 if __name__ == "__main__": 
     tblib.pickling_support.install()
-    # runtime = []
-    # x = [4 * i + 1 for i in range(1, 10)]
+    
     # for i in range(1, 10):
-    distance = 55
+    # test_time = []
+    # smtsolve_time = []
+    # gen_time = []
+    # for i in range(2, 13):
+    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+                   [1, 0, 1, 1, 0, 1, 0],
+                   [0, 1, 1, 1, 0, 0, 1]])
+    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+                   [0, 1, 0, 0, 1, 0, 1],
+                   [0, 0, 1, 0, 0, 1, 1],
+                   [0 ,0, 0, 1, 1, 1, 1]])
+    distance = 7
     max_sample_num = 500
     max_proc_num = 250
-    timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
-    # runtime.append(timei)
-    print(timei)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+   
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    minx = np.argmin([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    minz = np.argmin([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    print(dx_max, dz_max)
+    err_val1 = matrix[n - k + minx]
+    err_val2 = matrix[n + minz]
+    # t1, t2 = cond_checker_testing(matrix, distance, distance, max_sample_num, max_proc_num)
+    # # t1, t2 = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+    # print(t1, t2)
+
+    # smtsolve_time.append(t2)
+    # gen_time.append(t1)
+    
+    # print(gen_time)
+    # print(smtsolve_time)
+    # distance = 7
+    # max_sample_num = 500
+    # max_proc_num = 250
+    # timei = sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+    # print(timei)
+    # # runtime.append(timei)
+    # print(timei)
+    # with open(f'Details/testing_example_9.txt', 'w') as f:
+    #     for task in tasks:
+    #         f.write(f'{task}\n')
+    # print(tasks[0])
+    # lists = []
+    # with open(f'Details/testing_example_7.txt', 'r') as f:
+    #     while True:
+    #         line1 = f.readline().strip()[1:]   
+    #         line2 = f.readline().strip()[:-1]
+    #         if not line1:
+    #             break
+    #         line = line1 + " " + line2
+    #         list_elements = [int(element) for element in line.split()]
+            
+    #         lists.append(list_elements)
+
+    # print(len(lists))
+    # print(lists[0])
     # plt.plot(x, runtime, label = 'runtime')
     # plt.xlabel('distance')
     # plt.ylabel('runtime')

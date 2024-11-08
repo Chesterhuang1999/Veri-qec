@@ -45,6 +45,7 @@ def find_pos(list, index):
 def recon_string(tree):
     first_recon = Reconstructor(parser = get_parser()).reconstruct(tree)
     return re.sub(r'\s*_\s*','_', first_recon)
+
 ### Substitution/Transformation rules
 # A transformer class to perform substitution on the tree
 class Assign(Transformer):
@@ -186,24 +187,25 @@ class Unitary(Transformer):
                         args[-2] = Tree('neg', [self.bexp])
                     return Tree('pauli', args)
                 
-            else: # S gate(conditional)
+            else: # S gate (no conditional)
                 if stab_x == 0:
                     return Tree('pauli', args)
-                elif stab_z == 0: #X
-                    args[-2] = self.bexp
+                elif stab_z == 1: #Y
+                    args[-3] = Token('NUMBER','0')  
                     return Tree('pauli', args)
-                else:
-                    args[-2] = self.bexp
+                else: # X, since 01
+                    bexp = Token('NUMBER','1')
+                    args[-3] = Token('NUMBER','1')
                     if(len(args) == 3):
-                        return Tree('pauli', [self.bexp] + args)
+                        return Tree('pauli', [bexp] + args)
                     else:
                         if args[0].data == 'xor':
-                            bexpr = Tree('xor', [self.bexp] + args[0])  
+                            bexpr = Tree('xor', [bexp] + args[0])  
                             #args[0].children = [self.bexp] + args[0].children 
                             #bexpr = args[0]
                         else:
-                            bexpr = Tree('xor', [self.bexp, args[0]])
-                        return Tree('pauli',[bexpr] + args[1:])
+                            bexpr = Tree('xor', [bexp, args[0]])
+                        return Tree('pauli', [bexpr] + args[1:])
         
 
 
@@ -490,21 +492,23 @@ if __name__ == "__main__":
 # Test example: Repetition code
     precond = """ (-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
 
-    program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
-    for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
-
-    postcond = """(-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
+    # program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
+    # for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
+    # program = """ q_(9), q_(1) *= CNOT; q_(8), q_(1) *= CNOT;q_(7), q_(1) *= CNOT; q_(6), q_(1) *= CNOT;q_(5), q_(1) *= CNOT; q_(4), q_(1) *= CNOT;q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;
+    # q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT;q_(1), q_(4) *= CNOT; q_(1), q_(5) *= CNOT;q_(1), q_(6) *= CNOT; q_(1), q_(7) *= CNOT;q_(1), q_(8) *= CNOT; q_(1), q_(9) *= CNOT"""
+    program = """ q_(7), q_(1) *= CNOT; q_(4), q_(1) *= CNOT;q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT"""
+    # program = "q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT"
+    # postcond = """(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7)
+    # &&(0,1,4)(0,1,5)(0,1,6)(0,1,7)&&(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7)
+    # &&(1,0,4)(1,0,5)(1,0,6)(1,0,7)"""
+    postcond = """(1,0,1)(1,0,4)(1,0,7)&&(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,4) &&(0,1,6)(0,1,9)&&(0,1,2)(0,1,3)(0,1,5)(0,1,6)&&(0,1,4)(0,1,5)(0,1,7)(0,1,8)
+    (1,0,1)(1,0,2)(1,0,4)(1,0,5)&&(1,0,5)(1,0,6)(1,0,8)(1,0,9) &&(1,0,2)(1,0,3)&&(1,0,7)(1,0,8)"""
     start = time.time()
-    pre_tree, program_tree, assertion_tree, auxes = precond_generator(program, precond, postcond)
-    print(assertion_tree)
-    # print(auxes)
-    for aux in auxes:
-        print(recon_string(aux))    
-    # print(program_tree)
+    pre_tree, program_tree, assertion_tree = precond_generator(program, precond, postcond)
     clean_cass = recon_string(assertion_tree)
-    clean_pre = recon_string(pre_tree)
-    # print(assertion_tree)
     print(clean_cass)
+    end = time.time()
+    print(end - start)
 # ## A reconstructor for visualizing the generated precondition.
 # ## VC transformation will still be performed on the AST. 
     # assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(assertion_tree)

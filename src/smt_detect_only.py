@@ -248,25 +248,43 @@ if __name__ == '__main__':
                   [1, 0, 0, 1, 0],
                   [1, 0, 0, 0, 1]])
     Par54 = np.array([[1, 1, 1, 1, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    n = matrix.shape[1] // 2
-    k = matrix.shape[0] - n
+    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    # n = matrix.shape[1] // 2
+    # k = matrix.shape[0] - n
     
-    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # print(weight_min)
-    # print(n, dx_max, dz_max)
-    # matrix = surface_matrix_gen(15)
-    # dz = 17
-    # dx = 12
+    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    # print(dx_max, dz_max, weight_min)
+    # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)
+    # row_sum_z = np.sum(matrix[n:n + k,:] == 1, axis = 1)
+    # min_x = np.argmin(row_sum_x)
+    # min_z = np.argmin(row_sum_z)
+    # err_inds_x = np.array(np.nonzero(matrix[min_x + n -k ,:]))[0]
+    # err_inds_z = np.array(np.nonzero(matrix[min_z + n, :]))[0] - 343
+    
+    # err_vals_x = np.zeros(n - 5, dtype = int)
+    # err_vals_z = np.zeros(n - 5, dtype = int)
+    # for i in np.random.choice(err_inds_x, dx_max - 2, replace = False):
+    #     if i <= len(err_vals_x) - 1:
+    #         err_vals_x[i] = 1
+    # for i in np.random.choice(err_inds_z, dz_max - 2, replace = False):
+    #     if i <= len(err_vals_z) - 1:
+    #         err_vals_z[i] = 1
+    
+
+    matrix = surface_matrix_gen(5)
+    dz = 5
+    dx = 6
     start = time.time()
-    packed_x, packed_z = cond_generator(matrix, dx_max, dz_max, False)
+    packed_x, packed_z = cond_generator(matrix, dx, dz, False)
+    err_vals_z = [0]
+    err_vals_x = [1]
     end = time.time()
     print(end - start)
-    time1, res_x = seq_cond_checker_part(packed_x, err_vals, 'x')
+    time1, res_x = seq_cond_checker_detect(packed_x, err_vals_z, 'x')
     
-    time2, res_z = seq_cond_checker_part(packed_z, err_vals, 'z')
+    time2, res_z = seq_cond_checker_detect(packed_z, err_vals_x, 'z')
 
     print(time1, res_x)
     print(time2, res_z)

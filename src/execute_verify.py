@@ -1,9 +1,9 @@
 import time
 import numpy as np
 import math
-from multiprocessing import Pool, Manager
-# from smt_partition_merge import *
-from smt_detect_only import *
+from multiprocessing import Pool
+from smt_partition_merge import *
+# from smt_detect_only import *
 
 from timebudget import timebudget
 import datetime
@@ -24,34 +24,23 @@ class ExceptionWrapper(object):
         raise self.ee.with_traceback(self.tb)
 
 
-# def worker(task_id, err_vals, control_signal, opt):
-   
-def worker(task_id, err_vals, opt): 
+def worker(task_id, err_vals, indices, opt):
+    
     try:
         start = time.time()
-        # packed_x = cond_x[distance]
-        # packed_z = cond_z[distance]
-       
-        # if control_signal.value == 1:
-        #     print(f"task_id: {task_id} is terminated.")
-        #     return None
-        # smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
+        
         if opt == 'x':
-            smttime, res = seq_cond_checker_part(packed_x, err_vals, opt)
-            errs_enum = [f"ez_{ind + 1}" for ind, val in enumerate(err_vals) if val == 1]
+            # smttime, res = seq_cond_checker(packed_x, err_vals, opt)
+            smttime, res = seq_cond_checker(packed_x, err_vals, indices, opt)
         else:
-            smttime, res = seq_cond_checker_part(packed_z, err_vals, opt)
-            errs_enum = [f"ex_{ind + 1}" for ind, val in enumerate(err_vals) if val == 1]
+            # smttime, res = seq_cond_checker(packed_z, err_vals, opt)
+            smttime, res = seq_cond_checker(packed_z, err_vals, indices, opt)
         end = time.time()
         cost = end - start 
-                  
-        # if str(res) == 'sat' and is_counter == 0:
-        #     # print(task_id)
-        #     print(opt)
-        #     is_counter = 1
-        #     print(res)
-        return task_id, smttime, str(res[0])
+
+        return task_id, smttime, str(res)
     except Exception as e:
+        print(e)
         return task_id, ExceptionWrapper(e)
 
 
@@ -66,10 +55,10 @@ def estimate_difficulty(remained_qubits, remained_ones):
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num) -> None:
+    def __init__(self, distance, numq, max_proc_num, method) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
-        
+        self.method = method
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
         self.tasks = []
@@ -84,14 +73,14 @@ class subtask_generator:
     def easy_enough(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
-        if remained_qubit_num <= remained_one_num + 1:
-            return True
         # if self.one_num_thres >= remained_one_num and \
         #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         #     return True
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         
+        # if assigned_one_num < 2:
+        #     return False
 
         ### For detection task ###
 
@@ -99,18 +88,15 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+        if int(1.8 * assigned_one_num * self.distance)  + assigned_bit_num < self.num_qubits:
             return False
-        
-        
-        
-        # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
+        ### For condition II ###
+        # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
         #     return False
-        
         return True
         # return False
-    
-    def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
+    ### Constraint II: The errors come from a restricted set (maybe the whole set)
+    def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         # if remained_qubit_num == 0 \
         #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
@@ -118,22 +104,47 @@ class subtask_generator:
             self.tasks.append(list(curr_enum_qubits))
             return
 
-        if remained_one_num > 0:
-
-            curr_enum_qubits.append(1)
-            self.generate_tasks(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
-            curr_enum_qubits.pop()
-
-
         curr_enum_qubits.append(0)
-        self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
+        # curr_seg_qubits.append(0)
+        self.generate_tasks_II(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
+        if remained_one_num > 0 :
+            curr_enum_qubits.append(1)
+            # curr_seg_qubits.append(0)
+            self.generate_tasks_II(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
+            curr_enum_qubits.pop()
+
+    ### Constraint I: The number of 1s in each length d segment is at most 1
+    def generate_tasks_I(self, remained_qubit_num, remained_one_num, curr_seg_count, curr_enum_qubits: list):
         
-    
+        if self.easy_enough(remained_qubit_num, remained_one_num):
+            self.tasks.append(list(curr_enum_qubits))
+            return
+        
+        if remained_qubit_num % self.distance == 0:
+            curr_seg_count = 0
+
+        curr_enum_qubits.append(0)
+        # curr_seg_qubits.append(0)
+        self.generate_tasks_I(remained_qubit_num - 1, remained_one_num, curr_seg_count, curr_enum_qubits)
+        curr_enum_qubits.pop()
+        
+        if remained_one_num > 0 and curr_seg_count < 1:
+            curr_enum_qubits.append(1)
+            # curr_seg_qubits.append(0)
+            self.generate_tasks_I(remained_qubit_num - 1, remained_one_num - 1, curr_seg_count + 1, curr_enum_qubits)
+            curr_enum_qubits.pop()
+
     def __call__(self):
-        self.generate_tasks(self.num_qubits, self.distance - 1, [])
-        return self.tasks
+        if self.method == 'II':
+            num_ones = (self.distance**2 - 1) // 3
+            selected_set = np.random.choice(self.num_qubits, num_ones, replace = False)
+            self.generate_tasks_II(num_ones, self.distance - 1, [])
+            return self.tasks, selected_set
+        elif self.method == 'I':
+            self.generate_tasks_I(self.num_qubits, self.distance - 1, 0, [])
+            return self.tasks
 
 processed_job = 0
 solved_job = 0
@@ -168,8 +179,7 @@ def get_current_infos(not_done = True):
     return ret
 
     
-# def process_callback(result, control_signal, pool):
-def process_callback(result, pool):
+def process_callback(result):
     # print(result)
     global task_info
     global err_info
@@ -182,25 +192,12 @@ def process_callback(result, pool):
     global last_print
     
     task_id, time_cost, res_smt = result
-    
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
-    if res_smt == 'sat':
-        print(task_id)
-        # errs = errs_enum + res_smt[1]
-        # with open('Details/violation_Tanner.txt', 'a') as f:
-        #     f.write(f"task_id: {task_id} | time: {time_cost}\n")
-        #     f.write(f"counterexample: {errs}\n")
-
-        # control_signal.value = 1
-        print("About to terminate")
-        pool.terminate()
-        # pool.join()
-        
     
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 1.0:
+    if curr_time - last_print > 10:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
@@ -235,67 +232,57 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
-    global is_counter
-    is_counter = 0
+    global indices_x
+    global indices_z
+    # global is_counter
+    # is_counter = 0
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    tg_x = subtask_generator(dz, numq, max_proc_num)
-    tasks_x = tg_x() 
-    tg_z = subtask_generator(dx, numq, max_proc_num)
-    tasks_z = tg_z()
-    print("Task generated. Start checking.")
-    end_gen = time.time()
-    print(f"task generation time: {end_gen - start_time}")
-    total_job = len(tasks_x) + len(tasks_z)
+    tg_x = subtask_generator(dz, numq, max_proc_num, 'I')
+    tasks_x, indices_x = tg_x()
+    tg_z = subtask_generator(dx, numq, max_proc_num, 'I')
+    tasks_z, indices_z = tg_z()
+    # print(tasks_x)
     # print(tasks_z)
+    
+    print("Task generated. Start checking.")
+    total_job = len(tasks_x) + len(tasks_z)
+    end_gen = time.time()
     print(f"total_job: {total_job}")
+    print(f"task generation time: {end_gen - start_time}")
 
     task_info = []
     err_info = []
+    
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks_x):
             opt = 'x'    
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, task, opt), 
-                                                callback= lambda result: process_callback(result, pool), 
-                                                error_callback=process_error))
-        pool.close()
-        # [res.wait() for res in result_objects]
-        pool.join()
-    
-    with Pool(processes = max_proc_num) as pool:
-        result_objects = []
+            result_objects.append(pool.apply_async(worker, (i, task, indices_x, opt), callback=process_callback, error_callback=process_error))
+            # if (i % 50 == 0):
+                #print(i, task)
         for i, task in enumerate(tasks_z):
             opt = 'z'
-            print(task, len(task))
             task_info.append(analysis_task(i + len(tasks_x), task))
-            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), 
-                                                callback=lambda result: process_callback(result, pool), 
-                                                error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, indices_z, opt), callback=process_callback, error_callback=process_error))
         pool.close()
-        # [res.wait() for res in result_objects]
+        [res.wait() for res in result_objects]
         pool.join()
     
     for i, ei in enumerate(err_info):
         ei.re_raise()
 
-    with open('unsorted_results.txt', 'w') as f:
-        for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | ')
-            if len(ti) > 3:
-                f.write(f'time: {ti[-2]}| result: {ti[-1]}\n')
-            else:
-                f.write(f"is terminated\n")
-            f.write(f'{ti[1]}\n')
-            f.write(f'{" | ".join(ti[2])}\n')
-
+    # with open('unsorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]}| result: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
     # # for info in task_info:
     # #     print(info)
-
     # task_info.sort(key=lambda x: x[0])
 
     # with open('sorted_results.txt', 'w') as f:
@@ -303,6 +290,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
     #         f.write(f'{ti[1]}\n')
     #         f.write(f'{" | ".join(ti[2])}\n')
+    print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 
 
@@ -310,12 +298,11 @@ def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
     cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
 
-
 if __name__ == "__main__":
     tblib.pickling_support.install()
     # dx = 3
     # dz = 3
-    max_proc_num = 240
+    max_proc_num = 250
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
                    [0, 1, 1, 1, 0, 0, 1]])
@@ -328,16 +315,46 @@ if __name__ == "__main__":
     #               [1, 0, 0, 1, 0],
     #               [1, 0, 0, 0, 1]])
     # Par54 = np.array([[1, 1, 1, 1, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    n = matrix.shape[1] // 2
-    k = matrix.shape[0] - n
-    
-    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    print(dx_max, dz_max) 
-    
+
+    # code_to_func = {
+    #     'surface': (surface_matrix_gen, 1),
+    #     'steane': (special_codes.stabs_steane, 0),
+    #     'reed_muller': (special_codes.stabs_Reed_Muller, 1),
+    #     'dodecacode': (special_codes.stabs_1115, 0),
+    #     'XZZX': (special_codes.stabs_XZZX, 2)
+    # }
+    # user_input = input("Enter the code type: ")
+    # if user_input == 'surface':
+    #     d = int(input("Enter the distance: "))
+    #         # matrix = surface_matrix_gen(d)
+    #     sur_cond_checker(d, max_proc_num)
+    # elif user_input == 'steane':
+    #     matrix = special_codes.stabs_steane()
+    #     cond_checker(matrix, 3, 3, max_proc_num)
+    # elif user_input == 'reed_muller':
+    #     m = int(input("Enter the params: "))
+    #     matrix = special_codes.stabs_Reed_Muller(m)
+    #     cond_checker(matrix, 3, 3, max_proc_num)
+    # elif user_input == 'dodecacode':
+    #     matrix = special_codes.stabs_1115()
+    #     cond_checker(matrix, 5, 5, max_proc_num)
+    # elif user_input == 'XZZX':
+    #     dx = int(input("Enter the dx: "))
+    #     dz = int(input("Enter the dz: "))
+    #     matrix = special_codes.stabs_XZZX(dx, dz)
+    #     cond_checker(matrix, 5, 5, max_proc_num)
+    # elif user_input == 'Honeycomb':
+    #     d = int(input("Enter the distance: "))
+    #     matrix = special_codes.stabs_honeycomb(d)
+    #     cond_checker(matrix, d, d, max_proc_num)
+    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)]) 
+    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    # print(dx_max, dz_max)
     # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # matrix = surface_matrix_gen(15)
-    cond_checker(matrix, dx_max, dz_max, max_proc_num)
+    # matrix = surface_matrix_gen(3)
+    
     # print(matrix)
-    # sur_cond_checker(3, max_proc_num)
+    sur_cond_checker(11, max_proc_num)
+    # matrix = special_codes.stabs_steane()
+    # cond_checker(matrix, 3, 3, max_proc_num)
+

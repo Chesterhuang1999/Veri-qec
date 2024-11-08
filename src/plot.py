@@ -73,49 +73,49 @@ verification_time = [1.978, 2.976, 12.187, 36.402, 97.913, 217.215, 657.429, 191
 #                  ha='center', 
 #                  fontsize=13)
 
-# Create main plot
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(code_distance, verification_time, marker='o', label='Verification Time', color='b')
-ax.plot(code_distance, generation_time, marker='s', label='Generation Time', color='#A52A2A')
-ax.set_xlabel('Code Distance', fontsize = 13)
-ax.set_ylabel('Time (s)', fontsize = 13)
-ax.set_title('Code Distance vs Time with Detail Inset', fontsize = 16)
-ax.legend()
-ax.grid(True)
+# # Create main plot
+# fig, ax = plt.subplots(figsize=(10, 6))
+# ax.plot(code_distance, verification_time, marker='o', label='Verification Time', color='b')
+# ax.plot(code_distance, generation_time, marker='s', label='Generation Time', color='#A52A2A')
+# ax.set_xlabel('Code Distance', fontsize = 13)
+# ax.set_ylabel('Time (s)', fontsize = 13)
+# ax.set_title('Code Distance vs Time with Detail Inset', fontsize = 16)
+# ax.legend()
+# ax.grid(True)
 
-# Create inset plot
-axins = inset_axes(ax, width="40%", height="40%", loc='upper left', borderpad=5)
-axins.plot(code_distance[:7], verification_time[:7], marker='o', color='b')  # First 7 points
-axins.plot(code_distance[:7], generation_time[:7], marker='s', color='#A52A2A')  # First 7 points
+# # Create inset plot
+# axins = inset_axes(ax, width="40%", height="40%", loc='upper left', borderpad=5)
+# axins.plot(code_distance[:7], verification_time[:7], marker='o', color='b')  # First 7 points
+# axins.plot(code_distance[:7], generation_time[:7], marker='s', color='#A52A2A')  # First 7 points
 
-# Set limits for the inset
-axins.set_xlim(min(code_distance[:7]), max(code_distance[:7]))
-axins.set_ylim(min(min(verification_time[:7]), min(generation_time[:7])) - 1, 
-               max(max(verification_time[:7]), max(generation_time[:7])) + 1)
+# # Set limits for the inset
+# axins.set_xlim(min(code_distance[:7]), max(code_distance[:7]))
+# axins.set_ylim(min(min(verification_time[:7]), min(generation_time[:7])) - 1, 
+#                max(max(verification_time[:7]), max(generation_time[:7])) + 1)
 
-for x, y in zip(code_distance[4:7], verification_time[4:7]):
-    axins.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 5), ha='center', fontsize=9, color='b')
+# for x, y in zip(code_distance[4:7], verification_time[4:7]):
+#     axins.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 5), ha='center', fontsize=9, color='b')
 
-for x, y in zip(code_distance[4:7], generation_time[4:7]):
-    axins.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, -10), ha='center', fontsize=9, color='#A52A2A')
+# for x, y in zip(code_distance[4:7], generation_time[4:7]):
+#     axins.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, -10), ha='center', fontsize=9, color='#A52A2A')
 
-for x, y in zip(code_distance[7:], verification_time[7:]):
-    ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=11, color='b')
+# for x, y in zip(code_distance[7:], verification_time[7:]):
+#     ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=11, color='b')
 
-for x, y in zip(code_distance[7:], generation_time[7:]):
-    ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, -12), ha='center', fontsize=11, color='#A52A2A')
-# Optionally remove tick labels for clarity
-axins.set_xticks(code_distance[:7])
-axins.set_yticks(np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5))
-axins.set_xticklabels(code_distance[:7], rotation=45)  # Optional: Rotate x-axis labels
-axins.set_yticklabels(["{:.1f}".format(i) for i in np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5)])
+# for x, y in zip(code_distance[7:], generation_time[7:]):
+#     ax.annotate(f"{y:.2f}", (x, y), textcoords="offset points", xytext=(0, -12), ha='center', fontsize=11, color='#A52A2A')
+# # Optionally remove tick labels for clarity
+# axins.set_xticks(code_distance[:7])
+# axins.set_yticks(np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5))
+# axins.set_xticklabels(code_distance[:7], rotation=45)  # Optional: Rotate x-axis labels
+# axins.set_yticklabels(["{:.1f}".format(i) for i in np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5)])
 
-# Connect the main plot and inset
-mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="0.5")
+# # Connect the main plot and inset
+# mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="0.5")
 
-# Display the plot
-plt.show()
-plt.savefig('Figures/Test_gen_time_surface_code_45.eps')
+# # Display the plot
+# plt.show()
+# plt.savefig('Figures/Test_gen_time_surface_code_45.eps')
 
 # code_distance = [3, 5, 7, 9, 11]  # X-axis values
 # sequential_time = [0.325, 2.064, 629.3]

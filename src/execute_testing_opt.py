@@ -37,7 +37,7 @@ def worker(task_id, err_vals, opt):
         # print(resx, resz, len(pos), pos)
         # print(pos, res)
         # res = res[1] if res[0] == 'True' else res[0]
-        with open('Details/surface_code_testing_opt-35.txt', 'a') as f:
+        with open('Details/surface_code_testing_opt-9.txt', 'a') as f:
             f.write(f'id: {task_id} | err_counts: {len(pos)} | err_pos: {pos}\n')
             f.write(f'error_type: {opt} | result: {res} \n')
         # print(resx, resz)
@@ -180,6 +180,24 @@ def cond_checker_testing(matrix, dx, dz, max_sample_num, max_proc_num):
     
     tasks_x = task_generator(numq, dz, max_sample_num)
     tasks_z = task_generator(numq, dx, max_sample_num)
+    # lists = []
+    # with open(f'Details/testing_example_9.txt', 'r') as f:
+    #     while True:
+    #         line1 = f.readline().strip()[1:]
+    #         line2 = f.readline().strip()
+    #         line3 = f.readline().strip()[:-1]   
+    #         if not line1:
+    #             break
+    #         line = line1 + " " + line2 + " " + line3
+    #         bin_arr = np.zeros(numq, dtype = int)
+    #         for i, bit in enumerate(line.split()):
+    #             bin_arr[i] = int(bit)
+    #         # list_elements = [int(element) for element in line.split()]
+            
+    #         lists.append(bin_arr)
+    # # print(lists[0])
+    # tasks_x = lists
+    # tasks_z = lists
     print("Task generated. Start checking.")
     print(f"total_job: {len(tasks_x) + len(tasks_z)}")
     total_job = len(tasks_x) + len(tasks_z)
@@ -237,16 +255,16 @@ def sur_cond_checker_testing(distance, max_sample_num, max_proc_num):
 if __name__ == "__main__": 
     tblib.pickling_support.install()
 
-    distance = 35
-    max_sample_num = 500
+    distance = 9
+    max_sample_num = 250
     max_proc_num = 250
-    # Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
-    #                [1, 0, 1, 1, 0, 1, 0],
-    #                [0, 1, 1, 1, 0, 0, 1]])
-    # Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
-    #                [0, 1, 0, 0, 1, 0, 1],
-    #                [0, 0, 1, 0, 0, 1, 1],
-    #                [0 ,0, 0, 1, 1, 1, 1]])
+    Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+                   [1, 0, 1, 1, 0, 1, 0],
+                   [0, 1, 1, 1, 0, 0, 1]])
+    Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+                   [0, 1, 0, 0, 1, 0, 1],
+                   [0, 0, 1, 0, 0, 1, 1],
+                   [0 ,0, 0, 1, 1, 1, 1]])
     # Rep51 = np.array([[1, 1, 0, 0, 0],
     #               [1, 0, 1, 0, 0],
     #               [1, 0, 0, 1, 0],
@@ -256,18 +274,18 @@ if __name__ == "__main__":
     #               [1, 0, 1]])
     # Par32 = np.array([[1, 1, 1]])
 
-    # matrix = qldpc_codes.stabs_Tanner(1, 1, Rep31, Par32)
-    # # matrix = special_codes.stabs_triotho(2)
-    # # print(matrix)
-    # n = matrix.shape[1] // 2
-    # k = matrix.shape[0] - n
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    # matrix = special_codes.stabs_triotho(2)
+    # print(matrix)
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
     
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # print(n, dx_max, dz_max)
-    # cond_checker_testing(matrix, dx_max, dz_max, max_sample_num, max_proc_num)
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    print(n, dx_max, dz_max)
+    cond_checker_testing(matrix, dx_max, dz_max, max_sample_num, max_proc_num)
 
-    sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
+    # sur_cond_checker_testing(distance, max_sample_num, max_proc_num)
     # print(task_generator(25, 5, 10))
   
     

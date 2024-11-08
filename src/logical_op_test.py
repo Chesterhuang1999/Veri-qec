@@ -11,7 +11,7 @@ from smt_partition_merge import *
 from smt_testing_meas_err import *
 import re
 import cvc5
-from execute_parallel_dfs import *
+from src.execute_verify import *
 
 sys.setrecursionlimit(10**6)
 

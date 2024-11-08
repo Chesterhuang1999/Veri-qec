@@ -37,7 +37,7 @@ def get_parser():
         | bterm "&" bexpr -> bool_and
         | bterm "|" bexpr -> bool_or
 
-
+    
     ?bterm:  "!" bexpr -> not
         | "(" bexpr ")"
         | "true" -> true
