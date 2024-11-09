@@ -144,7 +144,8 @@ class subtask_generator:
         #     return self.tasks, selected_set
         # elif self.method == 'I':
         self.generate_tasks(self.num_qubits, self.distance - 1, [])
-            return self.tasks
+            
+        return self.tasks
 
 processed_job = 0
 solved_job = 0

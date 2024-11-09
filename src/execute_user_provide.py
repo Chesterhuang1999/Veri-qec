@@ -24,17 +24,17 @@ class ExceptionWrapper(object):
         raise self.ee.with_traceback(self.tb)
 
 
-def worker(task_id, err_vals, indices, opt):
+def worker(task_id, err_vals, info, opt):
     
     try:
         start = time.time()
         
         if opt == 'x':
             # smttime, res = seq_cond_checker(packed_x, err_vals, opt)
-            smttime, res = seq_cond_checker(packed_x, err_vals, indices, opt)
+            smttime, res = seq_cond_checker_user(packed_x, err_vals, info, opt)
         else:
             # smttime, res = seq_cond_checker(packed_z, err_vals, opt)
-            smttime, res = seq_cond_checker(packed_z, err_vals, indices, opt)
+            smttime, res = seq_cond_checker_user(packed_z, err_vals, info, opt)
         end = time.time()
         cost = end - start 
 
@@ -62,7 +62,7 @@ class subtask_generator:
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
         self.tasks = []
-        
+        self.nonzero_len = (self.distance**2 - 1) // 2
         # self.one_num_thres = distance // 2
         self.assigned_bit_thres = 16
         
@@ -77,7 +77,7 @@ class subtask_generator:
         #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         #     return True
         assigned_one_num = (self.distance - 1) - remained_one_num
-        assigned_bit_num = self.num_qubits - remained_qubit_num
+        assigned_bit_num = self.nonzero_len - remained_qubit_num
         
         # if assigned_one_num < 2:
         #     return False
@@ -88,7 +88,7 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if int(1.8 * assigned_one_num * self.distance)  + assigned_bit_num < self.num_qubits:
+        if assigned_one_num * self.distance + assigned_bit_num  < self.nonzero_len:
             return False
         ### For condition II ###
         # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
@@ -138,10 +138,10 @@ class subtask_generator:
 
     def __call__(self):
         if self.method == 'II':
-            num_ones = (self.distance**2 - 1) // 3
-            selected_set = np.random.choice(self.num_qubits, num_ones, replace = False)
-            self.generate_tasks_II(num_ones, self.distance - 1, [])
-            return self.tasks, selected_set
+            # nonzero_len = (self.distance**2 - 1) // 2
+            begin = np.random.randint(0, self.num_qubits - nonzero_len)
+            self.generate_tasks_I(self.nonzero_len, self.distance - 1, 0, [])
+            return self.tasks, (begin, self.nonzero_len, self.num_qubits)
         elif self.method == 'I':
             self.generate_tasks_I(self.num_qubits, self.distance - 1, 0, [])
             return self.tasks
@@ -232,28 +232,27 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
-    global indices_x
-    global indices_z
+    global info_x
+    global info_z
     # global is_counter
     # is_counter = 0
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    tg_x = subtask_generator(dz, numq, max_proc_num, 'I')
-    tasks_x, indices_x = tg_x()
-    tg_z = subtask_generator(dx, numq, max_proc_num, 'I')
-    tasks_z, indices_z = tg_z()
-    # print(tasks_x)
-    # print(tasks_z)
     
+    tg_x = subtask_generator(dz, numq, max_proc_num, 'II')
+    tasks_x, info_x = tg_x()
+    tg_z = subtask_generator(dx, numq, max_proc_num, 'II')
+    tasks_z, info_z = tg_z()
     print("Task generated. Start checking.")
+    # print(info_x, info_z)
     total_job = len(tasks_x) + len(tasks_z)
-    end_gen = time.time()
     print(f"total_job: {total_job}")
-    print(f"task generation time: {end_gen - start_time}")
-
+    packed_x, packed_z = cond_generator(matrix, dx, dz, info_x, info_z, is_sym)
+    end_gen = time.time()
+    print(f"cond generation time: {end_gen - start_time}")
+    # exit(0)
     task_info = []
     err_info = []
     
@@ -262,13 +261,13 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         for i, task in enumerate(tasks_x):
             opt = 'x'    
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, task, indices_x, opt), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i, task, info_z, opt), callback=process_callback, error_callback=process_error))
             # if (i % 50 == 0):
                 #print(i, task)
         for i, task in enumerate(tasks_z):
             opt = 'z'
             task_info.append(analysis_task(i + len(tasks_x), task))
-            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, indices_z, opt), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, info_x, opt), callback=process_callback, error_callback=process_error))
         pool.close()
         [res.wait() for res in result_objects]
         pool.join()
@@ -285,11 +284,12 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     # #     print(info)
     # task_info.sort(key=lambda x: x[0])
 
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
+    with open('sorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
+            # 
     print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 

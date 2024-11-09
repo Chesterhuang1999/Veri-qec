@@ -11,7 +11,7 @@ from smt_partition_merge import *
 from smt_testing_meas_err import *
 import re
 import cvc5
-from src.execute_verify import *
+from execute_verify import *
 
 sys.setrecursionlimit(10**6)
 
@@ -146,10 +146,48 @@ def sur_seq_checker_combine(matrix, dx, dz, program, N, rnds):
                 #     f.write(f"case id: {i} | type: z_stabs | err counts: {len(posz)}\n")
                 #     f.write(f"err pos: {posz} | result: {result_z}\n")
 
-                
+## Towards the fault-tolerant quantum computing, first thing is to                 
+def formula_gen_logical(matrix, dx, dz, gates, N):
+    numq = matrix.shape[1] // 2
+    prog_x, prog_z, err_gt_x, err_gt_z = program_gen_log_err(matrix, numq, N, gates, code = 'steane')
+  
+    postcond_x, postcond_z = stab_cond_gen_log(matrix, N)
+    bit_width = int(math.log2(numq * N)) + 1
+    for ind, gateinfo in gates.items():
+        prog_log = program_gen_logic(matrix, numq, N, gateinfo, 'steane')
+        pre_tree_x = precond_generator(prog_log, postcond_x, postcond_x)[-1]
+        pre_tree_z = precond_generator(prog_log, postcond_x, postcond_z)[-1]
+        precond_x = recon_string(pre_tree_x)
+        precond_z = recon_string(pre_tree_z)
+        # totq = numq * N
+        err_cond_x = f"sum i 1 {numq} (ez_(i)) + sum i 1 {numq} (pz_(i)) <= {(dz - 1) // 2}"
+        err_cond_z = f"sum i 1 {numq} (ex_(i)) + sum i 1 {numq} (px_(i)) <= {(dx - 1) // 2}"
+        for i in range(N):
+            start = i * numq 
+            err_gt_x = err_gt_x + f"&&sum i {start + 1} {start + numq} (ez_(i)) <= {(dz -1)}"
+            err_gt_z = err_gt_z + f"&&sum i {start + 1} {start + numq} (ex_(i)) <= {(dx -1)}"
+            if i >= 1:
+                err_cond_x = err_cond_x + f"&&sum i {start + 1} {start + numq} (ez_(i)) <= {(dz -1) //2 }"
+                err_cond_z = err_cond_z + f"&&sum i {start + 1} {start + numq} (ex_(i)) <= {(dx -1) //2 }"
+    
+        decoder_cond_x, decoder_cond_z, _, _ = decode_cond_gen_mul(matrix, numq, N, 1, dx, dz)
+        
+        packed_x = smtencoding(bit_width, precond_x, prog_x, postcond_x, 
+                            err_cond_x, err_gt_x, 
+                           decoder_cond_x)
+      
+        packed_z = smtencoding(bit_width, precond_z, prog_z, postcond_z,
+                            err_cond_z, err_gt_z, 
+                            decoder_cond_z)
+        
+        return packed_x, packed_z
+        # print(simplify(tree_to_z3(VCgeneration(precond_x, prog_x, postcond_x))))
 
-
-
+# def seq_cond_checker(packed_expr, err_vals, opt):
+#     t1 = time.time()
+#     expr, variables, constraints = packed_expr
+#     if opt == 'x':
+#         err_val_exprs = 
 if __name__ == "__main__" : 
     D = 3
     N = 2
@@ -165,17 +203,30 @@ if __name__ == "__main__" :
     H[1] = [['H', [1]], ['H', [2]]]
     # prog_log = program_gen_logic(matrix, 7, 3, H[1], 'surface')
     GHZ = defaultdict(list)
-    GHZ[1] = [['H', [2]]]
-    GHZ[2] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
-    prog_log = program_gen_logic(matrix, 7, 3, GHZ[2], 'steane')
-    # print(prog_log)
+    # GHZ[1] = [['H', [1]]]
+    GHZ[0] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
+    # prog_log = program_gen_logic(matrix, 7, 3, GHZ[2], 'steane')
+    packed_x, packed_z = formula_gen_logical(matrix, D, D, GHZ, 3)
+    err_val_x = np.zeros(11, dtype = int)
+    err_val_x[9] = 1 
+    err_val_z = np.zeros(17, dtype = int)
+    err_val_z[9] = 1
+    err_val_z[16] = 1
+
+    tx, res_x = seq_cond_checker(packed_x, [0], [0],'x')    
+    tz, res_z = seq_cond_checker(packed_z, err_val_z, [1,0,0,0,0,0,0],'z')
+
+    print(tx, res_x)
+    print(tz, res_z)
+    # print(prog_qec_z)
     DJ = defaultdict(list)
     DJ[1] = [['H', [1]], ['H', [2]], ['H', [3]]]
+
     # DJ[2] = [['CNOT', [1,2]], ['CNOT', [1,3]]]
     # DJ[3] = [['H', [1]], ['H', [2]]]
     # print(prog_log)
     # packed_x, packed_z = formula_gen_combine(matrix, 3, 3, 1, 3, prog_log)
     # print(packed_x[0])
-    sur_seq_checker_combine(matrix, D, D, H, N, rnds)
+    # sur_seq_checker_combine(matrix, D, D, H, N, rnds)
     # packed_x, packed_z = formula_gen_combine(matrix, D, D, rnds, N, prog_log)
     # print(packed_x[0])

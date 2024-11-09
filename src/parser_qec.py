@@ -56,7 +56,7 @@ def get_parser():
         | aterm "@^" aexpr -> xor
         | "Max(" aexpr "," aexpr ")" -> max
         | "Min(" aexpr "," aexpr ")" -> min
-        | "sum" NAME NUMBER NUMBER "(" aexpr ")" -> sum 
+        
 
     ?aterm: afactor
         | afactor ("*" afactor)+ -> mul
@@ -67,6 +67,7 @@ def get_parser():
         | var
         | "-" aterm -> unary_minus
         | "(" aexpr ")"
+        | "sum" NAME NUMBER NUMBER "(" aexpr ")" -> sum 
         | var "(" aterm ("," aterm)* ")" -> func
         
     %import common.NUMBER -> NUMBER

@@ -386,10 +386,10 @@ def unitary(t, assertion_tree):
     #length = len(t.children)
     unit = t.children[-1]
     if unit.value == 'CNOT':
-        bexp = t.children[-2] if len(t.children) == 4 else 1
+        bexp = t.children[-2] if len(t.children) == 4 else Token('NUMBER', '1')
         var = t.children[:2]
     else:
-        bexp = t.children[-2] if len(t.children) == 3 else 1
+        bexp = t.children[-2] if len(t.children) == 3 else Token('NUMBER', '1')
         var = t.children[0]
 
     unitary_transformer = Unitary(var, bexp, unit)
@@ -496,13 +496,13 @@ if __name__ == "__main__":
     # for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
     # program = """ q_(9), q_(1) *= CNOT; q_(8), q_(1) *= CNOT;q_(7), q_(1) *= CNOT; q_(6), q_(1) *= CNOT;q_(5), q_(1) *= CNOT; q_(4), q_(1) *= CNOT;q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;
     # q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT;q_(1), q_(4) *= CNOT; q_(1), q_(5) *= CNOT;q_(1), q_(6) *= CNOT; q_(1), q_(7) *= CNOT;q_(1), q_(8) *= CNOT; q_(1), q_(9) *= CNOT"""
-    program = """ q_(7), q_(1) *= CNOT; q_(4), q_(1) *= CNOT;q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT"""
+    program = """ for i in 1 to 7 do q_(i) *= H end; for i in 1 to 7 do q_(i) *= e_(i) X end; s_(1) := meas"""
     # program = "q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT"
-    # postcond = """(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7)
-    # &&(0,1,4)(0,1,5)(0,1,6)(0,1,7)&&(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7)
-    # &&(1,0,4)(1,0,5)(1,0,6)(1,0,7)"""
-    postcond = """(1,0,1)(1,0,4)(1,0,7)&&(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,4) &&(0,1,6)(0,1,9)&&(0,1,2)(0,1,3)(0,1,5)(0,1,6)&&(0,1,4)(0,1,5)(0,1,7)(0,1,8)
-    (1,0,1)(1,0,2)(1,0,4)(1,0,5)&&(1,0,5)(1,0,6)(1,0,8)(1,0,9) &&(1,0,2)(1,0,3)&&(1,0,7)(1,0,8)"""
+    postcond = """(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7)
+    &&(0,1,4)(0,1,5)(0,1,6)(0,1,7)&&(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7)
+    &&(1,0,4)(1,0,5)(1,0,6)(1,0,7)"""
+    # postcond = """(1,0,1)(1,0,4)(1,0,7)&&(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,4) &&(0,1,6)(0,1,9)&&(0,1,2)(0,1,3)(0,1,5)(0,1,6)&&(0,1,4)(0,1,5)(0,1,7)(0,1,8)
+    # (1,0,1)(1,0,2)(1,0,4)(1,0,5)&&(1,0,5)(1,0,6)(1,0,8)(1,0,9) &&(1,0,2)(1,0,3)&&(1,0,7)(1,0,8)"""
     start = time.time()
     pre_tree, program_tree, assertion_tree = precond_generator(program, precond, postcond)
     clean_cass = recon_string(assertion_tree)

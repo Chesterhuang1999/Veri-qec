@@ -26,22 +26,22 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
     for i, ki in enumerate(consts.keys()):
         replace.append((variables[ki], consts[ki]))
     
-
     expr = simplify(substitute(expr, replace))
     # print(expr)
     vaux_list, verr_list, vdata_list = [], [], []
+    # print(variables)
     for name, var in variables.items():
         if var.size() == 1:
             sym, _ = name.split('_')
-            if(sym[0] != 'e'):
+            
+            if(sym[0] not in ('e','p')):
                 vdata_list.append(var)
             elif name not in consts.keys():
                 verr_list.append(var)
         else:
             vaux_list.append(var)
-
+    # print(verr_list)
     var_list = vaux_list + vdata_list
-
     ## SMT encoding
     ## SMT formula I: If #error <= max_err, then decoding formula is true
     # formula_to_check = ForAll(verr_list, 
@@ -50,7 +50,10 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
     #                                      And(substitution, 
     #                                          Or(Not(err_expr), Not(sym_expr), decoding_formula)
     #                                          ))))
-    formula_to_check = ForAll(verr_list, Exists(var_list, expr))
+    # formula_to_check = ForAll(verr_list, Exists(var_list, expr))
+    formula_to_check = ForAll(var_list, Not(expr))
+    # formula_to_check = expr
+    # print(formula_to_check)
     ## SMT formula II: If #error > max_err, then no satisfiable decoding formula
     # formula_to_check = ForAll(vdata_list,
     #                           Exists(vaux_list,
@@ -83,23 +86,26 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     constraints = []
     # const_errors_to_z3(err_vals_tree.children[0], variables)
     cass_tree = VCgeneration(precond, program, postcond)
+    # print(cass_tree)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-    
+    # print(cass_expr)    
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
     
     err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
     err_gt_expr = tree_to_z3(err_gt_tree.children[0], variables, bit_width, [], False)
-  
+    # print(err_gt_expr)
     decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True)
     decoder_expr = simplify(decoder_expr) 
-
+    # print(decoder_expr)
+    # exit(0)
+    
     decoding_formula = And(cass_expr, decoder_expr)
     decoding_formula = simplify(decoding_formula)
 
     substitution = And(*constraints)
-
+    
     ##/* symmetrization */##
     ##/hqf 10.03 / ## 
 
@@ -120,8 +126,10 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
 # @timebudget 
 def smtchecking(formula):
     #t = Tactic('solve-eqs')
-    solver = Solver()
+    solver = SolverFor('QF_BV')
     solver.add(formula)
+    # r = solver.check()
+
     formula_smt2 = solver.to_smt2()
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic BV)\n" + "\n".join(lines[1:])
@@ -170,10 +178,13 @@ def sym_gen(dx, dz):
 
 
 
-def cond_generator(matrix, dx, dz, is_sym = False):
+def cond_generator(matrix, dx, dz, info_x, info_z, is_sym = False):
     num_qubits = matrix.shape[1] // 2
-    slice_x = num_qubits // dx
-    slice_z = num_qubits // dz
+    begin_x, length_x, _ = info_x
+    begin_z, length_z, _ = info_z
+    slice_x = length_x // dx
+    slice_z = length_z // dz
+
     ez_max = (dz - 1) // 2
     ex_max = (dx - 1) // 2
     bit_width = int(math.log2(num_qubits)) + 1
@@ -186,18 +197,18 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {2 * ex_max}"
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}"
-    for i in range(slice_z):
-        start = i * dz + 1
+    for i in range(slice_z + 1):
+        start = begin_z + i * dz + 1
         if start + dz - 1 <= num_qubits:
             err_gt_x += f" && sum i {start} {start + dz - 1} (ez_(i)) <= 1"
-        else:
+        elif start <= num_qubits:
             err_gt_x += f" && sum i {start} {num_qubits} (ez_(i)) <= 1"
 
-    for i in range(slice_x):
-        start = i * dx + 1
+    for i in range(slice_x + 1):
+        start = begin_x + i * dx + 1
         if start + dx - 1 <= num_qubits:
             err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
-        else:
+        elif start <= num_qubits:
             err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
     # print(err_gt_x, err_gt_z)
     postcond_x, postcond_z = precond_x, precond_z
@@ -227,20 +238,57 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     
     return packed_x, packed_z
 
-def seq_cond_checker(packed_expr, err_vals, indices, opt):
+## A sequnential checker for logical operations without measurement error
+def seq_cond_checker_logical(packed_expr, err_vals, p_vals, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
-    # if len(indices) == 0:
     if opt == 'x':
         err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+        err_val_exprs.extend([f'(pz_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
     else:
         err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-    # else:
-    #     if opt == 'x':
-    #         err_val_exprs = [f'(ez_({indices[i] + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
-    #         err_val_exprs.extend(f'(ez_({i + 1})) == 0' for i in range(len()))
-    #     else:
-    #         err_val_exprs = [f'(ex_({indices[i] + 1})) == {err_vals[i]}' for i in range(len(err_vals))]    
+        err_val_exprs.extend([f'(px_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
+    
+    err_val_exprs_str = ' && '.join(err_val_exprs)
+    # print(err_val_exprs_str)
+    formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
+    t3 = time.time()
+    result = smtchecking(formula)
+    t4 = time.time()
+    return t4 - t3, result
+
+### A sequential checker for general property verification 
+def seq_cond_checker(packed_expr, err_vals, opt):
+    t2 = time.time()
+    expr, variables, constraints = packed_expr
+    if opt == 'x':
+        err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+        # err_val_exprs.extend([f'(pz_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
+    else:
+        err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+        # err_val_exprs.extend([f'(px_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
+    
+    err_val_exprs_str = ' && '.join(err_val_exprs)
+    # print(err_val_exprs_str)
+    formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
+    t3 = time.time()
+    result = smtchecking(formula)
+    t4 = time.time()
+    return t4 - t3, result
+
+def seq_cond_checker_user(packed_expr, err_vals, info, opt):
+    t2 = time.time()
+    expr, variables, constraints = packed_expr
+    begin, length, numq = info
+    if opt == 'x':
+        err_val_exprs = [f'ez_({i + 1}) == 0' for i in range(begin)]
+        err_val_exprs.extend([f'(ez_({i + 1 + begin})) == {err_vals[i]}' for i in range(len(err_vals))])
+        err_val_exprs.extend([f'ez_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+    else:
+        err_val_exprs = [f'ex_({i + 1}) == 0' for i in range(begin)]
+        err_val_exprs.extend([f'(ex_({i + 1 + begin})) == {err_vals[i]}' for i in range(len(err_vals))])
+        err_val_exprs.extend([f'ex_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+
     err_val_exprs_str = ' && '.join(err_val_exprs)
 
     formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)

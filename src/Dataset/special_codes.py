@@ -26,7 +26,7 @@ def stabs_steane():
     # z_stabs = np.zeros((n, 2*n), dtype = int)
     # x_stabs[0:n, :] = matrix
     # z_stabs[0:n, :] = matrix
-    logs = np.array([[1, 1, 1, 1, 1, 1, 1]])
+    logs = np.array([[1,1,1,1,1,1,1]])
     stabs[0:n - 1, :] = matrix
     stabs[n - 1, 0:n] = logs
     stabs[n, n:] = logs
