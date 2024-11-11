@@ -88,7 +88,7 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if assigned_one_num * self.distance + assigned_bit_num  < self.nonzero_len:
+        if  int(4 * assigned_one_num * self.distance // 3)  + assigned_bit_num  < self.nonzero_len:
             return False
         ### For condition II ###
         # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
@@ -138,10 +138,16 @@ class subtask_generator:
 
     def __call__(self):
         if self.method == 'II':
-            # nonzero_len = (self.distance**2 - 1) // 2
-            begin = np.random.randint(0, self.num_qubits - nonzero_len)
+            err_len = (self.distance**2 - 1) // 2
+            begin = np.random.randint(0, int(self.num_qubits // 4))
+            support_len = int(3 * self.num_qubits // 4)
+            support_range = np.arange(begin, begin + support_len)
+            err_set = np.sort(np.random.choice(support_range, err_len, replace = False))
+            # err_set = np.sort(np.random.choice(self.num_qubits, err_len, replace = False))
+            # begin = np.random.randint(0, self.num_qubits - self.nonzero_len)
+            free_set = [i for i in range(self.num_qubits) if i not in err_set]
             self.generate_tasks_I(self.nonzero_len, self.distance - 1, 0, [])
-            return self.tasks, (begin, self.nonzero_len, self.num_qubits)
+            return self.tasks, (err_set, free_set)
         elif self.method == 'I':
             self.generate_tasks_I(self.num_qubits, self.distance - 1, 0, [])
             return self.tasks
@@ -197,7 +203,7 @@ def process_callback(result):
     
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 10:
+    if curr_time - last_print > 60.0:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
@@ -354,7 +360,7 @@ if __name__ == "__main__":
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    sur_cond_checker(11, max_proc_num)
+    sur_cond_checker(17, max_proc_num)
     # matrix = special_codes.stabs_steane()
     # cond_checker(matrix, 3, 3, max_proc_num)
 

@@ -13,6 +13,16 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 code_distance = [5, 7, 9, 11, 15, 19, 23, 27, 31, 35]
 generation_time = [0.159, 0.473, 1.977, 3.037, 10.857, 31.863, 76.491, 165.436, 327.126, 592.042]
 verification_time = [1.978, 2.976, 12.187, 36.402, 97.913, 217.215, 657.429, 1914.706, 5108.013, 19346.465]
+
+
+### Data III: test user-defined error conditions ###
+code_distance_user = [5,7,9,11,13, 15, 17, 19]
+gen_time_user = [0.13,0.44,1.20, 2.89, 6.71, 17.95, 35.85,]
+verify_time_user = [0.81, 0.65, 0.99, 4.10, 27.42, 143.38, 4844.66]
+tot_time_user = [0.95,1.09,2.20, 7.01, 34.20, 156.59, 4896.23]
+# generation_time = [2.98, 5.95, 17.79, 32.47, 70.24]
+# verify_time = [0.44, 1.23, 3.35, 16.99, 189.14, 1717.46, 5947.71]
+# total_time = [0.68, 1.57, 6.34, 22.96, 207.33, 1750.40, 6020.081]
 # smt_time = np.array(verification_time) - np.array(generation_time)
 # log_verification_time = np.log(verification_time)
 # # Define a model function for fitting (e.g., a * sqrt(x) + b)

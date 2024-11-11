@@ -180,10 +180,10 @@ def sym_gen(dx, dz):
 
 def cond_generator(matrix, dx, dz, info_x, info_z, is_sym = False):
     num_qubits = matrix.shape[1] // 2
-    begin_x, length_x, _ = info_x
-    begin_z, length_z, _ = info_z
-    slice_x = length_x // dx
-    slice_z = length_z // dz
+    # begin_x, length_x, _ = info_x
+    # begin_z, length_z, _ = info_z
+    slice_x = num_qubits // dx
+    slice_z = num_qubits // dz
 
     ez_max = (dz - 1) // 2
     ex_max = (dx - 1) // 2
@@ -197,18 +197,20 @@ def cond_generator(matrix, dx, dz, info_x, info_z, is_sym = False):
     err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {2 * ex_max}"
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}"
-    for i in range(slice_z + 1):
-        start = begin_z + i * dz + 1
+    for i in range(slice_z):
+        start = i * dz + 1
         if start + dz - 1 <= num_qubits:
             err_gt_x += f" && sum i {start} {start + dz - 1} (ez_(i)) <= 1"
-        elif start <= num_qubits:
+        else:
+        # elif start <= num_qubits:
             err_gt_x += f" && sum i {start} {num_qubits} (ez_(i)) <= 1"
 
-    for i in range(slice_x + 1):
-        start = begin_x + i * dx + 1
+    for i in range(slice_x):
+        start = i * dx + 1
         if start + dx - 1 <= num_qubits:
             err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
-        elif start <= num_qubits:
+        else:
+        # elif start <= num_qubits:
             err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
     # print(err_gt_x, err_gt_z)
     postcond_x, postcond_z = precond_x, precond_z
@@ -279,15 +281,31 @@ def seq_cond_checker(packed_expr, err_vals, opt):
 def seq_cond_checker_user(packed_expr, err_vals, info, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
-    begin, length, numq = info
+    err_set, free_set = info
     if opt == 'x':
-        err_val_exprs = [f'ez_({i + 1}) == 0' for i in range(begin)]
-        err_val_exprs.extend([f'(ez_({i + 1 + begin})) == {err_vals[i]}' for i in range(len(err_vals))])
-        err_val_exprs.extend([f'ez_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+        err_val_exprs = [f'ez_({i + 1}) == 0' for i in free_set]
+        err_val_exprs.extend([f'cz_({i + 1}) == 0' for i in free_set])
+        err_val_exprs.extend([f'ez_({err_set[i] + 1}) == {err_vals[i]}' for i in range(len(err_vals))])
     else:
-        err_val_exprs = [f'ex_({i + 1}) == 0' for i in range(begin)]
-        err_val_exprs.extend([f'(ex_({i + 1 + begin})) == {err_vals[i]}' for i in range(len(err_vals))])
-        err_val_exprs.extend([f'ex_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+        err_val_exprs = [f'ex_({i + 1}) == 0' for i in free_set]
+        err_val_exprs.extend([f'cx_({i + 1}) == 0' for i in free_set])
+        err_val_exprs.extend([f'ex_({err_set[i] + 1}) == {err_vals[i]}' for i in range(len(err_vals))])
+
+    # print(err_set, free_set)
+    # print(err_val_exprs)
+    # exit(0)
+    # if opt == 'x':
+    #     err_val_exprs = [f'ez_({i + 1}) == 0' for i in range(begin)]
+    #     err_val_exprs = [f'cz_({i + 1}) == 0' for i in range(begin)]
+    #     err_val_exprs.extend([f'(ez_({i + 1 + begin})) == {err_vals[i]}' for i in range(len(err_vals))])
+    #     err_val_exprs.extend([f'ez_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+    #     err_val_exprs.extend([f'cz_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+    # else:
+    #     err_val_exprs = [f'ex_({i + 1}) == 0' for i in range(begin)]
+    #     err_val_exprs = [f'cx_({i + 1}) == 0' for i in range(begin)]
+    #     err_val_exprs.extend([f'(ex_({i + 1 + begin})) == {err_vals[i]}' for i in range(len(err_vals))])
+    #     err_val_exprs.extend([f'ex_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
+    #     err_val_exprs.extend([f'cx_({i + 1 + begin + length}) == 0' for i in range(numq - length - begin)])
 
     err_val_exprs_str = ' && '.join(err_val_exprs)
 
