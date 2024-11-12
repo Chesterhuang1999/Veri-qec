@@ -24,7 +24,7 @@ class ExceptionWrapper(object):
         raise self.ee.with_traceback(self.tb)
 
 
-def worker(task_id, err_vals, indices, opt):
+def worker(task_id, err_vals, opt):
     
     try:
         start = time.time()
@@ -55,10 +55,9 @@ def estimate_difficulty(remained_qubits, remained_ones):
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num, method) -> None:
+    def __init__(self, distance, numq, max_proc_num) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
-        self.method = method
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
         self.tasks = []
@@ -88,7 +87,7 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if int(1.8 * assigned_one_num * self.distance)  + assigned_bit_num < self.num_qubits:
+        if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits:
             return False
         ### For condition II ###
         # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
@@ -355,7 +354,7 @@ if __name__ == "__main__":
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    sur_cond_checker(11, max_proc_num)
+    sur_cond_checker(5, max_proc_num)
     # matrix = special_codes.stabs_steane()
     # cond_checker(matrix, 3, 3, max_proc_num)
 
