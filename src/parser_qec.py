@@ -37,7 +37,7 @@ def get_parser():
         | bterm "&" bexpr -> bool_and
         | bterm "|" bexpr -> bool_or
 
-
+    
     ?bterm:  "!" bexpr -> not
         | "(" bexpr ")"
         | "true" -> true
@@ -56,7 +56,7 @@ def get_parser():
         | aterm "@^" aexpr -> xor
         | "Max(" aexpr "," aexpr ")" -> max
         | "Min(" aexpr "," aexpr ")" -> min
-        | "sum" NAME NUMBER NUMBER "(" aexpr ")" -> sum 
+        
 
     ?aterm: afactor
         | afactor ("*" afactor)+ -> mul
@@ -67,6 +67,7 @@ def get_parser():
         | var
         | "-" aterm -> unary_minus
         | "(" aexpr ")"
+        | "sum" NAME NUMBER NUMBER "(" aexpr ")" -> sum 
         | var "(" aterm ("," aterm)* ")" -> func
         
     %import common.NUMBER -> NUMBER

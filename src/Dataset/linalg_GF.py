@@ -234,7 +234,6 @@ def logical_op_gen(matrix, rank, n, k):
     submat_C = submat_C.T
     submat_E = matrix[rank:, 2*n-k : 2*n]
     submat_E = submat_E.T
-
     logical_X = np.zeros((k, 2*n), dtype = int)
     logical_X[:, rank: n - k] = submat_E
     logical_X[:, n:n+rank] = submat_C

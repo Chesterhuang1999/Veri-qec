@@ -1,4 +1,4 @@
-
+*.png
 *.pyc
 *.txt
 /src/Dataset/*.pyc
@@ -7,6 +7,7 @@
 __pycache__
 /Archive/
 /src/Fig/
+/Figures/
 /MISC/
 /Details/
 /Output/

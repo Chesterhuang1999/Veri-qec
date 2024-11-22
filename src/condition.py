@@ -51,6 +51,21 @@ def decode_cond_gen(H, n, k, dx, dz, alts = 'verify'):
 def stab_cond_gen(H, n, k):
     cond_parts_x = []
     cond_parts_z = []
+    for i in range(2 * k):
+       
+        if np.all(H[n - k + i, :n] == 0) == False:
+            # cond_parts_x.append(f"(-1)^(b_({i + 1}))")
+
+            for j in range(n):
+                if H[n - k + i][j] == 1:
+                    cond_parts_x.extend(f"(0,1,{j + 1})")
+            cond_parts_x.append("&&")
+        if np.all(H[n - k + i, n:] == 0) == False:
+            # cond_parts_z.append(f"(-1)^(b_({i + 1}))")
+            for j in range(n):
+                if H[n - k + i][j + n] == 1:
+                    cond_parts_z.extend(f"(1,0,{j + 1})")
+            cond_parts_z.append("&&")
     for i in range(n - k):
         hasx, hasz = False, False
         for j in range(n):
@@ -64,20 +79,21 @@ def stab_cond_gen(H, n, k):
             cond_parts_x.append("&&")
         if hasz == True:
             cond_parts_z.append("&&")
-    for i in range(2 * k):
+    # for i in range(2 * k):
        
-        if np.all(H[n - k + i, :n] == 0) == False:
-            cond_parts_x.append(f"(-1)^(b_({i + 1}))")
-            for j in range(n):
-                if H[n - k + i][j] == 1:
-                    cond_parts_x.extend(f"(0,1,{j + 1})")
-            cond_parts_x.append("&&")
-        if np.all(H[n - k + i, n:] == 0) == False:
-            cond_parts_z.append(f"(-1)^(b_({i + 1}))")
-            for j in range(n):
-                if H[n - k + i][j + n] == 1:
-                    cond_parts_z.extend(f"(1,0,{j + 1})")
-            cond_parts_z.append("&&")
+    #     if np.all(H[n - k + i, :n] == 0) == False:
+    #         cond_parts_x.append(f"(-1)^(b_({i + 1}))")
+
+    #         for j in range(n):
+    #             if H[n - k + i][j] == 1:
+    #                 cond_parts_x.extend(f"(0,1,{j + 1})")
+    #         cond_parts_x.append("&&")
+    #     if np.all(H[n - k + i, n:] == 0) == False:
+    #         cond_parts_z.append(f"(-1)^(b_({i + 1}))")
+    #         for j in range(n):
+    #             if H[n - k + i][j + n] == 1:
+    #                 cond_parts_z.extend(f"(1,0,{j + 1})")
+    #         cond_parts_z.append("&&")
     
     cond_parts_x.pop()
     cond_parts_z.pop()

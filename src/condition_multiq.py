@@ -7,6 +7,7 @@ from parser_qec import get_parser
 from transformer import precond_generator
 from lark.reconstruct import Reconstructor
 import re
+from Dataset import special_codes
 ##
 from encoder import *
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
@@ -90,6 +91,8 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
 
             # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
             # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
+            dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+            dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
             
         dec_x.append(''.join(dec_parts_x))
         dec_z.append(''.join(dec_parts_z))
@@ -324,47 +327,142 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
                 for i in range(numq):
                     q = (k - 1) * numq + i + 1
                     prog_parts_log.append(f"q_({q}) *= H")
+        elif gate == 'S':
+            assert len(inds) == 1
+            k = inds[0]
+            for i in range(numq):
+                q = (k - 1) * numq + i + 1
+                prog_parts_log.append(f"q_({q}) *= Z")
+                prog_parts_log.append(f"q_({q}) *= S")
     prog_log =  ';'.join(prog_parts_log)
     return prog_log
     
+### Prog generation for logical ops with pre-introduced errors
+def stab_cond_gen_log(matrix, N):
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
+    
+    cond_parts_x = []
+    cond_parts_z = []
+    for cnt in range(N):
+        s = cnt * n
+        l = k * cnt
+        for i in range(n - k):
+            temp1 = [f"(0,1,{s + j + 1})" for j in range(n) if matrix[i][j] == 1]
+            temp2 = [f"(1,0,{s + j + 1})" for j in range(n) if matrix[i][j + n] == 1]
+            cond_parts_x.append(''.join(temp1 + temp2) + "&&")
+            cond_parts_z.append(''.join(temp2 + temp1) + "&&")
+
+        for i in range(k):
+            tempx = f"(-1)^(b_({i + l + 1}))" + ''.join([f"(0,1,{s + j + 1})" for j in range(n) if matrix[n - k + i][j] == 1]) + ''.join([f"(1,0,{j + 1})" for j in range(n) if matrix[n - k + i][j + n] == 1])
+            tempz = f"(-1)^(b_({i + l + 1}))" + ''.join([f"(1,0,{s + j + 1})" for j in range(n) if matrix[n + i][j + n] == 1]) + ''.join([f"(0,1,{j + 1})" for j in range(n) if matrix[n + i][j] == 1])
+            cond_parts_x.append(tempx + "&&")
+            cond_parts_z.append(tempz + "&&")
+
+    return ''.join(cond_parts_x)[:-2], ''.join(cond_parts_z)[:-2]
+
+
+def prog_gen_qec_rnd(H, n, N, rnd):
+    prog_parts_z = []
+    prog_parts_x = []
+    # start = rnd * N * n 
+    k = H.shape[0] - n
+    spx = defaultdict(list)
+    spz = defaultdict(list)
+    for ind in range(N):
+        qbase = n * ind
+        sbase = (n - k) * ind
+        for i in range(n - k):
+            if (np.all(H[i,:n] == 0) == False):
+                for j in range(n):
+                    if H[i][j] == 1:
+                        spx[i + sbase].append(f"(0,1,{j + 1 + qbase})")
+            if (np.all(H[i,n:] == 0) == False):
+                for j in range(n):
+                    if H[i][j + n] == 1:
+                        spz[i + sbase].append(f"(1,0,{j + 1 + qbase})")
+    
+    err_ind_start = rnd * N * n
+    corr_ind_start = rnd * N * n
+    meas_ind_start = rnd * N * (n-k)
+    prog_parts_z.append(f"for i in 1 to {n * N} do q_(i) *= ex_(i + {err_ind_start}) X end;")
+    prog_parts_x.append(f"for i in 1 to {n * N} do q_(i) *= ez_(i + {err_ind_start}) Z end;")
+    for cnt, sinfo in spx.items():
+        smeas_x = f"s_({cnt + 1 + meas_ind_start}) := meas" + ''.join(sinfo) + ";"
+        prog_parts_x.append(smeas_x)
+        prog_parts_z.append(smeas_x)
+    for cnt, sinfo in spz.items():
+        smeas_z = f"s_({cnt + 1 + meas_ind_start}) := meas" + ''.join(sinfo) + ";"
+        prog_parts_x.append(smeas_z)
+        prog_parts_z.append(smeas_z)
+    prog_parts_z.append(f"for i in 1 to {n * N} do q_(i) *= cx_(i + {corr_ind_start}) X end")
+    prog_parts_x.append(f"for i in 1 to {n * N} do q_(i) *= cz_(i + {corr_ind_start}) Z end")
+    
+    return ''.join(prog_parts_x), ''.join(prog_parts_z)
+
+def program_gen_log_noerr(matrix, numq, N, gates, code):
+    prog_parts = []
+    for ind in range(len(gates)):
+        prog_parts.append(program_gen_logic(matrix, numq, N, gates[ind], code))
+
+    return ';'.join(prog_parts)
+
+def program_gen_log_err(matrix, numq, N, gates, code):
+    prog_parts_x = []
+    prog_parts_z = []
+    err_gt_x = []
+    err_gt_z = []
+    # print(len(gates))
+    for ind, gateinfo in gates.items():
+        
+        prog_log = program_gen_logic(matrix, numq, N, gateinfo, code)
+        
+        totq = N * numq
+        if ind >= 0:
+            start = ind * totq
+            prog_parts_z.append(f"for i in 1 to {numq} do q_(i) *= px_(i) X end")
+            prog_parts_x.append(f"for i in 1 to {numq} do q_(i) *= pz_(i) Z end")
+            err_gt_x.append(f"sum i 1 {numq} (pz_(i)) <= 1")
+            err_gt_z.append(f"sum i 1 {numq} (px_(i)) <= 1")
+        prog_parts_x.append(prog_log)
+        prog_parts_z.append(prog_log)
+        prog_qec_x, prog_qec_z = prog_gen_qec_rnd(matrix, numq, N, ind)
+        prog_parts_z.append(prog_qec_z)
+        prog_parts_x.append(prog_qec_x)
+        
+        # ppx.append(';'.join(prog_parts_x))
+        # ppz.append(';'.join(prog_parts_z))
+
+    return ';'.join(prog_parts_x), ';'.join(prog_parts_z), '&&'.join(err_gt_x), '&&'.join(err_gt_z)
 
 if __name__ == "__main__":
     mat = surface_matrix_gen(3)
+    gates = defaultdict(list)
+    gates[0] = [['H', [1]], ['H', [2]]]
+    gates[1] = [['CNOT', [1,2]]]
+    # prog_x, prog_z = program_gen_log_err(mat, 9, 2, gates, 'surface')
+    # prog_log = program_gen_log_noerr(mat, 9, 2, gates, 'surface')
+    # print(prog_log)
+    print(stab_cond_gen_log(mat))
+    # Zmat = np.array([[1,1,0],[0,1,1],[0,0,1]])
+    # mat = np.zeros((4, 6), dtype = int) 
+    # mat[0:3,3:] = Zmat
+    # _, prog_z_parts = program_gen_qec_mul(mat, 3, 1, 1, 2)
 
-    ## Program and condition for Measurement error
-    # def program_gen_meas(matrix, numq, k, N, rnd):
-    Zmat = np.array([[1,1,0],[0,1,1],[0,0,1]])
-    mat = np.zeros((4, 6), dtype = int) 
-    mat[0:3,3:] = Zmat
-    _, prog_z_parts = program_gen_qec_mul(mat, 3, 1, 1, 2)
-
-    for i in range(len(prog_z_parts)):
-        print(f"{i}-th meas:", prog_z_parts[i])
-    
-    _, postcond_z = stab_cond_gen_multiq(mat, 3, 1, 1)
-    precond_z = postcond_z
-    print("precond_z: ", precond_z)
     # for i in range(len(prog_z_parts)):
-    #     pre_tree, program_tree, post_tree = precond_generator(prog_z_parts[i], precond_z, postcond_z)
-    #     cass_transformer = qassertion2c(pre_tree)
-    #     cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
-    #     cass_tree = simplifyeq().transform(cass_tree)
-    #     # print("cass_tree: ", cass_tree)
-    #     print(tree_to_z3(cass_tree, {}, 1, [], False))
-    pre_tree, program_tree, post_tree1 = precond_generator(prog_z_parts[1], precond_z, postcond_z) 
-    postcond_z1 = re.sub( r'\s*_\s*', '_', Reconstructor(parser = get_parser()).reconstruct(post_tree1.children[0].children[-1]))
-    print("postcond_z1: ", postcond_z1)
-    pre_tree, program_tree, post_tree2 = precond_generator(prog_z_parts[0], precond_z, postcond_z1) 
-    postcond_z2 = re.sub( r'\s*_\s*', '_', Reconstructor(parser = get_parser()).reconstruct(post_tree2.children[0].children[-1]))
-    print("postcond_z2: ", postcond_z2)
-    cass_transformer = qassertion2c(post_tree1)
-    cass_tree = cass_transformer.transform(post_tree2.children[0].children[-1])
-    cass_tree = simplifyeq().transform(cass_tree)
-    print("formula:", tree_to_z3(cass_tree, {}, 1, [], False))
-    # _, program_tree, post_tree2 = precond_generator(prog_z_parts[0], precond_z, post_cond_z)
-    # cass_transformer = qassertion2c(pre_tree)
-    # cass_tree1 = 
-    # cass_tree = cass_transformer.transform(post_tree1.children[0].children[-1])
+    #     print(f"{i}-th meas:", prog_z_parts[i])
+    
+    # _, postcond_z = stab_cond_gen_multiq(mat, 3, 1, 1)
+    # precond_z = postcond_z
+    # print("precond_z: ", precond_z)
+
+    # pre_tree, program_tree, post_tree1 = precond_generator(prog_z_parts[1], precond_z, postcond_z) 
+    # postcond_z1 = re.sub( r'\s*_\s*', '_', Reconstructor(parser = get_parser()).reconstruct(post_tree1.children[0].children[-1]))
+    # print("postcond_z1: ", postcond_z1)
+    # pre_tree, program_tree, post_tree2 = precond_generator(prog_z_parts[0], precond_z, postcond_z1) 
+    # postcond_z2 = re.sub( r'\s*_\s*', '_', Reconstructor(parser = get_parser()).reconstruct(post_tree2.children[0].children[-1]))
+    # print("postcond_z2: ", postcond_z2)
+    # cass_transformer = qassertion2c(post_tree1)
+    # cass_tree = cass_transformer.transform(post_tree2.children[0].children[-1])
     # cass_tree = simplifyeq().transform(cass_tree)
-    # cass_tree = VCgeneration(precond_x, program_x, postcond_x)
-    # print(tree_to_z3(cass_tree, {}, 1, [], False))
+    # print("formula:", tree_to_z3(cass_tree, {}, 1, [], False))
