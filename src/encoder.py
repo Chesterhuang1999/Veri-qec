@@ -262,10 +262,10 @@ def VCgeneration(precond, program, postcond):
     
     else:
         pre_tree, prog_tree, post_tree = result
-        
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
         cass_tree = simplifyeq().transform(cass_tree)
+        # print(recon_string(cass_tree))
         return cass_tree
     # # print(recon_string(pre_tree))
     # cass_transformer = qassertion2c(pre_tree)
