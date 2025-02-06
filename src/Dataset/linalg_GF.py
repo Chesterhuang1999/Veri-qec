@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.linalg import lu
 from scipy.sparse import csc_matrix, block_diag, kron, eye
+from copy import deepcopy
 import math
 import galois
 import time
@@ -83,6 +84,7 @@ def row_reduce_binary(matrix):
 ## Find the null_space of a matrix over GF(2)
 def find_null_space_GF2(G):
     G = row_reduce_binary(G)
+    
     num_rows, num_cols = G.shape
     
     # Identify pivot columns
@@ -97,8 +99,8 @@ def find_null_space_GF2(G):
     free_columns = [col for col in range(num_cols) if col not in pivot_columns]
 
 
-    # print(pivot_columns)
-    # print(free_columns)
+    print(pivot_columns)
+    print(free_columns)
     
    
     null_space_basis = []
@@ -118,6 +120,51 @@ def find_null_space_GF2(G):
         null_space_basis.append(solution)
     
     return np.array(null_space_basis)
+## Find the transformation matrix between two matrices 
+def aug_Gaussian(A, k):
+    n = A.shape[0]
+    row_pivot = 0
+    for c in range(k):
+        pivot = -1
+        for r in range(row_pivot, n):
+            if A[r, c]  == 1:
+                pivot = r
+                break
+        if pivot == -1:
+            continue
+
+        if pivot != row_pivot: 
+            temp = deepcopy(A[row_pivot,:])
+            A[row_pivot,:] = deepcopy(A[pivot,:])
+            A[pivot,:] = deepcopy(temp)
+            # A[row_pivot], A[pivot] = A[pivot], A[row_pivot]
+
+    
+        for r in range(row_pivot + 1, n):
+            if A[r, c] == 1:
+                for i in range(c, k + 1):
+                    A[r, i] ^= A[row_pivot, i]
+        row_pivot += 1
+        if row_pivot == n:
+            break
+
+    v = np.zeros((k, 1), dtype=int)
+    for row in range(row_pivot - 1, -1, -1):
+        pivot_col = None 
+        for c in range(k):
+            if A[row, c] == 1:
+                pivot_col = c
+                break
+        if pivot_col is None:
+            continue
+
+        rhs = A[row][k]
+        for c in range(pivot_col + 1, k):
+            rhs ^= (A[row][c] & v[c])
+
+        v[pivot_col] = rhs
+
+    return A, v
 
 ## Perform gaussian elimination of a matrix over GF(2)
 def gaussian_elimination(matrix):
@@ -216,7 +263,8 @@ def gaussian_elimination(matrix):
                 matrix[j, :] ^= matrix[i, :]
 
     nz = m - 1
-    while(np.all(matrix[nz, n:] == 0) == True):
+    print(nz)
+    while(np.all(matrix[nz, :] == 0) == True):
         nz -= 1
     
     

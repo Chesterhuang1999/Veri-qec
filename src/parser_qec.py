@@ -1,5 +1,6 @@
 from lark import Lark
-
+# ?addp: pauli
+#     | "(sq2" pauli ("+sq2" pauli)*")"
 
 ##### parser for the program and assertions in the hoare triple #####
 def get_parser(): 
@@ -26,9 +27,15 @@ def get_parser():
         | "Or" (var (NUMBER"," NUMBER)?)+ "(" assertion ")" -> bigor
         | "And" (var (NUMBER "," NUMBER)?)+ "(" assertion ")" -> bigand
 
-    ?assatom: pexpr | bexpr
+        
+    ?assatom: pterm | bexpr
     
-    pexpr:  pauli+ 
+    ?sexpr: "QR2" "[" aexpr "," aexpr "," aexpr "]"
+    
+    ?pterm: pexpr | sexpr pexpr ("+" sexpr pexpr)*
+
+    pexpr: pauli+ | 
+
     pauli: ("(-1)^(" bexpr ")" )? "(" bexpr "," bexpr "," aexpr ")"
 
     var: NAME "_"  "(" aexpr ")"    
@@ -70,12 +77,13 @@ def get_parser():
         | "sum" NAME NUMBER NUMBER "(" aexpr ")" -> sum 
         | var "(" aterm ("," aterm)* ")" -> func
         
+   
     %import common.NUMBER -> NUMBER
     %import common.WS
     %ignore WS
 
    
-    UNIT:  "I" | "X" | "Y" | "Z" | "H" | "S"  | "CNOT" 
+    UNIT:  "I" | "X" | "Y" | "Z" | "H" | "S" | "T" | "CNOT" 
     NAME: /[a-z]+/
     OR: "||"
     BIT_OR: "|"   
@@ -83,6 +91,7 @@ def get_parser():
     THEN: "then"
     ELSE: "else"
     WHILE: "while"
+    QR2: "QR2"
     DO: "do"
     SKIP: "skip"
     MEASURE: "meas" 
@@ -114,7 +123,17 @@ def get_parser():
 
 # end = time.time()
 # print(end - start)
+# precond = """QR2[0,1,1](1,0,1)+QR2[0,1,1](-1)^(b_(1))(1,1,1)(1,0,2)(1,0,3)"""
+if __name__ == "__main__":
 
+    program = """skip"""
+    postcond = """QR2[0,1,1](1,0,1)(1,0,2)(1,0,3) + QR2[0,1,1](-1)^(b_(1))(1,1,1)(1,0,2)(1,0,3)"""
+    precond = postcond
+    parser = get_parser()
+    triple = "{" + precond + "}" + program + "{" + postcond + "}"
+    tree = parser.parse(triple)
+    pre_tree, program_tree, post_tree = tree.children
+    print(post_tree)
 ### archive 
 
 # && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 

@@ -211,6 +211,7 @@ def VCgeneration_meas(precond, prog_qec, postcond, prog_log = None):
     aux_trees = []
     for i, aux in enumerate(auxes):
         
+        # aux = Qass2c(pre_tree, aux)
         cass_transformer = qassertion2c(pre_tree)
         aux = cass_transformer.transform(aux)
     
@@ -223,9 +224,11 @@ def VCgeneration_meas(precond, prog_qec, postcond, prog_log = None):
         result_log = precond_generator(program, precond, postcond)
         pre_tree_log, prog_tree_log, post_tree_log, _ = result_log
         # print(recon_string(pre_tree_log))
+        # cass_tree = Qass2c(pre_tree, post_tree.children[0].children[-1])  ## Save if test corrects
         cass_transformer = qassertion2c(pre_tree_log)
         cass_tree = cass_transformer.transform(post_tree_log.children[0].children[-1])
     else:
+        # cass_tree = Qass2c(pre_tree, post_tree.children[0].children[-1])
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
     
@@ -238,10 +241,8 @@ def VCgeneration(precond, program, postcond):
     result = precond_generator(program, precond, postcond)
     
     if len(result) == 4:
-        pre_tree, prog_tree, post_tree, auxes = result
-        # print(recon_string(pre_tree))
-        # print(recon_string(post_tree))
-        # exit(0)
+        pre_tree, _, post_tree, auxes = result
+        # cass_tree = Qass2c(pre_tree, post_tree.children[0].children[-1])  ## Save if test corrects   
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
         cass_tree = simplifyeq().transform(cass_tree)
@@ -251,6 +252,7 @@ def VCgeneration(precond, program, postcond):
         aux_trees = []
         for i, aux in enumerate(auxes):
             # print(recon_string(aux))
+            # aux = Qass2c(pre_tree, aux)
             cass_transformer = qassertion2c(pre_tree)
             aux = cass_transformer.transform(aux)
         
@@ -261,7 +263,8 @@ def VCgeneration(precond, program, postcond):
         return cass_tree, aux_trees
     
     else:
-        pre_tree, prog_tree, post_tree = result
+        pre_tree, _, post_tree = result
+        # cass_tree = Qass2c(pre_tree, post_tree.children[0].children[-1])  ## Save if test corrects
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
         cass_tree = simplifyeq().transform(cass_tree)

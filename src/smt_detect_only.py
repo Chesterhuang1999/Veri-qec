@@ -1,6 +1,6 @@
 import sys
 from condition import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
-from verifier import precond_generator, qassertion2c
+from verifier import precond_generator, qassertion2c, Qass2c
 from transformer import recon_string, process
 from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
@@ -195,6 +195,7 @@ def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog
     else:
         logic_expr = Or(*logic_expr_list)
     phase_expr = And(*stabs_expr_list)
+    # cass_tree = Qass2c(meas_tree, post_tree.children[0])
     meas_transformer = qassertion2c(meas_tree)
     cass_tree = meas_transformer.transform(post_tree.children[0])
     # cass_tree_x = simplifyeq().transform(cass_tree_x)

@@ -3,9 +3,9 @@ import time
 import math
 from collections import defaultdict
 # For test
-from parser_qec import get_parser
-from transformer import precond_generator
-from lark.reconstruct import Reconstructor
+# from parser_qec import get_parser
+# from transformer import precond_generator
+# from lark.reconstruct import Reconstructor
 import re
 from Dataset import special_codes
 ##
@@ -100,8 +100,6 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
     
     return ''.join(dec_x)[:-2], ''.join(dec_z)[:-2], meas_corr_x, meas_corr_z
    
-
-
 def stab_cond_gen_multiq(H, n, N):
     k = H.shape[0] - n  
     cond_parts_x = []
@@ -440,10 +438,11 @@ if __name__ == "__main__":
     gates = defaultdict(list)
     gates[0] = [['H', [1]], ['H', [2]]]
     gates[1] = [['CNOT', [1,2]]]
-    # prog_x, prog_z = program_gen_log_err(mat, 9, 2, gates, 'surface')
+    prog_x, prog_z, err_gt_x, err_gt_z = program_gen_log_err(mat, 9, 2, gates, 'surface')
+    print(prog_x)
     # prog_log = program_gen_log_noerr(mat, 9, 2, gates, 'surface')
     # print(prog_log)
-    print(stab_cond_gen_log(mat))
+    # print(stab_cond_gen_log(mat))
     # Zmat = np.array([[1,1,0],[0,1,1],[0,0,1]])
     # mat = np.zeros((4, 6), dtype = int) 
     # mat[0:3,3:] = Zmat
