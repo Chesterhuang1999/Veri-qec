@@ -138,6 +138,8 @@ class subtask_generator:
         self.generate_tasks(self.num_qubits, self.distance - 1, [])
         return self.tasks
 
+
+# Task generator with fixed tasks, fixed by err_inds
 def task_generator_fixed(err_inds, numq, count):
     tasks = []
     n = len(err_inds)
@@ -351,9 +353,29 @@ if __name__ == "__main__":
     # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
     # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
     # # print(dx_max, dz_max, weight_min)
-
-    matrix = special_codes.stabs_camp_howard(2)
-    cond_checker(matrix, 4, 2, max_proc_num)
+    user_input = input("Enter the code type: ")
+    if user_input == 'camp_howard':
+        d = int(input("Enter the parameter: "))
+            # matrix = surface_matrix_gen(d)
+        matrix = special_codes.stabs_camp_howard(d)
+        cond_checker(matrix, 4, 2, max_proc_num)
+    elif user_input == 'triorthogonal':
+        k = int(input("Enter the parameter: "))
+        matrix = special_codes.stabs_triotho(k)
+        cond_checker(matrix, 4, 2, max_proc_num)
+    elif user_input == 'basic_color':
+        # m = int(input("Enter the params: "))
+        matrix = special_codes.stabs_832code()
+        cond_checker(matrix, 4, 2, max_proc_num)
+    elif user_input == 'carbon':
+        # d = int(input("Enter the distance: "))
+        matrix = special_codes.stabs_carbon()
+        cond_checker(matrix, 4, 4, max_proc_num)
+    elif user_input == 'tanner': ## To be tested
+        matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+        cond_checker(matrix, 6, 6, max_proc_num)
+    # matrix = special_codes.stabs_camp_howard(2)
+    # cond_checker(matrix, 4, 2, max_proc_num)
     # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)
     # row_sum_z = np.sum(matrix[n:n + k,:] == 1, axis = 1)
     # min_x = np.argmin(row_sum_x)

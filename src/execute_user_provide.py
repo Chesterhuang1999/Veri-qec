@@ -222,7 +222,7 @@ def analysis_task(task_id: int, task: list):
     return [task_id, task, info]
 
 @timebudget 
-def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
+def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     global task_info
     global packed_x
     global packed_z
@@ -240,9 +240,13 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     last_print = start_time
     numq = matrix.shape[1] // 2
     
-    tg_x = subtask_generator(dz, numq, max_proc_num, 'II')
+    # tg_x = subtask_generator(dz, numq, max_proc_num, 'II')
+    # tasks_x, info_x = tg_x()
+    # tg_z = subtask_generator(dx, numq, max_proc_num, 'II')
+    # tasks_z, info_z = tg_z()
+    tg_x = subtask_generator(dz, numq, max_proc_num, cstype)
     tasks_x, info_x = tg_x()
-    tg_z = subtask_generator(dx, numq, max_proc_num, 'II')
+    tg_z = subtask_generator(dx, numq, max_proc_num, cstype)
     tasks_z, info_z = tg_z()
     print("Task generated. Start checking.")
     # print(info_x, info_z)
@@ -294,9 +298,9 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
 
 
-def sur_cond_checker(distance, max_proc_num):
+def sur_cond_checker(distance, max_proc_num, cstype):
     matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+    cond_checker(matrix, distance, distance, max_proc_num, cstype, is_sym = True)
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
@@ -323,30 +327,31 @@ if __name__ == "__main__":
     #     'dodecacode': (special_codes.stabs_1115, 0),
     #     'XZZX': (special_codes.stabs_XZZX, 2)
     # }
-    # user_input = input("Enter the code type: ")
-    # if user_input == 'surface':
-    #     d = int(input("Enter the distance: "))
-    #         # matrix = surface_matrix_gen(d)
-    #     sur_cond_checker(d, max_proc_num)
-    # elif user_input == 'steane':
-    #     matrix = special_codes.stabs_steane()
-    #     cond_checker(matrix, 3, 3, max_proc_num)
-    # elif user_input == 'reed_muller':
-    #     m = int(input("Enter the params: "))
-    #     matrix = special_codes.stabs_Reed_Muller(m)
-    #     cond_checker(matrix, 3, 3, max_proc_num)
-    # elif user_input == 'dodecacode':
-    #     matrix = special_codes.stabs_1115()
-    #     cond_checker(matrix, 5, 5, max_proc_num)
-    # elif user_input == 'XZZX':
-    #     dx = int(input("Enter the dx: "))
-    #     dz = int(input("Enter the dz: "))
-    #     matrix = special_codes.stabs_XZZX(dx, dz)
-    #     cond_checker(matrix, 5, 5, max_proc_num)
-    # elif user_input == 'Honeycomb':
-    #     d = int(input("Enter the distance: "))
-    #     matrix = special_codes.stabs_honeycomb(d)
-    #     cond_checker(matrix, d, d, max_proc_num)
+    constraint_type = input("Enter the constraint type: ")
+    user_input = input("Enter the code type: ")
+    if user_input == 'surface':
+        d = int(input("Enter the distance: "))
+            # matrix = surface_matrix_gen(d)
+        sur_cond_checker(d, max_proc_num, constraint_type)
+    elif user_input == 'steane':
+        matrix = special_codes.stabs_steane()
+        cond_checker(matrix, 3, 3, max_proc_num, constraint_type)
+    elif user_input == 'reed_muller':
+        m = int(input("Enter the params: "))
+        matrix = special_codes.stabs_Reed_Muller(m)
+        cond_checker(matrix, 3, 3, max_proc_num, constraint_type)
+    elif user_input == 'dodecacode':
+        matrix = special_codes.stabs_1115()
+        cond_checker(matrix, 5, 5, max_proc_num, constraint_type)
+    elif user_input == 'XZZX':
+        dx = int(input("Enter the dx: "))
+        dz = int(input("Enter the dz: "))
+        matrix = special_codes.stabs_XZZX(dx, dz)
+        cond_checker(matrix, 5, 5, max_proc_num, constraint_type)
+    elif user_input == 'Honeycomb':
+        d = int(input("Enter the distance: "))
+        matrix = special_codes.stabs_honeycomb(d)
+        cond_checker(matrix, d, d, max_proc_num, constraint_type)
     # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)]) 
     # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
     # print(dx_max, dz_max)
@@ -354,7 +359,7 @@ if __name__ == "__main__":
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    sur_cond_checker(13, max_proc_num)
+    sur_cond_checker(13, max_proc_num, constraint_type = 'II')
     # matrix = special_codes.stabs_steane()
     # cond_checker(matrix, 3, 3, max_proc_num)
 
