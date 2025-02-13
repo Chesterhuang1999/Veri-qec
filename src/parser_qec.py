@@ -5,7 +5,7 @@ from lark import Lark
 ##### parser for the program and assertions in the hoare triple #####
 def get_parser(): 
     hoare_triple_grammar = """
-    ?triple: "{" condition "}" program "{" condition "}" 
+    ?triple: ("{" condition "}" program "{")? condition ("}")? 
     condition: assertion
 
     ?program: statement ( ";" statement)*  -> seq 
@@ -21,7 +21,7 @@ def get_parser():
 
     ?assertion: "Neg" assertion -> neg
         | assatom
-        | assatom "&&" assertion -> and
+        | assatom "&&" assertion -> cap
         | assatom "||" assertion -> or
         | assatom "=>" assertion -> implies
         | "Or" (var (NUMBER"," NUMBER)?)+ "(" assertion ")" -> bigor
@@ -127,13 +127,13 @@ def get_parser():
 if __name__ == "__main__":
 
     program = """skip"""
-    postcond = """QR2[0,1,1](1,0,1)(1,0,2)(1,0,3) + QR2[0,1,1](-1)^(b_(1))(1,1,1)(1,0,2)(1,0,3)"""
-    precond = postcond
+    postcond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7)"""
+    precond = """true"""
     parser = get_parser()
     triple = "{" + precond + "}" + program + "{" + postcond + "}"
     tree = parser.parse(triple)
     pre_tree, program_tree, post_tree = tree.children
-    print(post_tree)
+    print(pre_tree)
 ### archive 
 
 # && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 

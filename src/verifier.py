@@ -84,7 +84,7 @@ def canonical_form(stab_list):
         phase_rep.append(phase)
         for p in paulis:
             index = int(p.children[-1].value)
-            x = int(p.children[-2].value)   
+            x = int(p.children[-2].value)
             z = int(p.children[-3].value)
             stabs_mat_rep[i][index -1] = x
             stabs_mat_rep[i][index + max_ind - 1] = z
@@ -114,7 +114,7 @@ def linear_transform(stab_mat1, stab_mat2, phase1, phase2):
         if eq_tree == 0:
             eq_tree = Tree('eq', [phase2[i], cur_sum])
         else:
-            eq_tree = Tree('and', [Tree('eq', [phase2[i], cur_sum]), eq_tree])
+            eq_tree = Tree('cap', [Tree('eq', [phase2[i], cur_sum]), eq_tree])
     return L.T, eq_tree
 
 ## Check if two pauli strings are commute
@@ -290,15 +290,18 @@ class simplifyeq(Transformer):
         common_terms = self.find_common_terms(left_terms, right_terms)
         lterms = [term for term in left_terms if term not in common_terms]
         rterms = [term for term in right_terms if term not in common_terms] 
-        if(Token('NUMBER','0') in left_terms):
+        if(Token('NUMBER','0') in lterms):
             lterms.remove(Token('NUMBER','0'))
-        if(Token('NUMBER','0') in right_terms):
+        if(Token('NUMBER','0') in rterms):
             rterms.remove(Token('NUMBER','0'))
         lterms, rterms = self.swap_terms(lterms, rterms) 
-        treedata = l.data if len(left_terms) > 1 else r.data
+        if len(lterms) == 0 and len(rterms) == 0:
+            return Tree('true', [])
+        else:
+            treedata = l.data if len(left_terms) > 1 else r.data
          
-        ltree = self.build_tree(lterms, data = treedata)
-        rtree = self.build_tree(rterms, data = treedata)
+            ltree = self.build_tree(lterms, data = treedata)
+            rtree = self.build_tree(rterms, data = treedata)
         return Tree('eq', [ltree, rtree])
     def flatten_terms(self, expr):
         if isinstance(expr, Tree) and expr.data in ('xor', 'add') :
@@ -355,21 +358,25 @@ class simplifyeq(Transformer):
 
 
 if __name__ == '__main__':
-    # precond = """ (-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
+    ## Test for T gate evaluation
+    # precond = """ QR2[0,0,1](-1)^(b_(1))(0,1,1) + QR2[0,0,-1](1,1,1) """
+    # postcond = """ QR2[0,0,1](-1)^(b_(1))(0,1,1) + QR2[0,0,1](1,1,1) """
 
     # program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
     # for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
 
     # postcond = """(-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
-    precond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (-1)^(l_(1))(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (-1)^(l_(3))(1,0,4)(1,0,5)(1,0,6)(1,0,7) 
-    &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 
-    program = """ for i in 1 to 7 do q_(i) *= ex_(i) X end; for i in 1 to 7 do q_(i) *= ez_(i) Z end; sz_(1) := meas (1,0,1)(1,0,3)(1,0,5)(1,0,7); sz_(2) := meas (1,0,2)(1,0,3)(1,0,6)(1,0,7); 
-    sz_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); sx_(1) := meas (0,1,1)(0,1,3)(0,1,5)(0,1,7); 
-    sx_(2) := meas (0,1,2)(0,1,3)(0,1,6)(0,1,7); sx_(3) := meas (0,1,4)(0,1,5)(0,1,6)(0,1,7); for i in 1 to 7 do q_(i) *= cx_(i) X end; for i in 1 to 7 do q_(i) *= cz_(i) Z end"""
+    # precond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (-1)^(l_(1))(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (-1)^(l_(3))(1,0,4)(1,0,5)(1,0,6)(1,0,7) 
+    # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
 
-    postcond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 
-    &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
+    # program = """ for i in 1 to 7 do q_(i) *= ex_(i) X end; for i in 1 to 7 do q_(i) *= ez_(i) Z end; sz_(1) := meas (1,0,1)(1,0,3)(1,0,5)(1,0,7); sz_(2) := meas (1,0,2)(1,0,3)(1,0,6)(1,0,7); 
+    # sz_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); sx_(1) := meas (0,1,1)(0,1,3)(0,1,5)(0,1,7); 
+    # sx_(2) := meas (0,1,2)(0,1,3)(0,1,6)(0,1,7); sx_(3) := meas (0,1,4)(0,1,5)(0,1,6)(0,1,7); for i in 1 to 7 do q_(i) *= cx_(i) X end; for i in 1 to 7 do q_(i) *= cz_(i) Z end"""
+
+    # postcond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 
+    # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
+
     start = time.time()
     pre_tree, program_tree, assertion_tree = precond_generator(program, precond, postcond)
     stab_dict, stab_list = stab_set_gen(pre_tree)

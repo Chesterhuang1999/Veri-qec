@@ -105,7 +105,7 @@ def auto_complement(a, b):
 def const_errors_to_z3(tree, variables):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         return BitVecVal(tree.value, 1)
-    elif tree.data == 'and':
+    elif tree.data == 'cap':
         for child in tree.children:
             const_errors_to_z3(child, variables)
         return None
@@ -127,7 +127,7 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
         return BitVecVal(tree.value, bit_width)
-    elif tree.data == 'and':
+    elif tree.data == 'cap':
         return And(*[tree_to_z3(child, variables, bit_width, constraints, ifaux) for child in tree.children])
         # return simplify(
         #     And(*[tree_to_z3(child, variables, bit_width, constraints, ifaux) for child in tree.children])
@@ -267,6 +267,7 @@ def VCgeneration(precond, program, postcond):
         # cass_tree = Qass2c(pre_tree, post_tree.children[0].children[-1])  ## Save if test corrects
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
+        print(recon_string(post_tree.children[0].children[-1]))
         cass_tree = simplifyeq().transform(cass_tree)
         # print(recon_string(cass_tree))
         return cass_tree

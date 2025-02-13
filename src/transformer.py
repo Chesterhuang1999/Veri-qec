@@ -145,13 +145,13 @@ class Unitary(Transformer):
                         if stab_z == 1: # Pauli Y op, the precondition is X + Y 
                             copy_args[i].children[-3] = Token('NUMBER', '0')
                             add_pexpr = Tree('pexpr', copy_args)
-                            coeff = Tree('sexpr', [Token('NUMBER', '0'), Token('NUMBER', '1'), Token('NUMBER', '1')])
+                            coeff = Tree('sexpr', [Token('NUMBER', '0'), Token('NUMBER', '0'), Token('NUMBER', '1')])
                             pterm = Tree('pterm', [coeff, Tree('pexpr', args), coeff, add_pexpr])
                         else: ## Pauli X, the precondition is (X - Y)
                             copy_args[i].children[-3] = Token('NUMBER', '1')
                             add_pexpr = Tree('pexpr', copy_args)
-                            coeff1 = Tree('sexpr', [Token('NUMBER', '0'), Token('NUMBER', '1'), Token('NUMBER', '1')])
-                            coeff2 = Tree('sexpr', [Token('NUMBER','0'),Tree('unary_minus', [Token('NUMBER','1')]),Token('NUMBER', '1')] )
+                            coeff1 = Tree('sexpr', [Token('NUMBER', '0'), Token('NUMBER', '0'), Token('NUMBER', '1')])
+                            coeff2 = Tree('sexpr', [Token('NUMBER','0'), Token('NUMBER', '0'), Tree('unary_minus', [Token('NUMBER','1')])] )
                             pterm = Tree('pterm', [coeff1, Tree('pexpr', args), coeff2, add_pexpr] )
                         return pterm
                 else:
@@ -274,7 +274,7 @@ class Measure(Transformer):
                 pexpr = self.pexpr_obj
                 temp2 = [self.var_obj] + pexpr.children[0].children
                 pexpr.children[0] = Tree('pauli',temp2)
-                children[length] = Tree('and',[pexpr, temp1])
+                children[length] = Tree('cap',[pexpr, temp1])
             else:
                 children[length] = temp1
             return Tree('condition',[Tree('bigor', children)])
@@ -283,7 +283,7 @@ class Measure(Transformer):
                 pexpr = self.pexpr_obj
                 temp = Tree('pauli', [self.var_obj]+ pexpr.children[0].children)
                 pexpr.children[0] = temp
-                temp1 = Tree('and',[pexpr,args[0]])
+                temp1 = Tree('cap',[pexpr,args[0]])
                 return Tree('condition', [Tree('bigor', [self.var_obj,temp1])])
             else:
                 return Tree('condition', [Tree('bigor', [self.var_obj, args[0]])]) 
@@ -392,7 +392,7 @@ class Decode(Transformer):
                     new_stab.children[0].children[0] = self.tree_recon(new_phase, 'xor')
                     return new_stab
     def flatten_terms(self, expr):
-        if isinstance(expr, Tree) and expr.data in ('xor', 'add', 'and') :
+        if isinstance(expr, Tree) and expr.data in ('xor', 'add', 'cap') :
             terms = []
             for child in expr.children:
                 terms.extend(self.flatten_terms(child))
@@ -534,7 +534,7 @@ if __name__ == "__main__":
     # &&(1,0,4)(1,0,5)(1,0,6)(1,0,7)"""
     postcond = "(0,1,1) && (1,1,1) && (0,1,2)(0,1,3)"
     precond = postcond 
-    program = "q_(1) *= T"
+    program = "q_(1) *= T; q_(2) *= T"
     # postcond = """(1,0,1)(1,0,4)(1,0,7)&&(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,4) &&(0,1,6)(0,1,9)&&(0,1,2)(0,1,3)(0,1,5)(0,1,6)&&(0,1,4)(0,1,5)(0,1,7)(0,1,8)
     # (1,0,1)(1,0,2)(1,0,4)(1,0,5)&&(1,0,5)(1,0,6)(1,0,8)(1,0,9) &&(1,0,2)(1,0,3)&&(1,0,7)(1,0,8)"""
     start = time.time()

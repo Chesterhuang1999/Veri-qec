@@ -15,7 +15,7 @@ from encoder import *
 # Here is a condition generation for logical operations which perform on multiple logical qubits
 
 
-### Condition and program generation from check matrix ###
+### Condition and program generation from check matrix ##
 def decode_cond_gen(H, n, N, dx, dz): 
     cond_parts_x = []
     cond_parts_z = []
@@ -119,7 +119,7 @@ def stab_cond_gen_multiq(H, n, N):
                 cpx.append("&&")
             if hasz == True:
                 cpz.append("&&")
-
+        
         for i in range(2 * k):
         
             if np.all(H[n - k + i, :n] == 0) == False:

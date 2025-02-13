@@ -31,9 +31,9 @@ For error-correcting codes with odd code distances, we verify its ability to acc
 
 We have evaluated *Veri-qec* in the paper 'Efficient Formal Verification for Quantum Error Correcting Programs' (arxiv: ). 
 
+Specifically, we derived the parity-check matrices and logical operators of the QEC codes selected in our benchmark set, the database is at `./src/Dataset/special_codes.py` and `./src/Dataset/qldpc_codes.py`.
 
-
-The readers can reproduce the experiments done in the paper via the following steps. First, clone this repo and cd `./Veri-qec`. 
+The readers can reproduce the experiments done in the paper via the following steps. First, clone this repo at local: 
 
 ```bash
 git clone https://github.com/Chesterhuang1999/Veri-qec.git
@@ -55,3 +55,8 @@ Besides, users can also specify the conditions satisfied by the errors based on 
 python src/execute_user_provide.py
 ```
 We provide two default constraints, locality and discreteness in current work. Users can specify the desired constraints by defining custom subclasses of `subtask_generator`.
+
+We also support the implementation of logical Clifford + T gate, in fault-free case. To the correctness of our logical T gate protocol, we provide an exmaple in `src/execute_logical.py` to automatically evaluate the precondition of logical T gate under the surface code, with arbitrary code distance. Just use: 
+```bash 
+python src/execute_logical.py
+```
