@@ -62,3 +62,24 @@ Technical details:
 
 ### Current methods that are not good enough in codes
 1. VCgeneration, include measurement error
+
+
+## 2025.1.26 Update:
+
+### Verifier
+1. Build the algorithm in Section 5.1 by first generating matrix representations of pre and postconditions.
+2. Find the linear transformation between two matrices by Gaussian elimination on the augmented matrices.
+3. Operate the linear transformation matrix on the phases of precondition, thus obtaining the classical assertion. 
+
+This avoids using greedy search and multiply the stabilizer generators many times and match one by one. 
+
+### Logical T gate Implementation (1.26)
+1. Prove that the circuit (first CNOT $q_1q_i$ and CNOT $q_iq_1$ then physical T $q_1$, at last CNOT $q_iq_1$ and CNOT $q_1q_i$ for all i > 1) indeed makes a logical T gate under Steane and surface codes
+2. Build the grammar for additive Pauli predicates. To avoid ambiguity, all of the terms are expanded using law of distribution, making the predicate in the form of (P1+P2+P3), in which Pis are all Pauli string with phases. 
+
+3. Established the transformation rules for physical T gate. 
+
+
+Update in code:
+1. Grammar. Define additive Pauli predicates and reduce the predicates to canonical form using law of distribution. Moreover, use QR2[a,b,c] to denote a number in $\mathbb{Z}[\frac{1}{\sqrt{2}}]$, that is $\frac{1}{2^a}(b + c\sqrt{2})$
+2. Transformer: Implemented the physical T gate (fault-free version) using the notation for QR2.

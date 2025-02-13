@@ -8,8 +8,8 @@ import galois
 from collections import defaultdict
 from itertools import product
 
-# from linalg_GF import *
-from Dataset.linalg_GF import *
+from .linalg_GF import *
+# from Dataset.linalg_GF import *
 ##### Stabilizer code check matrix generation #####
 
 ## Steane code

@@ -14,6 +14,8 @@ from lark import Transformer, Tree, Token
 #from lark.visitors import merge_transformers
 from lark.reconstruct import Reconstructor
 from parser_qec import get_parser
+from copy import deepcopy
+
 #from concurrent.futures import ThreadPoolExecutor
 import re
 import time
@@ -70,6 +72,7 @@ class Unitary(Transformer):
         self.unit = unit
     def pexpr(self, args):
         op = self.unit
+
         if op == 'CNOT':
             [q1, q2] = self.var_obj
             v_ind1 = int(q1.children[1])
@@ -126,6 +129,35 @@ class Unitary(Transformer):
                     else:
                         args[0].children.insert(0, phase)
                 return Tree('pexpr', args)
+        elif op == 'T': ## A fault-free physical T gate. 
+            ## Method: 
+            v_ind = int(self.var_obj.children[1])
+            ismatch = 0 ## record if the stabilizer shares the same index with the gate
+            for i in range(len(args)):
+                if int(args[i].children[-1]) == v_ind:
+                    ismatch = 1
+                    stab_z = int(args[i].children[-3])
+                    stab_x = int(args[i].children[-2])
+                    if stab_x == 0: 
+                        return Tree('pexpr', args)
+                    else:
+                        copy_args = deepcopy(args)
+                        if stab_z == 1: # Pauli Y op, the precondition is X + Y 
+                            copy_args[i].children[-3] = Token('NUMBER', '0')
+                            add_pexpr = Tree('pexpr', copy_args)
+                            coeff = Tree('sexpr', [Token('NUMBER', '0'), Token('NUMBER', '0'), Token('NUMBER', '1')])
+                            pterm = Tree('pterm', [coeff, Tree('pexpr', args), coeff, add_pexpr])
+                        else: ## Pauli X, the precondition is (X - Y)
+                            copy_args[i].children[-3] = Token('NUMBER', '1')
+                            add_pexpr = Tree('pexpr', copy_args)
+                            coeff1 = Tree('sexpr', [Token('NUMBER', '0'), Token('NUMBER', '0'), Token('NUMBER', '1')])
+                            coeff2 = Tree('sexpr', [Token('NUMBER','0'), Token('NUMBER', '0'), Tree('unary_minus', [Token('NUMBER','1')])] )
+                            pterm = Tree('pterm', [coeff1, Tree('pexpr', args), coeff2, add_pexpr] )
+                        return pterm
+                else:
+                    continue
+            if ismatch == 0:
+                return Tree('pexpr', args)
         else:
             return Tree('pexpr', args)         
     def pauli(self, args):
@@ -171,7 +203,7 @@ class Unitary(Transformer):
                     bexpr = Tree('xor', [self.bexp, args[0]])
                     return Tree('pauli',[bexpr] + args[1:])
                 elif stab_z == 1: # Z stabilizer
-                    if self.bexp == 1:
+                    if int(self.bexp.value) == 1:
                         args[-3] = Token('NUMBER','0')
                         args[-2] = Token('NUMBER','1')
                     else: 
@@ -179,14 +211,15 @@ class Unitary(Transformer):
                         args[-2] = self.bexp
                     return Tree('pauli', args)
                 else:  # X stabilizer
-                    if self.bexp == 1:
+                    if int(self.bexp.value) == 1:
                         args[-3] = Token('NUMBER','1')
                         args[-2] = Token('NUMBER','0')
                     else:
                         args[-3] = self.bexp
                         args[-2] = Tree('neg', [self.bexp])
                     return Tree('pauli', args)
-                
+            elif op == "T": 
+                return Tree('pauli', args)
             else: # S gate (no conditional)
                 if stab_x == 0:
                     return Tree('pauli', args)
@@ -241,7 +274,7 @@ class Measure(Transformer):
                 pexpr = self.pexpr_obj
                 temp2 = [self.var_obj] + pexpr.children[0].children
                 pexpr.children[0] = Tree('pauli',temp2)
-                children[length] = Tree('and',[pexpr, temp1])
+                children[length] = Tree('cap',[pexpr, temp1])
             else:
                 children[length] = temp1
             return Tree('condition',[Tree('bigor', children)])
@@ -250,7 +283,7 @@ class Measure(Transformer):
                 pexpr = self.pexpr_obj
                 temp = Tree('pauli', [self.var_obj]+ pexpr.children[0].children)
                 pexpr.children[0] = temp
-                temp1 = Tree('and',[pexpr,args[0]])
+                temp1 = Tree('cap',[pexpr,args[0]])
                 return Tree('condition', [Tree('bigor', [self.var_obj,temp1])])
             else:
                 return Tree('condition', [Tree('bigor', [self.var_obj, args[0]])]) 
@@ -359,7 +392,7 @@ class Decode(Transformer):
                     new_stab.children[0].children[0] = self.tree_recon(new_phase, 'xor')
                     return new_stab
     def flatten_terms(self, expr):
-        if isinstance(expr, Tree) and expr.data in ('xor', 'add', 'and') :
+        if isinstance(expr, Tree) and expr.data in ('xor', 'add', 'cap') :
             terms = []
             for child in expr.children:
                 terms.extend(self.flatten_terms(child))
@@ -443,8 +476,6 @@ def process(program_tree, assertion_tree):
                 assertion_tree, _ = process(child_prog_mod, assertion_tree)
     return assertion_tree, auxes
 
-
-
 # Check the equality of two pauli expressions, without considering the phase            
 def eq_pauliop(u: Tree,v: Tree):
    return all(u.children[-i] == v.children[-i] for i in range(1, 4))
@@ -490,21 +521,25 @@ def precond_generator(program: str, precond: str, postcond: str):
 
 if __name__ == "__main__":
 # Test example: Repetition code
-    precond = """ (-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
+    # precond = """ (-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
 
-    # program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
-    # for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
-    # program = """ q_(9), q_(1) *= CNOT; q_(8), q_(1) *= CNOT;q_(7), q_(1) *= CNOT; q_(6), q_(1) *= CNOT;q_(5), q_(1) *= CNOT; q_(4), q_(1) *= CNOT;q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;
-    # q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT;q_(1), q_(4) *= CNOT; q_(1), q_(5) *= CNOT;q_(1), q_(6) *= CNOT; q_(1), q_(7) *= CNOT;q_(1), q_(8) *= CNOT; q_(1), q_(9) *= CNOT"""
-    program = """ for i in 1 to 7 do q_(i) *= H end; for i in 1 to 7 do q_(i) *= e_(i) X end; s_(1) := meas"""
-    # program = "q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT"
-    postcond = """(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7)
-    &&(0,1,4)(0,1,5)(0,1,6)(0,1,7)&&(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7)
-    &&(1,0,4)(1,0,5)(1,0,6)(1,0,7)"""
+    # # program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
+    # # for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
+    # # program = """ q_(9), q_(1) *= CNOT; q_(8), q_(1) *= CNOT;q_(7), q_(1) *= CNOT; q_(6), q_(1) *= CNOT;q_(5), q_(1) *= CNOT; q_(4), q_(1) *= CNOT;q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;
+    # # q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT;q_(1), q_(4) *= CNOT; q_(1), q_(5) *= CNOT;q_(1), q_(6) *= CNOT; q_(1), q_(7) *= CNOT;q_(1), q_(8) *= CNOT; q_(1), q_(9) *= CNOT"""
+    # program = """ for i in 1 to 7 do q_(i) *= H end; for i in 1 to 7 do q_(i) *= e_(i) X end; s_(1) := meas"""
+    # # program = "q_(3), q_(1) *= CNOT; q_(2), q_(1) *= CNOT;q_(1), q_(2) *= CNOT; q_(1), q_(3) *= CNOT"
+    # postcond = """(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7)
+    # &&(0,1,4)(0,1,5)(0,1,6)(0,1,7)&&(1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7)
+    # &&(1,0,4)(1,0,5)(1,0,6)(1,0,7)"""
+    postcond = "(0,1,1) && (1,1,1) && (0,1,2)(0,1,3)"
+    precond = postcond 
+    program = "q_(1) *= T; q_(2) *= T"
     # postcond = """(1,0,1)(1,0,4)(1,0,7)&&(0,1,1)(0,1,2)(0,1,3) && (0,1,1)(0,1,4) &&(0,1,6)(0,1,9)&&(0,1,2)(0,1,3)(0,1,5)(0,1,6)&&(0,1,4)(0,1,5)(0,1,7)(0,1,8)
     # (1,0,1)(1,0,2)(1,0,4)(1,0,5)&&(1,0,5)(1,0,6)(1,0,8)(1,0,9) &&(1,0,2)(1,0,3)&&(1,0,7)(1,0,8)"""
     start = time.time()
     pre_tree, program_tree, assertion_tree = precond_generator(program, precond, postcond)
+
     clean_cass = recon_string(assertion_tree)
     print(clean_cass)
     end = time.time()
