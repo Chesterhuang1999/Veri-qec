@@ -11,3 +11,8 @@ __pycache__
 /MISC/
 /Details/
 /Output/
+temp.txt
+sorted_results.txt
+surface_code_test_runtime.png
+plot.py
+Object.py
