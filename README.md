@@ -6,7 +6,6 @@ We developed a parsing and interpretation framework for quantum error-correcting
 
 ## Installation dependencies
 
-
 Our tool applies Lark as its parser and interpreter development tool; Furthermore, Z3 and CVC5 are adopted as default SMT solvers. All of them can be directly installed via `pip`. 
 
 ```bash
