@@ -212,11 +212,11 @@ def sur_cond_gen_logical(d, N):
     return stab_eval, logX_eval, logZ_eval
 
 if __name__ == "__main__":
-    matrix = special_codes.stabs_Reed_Muller(4)
+    # matrix = special_codes.stabs_Reed_Muller(4)
     # print(matrix)
     # print(program_T(matrix, 3)[0])
-    # for i in range(1, 3):
-    #    stab_eval, logX_eval, logZ_eval = sur_cond_gen_logical(2 * i + 1, 1) 
-    #    print(stab_eval)
-    #    print(logX_eval)
-    #    print(logZ_eval)
+    for i in range(1, 15):
+       stab_eval, logX_eval, logZ_eval = sur_cond_gen_logical(2 * i + 1, 1) 
+       print(stab_eval)
+       print(logX_eval)
+       print(logZ_eval)
