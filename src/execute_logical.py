@@ -114,9 +114,9 @@ class eval_and(Transformer): ##Pruning for And conjunctions
 ## Const logical S gate program generation for surface code (fault-free)
 
 ## Const logical T gate program generation for surface code (fault-free)
-def program_T(distance):
-    matrix = surface_matrix_gen(distance)
-    numq = distance**2
+def program_T(matrix, distance):
+    # matrix = surface_matrix_gen(distance)
+    numq = matrix.shape[1] // 2
     prog_part = []
     for i in range(1, numq):
         if (matrix[numq-1][i] == 1):
@@ -187,7 +187,7 @@ def sur_cond_gen_logical(d, N):
 
     log_X, log_Z = pcx.split('&&')[-1], pcz.split('&&')[-1]
     
-    program = program_T(d)[0]
+    program = program_T(sur_mat, d)[0]
     # print(program)
     ##Stabilizer evaluation
     pre_tree, _, post_tree = precond_generator(program, stab_cond, stab_cond)
@@ -212,9 +212,11 @@ def sur_cond_gen_logical(d, N):
     return stab_eval, logX_eval, logZ_eval
 
 if __name__ == "__main__":
-
-    for i in range(1, 3):
-       stab_eval, logX_eval, logZ_eval = sur_cond_gen_logical(2 * i + 1, 1) 
-       print(stab_eval)
-       print(logX_eval)
-       print(logZ_eval)
+    matrix = special_codes.stabs_Reed_Muller(4)
+    # print(matrix)
+    # print(program_T(matrix, 3)[0])
+    # for i in range(1, 3):
+    #    stab_eval, logX_eval, logZ_eval = sur_cond_gen_logical(2 * i + 1, 1) 
+    #    print(stab_eval)
+    #    print(logX_eval)
+    #    print(logZ_eval)

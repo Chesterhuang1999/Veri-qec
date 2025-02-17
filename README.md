@@ -59,3 +59,26 @@ We also support the implementation of logical Clifford + T gate, in fault-free c
 ```bash 
 python src/execute_logical.py
 ```
+
+
+### Candidate codes 
+
+Users can interact through the interface we designed. Following the instructions, users can type in the types of codes and additional parameters and see the verification results. 
+
+For accurate decoding tasks, we provide the following codes as candidates: 
+
+- 'surface': $[[d^2, 1, d]]$ rotated surface code, with additional distance parameter $d$.
+- 'steane':  the self-dual $[[7,1,3]]$ quantum Steane code.
+- 'reed-muller': $[[2^m - 1, 1, 3]]$ quantum reed-muller code with parameter $m$.
+- 'dodecacode': $[[11,1,5]]$ quantum code, the smallest stabilizer code with distance 5. 
+- 'XZZX': $[[d_xd_z, 1, \rm{min}(d_x, d_z)]]$ planar, a variation of the surface code. 
+- 'Honeycomb': Planar codes with hexagon units. Currently support verification of instances with $d = 3,5$.
+
+For accurate detection tasks, we provide the following codes as candidates:
+
+- 'camp_howard': A $[[6k + 2, 3k ,2]]$ quantum code designed for fault-tolerant non-Clifford gates.
+- 'basic_color': $[[8,3,2]]$ 3D color code known as the minimal codes for a weakly transversal logical T gate. 
+- 'carbon' : $[[12,2,4]]$ quantum code.
+- 'triorthogonal': $[[3k+8, k, 2]]$ quantum code, which is an instance of triorthogonal codes designed for fault-tolerant T and CCZ gates with low overhead. 
+
+- 'tanner': quantum Tanner code with classical 7-bit Hamming code as the construction gadget. 

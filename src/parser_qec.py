@@ -83,7 +83,7 @@ def get_parser():
     %ignore WS
 
    
-    UNIT:  "I" | "X" | "Y" | "Z" | "H" | "S" | "T" | "CNOT" 
+    UNIT:  "I" | "X" | "Y" | "Z" | "H" | "S" | "T" | "CNOT" | "T+"  
     NAME: /[a-z]+/
     OR: "||"
     BIT_OR: "|"   

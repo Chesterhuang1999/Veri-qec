@@ -359,7 +359,7 @@ if __name__ == "__main__":
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    sur_cond_checker(13, max_proc_num, constraint_type = 'II')
+    # sur_cond_checker(13, max_proc_num, constraint_type = 'II')
     # matrix = special_codes.stabs_steane()
     # cond_checker(matrix, 3, 3, max_proc_num)
 
