@@ -44,10 +44,11 @@ def worker(task_id, err_vals, opt):
             errs_enum = [f"ex_{ind + 1}" for ind, val in enumerate(err_vals) if val == 1]
         end = time.time()
         cost = end - start 
-        if str(res[0]) == 'sat':
-            errs_enum.extend(res[1])
-            print(errs_enum)
-                      
+        # if str(res[0]) == 'sat':
+        #     errs_enum.extend(res[1])
+        #     print(errs_enum)
+        if str(res) == 'sat':
+            print(task_id)              
         # if str(res) == 'sat' and is_counter == 0:
         #     # print(task_id)
         #     print(opt)
@@ -102,7 +103,7 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if 5 * assigned_one_num * self.distance + 4 * assigned_bit_num < self.num_qubits:
+        if 8 * assigned_one_num * self.distance + 6 * assigned_bit_num < self.num_qubits:
             return False
         
         
@@ -348,7 +349,7 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 1, 0, 0],
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Rep51, Par54)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
     
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
@@ -359,7 +360,7 @@ if __name__ == "__main__":
     print(dx_max, dz_max, weight_min)
     # exit(0)
     # matrix = special_codes.stabs_832code()
-    cond_checker(matrix, 4, 4, max_proc_num)
+    cond_checker(matrix, 6, 6, max_proc_num)
     
     # user_input = input("Enter the code type: ")
     # if user_input == 'camp_howard':

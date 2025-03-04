@@ -181,10 +181,10 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     # print(precond_x)  
     # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {ex_max}"
     # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
-    # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {dx - 1}"
-    # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {dz - 1}"
-    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {dx - 1} && sum i 1 {num_qubits} (ex_(i)) >= 1"
-    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {dz - 1} && sum i 1 {num_qubits} (ez_(i)) >= 1"
+    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {dx - 1}"
+    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {dz - 1}"
+    # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {dx - 1} && sum i 1 {num_qubits} (ex_(i)) >= 1"
+    # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {dz - 1} && sum i 1 {num_qubits} (ez_(i)) >= 1"
     err_prog_z = f"for i in 1 to {num_qubits} do q_(i) *= ex_(i) X end"
     err_prog_x = f"for i in 1 to {num_qubits} do q_(i) *= ez_(i) Z end"
     postcond_x, postcond_z =  precond_x , precond_z
