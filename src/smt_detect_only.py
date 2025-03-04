@@ -68,9 +68,10 @@ def smtchecking_bzla(formula):
     # options.set(bzla.Option.SAT_SOLVER, 'cadical')
     parser = bzla.Parser(tm, options)
     # result = parser.parse('test.smt2') 
-    result = parser.parse(formula_smt2)
-    # result = parser.bitwuzla().check_sat()
+    parser.parse(formula_smt2, True, False)
+    result = parser.bitwuzla().check_sat()
     return result
+
 def smtchecking(formula):
     #t = Tactic('solve-eqs')
     solver = Solver()
@@ -260,7 +261,7 @@ if __name__ == '__main__':
    
     dx = 4
     dz = 2
-    print(bzla.get_version())
+    # print(bzla.get_version())
     err_vals = [0]
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
