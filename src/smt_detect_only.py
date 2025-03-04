@@ -260,7 +260,7 @@ if __name__ == '__main__':
    
     dx = 4
     dz = 2
-    print(bzla.get_version())
+    # print(bzla.get_version())
     err_vals = [0]
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
