@@ -1,12 +1,14 @@
 import sys
-from condition import stab_cond_gen, surface_matrix_gen, program_gen, decode_cond_gen
-from verifier import precond_generator, qassertion2c, Qass2c
-from transformer import recon_string, process
+from condition import stab_cond_gen, surface_matrix_gen
+from verifier import precond_generator, qassertion2c
+from transformer import recon_string
 from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
 from z3 import *
 
 import time
 import cvc5
+import bitwuzla as bzla
+
 import numpy as np
 import math
 from collections import defaultdict
@@ -48,6 +50,27 @@ def smtencoding_constrep(expr, variables, err_vals):
 
   
 # @timebudget 
+def smtchecking_bzla(formula):
+    solver = Solver()
+    solver.add(formula)
+    # print(formula)
+    formula_smt2 = solver.to_smt2()
+    lines = formula_smt2.splitlines()
+    formula_smt2 = f"(set-logic QF_BV)\n" + "\n".join(lines[2:])
+    # print(formula_smt2)
+    # with open('test.smt2', 'w') as f:   
+    #     f.write(formula_smt2)
+    # print(formula_smt2)
+    tm = bzla.TermManager()
+    options = bzla.Options()
+    # options.set("produce-models", "true")
+    # bitwuzla = bzla.Bitwuzla(tm, options)
+    # options.set(bzla.Option.SAT_SOLVER, 'cadical')
+    parser = bzla.Parser(tm, options)
+    # result = parser.parse('test.smt2') 
+    result = parser.parse(formula_smt2)
+    # result = parser.bitwuzla().check_sat()
+    return result
 def smtchecking(formula):
     #t = Tactic('solve-eqs')
     solver = Solver()
@@ -227,7 +250,8 @@ def seq_cond_checker_detect(packed_expr, err_vals, opt):
     formula = smtencoding_constrep(expr, variables, err_val_exprs_str)
     # print(formula)
     t3 = time.time()
-    result = smtchecking(formula)
+    result = smtchecking_bzla(formula)
+    # result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
 
@@ -236,7 +260,7 @@ if __name__ == '__main__':
    
     dx = 4
     dz = 2
-    
+    print(bzla.get_version())
     err_vals = [0]
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
@@ -277,11 +301,11 @@ if __name__ == '__main__':
     
 
     matrix = surface_matrix_gen(3)
-    dz = 5
-    dx = 6
+    dz = 3
+    dx = 3
     start = time.time()
     packed_x, packed_z = cond_generator(matrix, dx, dz, False)
-    exit(0)
+    # exit(0)
     err_vals_z = [0]
     err_vals_x = [1]
     end = time.time()
