@@ -283,13 +283,13 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     #         f.write(f'{" | ".join(ti[2])}\n')
     # # for info in task_info:
     # #     print(info)
-    # task_info.sort(key=lambda x: x[0])
+    task_info.sort(key=lambda x: x[0])
 
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
+    with open('sorted_results.txt', 'w') as f:
+        for i, ti in enumerate(task_info):
+            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+            f.write(f'{ti[1]}\n')
+            f.write(f'{" | ".join(ti[2])}\n')
     print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 
@@ -302,7 +302,7 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
     # dx = 3
     # dz = 3
-    max_proc_num = 250
+    max_proc_num = int(input("Enter the CPU counts:"))
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
                    [0, 1, 1, 1, 0, 0, 1]])
@@ -354,7 +354,7 @@ if __name__ == "__main__":
     # matrix = surface_matrix_gen(3)
     
     # print(matrix)
-    sur_cond_checker(5, max_proc_num)
+    # sur_cond_checker(5, max_proc_num)
     # matrix = special_codes.stabs_steane()
     # cond_checker(matrix, 3, 3, max_proc_num)
 

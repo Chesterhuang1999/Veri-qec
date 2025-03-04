@@ -102,7 +102,7 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+        if 5 * assigned_one_num * self.distance + 4 * assigned_bit_num < self.num_qubits:
             return False
         
         
@@ -297,7 +297,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         # [res.wait() for res in result_objects]
         pool1.join()
     endt_z = time.time()
-    print(endt_z - end_gen)
+    print(f"Check Z time: {endt_z - end_gen}")
     with Pool(processes = max_proc_num) as pool2:
         result_objects = []
         for i, task in enumerate(tasks_x):
@@ -311,6 +311,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         pool2.join()
     endt_x = time.time()
     print(endt_x - endt_z)
+    print(f"Check X time: {endt_z - end_gen}")
     for i, ei in enumerate(err_info):
         ei.re_raise()
 
@@ -324,6 +325,7 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
     # dx = 3
     # dz = 3
+    # max_proc_num = int(input("Enter the CPU counts:"))
     max_proc_num = 250
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
@@ -332,6 +334,8 @@ if __name__ == "__main__":
                    [0, 1, 0, 0, 1, 0, 1],
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
+    Ham523 = np.array([[1,1,0,1,0], [0,1,0,1,1]])
+    Ham532 = np.array([[1,1,1,0,0],[1,0,0,1,0],[0,1,0,0,1]])
     Rep51 = np.array([[1, 1, 0, 0, 0],
                   [1, 0, 1, 0, 0],
                   [1, 0, 0, 1, 0],
@@ -344,36 +348,39 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 1, 0, 0],
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
-    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham523, Ham532)
     
-    # n = matrix.shape[1] // 2
-    # k = matrix.shape[0] - n
+    n = matrix.shape[1] // 2
+    k = matrix.shape[0] - n
     
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # # print(dx_max, dz_max, weight_min)
-    user_input = input("Enter the code type: ")
-    if user_input == 'camp_howard':
-        d = int(input("Enter the parameter: "))
-            # matrix = surface_matrix_gen(d)
-        matrix = special_codes.stabs_camp_howard(d)
-        cond_checker(matrix, 4, 2, max_proc_num)
-    elif user_input == 'triorthogonal':
-        k = int(input("Enter the parameter: "))
-        matrix = special_codes.stabs_triotho(k)
-        cond_checker(matrix, 4, 2, max_proc_num)
-    elif user_input == 'basic_color':
-        # m = int(input("Enter the params: "))
-        matrix = special_codes.stabs_832code()
-        cond_checker(matrix, 4, 2, max_proc_num)
-    elif user_input == 'carbon':
-        # d = int(input("Enter the distance: "))
-        matrix = special_codes.stabs_carbon()
-        cond_checker(matrix, 4, 4, max_proc_num)
-    elif user_input == 'tanner': ## To be tested
-        matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-        cond_checker(matrix, 6, 6, max_proc_num)
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    print(dx_max, dz_max, weight_min)
+
+    cond_checker(matrix, 6, 6, max_proc_num)
+    
+    # user_input = input("Enter the code type: ")
+    # if user_input == 'camp_howard':
+    #     d = int(input("Enter the parameter: "))
+    #         # matrix = surface_matrix_gen(d)
+    #     matrix = special_codes.stabs_camp_howard(d)
+    #     cond_checker(matrix, 4, 2, max_proc_num)
+    # elif user_input == 'triorthogonal':
+    #     k = int(input("Enter the parameter: "))
+    #     matrix = special_codes.stabs_triotho(k)
+    #     cond_checker(matrix, 4, 2, max_proc_num)
+    # elif user_input == 'basic_color':
+    #     # m = int(input("Enter the params: "))
+    #     matrix = special_codes.stabs_832code()
+    #     cond_checker(matrix, 4, 2, max_proc_num)
+    # elif user_input == 'carbon':
+    #     # d = int(input("Enter the distance: "))
+    #     matrix = special_codes.stabs_carbon()
+    #     cond_checker(matrix, 4, 4, max_proc_num)
+    # elif user_input == 'tanner': ## To be tested
+    #     matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    #     cond_checker(matrix, 6, 6, max_proc_num)
     # matrix = special_codes.stabs_camp_howard(2)
     # cond_checker(matrix, 4, 2, max_proc_num)
     # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)

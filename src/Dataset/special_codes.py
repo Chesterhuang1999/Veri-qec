@@ -410,8 +410,8 @@ def stabs_camp_howard(k):
     # logs_X[2,:] = logs_X[2,:] ^ logs_X[0,:]
     stabs_mat = np.concatenate((matrix, logs_X, logs_Z), axis = 0)
     assert np.all(symplectic_product(matrix, matrix) == 0)
-    print(logs_Z)
-    print(logs_X)
+    # print(logs_Z)
+    # print(logs_X)
     # print(symplectic_product(matrix, logs_X))
     # print(symplectic_product(matrix, logs_Z))
     # print(symplectic_product(logs_X, logs_Z))

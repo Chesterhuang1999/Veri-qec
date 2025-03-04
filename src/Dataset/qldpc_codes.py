@@ -100,7 +100,7 @@ def stabs_Tanner(k, m, Ca, Cb):
     rank = np.linalg.matrix_rank(matrix[:n1, :n2])
 
     log_Z, log_X = logical_op_gen(matrix, rank, n2, k)
-
+    
     stabs_mat = np.concatenate((matrix, log_X, log_Z), axis = 0)    
     x_stabs_mat = np.concatenate((matrix, log_X), axis = 0)
     z_stabs_mat = np.concatenate((matrix, log_Z), axis = 0)

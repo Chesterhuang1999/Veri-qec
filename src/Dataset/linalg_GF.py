@@ -99,9 +99,7 @@ def find_null_space_GF2(G):
     free_columns = [col for col in range(num_cols) if col not in pivot_columns]
 
 
-    print(pivot_columns)
-    print(free_columns)
-    
+                                 
    
     null_space_basis = []
     
@@ -263,7 +261,7 @@ def gaussian_elimination(matrix):
                 matrix[j, :] ^= matrix[i, :]
 
     nz = m - 1
-    print(nz)
+    # print(nz)
     while(np.all(matrix[nz, :] == 0) == True):
         nz -= 1
     
