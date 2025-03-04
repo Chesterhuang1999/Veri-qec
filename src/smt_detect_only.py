@@ -207,6 +207,8 @@ def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog
     # substitution = And(*constraints)
     # detect_formula = simplify(Or(Not(phase_expr), And(cass_expr, logic_expr)))
     detect_formula = simplify(And(logic_expr, phase_expr, cass_expr))
+    # print(logic_expr, phase_expr, cass_expr)
+    # print(err_expr)
     # expr = And(substitution, Or(Not(err_expr), detect_formula))
     # expr = simplify(And(substitution, err_expr, detect_formula))
     expr = simplify(And(err_expr, detect_formula))
@@ -274,11 +276,12 @@ if __name__ == '__main__':
     #         err_vals_z[i] = 1
     
 
-    matrix = surface_matrix_gen(5)
+    matrix = surface_matrix_gen(3)
     dz = 5
     dx = 6
     start = time.time()
     packed_x, packed_z = cond_generator(matrix, dx, dz, False)
+    exit(0)
     err_vals_z = [0]
     err_vals_x = [1]
     end = time.time()

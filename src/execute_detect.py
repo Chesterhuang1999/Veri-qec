@@ -348,17 +348,18 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 1, 0, 0],
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham523, Ham532)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Rep51, Par54)
     
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
-    
+    print(n, k)
     dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
     dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
     weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
     print(dx_max, dz_max, weight_min)
-
-    cond_checker(matrix, 6, 6, max_proc_num)
+    # exit(0)
+    # matrix = special_codes.stabs_832code()
+    cond_checker(matrix, 4, 4, max_proc_num)
     
     # user_input = input("Enter the code type: ")
     # if user_input == 'camp_howard':
