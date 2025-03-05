@@ -283,7 +283,34 @@ def stabs_XZZX(dx, dz):
             stabs[cnt][i * dz] = 1
 
     return stabs
-        
+
+### Honeycomb code, only support d = 3, d = 5
+def stabs_honeycomb(d):        
+    if d == 3:
+        return stabs_steane()
+    elif d == 5:
+        H = np.zeros((9, 19), dtype = int)
+        H[0, 0:4] = [1,1,1,1]
+        H[1, 1:7] = [1,0,1,0,1,1]
+        # H[2, 2:6] = [1,1,1,1]
+        H[2, 2:9] = [1,1,1,1,0,1,1]
+        H[3, 5:14] = [1,1,0,1,1,0,0,1,1]
+        H[4, 4:12] = [1,0,0,1,0,0,1,1]
+        H[5,7:17] = [1,1,0,0,1,1,0,0,1,1]
+        H[6,9:19] = [1,0,0,0,1,0,0,0,1,1]
+        H[7, 10:16] = [1,1,0,0,1,1]
+        H[8, 12:18] = [1,1,0,0,1,1]
+        rank = np.linalg.matrix_rank(H)
+
+        matrix = np.zeros((20, 38), dtype = int)
+        matrix[:9, :19] = H 
+        matrix[9:18, 19:] = H
+        logical = [1,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0]
+        matrix[18,:19] = logical
+        matrix[19,19:] = logical
+        return matrix 
+    else: 
+        raise ValueError("Only support d = 3, d = 5")
 ### Stabilizers that detect single qubit errors
 
 ## 3D [[8,3,2]] color code, minimum 

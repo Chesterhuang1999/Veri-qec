@@ -344,6 +344,7 @@ if __name__ == "__main__":
         matrix = special_codes.stabs_XZZX(dx, dz)
         cond_checker(matrix, 5, 5, max_proc_num)
     elif user_input == 'Honeycomb':
+        #Only support d = 3, d = 5 currently
         d = int(input("Enter the distance: "))
         matrix = special_codes.stabs_honeycomb(d)
     #     cond_checker(matrix, d, d, max_proc_num)
