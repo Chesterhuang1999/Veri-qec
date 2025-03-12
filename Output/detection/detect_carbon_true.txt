@@ -1,0 +1,13 @@
+nohup: ignoring input
+Check condition: dx = 4, dz = 4
+tasks for X error: 5 | tasks for Z error: 5
+total_job: 10
+Task generated. Start checking.
+Condition generation time: 0.3797945976257324
+No counterexample for X error is found, all errors can be detected.
+
+Check X time: 0.55930495262146
+Check Z time: 0.5649542808532715
+No counterexample for Z error is found, all errors can be detected.
+
+cond_checker took 1.508sec

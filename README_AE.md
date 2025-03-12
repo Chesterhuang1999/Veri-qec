@@ -5,11 +5,12 @@
 - Submission ID (Track: PLDI 2025 Artifacts): 10
 - Zenodo Link: 
 
-Veri-QEC is a prototype tool for automatic verification of quantum error correcting programs. As introduced in the paper, the artifacts include two modules, a verified verifier in Coq an an automatic verifier, Veri-QEC in Python. 
+Veri-QEC is a prototype tool designed for automatic verification of quantum error correcting programs. 
+<!-- As outlined in the paper, the artifacts include two modules, a verified verifier in Coq an an automatic verifier, Veri-QEC in Python.  -->
+Veri-QEC introduces a robust framework for parsing and interpretating quantum error-correcting programs and its associated assertion logic. It then encodes the derived verification conditions into logical formulas. Leveraging SMT solvers building upon a parallel solving framework, the tool efficiently checks the satisfiability of these formulas.
 
 # Getting Started for Evaluation
 
-## Verifier in Coq
 
 ## Veri-QEC
 A docker image is provided for evaluation. Firstly, you need to obtain the number of CPU cores in your machine. 

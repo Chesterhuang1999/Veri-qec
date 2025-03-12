@@ -22,8 +22,10 @@ RUN apt-get update && \
         python-is-python3 \
         vim \
         python3-pip \
-        && \
-        rm -rf /var/lib/apt/lists/*
+        sudo 
+
+    
+RUN rm -rf /var/lib/apt/lists/*
 # RUN pip install tabulate
 RUN pip install --no-cache-dir -r \
         lark=0.12.0 \
@@ -34,11 +36,15 @@ RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
     cd bitwuzla && \
     pip install .
 
-# FROM python:3.9.18
-WORKDIR /src
-COPY ./src /src
+# Builder Image for Veri-qec
 
-CMD ["python", "execute_verify.py", "--cpucount 16", "--code surface", "--p1 7"]
+FROM lib-base as builder
+RUN mkdir /Veri-qec/
+RUN mkdir /Veri-qec/src
+WORKDIR /Veri-qec/src
+COPY ./src /Veri-qec/src
+
+# CMD ["python", "execute_verify.py", "--cpucount 16", "--code surface", "--p1 7"]
 # RUN pip install --no-cache-dir -r requirements.txt
 
 # RUN git clone https://github.com/bitwuzla/bitwuzla.git

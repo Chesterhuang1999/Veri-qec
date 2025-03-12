@@ -1,0 +1,21 @@
+nohup: 忽略输入
+Task generated. Start checking.
+total_job: 4842
+cond generation time: 4.686694860458374
+4005/4842: finish job file[3988], cost_time: 0.03256797790527344
+[3988, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 21', 'num_zero: 18', 'num_one: 3', 'one_pos: [3, 11, 20]'], 0.03256797790527344, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-09 13:36:41
+current time: 2025-03-09 13:36:51
+cost time: 0:00:10.026025
+left time: 0:00:02.095326
+estimated time: 0:00:12.121351
+estimated finished time: 2025-03-09 13:36:53
+instance per seconed(all process): 399.46
+instance average runtime(s): 0.63
+finished persent: 82.71%
+processed jobs: 4005
+unprocessed jobs: 837
+
+Finish all jobs. Checking time: 6.109887599945068
+cond_checker took 10.841sec

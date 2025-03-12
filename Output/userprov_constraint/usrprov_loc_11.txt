@@ -1,0 +1,51 @@
+nohup: ignoring input
+Task generated. Start checking.
+total_job: 14820
+cond generation time: 4.5768303871154785
+1660/14820: finish job file[633], cost_time: 2.3130903244018555
+[633, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 30', 'num_zero: 27', 'num_one: 3', 'one_pos: [18, 28, 29]'], 2.3130903244018555, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-09 04:28:52
+current time: 2025-03-09 04:29:02
+cost time: 0:00:10.000889
+left time: 0:01:19.284155
+estimated time: 0:01:29.285044
+estimated finished time: 2025-03-09 04:30:21
+instance per seconed(all process): 165.99
+instance average runtime(s): 1.51
+finished persent: 11.20%
+processed jobs: 1660
+unprocessed jobs: 13160
+
+7925/14820: finish job file[7555], cost_time: 2.348482370376587
+[7555, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 36', 'num_zero: 34', 'num_one: 2', 'one_pos: [30, 35]'], 2.348482370376587, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-09 04:28:52
+current time: 2025-03-09 04:29:12
+cost time: 0:00:20.016422
+left time: 0:00:17.414918
+estimated time: 0:00:37.431340
+estimated finished time: 2025-03-09 04:29:29
+instance per seconed(all process): 395.92
+instance average runtime(s): 0.63
+finished persent: 53.48%
+processed jobs: 7925
+unprocessed jobs: 6895
+
+13381/14820: finish job file[13568], cost_time: 0.014965534210205078
+[13568, [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 16', 'num_zero: 12', 'num_one: 4', 'one_pos: [1, 5, 9, 15]'], 0.014965534210205078, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-09 04:28:52
+current time: 2025-03-09 04:29:22
+cost time: 0:00:30.032883
+left time: 0:00:03.229753
+estimated time: 0:00:33.262635
+estimated finished time: 2025-03-09 04:29:25
+instance per seconed(all process): 445.54
+instance average runtime(s): 0.56
+finished persent: 90.29%
+processed jobs: 13381
+unprocessed jobs: 1439
+
+Finish all jobs. Checking time: 29.811874389648438
+cond_checker took 34.409sec

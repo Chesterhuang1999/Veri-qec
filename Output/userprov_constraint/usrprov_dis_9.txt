@@ -1,0 +1,51 @@
+Task generated. Start checking.
+total_job: 18144
+cond generation time: 1.6926746368408203
+4572/18144: finish job file[4631], cost_time: 0.21109366416931152
+[4631, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 27', 'num_zero: 24', 'num_one: 3', 'one_pos: [8, 13, 18]'], 0.21109366416931152, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 06:47:21
+current time: 2025-03-10 06:47:31
+cost time: 0:00:10.003862
+left time: 0:00:29.696503
+estimated time: 0:00:39.700365
+estimated finished time: 2025-03-10 06:48:01
+instance per seconed(all process): 457.02
+instance average runtime(s): 0.53
+finished persent: 25.20%
+processed jobs: 4572
+unprocessed jobs: 13572
+
+10242/18144: finish job file[9855], cost_time: 1.6319751739501953
+[9855, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 57', 'num_zero: 55', 'num_one: 2', 'one_pos: [24, 56]'], 1.6319751739501953, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 06:47:21
+current time: 2025-03-10 06:47:41
+cost time: 0:00:20.038778
+left time: 0:00:15.460498
+estimated time: 0:00:35.499276
+estimated finished time: 2025-03-10 06:47:56
+instance per seconed(all process): 511.11
+instance average runtime(s): 0.47
+finished persent: 56.45%
+processed jobs: 10242
+unprocessed jobs: 7902
+
+15917/18144: finish job file[15453], cost_time: 0.9982657432556152
+[15453, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 50', 'num_zero: 48', 'num_one: 2', 'one_pos: [4, 49]'], 0.9982657432556152, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 06:47:21
+current time: 2025-03-10 06:47:51
+cost time: 0:00:30.039010
+left time: 0:00:04.202857
+estimated time: 0:00:34.241867
+estimated finished time: 2025-03-10 06:47:55
+instance per seconed(all process): 529.88
+instance average runtime(s): 0.45
+finished persent: 87.73%
+processed jobs: 15917
+unprocessed jobs: 2227
+
+No counterexample found, all errors can be corrected.
+Finish all jobs. Checking time: 32.74424195289612
+cond_checker took 34.462sec

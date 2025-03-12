@@ -1,0 +1,28 @@
+nohup: ignoring input
+Check condition: dx = 6, dz = 2
+tasks for X error: 1686 | tasks for Z error: 36
+total_job: 1722
+Task generated. Start checking.
+Condition generation time: 7.703857898712158
+1674/1722: finish job file[1649], cost_time: 0.2740452289581299
+[1649, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 22', 'num_zero: 20', 'num_one: 2', 'one_pos: [20, 21]'], 0.2740452289581299, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 10:29:52
+current time: 2025-03-10 10:30:02
+cost time: 0:00:10.000262
+left time: 0:00:00.286746
+estimated time: 0:00:10.287008
+estimated finished time: 2025-03-10 10:30:02
+instance per seconed(all process): 167.40
+instance average runtime(s): 1.19
+finished persent: 97.21%
+processed jobs: 1674
+unprocessed jobs: 48
+
+No counterexample for X error is found, all errors can be detected.
+
+Check X time: 2.7176239490509033
+Check Z time: 1.0805187225341797
+No counterexample for Z error is found, all errors can be detected.
+
+cond_checker took 11.507sec

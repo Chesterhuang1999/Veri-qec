@@ -1,0 +1,8 @@
+nohup: ignoring input
+Task generated. Start checking.
+total_job: 4785
+task generation time: 0.5699539184570312
+No counterexample found, all errors can be corrected.
+
+Finish all jobs. Checking time: 2.8580946922302246
+cond_checker took 3.436sec

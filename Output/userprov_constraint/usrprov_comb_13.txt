@@ -1,0 +1,36 @@
+nohup: ignoring input
+Task generated. Start checking.
+total_job: 14110
+cond generation time: 5.945694208145142
+3496/14110: finish job file[2189], cost_time: 1.344064474105835
+[2189, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 45', 'num_zero: 43', 'num_one: 2', 'one_pos: [12, 30]'], 1.344064474105835, 'sat']
+ ++++++ show progress ++++++ 
+start time: 2024-11-10 06:45:47
+current time: 2024-11-10 06:45:57
+cost time: 0:00:10.003969
+left time: 0:00:30.372461
+estimated time: 0:00:40.376430
+estimated finished time: 2024-11-10 06:46:27
+instance per seconed(all process): 349.46
+instance average runtime(s): 0.72
+finished persent: 24.78%
+processed jobs: 3496
+unprocessed jobs: 10614
+
+14106/14110: finish job file[5601], cost_time: 7.027234315872192
+[5601, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 42', 'num_zero: 39', 'num_one: 3', 'one_pos: [2, 17, 41]'], 7.027234315872192, 'sat']
+ ++++++ show progress ++++++ 
+start time: 2024-11-10 06:45:47
+current time: 2024-11-10 06:46:07
+cost time: 0:00:20.386612
+left time: 0:00:00.005781
+estimated time: 0:00:20.392393
+estimated finished time: 2024-11-10 06:46:07
+instance per seconed(all process): 691.92
+instance average runtime(s): 0.36
+finished persent: 99.97%
+processed jobs: 14106
+unprocessed jobs: 4
+
+Finish all jobs. Checking time: 17.861231327056885
+cond_checker took 23.821sec

@@ -1,0 +1,36 @@
+nohup: ignoring input
+Task generated. Start checking.
+total_job: 78186
+cond generation time: 13.496111154556274
+44317/78186: finish job file[44560], cost_time: 0.0327754020690918
+[44560, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 63', 'num_zero: 60', 'num_one: 3', 'one_pos: [21, 43, 62]'], 0.0327754020690918, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2024-11-10 12:56:11
+current time: 2024-11-10 12:57:11
+cost time: 0:01:00.016824
+left time: 0:00:45.867496
+estimated time: 0:01:45.884320
+estimated finished time: 2024-11-10 12:57:57
+instance per seconed(all process): 738.41
+instance average runtime(s): 0.34
+finished persent: 56.68%
+processed jobs: 44317
+unprocessed jobs: 33869
+
+59251/78186: finish job file[59246], cost_time: 1.6694343090057373
+[59246, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 45', 'num_zero: 42', 'num_one: 3', 'one_pos: [5, 31, 37]'], 1.6694343090057373, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2024-11-10 12:56:11
+current time: 2024-11-10 12:58:11
+cost time: 0:02:00.040952
+left time: 0:00:38.361807
+estimated time: 0:02:38.402760
+estimated finished time: 2024-11-10 12:58:49
+instance per seconed(all process): 493.59
+instance average runtime(s): 0.51
+finished persent: 75.78%
+processed jobs: 59251
+unprocessed jobs: 18935
+
+Finish all jobs. Checking time: 143.38353300094604
+cond_checker took 156.959sec

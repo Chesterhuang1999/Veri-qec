@@ -1,0 +1,2918 @@
+nohup: 忽略输入
+Task generated. Start checking.
+total_job: 1313950
+task generation time: 9.883540153503418
+58/1313950: finish job file[45], cost_time: 37.473323345184326
+[45, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 98', 'num_zero: 96', 'num_one: 2', 'one_pos: [92, 97]'], 37.473323345184326, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:01:14
+cost time: 0:01:02.285197
+left time: 16 days, 7:56:05.892572
+estimated time: 16 days, 7:57:08.177769
+estimated finished time: 2025-03-25 01:57:20
+instance per seconed(all process): 0.93
+instance average runtime(s): 268.47
+finished persent: 0.00%
+processed jobs: 58
+unprocessed jobs: 1313892
+
+176/1313950: finish job file[218], cost_time: 105.3847165107727
+[218, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 94', 'num_zero: 92', 'num_one: 2', 'one_pos: [79, 93]'], 105.3847165107727, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:02:15
+cost time: 0:02:02.804345
+left time: 10 days, 14:38:08.384773
+estimated time: 10 days, 14:40:11.189118
+estimated finished time: 2025-03-19 08:40:23
+instance per seconed(all process): 1.43
+instance average runtime(s): 174.44
+finished persent: 0.01%
+processed jobs: 176
+unprocessed jobs: 1313774
+
+257/1313950: finish job file[243], cost_time: 165.7239637374878
+[243, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 89', 'num_zero: 87', 'num_one: 2', 'one_pos: [78, 88]'], 165.7239637374878, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:03:15
+cost time: 0:03:03.189207
+left time: 10 days, 20:06:38.360698
+estimated time: 10 days, 20:09:41.549905
+estimated finished time: 2025-03-19 14:09:53
+instance per seconed(all process): 1.40
+instance average runtime(s): 178.20
+finished persent: 0.02%
+processed jobs: 257
+unprocessed jobs: 1313693
+
+336/1313950: finish job file[186], cost_time: 225.96198511123657
+[186, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 89', 'num_zero: 87', 'num_one: 2', 'one_pos: [81, 88]'], 225.96198511123657, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:04:15
+cost time: 0:04:03.302351
+left time: 11 days, 0:13:26.470805
+estimated time: 11 days, 0:17:29.773156
+estimated finished time: 2025-03-19 18:17:42
+instance per seconed(all process): 1.38
+instance average runtime(s): 181.03
+finished persent: 0.03%
+processed jobs: 336
+unprocessed jobs: 1313614
+
+399/1313950: finish job file[540], cost_time: 99.07814431190491
+[540, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [69, 70, 73]'], 99.07814431190491, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:05:17
+cost time: 0:05:04.799704
+left time: 11 days, 14:43:53.473903
+estimated time: 11 days, 14:48:58.273607
+estimated finished time: 2025-03-20 08:49:10
+instance per seconed(all process): 1.31
+instance average runtime(s): 190.98
+finished persent: 0.03%
+processed jobs: 399
+unprocessed jobs: 1313551
+
+464/1313950: finish job file[643], cost_time: 70.34302234649658
+[643, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [67, 71, 74]'], 70.34302234649658, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:06:20
+cost time: 0:06:08.426748
+left time: 12 days, 1:42:18.308074
+estimated time: 12 days, 1:48:26.734821
+estimated finished time: 2025-03-20 19:48:39
+instance per seconed(all process): 1.26
+instance average runtime(s): 198.51
+finished persent: 0.04%
+processed jobs: 464
+unprocessed jobs: 1313486
+
+533/1313950: finish job file[716], cost_time: 58.72645449638367
+[716, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 76', 'num_zero: 73', 'num_one: 3', 'one_pos: [66, 70, 75]'], 58.72645449638367, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:07:21
+cost time: 0:07:09.199732
+left time: 12 days, 5:47:12.691351
+estimated time: 12 days, 5:54:21.891083
+estimated finished time: 2025-03-20 23:54:34
+instance per seconed(all process): 1.24
+instance average runtime(s): 201.31
+finished persent: 0.04%
+processed jobs: 533
+unprocessed jobs: 1313417
+
+587/1313950: finish job file[744], cost_time: 98.20587205886841
+[744, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1], ['num_bit: 72', 'num_zero: 69', 'num_one: 3', 'one_pos: [66, 67, 71]'], 98.20587205886841, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:08:22
+cost time: 0:08:10.262439
+left time: 12 days, 16:42:00.865954
+estimated time: 12 days, 16:50:11.128394
+estimated finished time: 2025-03-21 10:50:23
+instance per seconed(all process): 1.20
+instance average runtime(s): 208.80
+finished persent: 0.04%
+processed jobs: 587
+unprocessed jobs: 1313363
+
+651/1313950: finish job file[683], cost_time: 212.9374303817749
+[683, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 87', 'num_zero: 85', 'num_one: 2', 'one_pos: [66, 86]'], 212.9374303817749, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:09:22
+cost time: 0:09:10.434687
+left time: 12 days, 20:27:02.925493
+estimated time: 12 days, 20:36:13.360181
+estimated finished time: 2025-03-21 14:36:25
+instance per seconed(all process): 1.18
+instance average runtime(s): 211.38
+finished persent: 0.05%
+processed jobs: 651
+unprocessed jobs: 1313299
+
+702/1313950: finish job file[836], cost_time: 121.08187460899353
+[836, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1], ['num_bit: 68', 'num_zero: 65', 'num_one: 3', 'one_pos: [65, 66, 67]'], 121.08187460899353, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:10:23
+cost time: 0:10:11.421451
+left time: 13 days, 5:43:20.566225
+estimated time: 13 days, 5:53:31.987676
+estimated finished time: 2025-03-21 23:53:44
+instance per seconed(all process): 1.15
+instance average runtime(s): 217.74
+finished persent: 0.05%
+processed jobs: 702
+unprocessed jobs: 1313248
+
+749/1313950: finish job file[932], cost_time: 81.99959182739258
+[932, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 72', 'num_zero: 69', 'num_one: 3', 'one_pos: [64, 65, 71]'], 81.99959182739258, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:11:26
+cost time: 0:11:13.833466
+left time: 13 days, 16:10:13.592561
+estimated time: 13 days, 16:21:27.426026
+estimated finished time: 2025-03-22 10:21:39
+instance per seconed(all process): 1.11
+instance average runtime(s): 224.91
+finished persent: 0.06%
+processed jobs: 749
+unprocessed jobs: 1313201
+
+797/1313950: finish job file[1007], cost_time: 53.722551107406616
+[1007, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 77', 'num_zero: 74', 'num_one: 3', 'one_pos: [63, 67, 76]'], 53.722551107406616, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:12:26
+cost time: 0:12:14.180472
+left time: 14 days, 0:00:50.300142
+estimated time: 14 days, 0:13:04.480614
+estimated finished time: 2025-03-22 18:13:16
+instance per seconed(all process): 1.09
+instance average runtime(s): 230.30
+finished persent: 0.06%
+processed jobs: 797
+unprocessed jobs: 1313153
+
+846/1313950: finish job file[996], cost_time: 125.2405698299408
+[996, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 71', 'num_zero: 68', 'num_one: 3', 'one_pos: [63, 69, 70]'], 125.2405698299408, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:13:27
+cost time: 0:13:14.757518
+left time: 14 days, 6:39:28.884514
+estimated time: 14 days, 6:52:43.642032
+estimated finished time: 2025-03-23 00:52:55
+instance per seconed(all process): 1.06
+instance average runtime(s): 234.86
+finished persent: 0.06%
+processed jobs: 846
+unprocessed jobs: 1313104
+
+887/1313950: finish job file[1050], cost_time: 113.95918846130371
+[1050, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1], ['num_bit: 67', 'num_zero: 64', 'num_one: 3', 'one_pos: [63, 64, 66]'], 113.95918846130371, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:14:28
+cost time: 0:14:16.023390
+left time: 14 days, 16:00:07.034937
+estimated time: 14 days, 16:14:23.058327
+estimated finished time: 2025-03-23 10:14:35
+instance per seconed(all process): 1.04
+instance average runtime(s): 241.27
+finished persent: 0.07%
+processed jobs: 887
+unprocessed jobs: 1313063
+
+934/1313950: finish job file[1133], cost_time: 66.50293016433716
+[1133, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [62, 66, 74]'], 66.50293016433716, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:15:28
+cost time: 0:15:16.522496
+left time: 14 days, 21:54:06.147311
+estimated time: 14 days, 22:09:22.669807
+estimated finished time: 2025-03-23 16:09:35
+instance per seconed(all process): 1.02
+instance average runtime(s): 245.32
+finished persent: 0.07%
+processed jobs: 934
+unprocessed jobs: 1313016
+
+978/1313950: finish job file[1119], cost_time: 142.18155550956726
+[1119, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 70', 'num_zero: 67', 'num_one: 3', 'one_pos: [62, 68, 69]'], 142.18155550956726, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:16:32
+cost time: 0:16:20.479457
+left time: 15 days, 5:38:20.689277
+estimated time: 15 days, 5:54:41.168734
+estimated finished time: 2025-03-23 23:54:53
+instance per seconed(all process): 1.00
+instance average runtime(s): 250.63
+finished persent: 0.07%
+processed jobs: 978
+unprocessed jobs: 1312972
+
+1027/1313950: finish job file[1178], cost_time: 130.00847148895264
+[1178, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1], ['num_bit: 66', 'num_zero: 63', 'num_one: 3', 'one_pos: [62, 63, 65]'], 130.00847148895264, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:17:33
+cost time: 0:17:20.685587
+left time: 15 days, 9:33:38.737560
+estimated time: 15 days, 9:50:59.423147
+estimated finished time: 2025-03-24 03:51:11
+instance per seconed(all process): 0.99
+instance average runtime(s): 253.33
+finished persent: 0.08%
+processed jobs: 1027
+unprocessed jobs: 1312923
+
+1070/1313950: finish job file[467], cost_time: 947.0058574676514
+[467, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 81', 'num_zero: 79', 'num_one: 2', 'one_pos: [70, 80]'], 947.0058574676514, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:18:34
+cost time: 0:18:22.018491
+left time: 15 days, 15:36:06.389548
+estimated time: 15 days, 15:54:28.408039
+estimated finished time: 2025-03-24 09:54:40
+instance per seconed(all process): 0.97
+instance average runtime(s): 257.48
+finished persent: 0.08%
+processed jobs: 1070
+unprocessed jobs: 1312880
+
+1120/1313950: finish job file[1298], cost_time: 89.8941707611084
+[1298, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [61, 63, 73]'], 89.8941707611084, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:19:36
+cost time: 0:19:23.749689
+left time: 15 days, 18:55:12.057450
+estimated time: 15 days, 19:14:35.807139
+estimated finished time: 2025-03-24 13:14:48
+instance per seconed(all process): 0.96
+instance average runtime(s): 259.77
+finished persent: 0.09%
+processed jobs: 1120
+unprocessed jobs: 1312830
+
+1165/1313950: finish job file[1359], cost_time: 72.34733152389526
+[1359, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [60, 72, 74]'], 72.34733152389526, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:20:36
+cost time: 0:20:24.287494
+left time: 15 days, 23:13:13.354012
+estimated time: 15 days, 23:33:37.641506
+estimated finished time: 2025-03-24 17:33:49
+instance per seconed(all process): 0.95
+instance average runtime(s): 262.72
+finished persent: 0.09%
+processed jobs: 1165
+unprocessed jobs: 1312785
+
+1214/1313950: finish job file[1405], cost_time: 71.01905584335327
+[1405, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [60, 66, 73]'], 71.01905584335327, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:21:37
+cost time: 0:21:24.870461
+left time: 16 days, 1:56:10.436140
+estimated time: 16 days, 2:17:35.306601
+estimated finished time: 2025-03-24 20:17:47
+instance per seconed(all process): 0.94
+instance average runtime(s): 264.59
+finished persent: 0.09%
+processed jobs: 1214
+unprocessed jobs: 1312736
+
+1546/1313950: finish job file[1431], cost_time: 104.00434732437134
+[1431, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 71', 'num_zero: 68', 'num_one: 3', 'one_pos: [60, 64, 70]'], 104.00434732437134, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:22:38
+cost time: 0:22:26.503315
+left time: 13 days, 5:30:50.670696
+estimated time: 13 days, 5:53:17.174011
+estimated finished time: 2025-03-21 23:53:29
+instance per seconed(all process): 1.15
+instance average runtime(s): 217.74
+finished persent: 0.12%
+processed jobs: 1546
+unprocessed jobs: 1312404
+
+1986/1313950: finish job file[2233], cost_time: 0.045421600341796875
+[2233, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 69', 'num_zero: 66', 'num_one: 3', 'one_pos: [56, 60, 68]'], 0.045421600341796875, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:23:38
+cost time: 0:23:26.515572
+left time: 10 days, 18:05:52.968465
+estimated time: 10 days, 18:29:19.484036
+estimated finished time: 2025-03-19 12:29:31
+instance per seconed(all process): 1.41
+instance average runtime(s): 177.05
+finished persent: 0.15%
+processed jobs: 1986
+unprocessed jobs: 1311964
+
+2474/1313950: finish job file[2715], cost_time: 1.4735379219055176
+[2715, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [54, 60, 73]'], 1.4735379219055176, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:24:38
+cost time: 0:24:26.628849
+left time: 8 days, 23:57:45.051095
+estimated time: 9 days, 0:22:11.679944
+estimated finished time: 2025-03-17 18:22:24
+instance per seconed(all process): 1.69
+instance average runtime(s): 148.20
+finished persent: 0.19%
+processed jobs: 2474
+unprocessed jobs: 1311476
+
+3307/1313950: finish job file[3554], cost_time: 0.04500627517700195
+[3554, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [51, 64, 74]'], 0.04500627517700195, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:25:38
+cost time: 0:25:26.647344
+left time: 7 days, 0:04:06.765771
+estimated time: 7 days, 0:29:33.413115
+estimated finished time: 2025-03-15 18:29:45
+instance per seconed(all process): 2.17
+instance average runtime(s): 115.41
+finished persent: 0.25%
+processed jobs: 3307
+unprocessed jobs: 1310643
+
+4083/1313950: finish job file[4290], cost_time: 6.025081157684326
+[4290, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 66', 'num_zero: 63', 'num_one: 3', 'one_pos: [49, 64, 65]'], 6.025081157684326, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:26:39
+cost time: 0:26:27.183574
+left time: 5 days, 21:26:24.273031
+estimated time: 5 days, 21:52:51.456605
+estimated finished time: 2025-03-14 15:53:03
+instance per seconed(all process): 2.57
+instance average runtime(s): 97.18
+finished persent: 0.31%
+processed jobs: 4083
+unprocessed jobs: 1309867
+
+5074/1313950: finish job file[5319], cost_time: 0.04525351524353027
+[5319, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 72', 'num_zero: 69', 'num_one: 3', 'one_pos: [47, 54, 71]'], 0.04525351524353027, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:27:39
+cost time: 0:27:27.193403
+left time: 4 days, 22:01:45.776949
+estimated time: 4 days, 22:29:12.970352
+estimated finished time: 2025-03-13 16:29:25
+instance per seconed(all process): 3.08
+instance average runtime(s): 81.16
+finished persent: 0.39%
+processed jobs: 5074
+unprocessed jobs: 1308876
+
+6518/1313950: finish job file[6766], cost_time: 0.043787240982055664
+[6766, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 77', 'num_zero: 75', 'num_one: 2', 'one_pos: [44, 65]'], 0.043787240982055664, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:28:39
+cost time: 0:28:27.201726
+left time: 3 days, 23:07:24.026845
+estimated time: 3 days, 23:35:51.228571
+estimated finished time: 2025-03-12 17:36:03
+instance per seconed(all process): 3.82
+instance average runtime(s): 65.48
+finished persent: 0.50%
+processed jobs: 6518
+unprocessed jobs: 1307432
+
+8554/1313950: finish job file[8599], cost_time: 4.019561529159546
+[8599, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 69', 'num_zero: 66', 'num_one: 3', 'one_pos: [42, 47, 68]'], 4.019561529159546, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:29:39
+cost time: 0:29:27.208476
+left time: 3 days, 2:54:47.500060
+estimated time: 3 days, 3:24:14.708536
+estimated finished time: 2025-03-11 21:24:27
+instance per seconed(all process): 4.84
+instance average runtime(s): 51.65
+finished persent: 0.65%
+processed jobs: 8554
+unprocessed jobs: 1305396
+
+11108/1313950: finish job file[11300], cost_time: 1.1651256084442139
+[11300, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0], ['num_bit: 55', 'num_zero: 52', 'num_one: 3', 'one_pos: [39, 51, 53]'], 1.1651256084442139, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:30:39
+cost time: 0:30:27.237505
+left time: 2 days, 11:31:54.166856
+estimated time: 2 days, 12:02:21.404361
+estimated finished time: 2025-03-11 06:02:33
+instance per seconed(all process): 6.08
+instance average runtime(s): 41.12
+finished persent: 0.85%
+processed jobs: 11108
+unprocessed jobs: 1302842
+
+14117/1313950: finish job file[14297], cost_time: 0.956946611404419
+[14297, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [37, 42, 52, 54]'], 0.956946611404419, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:31:39
+cost time: 0:31:27.272574
+left time: 2 days, 0:16:11.989249
+estimated time: 2 days, 0:47:39.261824
+estimated finished time: 2025-03-10 18:47:51
+instance per seconed(all process): 7.48
+instance average runtime(s): 33.42
+finished persent: 1.07%
+processed jobs: 14117
+unprocessed jobs: 1299833
+
+17647/1313950: finish job file[17797], cost_time: 1.23012375831604
+[17797, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 52', 'num_zero: 48', 'num_one: 4', 'one_pos: [35, 39, 49, 51]'], 1.23012375831604, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:32:39
+cost time: 0:32:27.286494
+left time: 1 day, 15:44:02.631873
+estimated time: 1 day, 16:16:29.918368
+estimated finished time: 2025-03-10 10:16:42
+instance per seconed(all process): 9.06
+instance average runtime(s): 27.59
+finished persent: 1.34%
+processed jobs: 17647
+unprocessed jobs: 1296303
+
+21813/1313950: finish job file[21956], cost_time: 1.0714619159698486
+[21956, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1], ['num_bit: 45', 'num_zero: 41', 'num_one: 4', 'one_pos: [33, 38, 40, 44]'], 1.0714619159698486, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:33:39
+cost time: 0:33:27.291842
+left time: 1 day, 9:01:45.976213
+estimated time: 1 day, 9:35:13.268055
+estimated finished time: 2025-03-10 03:35:25
+instance per seconed(all process): 10.87
+instance average runtime(s): 23.01
+finished persent: 1.66%
+processed jobs: 21813
+unprocessed jobs: 1292137
+
+26554/1313950: finish job file[26707], cost_time: 0.9443347454071045
+[26707, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], ['num_bit: 55', 'num_zero: 52', 'num_one: 3', 'one_pos: [31, 38, 49]'], 0.9443347454071045, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:34:39
+cost time: 0:34:27.301566
+left time: 1 day, 3:50:27.301613
+estimated time: 1 day, 4:24:54.603179
+estimated finished time: 2025-03-09 22:25:06
+instance per seconed(all process): 12.84
+instance average runtime(s): 19.46
+finished persent: 2.02%
+processed jobs: 26554
+unprocessed jobs: 1287396
+
+31836/1313950: finish job file[32003], cost_time: 1.0420501232147217
+[32003, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [29, 44, 51, 54]'], 1.0420501232147217, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:35:39
+cost time: 0:35:27.321335
+left time: 23:47:52.460921
+estimated time: 1 day, 0:23:19.782256
+estimated finished time: 2025-03-09 18:23:32
+instance per seconed(all process): 14.97
+instance average runtime(s): 16.71
+finished persent: 2.42%
+processed jobs: 31836
+unprocessed jobs: 1282114
+
+37718/1313950: finish job file[37824], cost_time: 1.2099084854125977
+[37824, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 47', 'num_zero: 43', 'num_one: 4', 'one_pos: [28, 31, 34, 46]'], 1.2099084854125977, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:36:39
+cost time: 0:36:27.318491
+left time: 20:33:30.442043
+estimated time: 21:09:57.760535
+estimated finished time: 2025-03-09 15:10:10
+instance per seconed(all process): 17.24
+instance average runtime(s): 14.50
+finished persent: 2.87%
+processed jobs: 37718
+unprocessed jobs: 1276232
+
+43779/1313950: finish job file[43795], cost_time: 2.1258456707000732
+[43795, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 67', 'num_zero: 64', 'num_one: 3', 'one_pos: [26, 40, 66]'], 2.1258456707000732, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:37:39
+cost time: 0:37:27.325670
+left time: 18:06:42.217819
+estimated time: 18:44:09.543489
+estimated finished time: 2025-03-09 12:44:21
+instance per seconed(all process): 19.48
+instance average runtime(s): 12.83
+finished persent: 3.33%
+processed jobs: 43779
+unprocessed jobs: 1270171
+
+50624/1313950: finish job file[50728], cost_time: 1.0935325622558594
+[50728, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 52', 'num_zero: 48', 'num_one: 4', 'one_pos: [25, 30, 32, 51]'], 1.0935325622558594, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:38:39
+cost time: 0:38:27.327699
+left time: 15:59:39.548690
+estimated time: 16:38:06.876390
+estimated finished time: 2025-03-09 10:38:19
+instance per seconed(all process): 21.94
+instance average runtime(s): 11.39
+finished persent: 3.85%
+processed jobs: 50624
+unprocessed jobs: 1263326
+
+57757/1313950: finish job file[57396], cost_time: 4.473880767822266
+[57396, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 77', 'num_zero: 75', 'num_one: 2', 'one_pos: [24, 25]'], 4.473880767822266, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:39:39
+cost time: 0:39:27.377152
+left time: 14:18:09.561559
+estimated time: 14:57:36.938711
+estimated finished time: 2025-03-09 08:57:49
+instance per seconed(all process): 24.40
+instance average runtime(s): 10.25
+finished persent: 4.40%
+processed jobs: 57757
+unprocessed jobs: 1256193
+
+64982/1313950: finish job file[65088], cost_time: 1.13023042678833
+[65088, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [22, 40, 45, 52]'], 1.13023042678833, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:40:39
+cost time: 0:40:27.406478
+left time: 12:57:35.273987
+estimated time: 13:38:02.680465
+estimated finished time: 2025-03-09 07:38:15
+instance per seconed(all process): 26.77
+instance average runtime(s): 9.34
+finished persent: 4.95%
+processed jobs: 64982
+unprocessed jobs: 1248968
+
+73179/1313950: finish job file[73271], cost_time: 0.9934098720550537
+[73271, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 48', 'num_zero: 44', 'num_one: 4', 'one_pos: [21, 32, 45, 47]'], 0.9934098720550537, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:41:39
+cost time: 0:41:27.436101
+left time: 11:42:55.194775
+estimated time: 12:24:22.630876
+estimated finished time: 2025-03-09 06:24:34
+instance per seconed(all process): 29.42
+instance average runtime(s): 8.50
+finished persent: 5.57%
+processed jobs: 73179
+unprocessed jobs: 1240771
+
+82107/1313950: finish job file[82168], cost_time: 1.0770001411437988
+[82168, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], ['num_bit: 32', 'num_zero: 27', 'num_one: 5', 'one_pos: [20, 28, 29, 30, 31]'], 1.0770001411437988, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:42:39
+cost time: 0:42:27.492218
+left time: 10:36:59.767575
+estimated time: 11:19:27.259793
+estimated finished time: 2025-03-09 05:19:39
+instance per seconed(all process): 32.23
+instance average runtime(s): 7.76
+finished persent: 6.25%
+processed jobs: 82107
+unprocessed jobs: 1231843
+
+91349/1313950: finish job file[91140], cost_time: 2.581535816192627
+[91140, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 65', 'num_zero: 62', 'num_one: 3', 'one_pos: [19, 25, 64]'], 2.581535816192627, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:43:39
+cost time: 0:43:27.493646
+left time: 9:41:38.294877
+estimated time: 10:25:05.788522
+estimated finished time: 2025-03-09 04:25:18
+instance per seconed(all process): 35.03
+instance average runtime(s): 7.14
+finished persent: 6.95%
+processed jobs: 91349
+unprocessed jobs: 1222601
+
+100427/1313950: finish job file[100500], cost_time: 1.081967830657959
+[100500, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [18, 25, 27, 30]'], 1.081967830657959, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:44:39
+cost time: 0:44:27.500526
+left time: 8:57:13.097089
+estimated time: 9:41:40.597615
+estimated finished time: 2025-03-09 03:41:52
+instance per seconed(all process): 37.65
+instance average runtime(s): 6.64
+finished persent: 7.64%
+processed jobs: 100427
+unprocessed jobs: 1213523
+
+109797/1313950: finish job file[109836], cost_time: 1.2247323989868164
+[109836, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [17, 26, 30, 31]'], 1.2247323989868164, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:45:39
+cost time: 0:45:27.544705
+left time: 8:18:33.213834
+estimated time: 9:04:00.758539
+estimated finished time: 2025-03-09 03:04:13
+instance per seconed(all process): 40.25
+instance average runtime(s): 6.21
+finished persent: 8.36%
+processed jobs: 109797
+unprocessed jobs: 1204153
+
+119787/1313950: finish job file[119882], cost_time: 0.7646255493164062
+[119882, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 55', 'num_zero: 52', 'num_one: 3', 'one_pos: [16, 28, 33]'], 0.7646255493164062, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:46:39
+cost time: 0:46:27.563703
+left time: 7:43:09.371420
+estimated time: 8:29:36.935123
+estimated finished time: 2025-03-09 02:29:49
+instance per seconed(all process): 42.97
+instance average runtime(s): 5.82
+finished persent: 9.12%
+processed jobs: 119787
+unprocessed jobs: 1194163
+
+129958/1313950: finish job file[129592], cost_time: 3.7827157974243164
+[129592, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1], ['num_bit: 43', 'num_zero: 39', 'num_one: 4', 'one_pos: [15, 37, 38, 42]'], 3.7827157974243164, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:47:39
+cost time: 0:47:27.559646
+left time: 7:12:22.903402
+estimated time: 7:59:50.463047
+estimated finished time: 2025-03-09 02:00:02
+instance per seconed(all process): 45.64
+instance average runtime(s): 5.48
+finished persent: 9.89%
+processed jobs: 129958
+unprocessed jobs: 1183992
+
+141048/1313950: finish job file[140981], cost_time: 1.6244239807128906
+[140981, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1], ['num_bit: 26', 'num_zero: 21', 'num_one: 5', 'one_pos: [15, 16, 20, 21, 25]'], 1.6244239807128906, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:48:39
+cost time: 0:48:27.583563
+left time: 6:42:58.368898
+estimated time: 7:31:25.952461
+estimated finished time: 2025-03-09 01:31:38
+instance per seconed(all process): 48.51
+instance average runtime(s): 5.15
+finished persent: 10.73%
+processed jobs: 141048
+unprocessed jobs: 1172902
+
+151246/1313950: finish job file[151346], cost_time: 0.8050253391265869
+[151346, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 55', 'num_zero: 52', 'num_one: 3', 'one_pos: [14, 18, 42]'], 0.8050253391265869, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:49:40
+cost time: 0:49:27.670482
+left time: 6:20:13.974186
+estimated time: 7:09:41.644668
+estimated finished time: 2025-03-09 01:09:53
+instance per seconed(all process): 50.96
+instance average runtime(s): 4.91
+finished persent: 11.51%
+processed jobs: 151246
+unprocessed jobs: 1162704
+
+161660/1313950: finish job file[161705], cost_time: 1.0632069110870361
+[161705, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [13, 25, 28, 52]'], 1.0632069110870361, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:50:40
+cost time: 0:50:27.683648
+left time: 5:59:40.908022
+estimated time: 6:50:08.591670
+estimated finished time: 2025-03-09 00:50:20
+instance per seconed(all process): 53.39
+instance average runtime(s): 4.68
+finished persent: 12.30%
+processed jobs: 161660
+unprocessed jobs: 1152290
+
+172987/1313950: finish job file[173206], cost_time: 0.7020132541656494
+[173206, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 56', 'num_zero: 53', 'num_one: 3', 'one_pos: [12, 52, 55]'], 0.7020132541656494, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:51:40
+cost time: 0:51:27.724442
+left time: 5:39:25.572805
+estimated time: 6:30:53.297247
+estimated finished time: 2025-03-09 00:31:05
+instance per seconed(all process): 56.02
+instance average runtime(s): 4.46
+finished persent: 13.17%
+processed jobs: 172987
+unprocessed jobs: 1140963
+
+183948/1313950: finish job file[184007], cost_time: 0.952277421951294
+[184007, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 51', 'num_zero: 47', 'num_one: 4', 'one_pos: [12, 17, 35, 50]'], 0.952277421951294, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:52:40
+cost time: 0:52:27.735450
+left time: 5:22:16.700341
+estimated time: 6:14:44.435791
+estimated finished time: 2025-03-09 00:14:56
+instance per seconed(all process): 58.44
+instance average runtime(s): 4.28
+finished persent: 14.00%
+processed jobs: 183948
+unprocessed jobs: 1130002
+
+194611/1313950: finish job file[194676], cost_time: 1.0010578632354736
+[194676, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 51', 'num_zero: 47', 'num_one: 4', 'one_pos: [11, 30, 33, 50]'], 1.0010578632354736, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:53:40
+cost time: 0:53:27.732463
+left time: 5:07:29.830931
+estimated time: 6:00:57.563394
+estimated finished time: 2025-03-09 00:01:09
+instance per seconed(all process): 60.67
+instance average runtime(s): 4.12
+finished persent: 14.81%
+processed jobs: 194611
+unprocessed jobs: 1119339
+
+206449/1313950: finish job file[206516], cost_time: 0.9874842166900635
+[206516, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 44', 'num_zero: 40', 'num_one: 4', 'one_pos: [11, 14, 31, 43]'], 0.9874842166900635, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:54:40
+cost time: 0:54:27.735101
+left time: 4:52:09.849464
+estimated time: 5:46:37.584565
+estimated finished time: 2025-03-08 23:46:49
+instance per seconed(all process): 63.18
+instance average runtime(s): 3.96
+finished persent: 15.71%
+processed jobs: 206449
+unprocessed jobs: 1107501
+
+217720/1313950: finish job file[217773], cost_time: 0.8971540927886963
+[217773, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 46', 'num_zero: 42', 'num_one: 4', 'one_pos: [10, 24, 26, 45]'], 0.8971540927886963, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:55:40
+cost time: 0:55:27.739112
+left time: 4:39:15.316215
+estimated time: 5:34:43.055327
+estimated finished time: 2025-03-08 23:34:55
+instance per seconed(all process): 65.43
+instance average runtime(s): 3.82
+finished persent: 16.57%
+processed jobs: 217720
+unprocessed jobs: 1096230
+
+230809/1313950: finish job file[230790], cost_time: 1.2067346572875977
+[230790, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 32', 'num_zero: 27', 'num_one: 5', 'one_pos: [10, 12, 24, 28, 31]'], 1.2067346572875977, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:56:40
+cost time: 0:56:27.749599
+left time: 4:24:58.039021
+estimated time: 5:21:25.788620
+estimated finished time: 2025-03-08 23:21:38
+instance per seconed(all process): 68.13
+instance average runtime(s): 3.67
+finished persent: 17.57%
+processed jobs: 230809
+unprocessed jobs: 1083141
+
+242293/1313950: finish job file[242082], cost_time: 2.058706283569336
+[242082, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 42', 'num_zero: 38', 'num_one: 4', 'one_pos: [9, 21, 39, 41]'], 2.058706283569336, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:57:40
+cost time: 0:57:27.756513
+left time: 4:14:09.356777
+estimated time: 5:11:37.113290
+estimated finished time: 2025-03-08 23:11:49
+instance per seconed(all process): 70.28
+instance average runtime(s): 3.56
+finished persent: 18.44%
+processed jobs: 242293
+unprocessed jobs: 1071657
+
+254920/1313950: finish job file[254914], cost_time: 1.2180588245391846
+[254914, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 28', 'num_zero: 23', 'num_one: 5', 'one_pos: [9, 12, 13, 25, 27]'], 1.2180588245391846, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:58:40
+cost time: 0:58:27.773945
+left time: 4:02:52.563319
+estimated time: 5:01:20.337265
+estimated finished time: 2025-03-08 23:01:32
+instance per seconed(all process): 72.67
+instance average runtime(s): 3.44
+finished persent: 19.40%
+processed jobs: 254920
+unprocessed jobs: 1059030
+
+265996/1313950: finish job file[266060], cost_time: 1.0141704082489014
+[266060, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 52', 'num_zero: 48', 'num_one: 4', 'one_pos: [8, 23, 46, 51]'], 1.0141704082489014, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 18:59:40
+cost time: 0:59:27.775494
+left time: 3:54:16.093323
+estimated time: 4:53:43.868817
+estimated finished time: 2025-03-08 22:53:56
+instance per seconed(all process): 74.56
+instance average runtime(s): 3.35
+finished persent: 20.24%
+processed jobs: 265996
+unprocessed jobs: 1047954
+
+278067/1313950: finish job file[277992], cost_time: 1.5873515605926514
+[277992, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 44', 'num_zero: 40', 'num_one: 4', 'one_pos: [8, 13, 15, 43]'], 1.5873515605926514, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:00:40
+cost time: 1:00:27.778475
+left time: 3:45:14.563217
+estimated time: 4:45:42.341692
+estimated finished time: 2025-03-08 22:45:54
+instance per seconed(all process): 76.65
+instance average runtime(s): 3.26
+finished persent: 21.16%
+processed jobs: 278067
+unprocessed jobs: 1035883
+
+289262/1313950: finish job file[289332], cost_time: 1.1316568851470947
+[289332, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [7, 39, 47, 52]'], 1.1316568851470947, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:01:40
+cost time: 1:01:27.787197
+left time: 3:37:43.697572
+estimated time: 4:39:11.484768
+estimated finished time: 2025-03-08 22:39:23
+instance per seconed(all process): 78.44
+instance average runtime(s): 3.19
+finished persent: 22.01%
+processed jobs: 289262
+unprocessed jobs: 1024688
+
+300877/1313950: finish job file[300884], cost_time: 1.1592597961425781
+[300884, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 49', 'num_zero: 45', 'num_one: 4', 'one_pos: [7, 16, 22, 48]'], 1.1592597961425781, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:02:40
+cost time: 1:02:27.801576
+left time: 3:30:19.098788
+estimated time: 4:32:46.900363
+estimated finished time: 2025-03-08 22:32:59
+instance per seconed(all process): 80.28
+instance average runtime(s): 3.11
+finished persent: 22.90%
+processed jobs: 300877
+unprocessed jobs: 1013073
+
+312647/1313950: finish job file[312573], cost_time: 1.5070440769195557
+[312573, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [7, 10, 14, 31]'], 1.5070440769195557, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:03:40
+cost time: 1:03:27.823569
+left time: 3:23:15.175912
+estimated time: 4:26:42.999481
+estimated finished time: 2025-03-08 22:26:55
+instance per seconed(all process): 82.11
+instance average runtime(s): 3.04
+finished persent: 23.79%
+processed jobs: 312647
+unprocessed jobs: 1001303
+
+323414/1313950: finish job file[323467], cost_time: 1.0243966579437256
+[323467, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 43', 'num_zero: 39', 'num_one: 4', 'one_pos: [6, 28, 33, 42]'], 1.0243966579437256, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:04:40
+cost time: 1:04:27.872445
+left time: 3:17:26.323598
+estimated time: 4:21:54.196043
+estimated finished time: 2025-03-08 22:22:06
+instance per seconed(all process): 83.62
+instance average runtime(s): 2.99
+finished persent: 24.61%
+processed jobs: 323414
+unprocessed jobs: 990536
+
+335052/1313950: finish job file[335091], cost_time: 1.1102485656738281
+[335091, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [6, 14, 21, 30]'], 1.1102485656738281, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:05:40
+cost time: 1:05:27.877306
+left time: 3:11:15.804469
+estimated time: 4:16:43.681775
+estimated finished time: 2025-03-08 22:16:56
+instance per seconed(all process): 85.30
+instance average runtime(s): 2.93
+finished persent: 25.50%
+processed jobs: 335052
+unprocessed jobs: 978898
+
+346686/1313950: finish job file[346734], cost_time: 1.0118420124053955
+[346734, [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 27', 'num_zero: 22', 'num_one: 5', 'one_pos: [6, 9, 13, 18, 26]'], 1.0118420124053955, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:06:40
+cost time: 1:06:27.882859
+left time: 3:05:26.308897
+estimated time: 4:11:54.191756
+estimated finished time: 2025-03-08 22:12:06
+instance per seconed(all process): 86.93
+instance average runtime(s): 2.88
+finished persent: 26.39%
+processed jobs: 346686
+unprocessed jobs: 967264
+
+357252/1313950: finish job file[357279], cost_time: 1.1587965488433838
+[357279, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1], ['num_bit: 36', 'num_zero: 32', 'num_one: 4', 'one_pos: [5, 31, 32, 35]'], 1.1587965488433838, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:07:40
+cost time: 1:07:27.899518
+left time: 3:00:40.015935
+estimated time: 4:08:07.915453
+estimated finished time: 2025-03-08 22:08:20
+instance per seconed(all process): 88.26
+instance average runtime(s): 2.83
+finished persent: 27.19%
+processed jobs: 357252
+unprocessed jobs: 956698
+
+368771/1313950: finish job file[368808], cost_time: 1.0096628665924072
+[368808, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 32', 'num_zero: 27', 'num_one: 5', 'one_pos: [5, 15, 17, 27, 31]'], 1.0096628665924072, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:08:40
+cost time: 1:08:27.908371
+left time: 2:55:28.779993
+estimated time: 4:03:56.688364
+estimated finished time: 2025-03-08 22:04:09
+instance per seconed(all process): 89.77
+instance average runtime(s): 2.78
+finished persent: 28.07%
+processed jobs: 368771
+unprocessed jobs: 945179
+
+380404/1313950: finish job file[380392], cost_time: 1.2788095474243164
+[380392, [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 31', 'num_zero: 26', 'num_one: 5', 'one_pos: [5, 9, 20, 25, 30]'], 1.2788095474243164, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:09:40
+cost time: 1:09:27.942541
+left time: 2:50:28.509920
+estimated time: 3:59:56.452461
+estimated finished time: 2025-03-08 22:00:08
+instance per seconed(all process): 91.27
+instance average runtime(s): 2.74
+finished persent: 28.95%
+processed jobs: 380404
+unprocessed jobs: 933546
+
+391748/1313950: finish job file[391791], cost_time: 1.0729176998138428
+[391791, [0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 31', 'num_zero: 26', 'num_one: 5', 'one_pos: [5, 6, 9, 25, 30]'], 1.0729176998138428, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:10:40
+cost time: 1:10:27.957157
+left time: 2:45:52.904792
+estimated time: 3:56:20.861949
+estimated finished time: 2025-03-08 21:56:33
+instance per seconed(all process): 92.66
+instance average runtime(s): 2.70
+finished persent: 29.81%
+processed jobs: 391748
+unprocessed jobs: 922202
+
+402232/1313950: finish job file[402322], cost_time: 0.8700141906738281
+[402322, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 49', 'num_zero: 45', 'num_one: 4', 'one_pos: [4, 19, 22, 48]'], 0.8700141906738281, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:11:40
+cost time: 1:11:27.957506
+left time: 2:41:59.286484
+estimated time: 3:53:27.243990
+estimated finished time: 2025-03-08 21:53:39
+instance per seconed(all process): 93.81
+instance average runtime(s): 2.67
+finished persent: 30.61%
+processed jobs: 402232
+unprocessed jobs: 911718
+
+413747/1313950: finish job file[413795], cost_time: 1.0473124980926514
+[413795, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1], ['num_bit: 29', 'num_zero: 24', 'num_one: 5', 'one_pos: [4, 11, 24, 26, 28]'], 1.0473124980926514, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:12:40
+cost time: 1:12:27.996559
+left time: 2:37:40.079582
+estimated time: 3:50:08.076141
+estimated finished time: 2025-03-08 21:50:20
+instance per seconed(all process): 95.16
+instance average runtime(s): 2.63
+finished persent: 31.49%
+processed jobs: 413747
+unprocessed jobs: 900203
+
+425272/1313950: finish job file[425320], cost_time: 1.0400183200836182
+[425320, [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [4, 7, 17, 18]'], 1.0400183200836182, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:13:40
+cost time: 1:13:28.003762
+left time: 2:33:31.271767
+estimated time: 3:46:59.275529
+estimated finished time: 2025-03-08 21:47:11
+instance per seconed(all process): 96.48
+instance average runtime(s): 2.59
+finished persent: 32.37%
+processed jobs: 425272
+unprocessed jobs: 888678
+
+435844/1313950: finish job file[435539], cost_time: 5.600341320037842
+[435539, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 68', 'num_zero: 65', 'num_one: 3', 'one_pos: [3, 65, 67]'], 5.600341320037842, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:14:40
+cost time: 1:14:28.007370
+left time: 2:30:01.808170
+estimated time: 3:44:29.815540
+estimated finished time: 2025-03-08 21:44:42
+instance per seconed(all process): 97.55
+instance average runtime(s): 2.56
+finished persent: 33.17%
+processed jobs: 435844
+unprocessed jobs: 878106
+
+446894/1313950: finish job file[446974], cost_time: 0.8197460174560547
+[446974, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [3, 17, 23, 52]'], 0.8197460174560547, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:15:40
+cost time: 1:15:28.075985
+left time: 2:26:25.294614
+estimated time: 3:41:53.370600
+estimated finished time: 2025-03-08 21:42:05
+instance per seconed(all process): 98.69
+instance average runtime(s): 2.53
+finished persent: 34.01%
+processed jobs: 446894
+unprocessed jobs: 867056
+
+458388/1313950: finish job file[458448], cost_time: 0.8624427318572998
+[458448, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 54', 'num_zero: 50', 'num_one: 4', 'one_pos: [3, 10, 35, 53]'], 0.8624427318572998, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:16:40
+cost time: 1:16:28.078259
+left time: 2:22:43.455875
+estimated time: 3:39:11.534134
+estimated finished time: 2025-03-08 21:39:23
+instance per seconed(all process): 99.91
+instance average runtime(s): 2.50
+finished persent: 34.89%
+processed jobs: 458388
+unprocessed jobs: 855562
+
+469796/1313950: finish job file[469842], cost_time: 1.0985007286071777
+[469842, [0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 18', 'num_zero: 13', 'num_one: 5', 'one_pos: [3, 7, 9, 11, 17]'], 1.0985007286071777, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:17:40
+cost time: 1:17:28.078978
+left time: 2:19:11.911173
+estimated time: 3:36:39.990152
+estimated finished time: 2025-03-08 21:36:52
+instance per seconed(all process): 101.07
+instance average runtime(s): 2.47
+finished persent: 35.75%
+processed jobs: 469796
+unprocessed jobs: 844154
+
+480990/1313950: finish job file[481035], cost_time: 1.0366737842559814
+[481035, [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 33', 'num_zero: 28', 'num_one: 5', 'one_pos: [3, 4, 9, 28, 32]'], 1.0366737842559814, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:18:40
+cost time: 1:18:28.082766
+left time: 2:15:53.276826
+estimated time: 3:34:21.359591
+estimated finished time: 2025-03-08 21:34:33
+instance per seconed(all process): 102.16
+instance average runtime(s): 2.45
+finished persent: 36.61%
+processed jobs: 480990
+unprocessed jobs: 832960
+
+491587/1313950: finish job file[491615], cost_time: 1.0782079696655273
+[491615, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 49', 'num_zero: 45', 'num_one: 4', 'one_pos: [2, 20, 21, 48]'], 1.0782079696655273, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:19:40
+cost time: 1:19:28.088471
+left time: 2:12:56.410156
+estimated time: 3:32:24.498627
+estimated finished time: 2025-03-08 21:32:36
+instance per seconed(all process): 103.10
+instance average runtime(s): 2.42
+finished persent: 37.41%
+processed jobs: 491587
+unprocessed jobs: 822363
+
+503250/1313950: finish job file[502915], cost_time: 3.1461021900177
+[502915, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 26', 'num_zero: 21', 'num_one: 5', 'one_pos: [2, 12, 14, 24, 25]'], 3.1461021900177, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:20:40
+cost time: 1:20:28.092092
+left time: 2:09:37.713380
+estimated time: 3:30:05.805472
+estimated finished time: 2025-03-08 21:30:18
+instance per seconed(all process): 104.23
+instance average runtime(s): 2.40
+finished persent: 38.30%
+processed jobs: 503250
+unprocessed jobs: 810700
+
+515073/1313950: finish job file[515131], cost_time: 0.9308156967163086
+[515131, [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 42', 'num_zero: 38', 'num_one: 4', 'one_pos: [2, 7, 18, 41]'], 0.9308156967163086, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:21:40
+cost time: 1:21:28.092741
+left time: 2:06:21.420235
+estimated time: 3:27:49.512977
+estimated finished time: 2025-03-08 21:28:01
+instance per seconed(all process): 105.37
+instance average runtime(s): 2.37
+finished persent: 39.20%
+processed jobs: 515073
+unprocessed jobs: 798877
+
+526293/1313950: finish job file[526317], cost_time: 1.212803840637207
+[526317, [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1], ['num_bit: 27', 'num_zero: 22', 'num_one: 5', 'one_pos: [2, 4, 21, 23, 26]'], 1.212803840637207, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:22:40
+cost time: 1:22:28.126196
+left time: 2:03:25.430503
+estimated time: 3:25:53.556699
+estimated finished time: 2025-03-08 21:26:05
+instance per seconed(all process): 106.36
+instance average runtime(s): 2.35
+finished persent: 40.05%
+processed jobs: 526293
+unprocessed jobs: 787657
+
+536732/1313950: finish job file[536613], cost_time: 2.007517099380493
+[536613, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 68', 'num_zero: 65', 'num_one: 3', 'one_pos: [1, 37, 67]'], 2.007517099380493, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:23:40
+cost time: 1:23:28.125733
+left time: 2:00:52.046582
+estimated time: 3:24:20.172316
+estimated finished time: 2025-03-08 21:24:32
+instance per seconed(all process): 107.17
+instance average runtime(s): 2.33
+finished persent: 40.85%
+processed jobs: 536732
+unprocessed jobs: 777218
+
+548654/1313950: finish job file[548707], cost_time: 0.9207782745361328
+[548707, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 45', 'num_zero: 41', 'num_one: 4', 'one_pos: [1, 15, 39, 44]'], 0.9207782745361328, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:24:40
+cost time: 1:24:28.130816
+left time: 1:57:49.337398
+estimated time: 3:22:17.468213
+estimated finished time: 2025-03-08 21:22:29
+instance per seconed(all process): 108.26
+instance average runtime(s): 2.31
+finished persent: 41.76%
+processed jobs: 548654
+unprocessed jobs: 765296
+
+560396/1313950: finish job file[560285], cost_time: 1.8778626918792725
+[560285, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 29', 'num_zero: 24', 'num_one: 5', 'one_pos: [1, 10, 11, 23, 28]'], 1.8778626918792725, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:25:40
+cost time: 1:25:28.157557
+left time: 1:54:55.737371
+estimated time: 3:20:23.894927
+estimated finished time: 2025-03-08 21:20:36
+instance per seconed(all process): 109.28
+instance average runtime(s): 2.29
+finished persent: 42.65%
+processed jobs: 560396
+unprocessed jobs: 753554
+
+572002/1313950: finish job file[572047], cost_time: 1.1178815364837646
+[572047, [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 28', 'num_zero: 23', 'num_one: 5', 'one_pos: [1, 6, 12, 20, 27]'], 1.1178815364837646, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:26:40
+cost time: 1:26:28.163299
+left time: 1:52:09.604762
+estimated time: 3:18:37.768061
+estimated finished time: 2025-03-08 21:18:50
+instance per seconed(all process): 110.25
+instance average runtime(s): 2.27
+finished persent: 43.53%
+processed jobs: 572002
+unprocessed jobs: 741948
+
+582978/1313950: finish job file[582889], cost_time: 1.8753390312194824
+[582889, [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1], ['num_bit: 30', 'num_zero: 25', 'num_one: 5', 'one_pos: [1, 3, 27, 28, 29]'], 1.8753390312194824, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:27:40
+cost time: 1:27:28.163535
+left time: 1:49:40.455173
+estimated time: 3:17:08.618708
+estimated finished time: 2025-03-08 21:17:20
+instance per seconed(all process): 111.08
+instance average runtime(s): 2.25
+finished persent: 44.37%
+processed jobs: 582978
+unprocessed jobs: 730972
+
+593468/1313950: finish job file[593474], cost_time: 2.108680009841919
+[593474, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 63', 'num_zero: 60', 'num_one: 3', 'one_pos: [0, 48, 62]'], 2.108680009841919, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:28:40
+cost time: 1:28:28.197588
+left time: 1:47:24.257845
+estimated time: 3:15:52.455433
+estimated finished time: 2025-03-08 21:16:04
+instance per seconed(all process): 111.80
+instance average runtime(s): 2.24
+finished persent: 45.17%
+processed jobs: 593468
+unprocessed jobs: 720482
+
+604543/1313950: finish job file[604553], cost_time: 1.1618273258209229
+[604553, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 44', 'num_zero: 40', 'num_one: 4', 'one_pos: [0, 17, 23, 43]'], 1.1618273258209229, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:29:40
+cost time: 1:29:28.199533
+left time: 1:44:59.367169
+estimated time: 3:14:27.566702
+estimated finished time: 2025-03-08 21:14:39
+instance per seconed(all process): 112.62
+instance average runtime(s): 2.22
+finished persent: 46.01%
+processed jobs: 604543
+unprocessed jobs: 709407
+
+616286/1313950: finish job file[616241], cost_time: 1.2923243045806885
+[616241, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1], ['num_bit: 33', 'num_zero: 28', 'num_one: 5', 'one_pos: [0, 10, 27, 30, 32]'], 1.2923243045806885, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:30:40
+cost time: 1:30:28.249672
+left time: 1:42:25.027437
+estimated time: 3:12:53.277109
+estimated finished time: 2025-03-08 21:13:05
+instance per seconed(all process): 113.53
+instance average runtime(s): 2.20
+finished persent: 46.90%
+processed jobs: 616286
+unprocessed jobs: 697664
+
+627731/1313950: finish job file[627791], cost_time: 1.1462864875793457
+[627791, [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [0, 6, 52, 54]'], 1.1462864875793457, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:31:40
+cost time: 1:31:28.302032
+left time: 1:39:59.667265
+estimated time: 3:11:27.969297
+estimated finished time: 2025-03-08 21:11:40
+instance per seconed(all process): 114.38
+instance average runtime(s): 2.19
+finished persent: 47.77%
+processed jobs: 627731
+unprocessed jobs: 686219
+
+638898/1313950: finish job file[638930], cost_time: 1.099273443222046
+[638930, [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 33', 'num_zero: 28', 'num_one: 5', 'one_pos: [0, 4, 8, 24, 32]'], 1.099273443222046, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:32:40
+cost time: 1:32:28.393335
+left time: 1:37:42.366164
+estimated time: 3:10:10.759499
+estimated finished time: 2025-03-08 21:10:23
+instance per seconed(all process): 115.15
+instance average runtime(s): 2.17
+finished persent: 48.62%
+processed jobs: 638898
+unprocessed jobs: 675052
+
+649693/1313950: finish job file[649742], cost_time: 1.0652484893798828
+[649742, [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 33', 'num_zero: 28', 'num_one: 5', 'one_pos: [0, 2, 5, 14, 32]'], 1.0652484893798828, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:33:40
+cost time: 1:33:28.407734
+left time: 1:35:34.129960
+estimated time: 3:09:02.537694
+estimated finished time: 2025-03-08 21:09:14
+instance per seconed(all process): 115.84
+instance average runtime(s): 2.16
+finished persent: 49.45%
+processed jobs: 649693
+unprocessed jobs: 664257
+
+656994/1313950: finish job file[656993], cost_time: 24.3556067943573
+[656993, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 103', 'num_zero: 102', 'num_one: 1', 'one_pos: [102]'], 24.3556067943573, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:34:45
+cost time: 1:34:32.706560
+left time: 1:34:32.378455
+estimated time: 3:09:05.085016
+estimated finished time: 2025-03-08 21:09:17
+instance per seconed(all process): 115.82
+instance average runtime(s): 2.16
+finished persent: 50.00%
+processed jobs: 656994
+unprocessed jobs: 656956
+
+657057/1313950: finish job file[657154], cost_time: 86.77443528175354
+[657154, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 96', 'num_zero: 94', 'num_one: 2', 'one_pos: [81, 95]'], 86.77443528175354, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:35:48
+cost time: 1:35:36.131628
+left time: 1:35:34.699902
+estimated time: 3:11:10.831530
+estimated finished time: 2025-03-08 21:11:23
+instance per seconed(all process): 114.55
+instance average runtime(s): 2.18
+finished persent: 50.01%
+processed jobs: 657057
+unprocessed jobs: 656893
+
+657119/1313950: finish job file[657031], cost_time: 149.78385663032532
+[657031, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 94', 'num_zero: 92', 'num_one: 2', 'one_pos: [91, 93]'], 149.78385663032532, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:36:50
+cost time: 1:36:38.386363
+left time: 1:36:35.845065
+estimated time: 3:13:14.231428
+estimated finished time: 2025-03-08 21:13:26
+instance per seconed(all process): 113.33
+instance average runtime(s): 2.21
+finished persent: 50.01%
+processed jobs: 657119
+unprocessed jobs: 656831
+
+657176/1313950: finish job file[657042], cost_time: 211.2141420841217
+[657042, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 99', 'num_zero: 98', 'num_one: 1', 'one_pos: [89]'], 211.2141420841217, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:37:52
+cost time: 1:37:39.859779
+left time: 1:37:36.275254
+estimated time: 3:15:16.135033
+estimated finished time: 2025-03-08 21:15:28
+instance per seconed(all process): 112.15
+instance average runtime(s): 2.23
+finished persent: 50.02%
+processed jobs: 657176
+unprocessed jobs: 656774
+
+657239/1313950: finish job file[657425], cost_time: 62.87317514419556
+[657425, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 98', 'num_zero: 96', 'num_one: 2', 'one_pos: [70, 97]'], 62.87317514419556, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:38:55
+cost time: 1:38:42.804496
+left time: 1:38:38.046347
+estimated time: 3:17:20.850843
+estimated finished time: 2025-03-08 21:17:33
+instance per seconed(all process): 110.97
+instance average runtime(s): 2.25
+finished persent: 50.02%
+processed jobs: 657239
+unprocessed jobs: 656711
+
+657288/1313950: finish job file[657143], cost_time: 333.6303234100342
+[657143, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 90', 'num_zero: 88', 'num_one: 2', 'one_pos: [82, 89]'], 333.6303234100342, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:39:55
+cost time: 1:39:42.846643
+left time: 1:39:37.148590
+estimated time: 3:19:19.995234
+estimated finished time: 2025-03-08 21:19:32
+instance per seconed(all process): 109.86
+instance average runtime(s): 2.28
+finished persent: 50.02%
+processed jobs: 657288
+unprocessed jobs: 656662
+
+657339/1313950: finish job file[657220], cost_time: 392.80019974708557
+[657220, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 87', 'num_zero: 85', 'num_one: 2', 'one_pos: [78, 86]'], 392.80019974708557, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:40:55
+cost time: 1:40:43.027301
+left time: 1:40:36.334676
+estimated time: 3:21:19.361977
+estimated finished time: 2025-03-08 21:21:31
+instance per seconed(all process): 108.78
+instance average runtime(s): 2.30
+finished persent: 50.03%
+processed jobs: 657339
+unprocessed jobs: 656611
+
+657382/1313950: finish job file[657181], cost_time: 455.5604064464569
+[657181, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 87', 'num_zero: 85', 'num_one: 2', 'one_pos: [80, 86]'], 455.5604064464569, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:41:57
+cost time: 1:41:45.086730
+left time: 1:41:37.527137
+estimated time: 3:23:22.613868
+estimated finished time: 2025-03-08 21:23:34
+instance per seconed(all process): 107.68
+instance average runtime(s): 2.32
+finished persent: 50.03%
+processed jobs: 657382
+unprocessed jobs: 656568
+
+657432/1313950: finish job file[657613], cost_time: 94.98652911186218
+[657613, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [67, 72, 74]'], 94.98652911186218, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:43:00
+cost time: 1:42:48.036462
+left time: 1:42:39.461301
+estimated time: 3:25:27.497763
+estimated finished time: 2025-03-08 21:25:39
+instance per seconed(all process): 106.59
+instance average runtime(s): 2.35
+finished persent: 50.03%
+processed jobs: 657432
+unprocessed jobs: 656518
+
+657472/1313950: finish job file[657684], cost_time: 59.2821946144104
+[657684, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 77', 'num_zero: 74', 'num_one: 3', 'one_pos: [66, 71, 76]'], 59.2821946144104, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:44:01
+cost time: 1:43:49.463447
+left time: 1:43:40.045423
+estimated time: 3:27:29.508870
+estimated finished time: 2025-03-08 21:27:41
+instance per seconed(all process): 105.54
+instance average runtime(s): 2.37
+finished persent: 50.04%
+processed jobs: 657472
+unprocessed jobs: 656478
+
+657517/1313950: finish job file[657693], cost_time: 110.94522428512573
+[657693, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [66, 70, 73]'], 110.94522428512573, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:45:05
+cost time: 1:44:53.159501
+left time: 1:44:42.784431
+estimated time: 3:29:35.943931
+estimated finished time: 2025-03-08 21:29:48
+instance per seconed(all process): 104.48
+instance average runtime(s): 2.39
+finished persent: 50.04%
+processed jobs: 657517
+unprocessed jobs: 656433
+
+657562/1313950: finish job file[657481], cost_time: 438.87643098831177
+[657481, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 86', 'num_zero: 84', 'num_one: 2', 'one_pos: [69, 85]'], 438.87643098831177, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:46:05
+cost time: 1:45:53.299474
+left time: 1:45:41.956401
+estimated time: 3:31:35.255875
+estimated finished time: 2025-03-08 21:31:47
+instance per seconed(all process): 103.50
+instance average runtime(s): 2.42
+finished persent: 50.04%
+processed jobs: 657562
+unprocessed jobs: 656388
+
+657606/1313950: finish job file[657338], cost_time: 646.0262260437012
+[657338, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 85', 'num_zero: 83', 'num_one: 2', 'one_pos: [73, 84]'], 646.0262260437012, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:47:06
+cost time: 1:46:54.312503
+left time: 1:46:42.002910
+estimated time: 3:33:36.315413
+estimated finished time: 2025-03-08 21:33:48
+instance per seconed(all process): 102.52
+instance average runtime(s): 2.44
+finished persent: 50.05%
+processed jobs: 657606
+unprocessed jobs: 656344
+
+657643/1313950: finish job file[657658], cost_time: 344.9535768032074
+[657658, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 87', 'num_zero: 85', 'num_one: 2', 'one_pos: [66, 86]'], 344.9535768032074, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:48:08
+cost time: 1:47:56.397460
+left time: 1:47:43.240675
+estimated time: 3:35:39.638135
+estimated finished time: 2025-03-08 21:35:51
+instance per seconed(all process): 101.54
+instance average runtime(s): 2.46
+finished persent: 50.05%
+processed jobs: 657643
+unprocessed jobs: 656307
+
+657676/1313950: finish job file[657874], cost_time: 92.08365368843079
+[657874, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [64, 68, 74]'], 92.08365368843079, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:49:09
+cost time: 1:48:56.756462
+left time: 1:48:42.821739
+estimated time: 3:37:39.578201
+estimated finished time: 2025-03-08 21:37:51
+instance per seconed(all process): 100.61
+instance average runtime(s): 2.48
+finished persent: 50.05%
+processed jobs: 657676
+unprocessed jobs: 656274
+
+657711/1313950: finish job file[657941], cost_time: 39.10783529281616
+[657941, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 76', 'num_zero: 73', 'num_one: 3', 'one_pos: [63, 74, 75]'], 39.10783529281616, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:50:09
+cost time: 1:49:57.228487
+left time: 1:49:42.463461
+estimated time: 3:39:39.691948
+estimated finished time: 2025-03-08 21:39:52
+instance per seconed(all process): 99.70
+instance average runtime(s): 2.51
+finished persent: 50.06%
+processed jobs: 657711
+unprocessed jobs: 656239
+
+657744/1313950: finish job file[657900], cost_time: 163.31907653808594
+[657900, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1], ['num_bit: 68', 'num_zero: 65', 'num_one: 3', 'one_pos: [64, 66, 67]'], 163.31907653808594, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:51:09
+cost time: 1:50:57.582472
+left time: 1:50:42.015076
+estimated time: 3:41:39.597548
+estimated finished time: 2025-03-08 21:41:51
+instance per seconed(all process): 98.80
+instance average runtime(s): 2.53
+finished persent: 50.06%
+processed jobs: 657744
+unprocessed jobs: 656206
+
+657772/1313950: finish job file[657913], cost_time: 201.82119917869568
+[657913, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 99', 'num_zero: 98', 'num_one: 1', 'one_pos: [63]'], 201.82119917869568, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:52:10
+cost time: 1:51:57.856466
+left time: 1:51:41.576869
+estimated time: 3:43:39.433334
+estimated finished time: 2025-03-08 21:43:51
+instance per seconed(all process): 97.91
+instance average runtime(s): 2.55
+finished persent: 50.06%
+processed jobs: 657772
+unprocessed jobs: 656178
+
+657810/1313950: finish job file[657997], cost_time: 108.25204300880432
+[657997, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 72', 'num_zero: 69', 'num_one: 3', 'one_pos: [63, 66, 71]'], 108.25204300880432, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:53:11
+cost time: 1:52:59.304494
+left time: 1:52:42.093691
+estimated time: 3:45:41.398185
+estimated finished time: 2025-03-08 21:45:53
+instance per seconed(all process): 97.03
+instance average runtime(s): 2.58
+finished persent: 50.06%
+processed jobs: 657810
+unprocessed jobs: 656140
+
+657844/1313950: finish job file[658057], cost_time: 65.62511277198792
+[658057, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 77', 'num_zero: 74', 'num_one: 3', 'one_pos: [62, 73, 76]'], 65.62511277198792, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:54:12
+cost time: 1:54:00.165465
+left time: 1:53:42.093996
+estimated time: 3:47:42.259461
+estimated finished time: 2025-03-08 21:47:54
+instance per seconed(all process): 96.17
+instance average runtime(s): 2.60
+finished persent: 50.07%
+processed jobs: 657844
+unprocessed jobs: 656106
+
+657874/1313950: finish job file[658069], cost_time: 104.59469270706177
+[658069, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [62, 71, 73]'], 104.59469270706177, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:55:13
+cost time: 1:55:01.066488
+left time: 1:54:42.205554
+estimated time: 3:49:43.272042
+estimated finished time: 2025-03-08 21:49:55
+instance per seconed(all process): 95.33
+instance average runtime(s): 2.62
+finished persent: 50.07%
+processed jobs: 657874
+unprocessed jobs: 656076
+
+657901/1313950: finish job file[658118], cost_time: 72.13290429115295
+[658118, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 76', 'num_zero: 73', 'num_one: 3', 'one_pos: [62, 65, 75]'], 72.13290429115295, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:56:13
+cost time: 1:56:01.441472
+left time: 1:55:41.844922
+estimated time: 3:51:43.286394
+estimated finished time: 2025-03-08 21:51:55
+instance per seconed(all process): 94.51
+instance average runtime(s): 2.65
+finished persent: 50.07%
+processed jobs: 657901
+unprocessed jobs: 656049
+
+657933/1313950: finish job file[658132], cost_time: 102.43532037734985
+[658132, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [62, 64, 73]'], 102.43532037734985, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:57:13
+cost time: 1:57:01.657453
+left time: 1:56:41.209328
+estimated time: 3:53:42.866781
+estimated finished time: 2025-03-08 21:53:55
+instance per seconed(all process): 93.70
+instance average runtime(s): 2.67
+finished persent: 50.07%
+processed jobs: 657933
+unprocessed jobs: 656017
+
+657961/1313950: finish job file[658182], cost_time: 60.04517865180969
+[658182, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 77', 'num_zero: 74', 'num_one: 3', 'one_pos: [61, 74, 76]'], 60.04517865180969, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:58:14
+cost time: 1:58:01.788706
+left time: 1:57:40.563607
+estimated time: 3:55:42.352312
+estimated finished time: 2025-03-08 21:55:54
+instance per seconed(all process): 92.91
+instance average runtime(s): 2.69
+finished persent: 50.08%
+processed jobs: 657961
+unprocessed jobs: 655989
+
+657994/1313950: finish job file[658201], cost_time: 81.28744506835938
+[658201, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 76', 'num_zero: 73', 'num_one: 3', 'one_pos: [61, 70, 75]'], 81.28744506835938, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 19:59:14
+cost time: 1:59:01.999749
+left time: 1:58:39.878886
+estimated time: 3:57:41.878635
+estimated finished time: 2025-03-08 21:57:54
+instance per seconed(all process): 92.13
+instance average runtime(s): 2.71
+finished persent: 50.08%
+processed jobs: 657994
+unprocessed jobs: 655956
+
+658032/1313950: finish job file[658166], cost_time: 213.91858553886414
+[658166, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 89', 'num_zero: 87', 'num_one: 2', 'one_pos: [61, 88]'], 213.91858553886414, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:00:16
+cost time: 2:00:04.181639
+left time: 1:59:41.037415
+estimated time: 3:59:45.219053
+estimated finished time: 2025-03-08 21:59:57
+instance per seconed(all process): 91.34
+instance average runtime(s): 2.74
+finished persent: 50.08%
+processed jobs: 658032
+unprocessed jobs: 655918
+
+658063/1313950: finish job file[658260], cost_time: 102.14192962646484
+[658260, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 74', 'num_zero: 71', 'num_one: 3', 'one_pos: [61, 64, 73]'], 102.14192962646484, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:01:23
+cost time: 2:01:11.438716
+left time: 2:00:47.394437
+estimated time: 4:01:58.833153
+estimated finished time: 2025-03-08 22:02:11
+instance per seconed(all process): 90.50
+instance average runtime(s): 2.76
+finished persent: 50.08%
+processed jobs: 658063
+unprocessed jobs: 655887
+
+658099/1313950: finish job file[658278], cost_time: 139.11302709579468
+[658278, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 69', 'num_zero: 66', 'num_one: 3', 'one_pos: [61, 63, 68]'], 139.11302709579468, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:02:26
+cost time: 2:02:14.578441
+left time: 2:01:49.524258
+estimated time: 4:04:04.102699
+estimated finished time: 2025-03-08 22:04:16
+instance per seconed(all process): 89.73
+instance average runtime(s): 2.79
+finished persent: 50.09%
+processed jobs: 658099
+unprocessed jobs: 655851
+
+658129/1313950: finish job file[657539], cost_time: 1412.6468245983124
+[657539, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 79', 'num_zero: 77', 'num_one: 2', 'one_pos: [68, 78]'], 1412.6468245983124, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:03:29
+cost time: 2:03:16.893666
+left time: 2:02:50.953416
+estimated time: 4:06:07.847082
+estimated finished time: 2025-03-08 22:06:20
+instance per seconed(all process): 88.97
+instance average runtime(s): 2.81
+finished persent: 50.09%
+processed jobs: 658129
+unprocessed jobs: 655821
+
+658162/1313950: finish job file[658352], cost_time: 109.17507672309875
+[658352, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [60, 69, 74]'], 109.17507672309875, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:04:29
+cost time: 2:04:17.076505
+left time: 2:03:50.178721
+estimated time: 4:08:07.255226
+estimated finished time: 2025-03-08 22:08:19
+instance per seconed(all process): 88.26
+instance average runtime(s): 2.83
+finished persent: 50.09%
+processed jobs: 658162
+unprocessed jobs: 655788
+
+658190/1313950: finish job file[658306], cost_time: 262.50599122047424
+[658306, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 92', 'num_zero: 90', 'num_one: 2', 'one_pos: [60, 91]'], 262.50599122047424, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:05:30
+cost time: 2:05:17.892120
+left time: 2:04:50.136490
+estimated time: 4:10:08.028610
+estimated finished time: 2025-03-08 22:10:20
+instance per seconed(all process): 87.55
+instance average runtime(s): 2.86
+finished persent: 50.09%
+processed jobs: 658190
+unprocessed jobs: 655760
+
+658364/1313950: finish job file[657316], cost_time: 1832.536469221115
+[657316, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 81', 'num_zero: 79', 'num_one: 2', 'one_pos: [74, 80]'], 1832.536469221115, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:06:30
+cost time: 2:06:18.003311
+left time: 2:05:46.027545
+estimated time: 4:12:04.030855
+estimated finished time: 2025-03-08 22:12:16
+instance per seconed(all process): 86.88
+instance average runtime(s): 2.88
+finished persent: 50.11%
+processed jobs: 658364
+unprocessed jobs: 655586
+
+658714/1313950: finish job file[658961], cost_time: 0.08785176277160645
+[658961, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 72', 'num_zero: 69', 'num_one: 3', 'one_pos: [57, 62, 71]'], 0.08785176277160645, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:07:30
+cost time: 2:07:18.045537
+left time: 2:06:37.716771
+estimated time: 4:13:55.762308
+estimated finished time: 2025-03-08 22:14:08
+instance per seconed(all process): 86.24
+instance average runtime(s): 2.90
+finished persent: 50.13%
+processed jobs: 658714
+unprocessed jobs: 655236
+
+659124/1313950: finish job file[658044], cost_time: 953.0858454704285
+[658044, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 83', 'num_zero: 81', 'num_one: 2', 'one_pos: [62, 82]'], 953.0858454704285, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:08:35
+cost time: 2:08:22.827755
+left time: 2:07:32.599341
+estimated time: 4:15:55.427096
+estimated finished time: 2025-03-08 22:16:07
+instance per seconed(all process): 85.57
+instance average runtime(s): 2.92
+finished persent: 50.16%
+processed jobs: 659124
+unprocessed jobs: 654826
+
+659605/1313950: finish job file[659843], cost_time: 0.04798293113708496
+[659843, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 76', 'num_zero: 73', 'num_one: 3', 'one_pos: [53, 71, 75]'], 0.04798293113708496, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:09:35
+cost time: 2:09:22.855155
+left time: 2:08:20.950503
+estimated time: 4:17:43.805659
+estimated finished time: 2025-03-08 22:17:56
+instance per seconed(all process): 84.97
+instance average runtime(s): 2.94
+finished persent: 50.20%
+processed jobs: 659605
+unprocessed jobs: 654345
+
+660129/1313950: finish job file[660374], cost_time: 1.0507643222808838
+[660374, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 60', 'num_zero: 57', 'num_one: 3', 'one_pos: [52, 55, 59]'], 1.0507643222808838, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:10:35
+cost time: 2:10:22.858186
+left time: 2:09:08.105238
+estimated time: 4:19:30.963424
+estimated finished time: 2025-03-08 22:19:43
+instance per seconed(all process): 84.38
+instance average runtime(s): 2.96
+finished persent: 50.24%
+processed jobs: 660129
+unprocessed jobs: 653821
+
+660898/1313950: finish job file[661113], cost_time: 2.1668856143951416
+[661113, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 62', 'num_zero: 59', 'num_one: 3', 'one_pos: [50, 52, 61]'], 2.1668856143951416, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:11:35
+cost time: 2:11:22.932659
+left time: 2:09:49.348642
+estimated time: 4:21:12.281301
+estimated finished time: 2025-03-08 22:21:24
+instance per seconed(all process): 83.84
+instance average runtime(s): 2.98
+finished persent: 50.30%
+processed jobs: 660898
+unprocessed jobs: 653052
+
+661862/1313950: finish job file[661948], cost_time: 6.38409161567688
+[661948, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 71', 'num_zero: 68', 'num_one: 3', 'one_pos: [48, 50, 70]'], 6.38409161567688, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:12:35
+cost time: 2:12:23.599612
+left time: 2:10:26.293070
+estimated time: 4:22:49.892682
+estimated finished time: 2025-03-08 22:23:02
+instance per seconed(all process): 83.32
+instance average runtime(s): 3.00
+finished persent: 50.37%
+processed jobs: 661862
+unprocessed jobs: 652088
+
+662932/1313950: finish job file[661657], cost_time: 90.97061252593994
+[661657, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 73', 'num_zero: 70', 'num_one: 3', 'one_pos: [48, 65, 72]'], 90.97061252593994, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:13:36
+cost time: 2:13:23.847425
+left time: 2:11:00.004862
+estimated time: 4:24:23.852287
+estimated finished time: 2025-03-08 22:24:36
+instance per seconed(all process): 82.83
+instance average runtime(s): 3.02
+finished persent: 50.45%
+processed jobs: 662932
+unprocessed jobs: 651018
+
+664348/1313950: finish job file[664465], cost_time: 6.088075876235962
+[664465, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 64', 'num_zero: 61', 'num_one: 3', 'one_pos: [43, 62, 63]'], 6.088075876235962, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:14:36
+cost time: 2:14:24.018453
+left time: 2:11:25.027900
+estimated time: 4:25:49.046353
+estimated finished time: 2025-03-08 22:26:01
+instance per seconed(all process): 82.38
+instance average runtime(s): 3.03
+finished persent: 50.56%
+processed jobs: 664348
+unprocessed jobs: 649602
+
+666387/1313950: finish job file[666576], cost_time: 1.2020890712738037
+[666576, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1], ['num_bit: 52', 'num_zero: 48', 'num_one: 4', 'one_pos: [41, 45, 46, 51]'], 1.2020890712738037, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:15:36
+cost time: 2:15:24.023360
+left time: 2:11:34.537166
+estimated time: 4:26:58.560526
+estimated finished time: 2025-03-08 22:27:10
+instance per seconed(all process): 82.03
+instance average runtime(s): 3.05
+finished persent: 50.72%
+processed jobs: 666387
+unprocessed jobs: 647563
+
+668709/1313950: finish job file[668656], cost_time: 4.855424880981445
+[668656, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 73', 'num_zero: 70', 'num_one: 3', 'one_pos: [39, 43, 72]'], 4.855424880981445, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:16:36
+cost time: 2:16:24.059973
+left time: 2:11:36.844579
+estimated time: 4:28:00.904552
+estimated finished time: 2025-03-08 22:28:13
+instance per seconed(all process): 81.71
+instance average runtime(s): 3.06
+finished persent: 50.89%
+processed jobs: 668709
+unprocessed jobs: 645241
+
+671515/1313950: finish job file[671471], cost_time: 3.8598697185516357
+[671471, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 67', 'num_zero: 64', 'num_one: 3', 'one_pos: [37, 40, 66]'], 3.8598697185516357, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:17:36
+cost time: 2:17:24.071671
+left time: 2:11:27.061620
+estimated time: 4:28:51.133291
+estimated finished time: 2025-03-08 22:29:03
+instance per seconed(all process): 81.45
+instance average runtime(s): 3.07
+finished persent: 51.11%
+processed jobs: 671515
+unprocessed jobs: 642435
+
+674839/1313950: finish job file[674982], cost_time: 1.1606271266937256
+[674982, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 48', 'num_zero: 44', 'num_one: 4', 'one_pos: [35, 38, 42, 47]'], 1.1606271266937256, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:18:36
+cost time: 2:18:24.076673
+left time: 2:11:04.433956
+estimated time: 4:29:28.510629
+estimated finished time: 2025-03-08 22:29:40
+instance per seconed(all process): 81.27
+instance average runtime(s): 3.08
+finished persent: 51.36%
+processed jobs: 674839
+unprocessed jobs: 639111
+
+678416/1313950: finish job file[678568], cost_time: 1.2109577655792236
+[678568, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [33, 40, 48, 52]'], 1.2109577655792236, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:19:36
+cost time: 2:19:24.097394
+left time: 2:10:35.411124
+estimated time: 4:29:59.508517
+estimated finished time: 2025-03-08 22:30:11
+instance per seconed(all process): 81.11
+instance average runtime(s): 3.08
+finished persent: 51.63%
+processed jobs: 678416
+unprocessed jobs: 635534
+
+682890/1313950: finish job file[683045], cost_time: 1.183405876159668
+[683045, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [31, 44, 47, 52]'], 1.183405876159668, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:20:36
+cost time: 2:20:24.125664
+left time: 2:09:44.751192
+estimated time: 4:30:08.876857
+estimated finished time: 2025-03-08 22:30:21
+instance per seconed(all process): 81.06
+instance average runtime(s): 3.08
+finished persent: 51.97%
+processed jobs: 682890
+unprocessed jobs: 631060
+
+688172/1313950: finish job file[685171], cost_time: 40.12715744972229
+[685171, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 78', 'num_zero: 76', 'num_one: 2', 'one_pos: [30, 77]'], 40.12715744972229, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:21:36
+cost time: 2:21:24.211571
+left time: 2:08:34.979611
+estimated time: 4:29:59.191182
+estimated finished time: 2025-03-08 22:30:11
+instance per seconed(all process): 81.11
+instance average runtime(s): 3.08
+finished persent: 52.37%
+processed jobs: 688172
+unprocessed jobs: 625778
+
+693705/1313950: finish job file[693826], cost_time: 1.0108561515808105
+[693826, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [28, 34, 51, 52]'], 1.0108561515808105, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:22:36
+cost time: 2:22:24.215638
+left time: 2:07:19.424580
+estimated time: 4:29:43.640218
+estimated finished time: 2025-03-08 22:29:55
+instance per seconed(all process): 81.19
+instance average runtime(s): 3.08
+finished persent: 52.80%
+processed jobs: 693705
+unprocessed jobs: 620245
+
+700123/1313950: finish job file[700287], cost_time: 0.9846701622009277
+[700287, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1], ['num_bit: 52', 'num_zero: 48', 'num_one: 4', 'one_pos: [26, 46, 50, 51]'], 0.9846701622009277, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:23:36
+cost time: 2:23:24.354634
+left time: 2:05:43.796150
+estimated time: 4:29:08.150784
+estimated finished time: 2025-03-08 22:29:20
+instance per seconed(all process): 81.37
+instance average runtime(s): 3.07
+finished persent: 53.28%
+processed jobs: 700123
+unprocessed jobs: 613827
+
+707439/1313950: finish job file[707543], cost_time: 1.009098768234253
+[707543, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 50', 'num_zero: 46', 'num_one: 4', 'one_pos: [25, 30, 41, 49]'], 1.009098768234253, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:24:36
+cost time: 2:24:24.435058
+left time: 2:03:48.308549
+estimated time: 4:28:12.743607
+estimated finished time: 2025-03-08 22:28:25
+instance per seconed(all process): 81.65
+instance average runtime(s): 3.06
+finished persent: 53.84%
+processed jobs: 707439
+unprocessed jobs: 606511
+
+715126/1313950: finish job file[715111], cost_time: 3.127089500427246
+[715111, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 64', 'num_zero: 61', 'num_one: 3', 'one_pos: [23, 56, 63]'], 3.127089500427246, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:25:36
+cost time: 2:25:24.442196
+left time: 2:01:45.573247
+estimated time: 4:27:10.015442
+estimated finished time: 2025-03-08 22:27:22
+instance per seconed(all process): 81.97
+instance average runtime(s): 3.05
+finished persent: 54.43%
+processed jobs: 715126
+unprocessed jobs: 598824
+
+723021/1313950: finish job file[723133], cost_time: 0.9364163875579834
+[723133, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 55', 'num_zero: 52', 'num_one: 3', 'one_pos: [22, 34, 40]'], 0.9364163875579834, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:26:36
+cost time: 2:26:24.450888
+left time: 1:59:39.579540
+estimated time: 4:26:04.030428
+estimated finished time: 2025-03-08 22:26:16
+instance per seconed(all process): 82.31
+instance average runtime(s): 3.04
+finished persent: 55.03%
+processed jobs: 723021
+unprocessed jobs: 590929
+
+731674/1313950: finish job file[731751], cost_time: 0.943375825881958
+[731751, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 45', 'num_zero: 41', 'num_one: 4', 'one_pos: [21, 28, 30, 44]'], 0.943375825881958, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:27:36
+cost time: 2:27:24.450147
+left time: 1:57:18.532262
+estimated time: 4:24:42.982409
+estimated finished time: 2025-03-08 22:24:55
+instance per seconed(all process): 82.73
+instance average runtime(s): 3.02
+finished persent: 55.69%
+processed jobs: 731674
+unprocessed jobs: 582276
+
+741019/1313950: finish job file[741075], cost_time: 1.047374963760376
+[741075, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [20, 23, 50, 54]'], 1.047374963760376, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:28:36
+cost time: 2:28:24.471673
+left time: 1:54:44.638397
+estimated time: 4:23:09.110069
+estimated finished time: 2025-03-08 22:23:21
+instance per seconed(all process): 83.22
+instance average runtime(s): 3.00
+finished persent: 56.40%
+processed jobs: 741019
+unprocessed jobs: 572931
+
+750740/1313950: finish job file[750806], cost_time: 0.9379096031188965
+[750806, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 41', 'num_zero: 37', 'num_one: 4', 'one_pos: [19, 21, 28, 40]'], 0.9379096031188965, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:29:36
+cost time: 2:29:24.470492
+left time: 1:52:05.203700
+estimated time: 4:21:29.674191
+estimated finished time: 2025-03-08 22:21:42
+instance per seconed(all process): 83.75
+instance average runtime(s): 2.99
+finished persent: 57.14%
+processed jobs: 750740
+unprocessed jobs: 563210
+
+760742/1313950: finish job file[760801], cost_time: 1.0462119579315186
+[760801, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 31', 'num_zero: 26', 'num_one: 5', 'one_pos: [18, 20, 22, 29, 30]'], 1.0462119579315186, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:30:36
+cost time: 2:30:24.479566
+left time: 1:49:22.559043
+estimated time: 4:19:47.038609
+estimated finished time: 2025-03-08 22:19:59
+instance per seconed(all process): 84.30
+instance average runtime(s): 2.97
+finished persent: 57.90%
+processed jobs: 760742
+unprocessed jobs: 553208
+
+770845/1313950: finish job file[770896], cost_time: 0.9659028053283691
+[770896, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 49', 'num_zero: 45', 'num_one: 4', 'one_pos: [17, 19, 44, 48]'], 0.9659028053283691, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:31:36
+cost time: 2:31:24.515061
+left time: 1:46:40.567627
+estimated time: 4:18:05.082688
+estimated finished time: 2025-03-08 22:18:17
+instance per seconed(all process): 84.85
+instance average runtime(s): 2.95
+finished persent: 58.67%
+processed jobs: 770845
+unprocessed jobs: 543105
+
+781216/1313950: finish job file[781261], cost_time: 0.9482502937316895
+[781261, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 45', 'num_zero: 41', 'num_one: 4', 'one_pos: [16, 20, 29, 44]'], 0.9482502937316895, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:32:36
+cost time: 2:32:24.525154
+left time: 1:43:55.918700
+estimated time: 4:16:20.443854
+estimated finished time: 2025-03-08 22:16:32
+instance per seconed(all process): 85.43
+instance average runtime(s): 2.93
+finished persent: 59.46%
+processed jobs: 781216
+unprocessed jobs: 532734
+
+791799/1313950: finish job file[791832], cost_time: 0.9860773086547852
+[791832, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 47', 'num_zero: 43', 'num_one: 4', 'one_pos: [15, 22, 34, 46]'], 0.9860773086547852, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:33:36
+cost time: 2:33:24.525007
+left time: 1:41:09.914128
+estimated time: 4:14:34.439135
+estimated finished time: 2025-03-08 22:14:46
+instance per seconed(all process): 86.02
+instance average runtime(s): 2.91
+finished persent: 60.26%
+processed jobs: 791799
+unprocessed jobs: 522151
+
+802684/1313950: finish job file[802758], cost_time: 0.8234593868255615
+[802758, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 54', 'num_zero: 50', 'num_one: 4', 'one_pos: [14, 27, 34, 53]'], 0.8234593868255615, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:34:36
+cost time: 2:34:24.550632
+left time: 1:38:21.014277
+estimated time: 4:12:45.564909
+estimated finished time: 2025-03-08 22:12:57
+instance per seconed(all process): 86.64
+instance average runtime(s): 2.89
+finished persent: 61.09%
+processed jobs: 802684
+unprocessed jobs: 511266
+
+814308/1313950: finish job file[813937], cost_time: 4.065953254699707
+[813937, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 73', 'num_zero: 70', 'num_one: 3', 'one_pos: [13, 44, 72]'], 4.065953254699707, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:35:36
+cost time: 2:35:24.555628
+left time: 1:35:21.348216
+estimated time: 4:10:45.903844
+estimated finished time: 2025-03-08 22:10:58
+instance per seconed(all process): 87.33
+instance average runtime(s): 2.86
+finished persent: 61.97%
+processed jobs: 814308
+unprocessed jobs: 499642
+
+826846/1313950: finish job file[658342], cost_time: 2060.9862620830536
+[658342, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], ['num_bit: 77', 'num_zero: 75', 'num_one: 2', 'one_pos: [60, 70]'], 2060.9862620830536, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:36:36
+cost time: 2:36:24.588783
+left time: 1:32:08.563644
+estimated time: 4:08:33.152427
+estimated finished time: 2025-03-08 22:08:45
+instance per seconed(all process): 88.11
+instance average runtime(s): 2.84
+finished persent: 62.93%
+processed jobs: 826846
+unprocessed jobs: 487104
+
+838835/1313950: finish job file[838862], cost_time: 0.9195742607116699
+[838862, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [12, 19, 43, 54]'], 0.9195742607116699, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:37:36
+cost time: 2:37:24.590977
+left time: 1:29:09.403449
+estimated time: 4:06:33.994426
+estimated finished time: 2025-03-08 22:06:46
+instance per seconed(all process): 88.82
+instance average runtime(s): 2.81
+finished persent: 63.84%
+processed jobs: 838835
+unprocessed jobs: 475115
+
+850791/1313950: finish job file[850869], cost_time: 0.8299005031585693
+[850869, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [11, 32, 47, 54]'], 0.8299005031585693, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:38:36
+cost time: 2:38:24.600456
+left time: 1:26:14.174671
+estimated time: 4:04:38.775127
+estimated finished time: 2025-03-08 22:04:51
+instance per seconed(all process): 89.51
+instance average runtime(s): 2.79
+finished persent: 64.75%
+processed jobs: 850791
+unprocessed jobs: 463159
+
+864016/1313950: finish job file[864047], cost_time: 0.9583032131195068
+[864047, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [11, 14, 20, 29]'], 0.9583032131195068, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:39:36
+cost time: 2:39:24.600479
+left time: 1:23:00.739884
+estimated time: 4:02:25.340363
+estimated finished time: 2025-03-08 22:02:37
+instance per seconed(all process): 90.33
+instance average runtime(s): 2.77
+finished persent: 65.76%
+processed jobs: 864016
+unprocessed jobs: 449934
+
+876043/1313950: finish job file[876103], cost_time: 0.8070836067199707
+[876103, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1], ['num_bit: 29', 'num_zero: 24', 'num_one: 5', 'one_pos: [10, 22, 23, 24, 28]'], 0.8070836067199707, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:40:36
+cost time: 2:40:24.635916
+left time: 1:20:11.060005
+estimated time: 4:00:35.695922
+estimated finished time: 2025-03-08 22:00:48
+instance per seconed(all process): 91.02
+instance average runtime(s): 2.75
+finished persent: 66.67%
+processed jobs: 876043
+unprocessed jobs: 437907
+
+889331/1313950: finish job file[889124], cost_time: 2.061380386352539
+[889124, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 27', 'num_zero: 22', 'num_one: 5', 'one_pos: [10, 12, 13, 22, 26]'], 2.061380386352539, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:41:37
+cost time: 2:41:24.722631
+left time: 1:17:04.057003
+estimated time: 3:58:28.779634
+estimated finished time: 2025-03-08 21:58:41
+instance per seconed(all process): 91.83
+instance average runtime(s): 2.72
+finished persent: 67.68%
+processed jobs: 889331
+unprocessed jobs: 424619
+
+901702/1313950: finish job file[901728], cost_time: 0.9054925441741943
+[901728, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [9, 18, 31, 52]'], 0.9054925441741943, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:42:37
+cost time: 2:42:24.725689
+left time: 1:14:15.178846
+estimated time: 3:56:39.904535
+estimated finished time: 2025-03-08 21:56:52
+instance per seconed(all process): 92.53
+instance average runtime(s): 2.70
+finished persent: 68.63%
+processed jobs: 901702
+unprocessed jobs: 412248
+
+914870/1313950: finish job file[914904], cost_time: 0.9160010814666748
+[914904, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 40', 'num_zero: 36', 'num_one: 4', 'one_pos: [9, 10, 24, 39]'], 0.9160010814666748, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:43:37
+cost time: 2:43:24.738480
+left time: 1:11:16.973813
+estimated time: 3:54:41.712293
+estimated finished time: 2025-03-08 21:54:54
+instance per seconed(all process): 93.31
+instance average runtime(s): 2.68
+finished persent: 69.63%
+processed jobs: 914870
+unprocessed jobs: 399080
+
+927162/1313950: finish job file[927176], cost_time: 0.9693889617919922
+[927176, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [8, 18, 28, 30]'], 0.9693889617919922, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:44:37
+cost time: 2:44:24.739469
+left time: 1:08:35.314098
+estimated time: 3:53:00.053566
+estimated finished time: 2025-03-08 21:53:12
+instance per seconed(all process): 93.99
+instance average runtime(s): 2.66
+finished persent: 70.56%
+processed jobs: 927162
+unprocessed jobs: 386788
+
+940370/1313950: finish job file[940328], cost_time: 1.226837158203125
+[940328, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 32', 'num_zero: 27', 'num_one: 5', 'one_pos: [8, 10, 23, 28, 31]'], 1.226837158203125, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:45:37
+cost time: 2:45:24.756441
+left time: 1:05:42.799655
+estimated time: 3:51:07.556095
+estimated finished time: 2025-03-08 21:51:19
+instance per seconed(all process): 94.75
+instance average runtime(s): 2.64
+finished persent: 71.57%
+processed jobs: 940370
+unprocessed jobs: 373580
+
+952503/1313950: finish job file[952525], cost_time: 0.9255139827728271
+[952525, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 53', 'num_zero: 49', 'num_one: 4', 'one_pos: [7, 21, 42, 52]'], 0.9255139827728271, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:46:37
+cost time: 2:46:24.762218
+left time: 1:03:08.924916
+estimated time: 3:49:33.687135
+estimated finished time: 2025-03-08 21:49:46
+instance per seconed(all process): 95.40
+instance average runtime(s): 2.62
+finished persent: 72.49%
+processed jobs: 952503
+unprocessed jobs: 361447
+
+965982/1313950: finish job file[965995], cost_time: 1.0121471881866455
+[965995, [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 38', 'num_zero: 34', 'num_one: 4', 'one_pos: [7, 11, 27, 37]'], 1.0121471881866455, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:47:37
+cost time: 2:47:24.762450
+left time: 1:00:18.344752
+estimated time: 3:47:43.107202
+estimated finished time: 2025-03-08 21:47:55
+instance per seconed(all process): 96.17
+instance average runtime(s): 2.60
+finished persent: 73.52%
+processed jobs: 965982
+unprocessed jobs: 347968
+
+977842/1313950: finish job file[977918], cost_time: 0.8846709728240967
+[977918, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [6, 37, 46, 54]'], 0.8846709728240967, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:48:37
+cost time: 2:48:24.765269
+left time: 0:57:53.252780
+estimated time: 3:46:18.018049
+estimated finished time: 2025-03-08 21:46:30
+instance per seconed(all process): 96.77
+instance average runtime(s): 2.58
+finished persent: 74.42%
+processed jobs: 977842
+unprocessed jobs: 336108
+
+991131/1313950: finish job file[991161], cost_time: 0.9626433849334717
+[991161, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [6, 15, 16, 29]'], 0.9626433849334717, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:49:37
+cost time: 2:49:24.765447
+left time: 0:55:10.742391
+estimated time: 3:44:35.507838
+estimated finished time: 2025-03-08 21:44:47
+instance per seconed(all process): 97.51
+instance average runtime(s): 2.56
+finished persent: 75.43%
+processed jobs: 991131
+unprocessed jobs: 322819
+
+1003957/1313950: finish job file[1003951], cost_time: 1.205977201461792
+[1003951, [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 29', 'num_zero: 24', 'num_one: 5', 'one_pos: [6, 9, 12, 16, 28]'], 1.205977201461792, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:50:37
+cost time: 2:50:24.791646
+left time: 0:52:37.121109
+estimated time: 3:43:01.912755
+estimated finished time: 2025-03-08 21:43:14
+instance per seconed(all process): 98.19
+instance average runtime(s): 2.55
+finished persent: 76.41%
+processed jobs: 1003957
+unprocessed jobs: 309993
+
+1015859/1313950: finish job file[1015908], cost_time: 0.8869986534118652
+[1015908, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 42', 'num_zero: 38', 'num_one: 4', 'one_pos: [5, 26, 37, 41]'], 0.8869986534118652, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:51:37
+cost time: 2:51:24.794617
+left time: 0:50:17.943152
+estimated time: 3:41:42.737769
+estimated finished time: 2025-03-08 21:41:55
+instance per seconed(all process): 98.77
+instance average runtime(s): 2.53
+finished persent: 77.31%
+processed jobs: 1015859
+unprocessed jobs: 298091
+
+1029189/1313950: finish job file[1029206], cost_time: 1.0398850440979004
+[1029206, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 37', 'num_zero: 33', 'num_one: 4', 'one_pos: [5, 13, 15, 36]'], 1.0398850440979004, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:52:37
+cost time: 2:52:24.794749
+left time: 0:47:42.247942
+estimated time: 3:40:07.042691
+estimated finished time: 2025-03-08 21:40:19
+instance per seconed(all process): 99.49
+instance average runtime(s): 2.51
+finished persent: 78.33%
+processed jobs: 1029189
+unprocessed jobs: 284761
+
+1041760/1313950: finish job file[1041779], cost_time: 1.128310203552246
+[1041779, [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [5, 8, 11, 15]'], 1.128310203552246, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:53:37
+cost time: 2:53:24.807383
+left time: 0:45:18.557558
+estimated time: 3:38:43.364941
+estimated finished time: 2025-03-08 21:38:55
+instance per seconed(all process): 100.12
+instance average runtime(s): 2.50
+finished persent: 79.28%
+processed jobs: 1041760
+unprocessed jobs: 272190
+
+1053378/1313950: finish job file[1053150], cost_time: 2.2039904594421387
+[1053150, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 62', 'num_zero: 59', 'num_one: 3', 'one_pos: [4, 29, 61]'], 2.2039904594421387, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:54:37
+cost time: 2:54:24.852042
+left time: 0:43:08.669429
+estimated time: 3:37:33.521471
+estimated finished time: 2025-03-08 21:37:45
+instance per seconed(all process): 100.66
+instance average runtime(s): 2.48
+finished persent: 80.17%
+processed jobs: 1053378
+unprocessed jobs: 260572
+
+1066712/1313950: finish job file[1066728], cost_time: 1.0004611015319824
+[1066728, [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 35', 'num_zero: 31', 'num_one: 4', 'one_pos: [4, 13, 26, 34]'], 1.0004611015319824, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:55:37
+cost time: 2:55:24.860609
+left time: 0:40:39.407720
+estimated time: 3:36:04.268329
+estimated finished time: 2025-03-08 21:36:16
+instance per seconed(all process): 101.35
+instance average runtime(s): 2.47
+finished persent: 81.18%
+processed jobs: 1066712
+unprocessed jobs: 247238
+
+1079366/1313950: finish job file[1079367], cost_time: 1.1486380100250244
+[1079367, [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [4, 8, 15, 30]'], 1.1486380100250244, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:56:37
+cost time: 2:56:24.866204
+left time: 0:38:20.461802
+estimated time: 3:34:45.328006
+estimated finished time: 2025-03-08 21:34:57
+instance per seconed(all process): 101.97
+instance average runtime(s): 2.45
+finished persent: 82.15%
+processed jobs: 1079366
+unprocessed jobs: 234584
+
+1091786/1313950: finish job file[1091837], cost_time: 1.0426738262176514
+[1091837, [0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 28', 'num_zero: 23', 'num_one: 5', 'one_pos: [4, 5, 7, 17, 27]'], 1.0426738262176514, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:57:37
+cost time: 2:57:24.891635
+left time: 0:36:06.094551
+estimated time: 3:33:30.986186
+estimated finished time: 2025-03-08 21:33:43
+instance per seconed(all process): 102.56
+instance average runtime(s): 2.44
+finished persent: 83.09%
+processed jobs: 1091786
+unprocessed jobs: 222164
+
+1103865/1313950: finish job file[1103869], cost_time: 1.1131620407104492
+[1103869, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [3, 17, 25, 28]'], 1.1131620407104492, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:58:37
+cost time: 2:58:24.932654
+left time: 0:33:57.337697
+estimated time: 3:32:22.270351
+estimated finished time: 2025-03-08 21:32:34
+instance per seconed(all process): 103.12
+instance average runtime(s): 2.42
+finished persent: 84.01%
+processed jobs: 1103865
+unprocessed jobs: 210085
+
+1116657/1313950: finish job file[1116675], cost_time: 1.0918259620666504
+[1116675, [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [3, 10, 16, 17]'], 1.0918259620666504, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 20:59:37
+cost time: 2:59:24.950668
+left time: 0:31:41.971162
+estimated time: 3:31:06.921830
+estimated finished time: 2025-03-08 21:31:19
+instance per seconed(all process): 103.73
+instance average runtime(s): 2.41
+finished persent: 84.98%
+processed jobs: 1116657
+unprocessed jobs: 197293
+
+1129065/1313950: finish job file[1129069], cost_time: 1.1523141860961914
+[1129069, [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 31', 'num_zero: 26', 'num_one: 5', 'one_pos: [3, 6, 13, 26, 30]'], 1.1523141860961914, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:00:37
+cost time: 3:00:24.953319
+left time: 0:29:32.591918
+estimated time: 3:29:57.545238
+estimated finished time: 2025-03-08 21:30:09
+instance per seconed(all process): 104.30
+instance average runtime(s): 2.40
+finished persent: 85.93%
+processed jobs: 1129065
+unprocessed jobs: 184885
+
+1140391/1313950: finish job file[1139793], cost_time: 6.961093425750732
+[1139793, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 72', 'num_zero: 69', 'num_one: 3', 'one_pos: [2, 69, 71]'], 6.961093425750732, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:01:37
+cost time: 3:01:24.956725
+left time: 0:27:36.609184
+estimated time: 3:29:01.565909
+estimated finished time: 2025-03-08 21:29:13
+instance per seconed(all process): 104.77
+instance average runtime(s): 2.39
+finished persent: 86.79%
+processed jobs: 1140391
+unprocessed jobs: 173559
+
+1153141/1313950: finish job file[1153191], cost_time: 0.8724930286407471
+[1153191, [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 56', 'num_zero: 53', 'num_one: 3', 'one_pos: [2, 15, 55]'], 0.8724930286407471, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:02:37
+cost time: 3:02:25.017732
+left time: 0:25:26.315825
+estimated time: 3:27:51.333556
+estimated finished time: 2025-03-08 21:28:03
+instance per seconed(all process): 105.36
+instance average runtime(s): 2.37
+finished persent: 87.76%
+processed jobs: 1153141
+unprocessed jobs: 160809
+
+1165877/1313950: finish job file[1165891], cost_time: 1.0593175888061523
+[1165891, [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 33', 'num_zero: 28', 'num_one: 5', 'one_pos: [2, 9, 21, 24, 32]'], 1.0593175888061523, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:03:37
+cost time: 3:03:25.030196
+left time: 0:23:17.701332
+estimated time: 3:26:42.731528
+estimated finished time: 2025-03-08 21:26:55
+instance per seconed(all process): 105.94
+instance average runtime(s): 2.36
+finished persent: 88.73%
+processed jobs: 1165877
+unprocessed jobs: 148073
+
+1178188/1313950: finish job file[1178317], cost_time: 0.6349902153015137
+[1178317, [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1], ['num_bit: 55', 'num_zero: 51', 'num_one: 4', 'one_pos: [2, 5, 52, 54]'], 0.6349902153015137, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:04:37
+cost time: 3:04:25.142656
+left time: 0:21:15.030723
+estimated time: 3:25:40.173379
+estimated finished time: 2025-03-08 21:25:52
+instance per seconed(all process): 106.48
+instance average runtime(s): 2.35
+finished persent: 89.67%
+processed jobs: 1178188
+unprocessed jobs: 135762
+
+1190381/1313950: finish job file[1190420], cost_time: 1.0942506790161133
+[1190420, [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 32', 'num_zero: 27', 'num_one: 5', 'one_pos: [2, 3, 8, 12, 31]'], 1.0942506790161133, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:05:37
+cost time: 3:05:25.156476
+left time: 0:19:14.860890
+estimated time: 3:24:40.017365
+estimated finished time: 2025-03-08 21:24:52
+instance per seconed(all process): 107.00
+instance average runtime(s): 2.34
+finished persent: 90.60%
+processed jobs: 1190381
+unprocessed jobs: 123569
+
+1202107/1313950: finish job file[1202150], cost_time: 0.8732731342315674
+[1202150, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 52', 'num_zero: 48', 'num_one: 4', 'one_pos: [1, 18, 37, 51]'], 0.8732731342315674, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:06:37
+cost time: 3:06:25.189798
+left time: 0:17:20.660426
+estimated time: 3:23:45.850224
+estimated finished time: 2025-03-08 21:23:58
+instance per seconed(all process): 107.47
+instance average runtime(s): 2.33
+finished persent: 91.49%
+processed jobs: 1202107
+unprocessed jobs: 111843
+
+1214757/1313950: finish job file[1214771], cost_time: 1.172297477722168
+[1214771, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 32', 'num_zero: 27', 'num_one: 5', 'one_pos: [1, 11, 12, 19, 31]'], 1.172297477722168, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:07:37
+cost time: 3:07:25.197018
+left time: 0:15:18.245236
+estimated time: 3:22:43.442254
+estimated finished time: 2025-03-08 21:22:55
+instance per seconed(all process): 108.02
+instance average runtime(s): 2.31
+finished persent: 92.45%
+processed jobs: 1214757
+unprocessed jobs: 99193
+
+1226812/1313950: finish job file[1226878], cost_time: 0.9268715381622314
+[1226878, [0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], ['num_bit: 55', 'num_zero: 52', 'num_one: 3', 'one_pos: [1, 6, 51]'], 0.9268715381622314, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:08:37
+cost time: 3:08:25.258098
+left time: 0:13:22.989847
+estimated time: 3:21:48.247945
+estimated finished time: 2025-03-08 21:22:00
+instance per seconed(all process): 108.52
+instance average runtime(s): 2.30
+finished persent: 93.37%
+processed jobs: 1226812
+unprocessed jobs: 87138
+
+1238859/1313950: finish job file[1238890], cost_time: 1.1609344482421875
+[1238890, [0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 25', 'num_zero: 20', 'num_one: 5', 'one_pos: [1, 4, 6, 11, 24]'], 1.1609344482421875, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:09:37
+cost time: 3:09:25.272801
+left time: 0:11:28.883642
+estimated time: 3:20:54.156443
+estimated finished time: 2025-03-08 21:21:06
+instance per seconed(all process): 109.00
+instance average runtime(s): 2.29
+finished persent: 94.29%
+processed jobs: 1238859
+unprocessed jobs: 75091
+
+1250152/1313950: finish job file[1250399], cost_time: 0.030541658401489258
+[1250399, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 75', 'num_zero: 72', 'num_one: 3', 'one_pos: [0, 49, 74]'], 0.030541658401489258, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:10:37
+cost time: 3:10:25.299282
+left time: 0:09:43.058095
+estimated time: 3:20:08.357377
+estimated finished time: 2025-03-08 21:20:20
+instance per seconed(all process): 109.42
+instance average runtime(s): 2.28
+finished persent: 95.14%
+processed jobs: 1250152
+unprocessed jobs: 63798
+
+1262281/1313950: finish job file[1262269], cost_time: 1.1376733779907227
+[1262269, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 40', 'num_zero: 36', 'num_one: 4', 'one_pos: [0, 16, 38, 39]'], 1.1376733779907227, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:11:37
+cost time: 3:11:25.297498
+left time: 0:07:50.128154
+estimated time: 3:19:15.425652
+estimated finished time: 2025-03-08 21:19:27
+instance per seconed(all process): 109.90
+instance average runtime(s): 2.27
+finished persent: 96.07%
+processed jobs: 1262281
+unprocessed jobs: 51669
+
+1274844/1313950: finish job file[1274874], cost_time: 1.1016974449157715
+[1274874, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1], ['num_bit: 33', 'num_zero: 28', 'num_one: 5', 'one_pos: [0, 10, 12, 29, 32]'], 1.1016974449157715, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:12:37
+cost time: 3:12:25.304418
+left time: 0:05:54.153665
+estimated time: 3:18:19.458083
+estimated finished time: 2025-03-08 21:18:31
+instance per seconed(all process): 110.42
+instance average runtime(s): 2.26
+finished persent: 97.02%
+processed jobs: 1274844
+unprocessed jobs: 39106
+
+1286874/1313950: finish job file[1286697], cost_time: 2.164348840713501
+[1286697, [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 30', 'num_zero: 25', 'num_one: 5', 'one_pos: [0, 6, 13, 20, 29]'], 2.164348840713501, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:13:37
+cost time: 3:13:25.335578
+left time: 0:04:04.177803
+estimated time: 3:17:29.513381
+estimated finished time: 2025-03-08 21:17:41
+instance per seconed(all process): 110.89
+instance average runtime(s): 2.25
+finished persent: 97.94%
+processed jobs: 1286874
+unprocessed jobs: 27076
+
+1298652/1313950: finish job file[1298593], cost_time: 1.53059983253479
+[1298593, [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 29', 'num_zero: 24', 'num_one: 5', 'one_pos: [0, 3, 17, 20, 28]'], 1.53059983253479, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:14:37
+cost time: 3:14:25.345446
+left time: 0:02:17.416686
+estimated time: 3:16:42.762132
+estimated finished time: 2025-03-08 21:16:55
+instance per seconed(all process): 111.33
+instance average runtime(s): 2.25
+finished persent: 98.84%
+processed jobs: 1298652
+unprocessed jobs: 15298
+
+1310260/1313950: finish job file[1310262], cost_time: 1.2665936946868896
+[1310262, [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], ['num_bit: 24', 'num_zero: 19', 'num_one: 5', 'one_pos: [0, 1, 11, 22, 23]'], 1.2665936946868896, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-08 18:00:12
+current time: 2025-03-08 21:15:37
+cost time: 3:15:25.370948
+left time: 0:00:33.021399
+estimated time: 3:15:58.392347
+estimated finished time: 2025-03-08 21:16:10
+instance per seconed(all process): 111.75
+instance average runtime(s): 2.24
+finished persent: 99.72%
+processed jobs: 1310260
+unprocessed jobs: 3690
+
+No counterexample found, all errors can be corrected.
+
+Finish all jobs. Checking time: 11751.912449836731
+cond_checker took 11764.992sec

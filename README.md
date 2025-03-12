@@ -36,7 +36,7 @@ pip install .
 - Automatic parsing, interpretation for input Hoare triples.
 - Transformation from hybrid classical-quantum verification condition (VC) to purely classical VC
 - Apply z3 to encode the verification into SMT formula
-- Provide interfaces for various SMT solvers, cvc5 as default
+- Provide interfaces for various SMT solvers, cvc5 and bitwuzla as default
 <!-- Specifically, we verify the general correctness property of various codes. 
 For error-correcting codes with odd code distances, we verify its ability to accurately correct errors; For error-detecting codes with even code distances, its capability of detecting errors is evaluated.  -->
 

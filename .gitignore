@@ -1,13 +1,16 @@
 *.png
 *.pyc
-*.txt
 *.smt2
 /src/Dataset/__pycache__
 /linxi-develop/
+/Details/
+/Archive/
 /.vscode/
+/Output-arc/
 __pycache__
 /src/Archive/
 /src/Fig/
+/src/Execute/
 /Figures/
 /MISC/
 /Details/

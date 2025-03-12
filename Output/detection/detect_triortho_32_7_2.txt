@@ -1,0 +1,96 @@
+nohup: ignoring input
+Check condition: dx = 7, dz = 2
+tasks for X error: 956 | tasks for Z error: 36
+total_job: 992
+Task generated. Start checking.
+Condition generation time: 7.684418439865112
+956/992: finish job file[48], cost_time: 1.2536017894744873
+[48, [1, 0, 0, 1, 0, 1, 1], ['num_bit: 7', 'num_zero: 3', 'num_one: 4', 'one_pos: [0, 3, 5, 6]'], 1.2536017894744873, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 10:32:14
+current time: 2025-03-10 10:32:24
+cost time: 0:00:10.142768
+left time: 0:00:00.381945
+estimated time: 0:00:10.524713
+estimated finished time: 2025-03-10 10:32:25
+instance per seconed(all process): 94.25
+instance average runtime(s): 2.12
+finished persent: 96.37%
+processed jobs: 956
+unprocessed jobs: 36
+
+There exists a counterexample for X error:
+
+rank: 719 | id: 719 | time: 0.053060293197631836 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+num_bit: 11 | num_zero: 8 | num_one: 3 | one_pos: [8, 9, 10]
+
+There exists a counterexample for X error:
+
+rank: 816 | id: 816 | time: 0.045057058334350586 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+num_bit: 14 | num_zero: 11 | num_one: 3 | one_pos: [11, 12, 13]
+
+There exists a counterexample for X error:
+
+rank: 868 | id: 868 | time: 0.048026084899902344 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 16 | num_zero: 14 | num_one: 2 | one_pos: [14, 15]
+
+There exists a counterexample for X error:
+
+rank: 901 | id: 901 | time: 0.039481401443481445 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 19 | num_zero: 17 | num_one: 2 | one_pos: [17, 18]
+
+There exists a counterexample for X error:
+
+rank: 925 | id: 925 | time: 0.036743879318237305 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 22 | num_zero: 20 | num_one: 2 | one_pos: [20, 21]
+
+There exists a counterexample for X error:
+
+rank: 940 | id: 940 | time: 0.04326987266540527 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 25 | num_zero: 23 | num_one: 2 | one_pos: [23, 24]
+
+There exists a counterexample for X error:
+
+rank: 946 | id: 946 | time: 0.048188209533691406 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 27 | num_zero: 26 | num_one: 1 | one_pos: [26]
+
+There exists a counterexample for X error:
+
+rank: 949 | id: 949 | time: 0.026549816131591797 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 29 | num_one: 1 | one_pos: [29]
+
+There exists a counterexample for X error:
+
+rank: 952 | id: 952 | time: 0.03555488586425781 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 32 | num_one: 1 | one_pos: [32]
+
+There exists a counterexample for X error:
+
+rank: 955 | id: 955 | time: 0.09215593338012695 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 35 | num_one: 0 | one_pos: []
+
+Check X time: 2.6633388996124268
+Check Z time: 1.029585361480713
+No counterexample for Z error is found, all errors can be detected.
+
+cond_checker took 11.383sec

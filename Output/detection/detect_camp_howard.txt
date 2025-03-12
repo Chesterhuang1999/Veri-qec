@@ -1,0 +1,9 @@
+nohup: ignoring input
+total_job: 12
+Task generated. Start checking.
+Condition generation time: 0.4352879524230957
+Check Z time: 0.6462733745574951
+Check X time: 0.6454410552978516
+No counterexample found, all errors can be detected.
+
+cond_checker took 1.732sec

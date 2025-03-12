@@ -1,5 +1,5 @@
 #------------
-# author: Chester Huang
+# author: 
 # date: 2024.7.16
 # version: 1.1.0
 #------------

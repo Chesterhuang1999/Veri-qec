@@ -1,0 +1,46 @@
+nohup: ignoring input
+Check condition: dx = 5, dz = 4
+tasks for X error: 5 | tasks for Z error: 5
+total_job: 10
+Task generated. Start checking.
+Condition generation time: 0.3731093406677246
+There exists a counterexample for X error:
+
+rank: 0 | id: 0 | time: 0.012056112289428711 | result: sat
+
+[1]
+num_bit: 1 | num_zero: 0 | num_one: 1 | one_pos: [0]
+
+There exists a counterexample for X error:
+
+rank: 1 | id: 1 | time: 0.012513875961303711 | result: sat
+
+[0, 1]
+num_bit: 2 | num_zero: 1 | num_one: 1 | one_pos: [1]
+
+There exists a counterexample for X error:
+
+rank: 2 | id: 2 | time: 0.012381792068481445 | result: sat
+
+[0, 0, 1]
+num_bit: 3 | num_zero: 2 | num_one: 1 | one_pos: [2]
+
+There exists a counterexample for X error:
+
+rank: 3 | id: 3 | time: 0.012320518493652344 | result: sat
+
+[0, 0, 0, 1]
+num_bit: 4 | num_zero: 3 | num_one: 1 | one_pos: [3]
+
+There exists a counterexample for X error:
+
+rank: 4 | id: 4 | time: 0.010889530181884766 | result: sat
+
+[0, 0, 0, 0]
+num_bit: 4 | num_zero: 4 | num_one: 0 | one_pos: []
+
+Check X time: 0.5588254928588867
+Check Z time: 0.557546854019165
+No counterexample for Z error is found, all errors can be detected.
+
+cond_checker took 1.494sec

@@ -1,6 +1,6 @@
 
 #------------
-# author: Chester Huang
+
 # date: 2024.7.20
 # version: 1.2.0
 #------------

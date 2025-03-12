@@ -1,0 +1,598 @@
+nohup: ignoring input
+Check condition: dx = 8, dz = 2
+tasks for X error: 114655 | tasks for Z error: 68
+total_job: 114723
+Task generated. Start checking.
+Condition generation time: 24.79201865196228
+1/114723: finish job file[2], cost_time: 0.0349421501159668
+[2, [1, 1, 1, 1, 1, 0, 0, 1], ['num_bit: 8', 'num_zero: 2', 'num_one: 6', 'one_pos: [0, 1, 2, 3, 4, 7]'], 0.0349421501159668, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 12:13:07
+current time: 2025-03-10 12:13:33
+cost time: 0:00:25.623061
+left time: 34 days, 0:32:08.852057
+estimated time: 34 days, 0:32:34.475118
+estimated finished time: 2025-04-13 12:45:42
+instance per seconed(all process): 0.04
+instance average runtime(s): 5124.61
+finished persent: 0.00%
+processed jobs: 1
+unprocessed jobs: 114722
+
+37797/114723: finish job file[37801], cost_time: 0.028911590576171875
+[37801, [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 22', 'num_zero: 17', 'num_one: 5', 'one_pos: [2, 7, 9, 11, 21]'], 0.028911590576171875, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 12:13:07
+current time: 2025-03-10 12:13:43
+cost time: 0:00:35.626204
+left time: 0:01:12.507907
+estimated time: 0:01:48.134111
+estimated finished time: 2025-03-10 12:14:55
+instance per seconed(all process): 1060.93
+instance average runtime(s): 0.19
+finished persent: 32.95%
+processed jobs: 37797
+unprocessed jobs: 76926
+
+86885/114723: finish job file[86960], cost_time: 0.018455982208251953
+[86960, [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], ['num_bit: 35', 'num_zero: 32', 'num_one: 3', 'one_pos: [8, 19, 33]'], 0.018455982208251953, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 12:13:07
+current time: 2025-03-10 12:13:53
+cost time: 0:00:45.624252
+left time: 0:00:14.618035
+estimated time: 0:01:00.242287
+estimated finished time: 2025-03-10 12:14:08
+instance per seconed(all process): 1904.36
+instance average runtime(s): 0.11
+finished persent: 75.73%
+processed jobs: 86885
+unprocessed jobs: 27838
+
+114653/114723: finish job file[31757], cost_time: 22.561063766479492
+[31757, [0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1], ['num_bit: 11', 'num_zero: 5', 'num_one: 6', 'one_pos: [2, 3, 4, 5, 9, 10]'], 22.561063766479492, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 12:13:07
+current time: 2025-03-10 12:14:04
+cost time: 0:00:56.888667
+left time: 0:00:00.034733
+estimated time: 0:00:56.923400
+estimated finished time: 2025-03-10 12:14:04
+instance per seconed(all process): 2015.39
+instance average runtime(s): 0.10
+finished persent: 99.94%
+processed jobs: 114653
+unprocessed jobs: 70
+
+114654/114723: finish job file[768], cost_time: 153.91329526901245
+[768, [1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1], ['num_bit: 13', 'num_zero: 7', 'num_one: 6', 'one_pos: [0, 1, 4, 5, 8, 12]'], 153.91329526901245, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 12:13:07
+current time: 2025-03-10 12:16:07
+cost time: 0:02:59.684126
+left time: 0:00:00.108136
+estimated time: 0:02:59.792261
+estimated finished time: 2025-03-10 12:16:07
+instance per seconed(all process): 638.09
+instance average runtime(s): 0.31
+finished persent: 99.94%
+processed jobs: 114654
+unprocessed jobs: 69
+
+There exists a counterexample for X error:
+
+rank: 34 | id: 34 | time: 3.9867734909057617 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 1, 1]
+num_bit: 10 | num_zero: 4 | num_one: 6 | one_pos: [0, 1, 2, 3, 8, 9]
+
+There exists a counterexample for X error:
+
+rank: 49 | id: 49 | time: 3.439530611038208 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 13 | num_zero: 7 | num_one: 6 | one_pos: [0, 1, 2, 3, 11, 12]
+
+There exists a counterexample for X error:
+
+rank: 55 | id: 55 | time: 4.020510911941528 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 10 | num_one: 5 | one_pos: [0, 1, 2, 3, 14]
+
+There exists a counterexample for X error:
+
+rank: 58 | id: 58 | time: 5.288583278656006 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 18 | num_zero: 13 | num_one: 5 | one_pos: [0, 1, 2, 3, 17]
+
+There exists a counterexample for X error:
+
+rank: 61 | id: 61 | time: 2.5859506130218506 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 21 | num_zero: 16 | num_one: 5 | one_pos: [0, 1, 2, 3, 20]
+
+There exists a counterexample for X error:
+
+rank: 64 | id: 64 | time: 2.4851527214050293 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 19 | num_one: 5 | one_pos: [0, 1, 2, 3, 23]
+
+There exists a counterexample for X error:
+
+rank: 65 | id: 65 | time: 0.5839629173278809 | result: sat
+
+[1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [0, 1, 2, 3]
+
+There exists a counterexample for X error:
+
+rank: 54606 | id: 54606 | time: 4.436367988586426 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
+num_bit: 10 | num_zero: 4 | num_one: 6 | one_pos: [4, 5, 6, 7, 8, 9]
+
+There exists a counterexample for X error:
+
+rank: 54621 | id: 54621 | time: 4.900350332260132 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1]
+num_bit: 13 | num_zero: 7 | num_one: 6 | one_pos: [4, 5, 6, 7, 11, 12]
+
+There exists a counterexample for X error:
+
+rank: 54627 | id: 54627 | time: 5.39412260055542 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 15 | num_zero: 10 | num_one: 5 | one_pos: [4, 5, 6, 7, 14]
+
+There exists a counterexample for X error:
+
+rank: 54630 | id: 54630 | time: 6.438308238983154 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 18 | num_zero: 13 | num_one: 5 | one_pos: [4, 5, 6, 7, 17]
+
+There exists a counterexample for X error:
+
+rank: 54633 | id: 54633 | time: 3.4794626235961914 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 21 | num_zero: 16 | num_one: 5 | one_pos: [4, 5, 6, 7, 20]
+
+There exists a counterexample for X error:
+
+rank: 54636 | id: 54636 | time: 3.7820990085601807 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 19 | num_one: 5 | one_pos: [4, 5, 6, 7, 23]
+
+There exists a counterexample for X error:
+
+rank: 54637 | id: 54637 | time: 4.956325054168701 | result: sat
+
+[0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [4, 5, 6, 7]
+
+There exists a counterexample for X error:
+
+rank: 83112 | id: 83112 | time: 4.17571496963501 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
+num_bit: 14 | num_zero: 8 | num_one: 6 | one_pos: [8, 9, 10, 11, 12, 13]
+
+There exists a counterexample for X error:
+
+rank: 83149 | id: 83149 | time: 5.128660202026367 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1]
+num_bit: 16 | num_zero: 11 | num_one: 5 | one_pos: [8, 9, 10, 14, 15]
+
+There exists a counterexample for X error:
+
+rank: 83176 | id: 83176 | time: 2.7620444297790527 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 19 | num_zero: 14 | num_one: 5 | one_pos: [8, 9, 10, 17, 18]
+
+There exists a counterexample for X error:
+
+rank: 83194 | id: 83194 | time: 4.7828545570373535 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 22 | num_zero: 17 | num_one: 5 | one_pos: [8, 9, 10, 20, 21]
+
+There exists a counterexample for X error:
+
+rank: 83203 | id: 83203 | time: 5.046535015106201 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [8, 9, 10, 23]
+
+There exists a counterexample for X error:
+
+rank: 83206 | id: 83206 | time: 4.32106614112854 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 27 | num_zero: 23 | num_one: 4 | one_pos: [8, 9, 10, 26]
+
+There exists a counterexample for X error:
+
+rank: 83209 | id: 83209 | time: 2.9084556102752686 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [8, 9, 10, 29]
+
+There exists a counterexample for X error:
+
+rank: 83212 | id: 83212 | time: 2.344954252243042 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [8, 9, 10, 32]
+
+There exists a counterexample for X error:
+
+rank: 83215 | id: 83215 | time: 0.15292668342590332 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [8, 9, 10]
+
+There exists a counterexample for X error:
+
+rank: 95150 | id: 95150 | time: 4.7742486000061035 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+num_bit: 16 | num_zero: 11 | num_one: 5 | one_pos: [11, 12, 13, 14, 15]
+
+There exists a counterexample for X error:
+
+rank: 95177 | id: 95177 | time: 3.0755455493927 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1]
+num_bit: 19 | num_zero: 14 | num_one: 5 | one_pos: [11, 12, 13, 17, 18]
+
+There exists a counterexample for X error:
+
+rank: 95195 | id: 95195 | time: 4.563196659088135 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 22 | num_zero: 17 | num_one: 5 | one_pos: [11, 12, 13, 20, 21]
+
+There exists a counterexample for X error:
+
+rank: 95204 | id: 95204 | time: 5.676641225814819 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [11, 12, 13, 23]
+
+There exists a counterexample for X error:
+
+rank: 95207 | id: 95207 | time: 5.129666090011597 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 27 | num_zero: 23 | num_one: 4 | one_pos: [11, 12, 13, 26]
+
+There exists a counterexample for X error:
+
+rank: 95210 | id: 95210 | time: 2.9899284839630127 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [11, 12, 13, 29]
+
+There exists a counterexample for X error:
+
+rank: 95213 | id: 95213 | time: 2.38478422164917 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [11, 12, 13, 32]
+
+There exists a counterexample for X error:
+
+rank: 95216 | id: 95216 | time: 0.16167354583740234 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [11, 12, 13]
+
+There exists a counterexample for X error:
+
+rank: 102543 | id: 102543 | time: 2.921936273574829 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+num_bit: 19 | num_zero: 14 | num_one: 5 | one_pos: [14, 15, 16, 17, 18]
+
+There exists a counterexample for X error:
+
+rank: 102561 | id: 102561 | time: 3.186844825744629 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1]
+num_bit: 22 | num_zero: 17 | num_one: 5 | one_pos: [14, 15, 16, 20, 21]
+
+There exists a counterexample for X error:
+
+rank: 102570 | id: 102570 | time: 5.020452499389648 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [14, 15, 16, 23]
+
+There exists a counterexample for X error:
+
+rank: 102573 | id: 102573 | time: 4.819541931152344 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 27 | num_zero: 23 | num_one: 4 | one_pos: [14, 15, 16, 26]
+
+There exists a counterexample for X error:
+
+rank: 102576 | id: 102576 | time: 2.0412962436676025 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [14, 15, 16, 29]
+
+There exists a counterexample for X error:
+
+rank: 102579 | id: 102579 | time: 2.3715124130249023 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [14, 15, 16, 32]
+
+There exists a counterexample for X error:
+
+rank: 102582 | id: 102582 | time: 0.17272281646728516 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [14, 15, 16]
+
+There exists a counterexample for X error:
+
+rank: 107128 | id: 107128 | time: 3.1087474822998047 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+num_bit: 22 | num_zero: 17 | num_one: 5 | one_pos: [17, 18, 19, 20, 21]
+
+There exists a counterexample for X error:
+
+rank: 107137 | id: 107137 | time: 4.2090744972229 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [17, 18, 19, 23]
+
+There exists a counterexample for X error:
+
+rank: 107140 | id: 107140 | time: 4.295607566833496 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 27 | num_zero: 23 | num_one: 4 | one_pos: [17, 18, 19, 26]
+
+There exists a counterexample for X error:
+
+rank: 107143 | id: 107143 | time: 1.970818281173706 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [17, 18, 19, 29]
+
+There exists a counterexample for X error:
+
+rank: 107146 | id: 107146 | time: 1.8010003566741943 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [17, 18, 19, 32]
+
+There exists a counterexample for X error:
+
+rank: 107149 | id: 107149 | time: 0.19740867614746094 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [17, 18, 19]
+
+There exists a counterexample for X error:
+
+rank: 110012 | id: 110012 | time: 4.350804567337036 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+num_bit: 24 | num_zero: 20 | num_one: 4 | one_pos: [20, 21, 22, 23]
+
+There exists a counterexample for X error:
+
+rank: 110015 | id: 110015 | time: 4.04612922668457 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]
+num_bit: 27 | num_zero: 23 | num_one: 4 | one_pos: [20, 21, 22, 26]
+
+There exists a counterexample for X error:
+
+rank: 110018 | id: 110018 | time: 2.0762875080108643 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [20, 21, 22, 29]
+
+There exists a counterexample for X error:
+
+rank: 110021 | id: 110021 | time: 1.6707804203033447 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [20, 21, 22, 32]
+
+There exists a counterexample for X error:
+
+rank: 110024 | id: 110024 | time: 0.1827104091644287 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [20, 21, 22]
+
+There exists a counterexample for X error:
+
+rank: 111816 | id: 111816 | time: 3.836337089538574 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+num_bit: 27 | num_zero: 23 | num_one: 4 | one_pos: [23, 24, 25, 26]
+
+There exists a counterexample for X error:
+
+rank: 111819 | id: 111819 | time: 1.9537274837493896 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [23, 24, 25, 29]
+
+There exists a counterexample for X error:
+
+rank: 111822 | id: 111822 | time: 1.7037835121154785 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [23, 24, 25, 32]
+
+There exists a counterexample for X error:
+
+rank: 111825 | id: 111825 | time: 0.15691661834716797 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [23, 24, 25]
+
+There exists a counterexample for X error:
+
+rank: 112912 | id: 112912 | time: 1.8178012371063232 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+num_bit: 30 | num_zero: 26 | num_one: 4 | one_pos: [26, 27, 28, 29]
+
+There exists a counterexample for X error:
+
+rank: 112915 | id: 112915 | time: 1.6389274597167969 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [26, 27, 28, 32]
+
+There exists a counterexample for X error:
+
+rank: 112918 | id: 112918 | time: 0.21210861206054688 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [26, 27, 28]
+
+There exists a counterexample for X error:
+
+rank: 113570 | id: 113570 | time: 1.5200550556182861 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+num_bit: 33 | num_zero: 29 | num_one: 4 | one_pos: [29, 30, 31, 32]
+
+There exists a counterexample for X error:
+
+rank: 113573 | id: 113573 | time: 0.15430235862731934 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [29, 30, 31]
+
+There exists a counterexample for X error:
+
+rank: 113979 | id: 113979 | time: 0.1123507022857666 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+num_bit: 35 | num_zero: 32 | num_one: 3 | one_pos: [32, 33, 34]
+
+There exists a counterexample for X error:
+
+rank: 114247 | id: 114247 | time: 0.16026902198791504 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+num_bit: 38 | num_zero: 35 | num_one: 3 | one_pos: [35, 36, 37]
+
+There exists a counterexample for X error:
+
+rank: 114416 | id: 114416 | time: 0.11776089668273926 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+num_bit: 41 | num_zero: 38 | num_one: 3 | one_pos: [38, 39, 40]
+
+There exists a counterexample for X error:
+
+rank: 114513 | id: 114513 | time: 0.06967544555664062 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+num_bit: 44 | num_zero: 41 | num_one: 3 | one_pos: [41, 42, 43]
+
+There exists a counterexample for X error:
+
+rank: 114565 | id: 114565 | time: 0.10480046272277832 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 46 | num_zero: 44 | num_one: 2 | one_pos: [44, 45]
+
+There exists a counterexample for X error:
+
+rank: 114598 | id: 114598 | time: 0.06819868087768555 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 49 | num_zero: 47 | num_one: 2 | one_pos: [47, 48]
+
+There exists a counterexample for X error:
+
+rank: 114622 | id: 114622 | time: 0.06165289878845215 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 52 | num_zero: 50 | num_one: 2 | one_pos: [50, 51]
+
+There exists a counterexample for X error:
+
+rank: 114637 | id: 114637 | time: 0.06466126441955566 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1]
+num_bit: 55 | num_zero: 53 | num_one: 2 | one_pos: [53, 54]
+
+There exists a counterexample for X error:
+
+rank: 114643 | id: 114643 | time: 0.06847262382507324 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 57 | num_zero: 56 | num_one: 1 | one_pos: [56]
+
+There exists a counterexample for X error:
+
+rank: 114646 | id: 114646 | time: 0.05793952941894531 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 60 | num_zero: 59 | num_one: 1 | one_pos: [59]
+
+There exists a counterexample for X error:
+
+rank: 114649 | id: 114649 | time: 0.06285357475280762 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 63 | num_zero: 62 | num_one: 1 | one_pos: [62]
+
+There exists a counterexample for X error:
+
+rank: 114652 | id: 114652 | time: 0.05934476852416992 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 66 | num_zero: 65 | num_one: 1 | one_pos: [65]
+
+There exists a counterexample for X error:
+
+rank: 114654 | id: 114654 | time: 0.6790812015533447 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 67 | num_zero: 67 | num_one: 0 | one_pos: []
+
+Check X time: 163.6300597190857
+114656/114723: finish job file[114661], cost_time: 0.020061016082763672
+[114661, [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 64', 'num_zero: 63', 'num_one: 1', 'one_pos: [6]'], 0.020061016082763672, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-10 12:13:07
+current time: 2025-03-10 12:16:17
+cost time: 0:03:09.935821
+left time: 0:00:00.110990
+estimated time: 0:03:10.046811
+estimated finished time: 2025-03-10 12:16:17
+instance per seconed(all process): 603.66
+instance average runtime(s): 0.33
+finished persent: 99.94%
+processed jobs: 114656
+unprocessed jobs: 67
+
+Check Z time: 2.5761568546295166
+No counterexample for Z error is found, all errors can be detected.
+
+cond_checker took 191.008sec
