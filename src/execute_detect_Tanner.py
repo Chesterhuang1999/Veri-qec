@@ -113,7 +113,7 @@ class subtask_generator:
                 # return False
 
         if checktype == 'x':
-            if 10 * assigned_one_num * self.distance +  4 * assigned_bit_num < self.num_qubits:
+            if 8 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
                 return False
         else:
             if 6 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
@@ -384,24 +384,24 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         print("No counterexample for X error is found, all errors can be detected.\n")
     # print(f"Check X time: {endt_z - endt_x}")
     print(f"Check X time: {endt_x - start_time}")
-    # is_sat = 0
+    is_sat = 0
     # task_info = []
-    # with Pool(processes = max_proc_num) as pool2:
-    #     task_info = []
-    #     result_objects = []
-    #     for i, task in enumerate(tasks_x):
-    #         opt = 'x'
-    #         task_info.append(analysis_task(i, task))
-    #         result_objects.append(pool2.apply_async(worker, (i, task, opt), 
-    #                                             callback=lambda result: process_callback(result, pool2), 
-    #                                             error_callback=process_error))
-    #     pool2.close()
+    with Pool(processes = max_proc_num) as pool2:
+        # task_info = []
+        result_objects = []
+        for i, task in enumerate(tasks_x):
+            opt = 'x'
+            task_info.append(analysis_task(i + len(tasks_z), task))
+            result_objects.append(pool2.apply_async(worker, (i + len(tasks_z), task, opt), 
+                                                callback=lambda result: process_callback(result, pool2), 
+                                                error_callback=process_error))
+        pool2.close()
 
-    #     pool2.join()
-    # endt_z = time.time()
-    # print(f"Check Z time: {endt_z - start_time}")
-    # if is_sat == 0: 
-    #     print("No counterexample for Z error is found, all errors can be detected.\n")
+        pool2.join()
+    endt_z = time.time()
+    print(f"Check Z time: {endt_z - endt_x}")
+    if is_sat == 0: 
+        print("No counterexample for Z error is found, all errors can be detected.\n")
     # unknown_info = [[i, ti[1], ti[2]] for i, ti in enumerate(task_info) if ti[-1] == 'unknown']
     # task_info = []
     # while len(unknown_info) > 0:

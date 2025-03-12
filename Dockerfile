@@ -1,5 +1,5 @@
 FROM ubuntu:22.04 as lib-base
-ARG DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         cmake \
@@ -9,21 +9,40 @@ RUN apt-get update && \
         curl \
         default-jdk \
         python3 \
+        build-essential \
+        git \
+        wget \
+        autoconf \
+        automake \
+        libtool \
+        libgmp-dev \
+        zlib1g-dev \
+        unzip \
         python3-setuptools \
         python-is-python3 \
         vim \
         python3-pip \
-        sudo
-RUN pip install tabulate
+        && \
+        rm -rf /var/lib/apt/lists/*
+# RUN pip install tabulate
+RUN pip install --no-cache-dir -r \
+        lark=0.12.0 \
+        z3-solver=4.13.0.0 \ 
+        cvc5=1.2.0  
 
-FROM python:3.9.18
-WORKDIR /app
-COPY . /app
+RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
+    cd bitwuzla && \
+    pip install .
 
-RUN pip install --no-cache-dir -r requirements.txt
+# FROM python:3.9.18
+WORKDIR /src
+COPY ./src /src
 
-RUN git clone https://github.com/bitwuzla/bitwuzla.git
-WORKDIR /app/bitwuzla
-RUN pip install .
-WORKDIR /app 
+CMD ["python", "execute_verify.py", "--cpucount 16", "--code surface", "--p1 7"]
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# RUN git clone https://github.com/bitwuzla/bitwuzla.git
+# WORKDIR /app/bitwuzla
+# RUN pip install .
+# WORKDIR /app 
 

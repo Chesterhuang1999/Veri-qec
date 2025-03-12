@@ -92,7 +92,7 @@ class subtask_generator:
             if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits :
                 return False
         else:
-            if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits + 12:
+            if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits:
                 return False
         ### For condition II ###
         # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
