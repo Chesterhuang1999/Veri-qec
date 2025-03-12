@@ -197,21 +197,21 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {2 * ex_max}"
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}"
-    # for i in range(slice_z):
-    #     start = i * dz + 1
-    #     if start + dz - 1 <= num_qubits:
-    #         err_gt_x += f" && sum i {start} {start + dz - 1} (ez_(i)) <= 1"
-    #     else:
-    #     # elif start <= num_qubits:
-    #         err_gt_x += f" && sum i {start} {num_qubits} (ez_(i)) <= 1"
+    for i in range(slice_z):
+        start = i * dz + 1
+        if start + dz - 1 <= num_qubits:
+            err_gt_x += f" && sum i {start} {start + dz - 1} (ez_(i)) <= 1"
+        else:
+        # elif start <= num_qubits:
+            err_gt_x += f" && sum i {start} {num_qubits} (ez_(i)) <= 1"
 
-    # for i in range(slice_x):
-    #     start = i * dx + 1
-    #     if start + dx - 1 <= num_qubits:
-    #         err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
-    #     else:
-    #     # elif start <= num_qubits:
-    #         err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
+    for i in range(slice_x):
+        start = i * dx + 1
+        if start + dx - 1 <= num_qubits:
+            err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
+        else:
+        # elif start <= num_qubits:
+            err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
     # print(err_gt_x, err_gt_z)
     postcond_x, postcond_z = precond_x, precond_z
 
@@ -267,11 +267,22 @@ def seq_cond_checker(packed_expr, err_vals, opt):
         err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
         # err_val_exprs.extend([f'(pz_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
     else:
+        ## Test for Reed-Muller codes ##
+        # verr_cnt = 0
+        # for name, var in variables.items():
+        #     if var.size() == 1:
+        #         sym, _ = name.split('_')
+        #         if (sym[0] == 'e'):
+        #             verr_cnt += 1
+        #         # print(name, var)
+        # err_val_exprs = [f'(ex_({verr_cnt - i})) == {err_vals[i]}' for i in range(len(err_vals))]
+        ### Normal form ### 
         err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
         # err_val_exprs.extend([f'(px_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
     
     err_val_exprs_str = ' && '.join(err_val_exprs)
     # print(err_val_exprs_str)
+    
     formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
     t3 = time.time()
     result = smtchecking(formula)
@@ -345,10 +356,11 @@ def seq_cond_checker_user(packed_expr, err_vals, info, opt):
 
 if __name__ == '__main__':
    
-    distance = 5
-    err_vals = [0]
+    distance = 3
+    err_vals = [0,1,1]
     matrix = surface_matrix_gen(distance)
     #print(err_vals)
     packed_x, packed_z = cond_generator(matrix, distance, distance, True)
+    print(seq_cond_checker(packed_z, err_vals, 'z'))
     # print(seq_cond_checker_part(packed_x, err_vals, 'x'))
     # print(seq_cond_checker_part(packed_z, err_vals, 'z'))

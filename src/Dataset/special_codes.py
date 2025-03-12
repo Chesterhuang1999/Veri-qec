@@ -214,9 +214,10 @@ def stabs_Reed_Muller(m):
     gen_c2 = gen_c2[1:, 1:]
 
     matrix[0:m, 0:n] = gen_c1
-    
+    # print(m)
+#   
     matrix[m:, n:] = gen_c2
-    print(find_null_space_GF2(gen_c2))
+    # print(find_null_space_GF2(gen_c2))
     x_stabs_mat[:n - 1, :] = matrix
     z_stabs_mat[:n - 1, :] = matrix
     rank = np.linalg.matrix_rank(matrix[:, :n])

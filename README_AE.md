@@ -1,0 +1,44 @@
+<!-- This is the documentation for the artifacts attached to the paper 'Efficient Formal Verification of Quantum Error Correcting Programs'. As introduced in the paper, the artifacts include two modules, a verified verifier in Coq and an automatic verifier, Veri-QEC in Python. -->
+# Basic Information
+- Artifact: Veri-QEC (A **Verification** tool for **Quantum Error Correcting** Programs)
+- Paper Title: Efficient Formal Verification for Quantum Error Correcting Programs
+- Submission ID (Track: PLDI 2025 Artifacts): 10
+- Zenodo Link: 
+
+Veri-QEC is a prototype tool for automatic verification of quantum error correcting programs. As introduced in the paper, the artifacts include two modules, a verified verifier in Coq an an automatic verifier, Veri-QEC in Python. 
+
+# Getting Started for Evaluation
+
+## Verifier in Coq
+
+## Veri-QEC
+A docker image is provided for evaluation. Firstly, you need to obtain the number of CPU cores in your machine. 
+
+In Linux/MacOS using Bash: 
+```bash
+lscpu | grep "CPU(s):"
+```
+
+In Windows using PowerShell, you can use the following command:
+
+```bash
+(Get-WMiObject Win32_Processor).NumberOfCores
+```
+After obtaining the number of CPU cores in your machine, you can load the docker image and start the evaluation.
+
+For Linux/ MacOS: 
+```bash
+docker load < docker/docker-image-veriqec
+```
+PowerShell: 
+```bash
+docker load -i docker\docker-image-veriqec
+```
+
+Execute the following commands to start the docker container and 
+
+# Detailed Instructions for Evaluation
+
+## Verifier in Coq
+
+## Veri-QEC

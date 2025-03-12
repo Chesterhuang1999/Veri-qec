@@ -50,6 +50,13 @@ def smtencoding_constrep(expr, variables, err_vals):
 
   
 # @timebudget 
+class Terminator:
+    def __init__(self, time_limit):
+        self.start_time = time.time()
+        self.time_limit = time_limit
+    def __call__(self):
+        return (time.time() - self.start_time) > self.time_limit
+
 def smtchecking_bzla(formula):
     solver = Solver()
     solver.add(formula)
@@ -66,10 +73,16 @@ def smtchecking_bzla(formula):
     # options.set("produce-models", "true")
     # bitwuzla = bzla.Bitwuzla(tm, options)
     # options.set(bzla.Option.SAT_SOLVER, 'cadical')
+    ### Set the timeout for the solver
     parser = bzla.Parser(tm, options)
     # result = parser.parse('test.smt2') 
     parser.parse(formula_smt2, True, False)
-    result = parser.bitwuzla().check_sat()
+    tt = Terminator(900)
+    bzla_solver = parser.bitwuzla()
+    bzla_solver.configure_terminator(tt)
+    # result = parser.bitwuzla().check_sat()
+    result = bzla_solver.check_sat()    
+    # print(result)
     return result
 
 def smtchecking(formula):

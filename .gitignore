@@ -1,7 +1,8 @@
 *.png
 *.pyc
 *.txt
-/src/Dataset/*.pyc
+*.smt2
+/src/Dataset/__pycache__
 /linxi-develop/
 /.vscode/
 __pycache__
@@ -10,9 +11,9 @@ __pycache__
 /Figures/
 /MISC/
 /Details/
-/Output/
 temp.txt
 sorted_results.txt
 surface_code_test_runtime.png
 plot.py
 Object.py
+/src/Texts/

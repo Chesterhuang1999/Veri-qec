@@ -6,7 +6,7 @@ We developed a parsing and interpretation framework for quantum error-correcting
 
 ## Installation dependencies
 
-Our tool applies Lark as its parser and interpreter development tool; Furthermore, Z3 and CVC5 are adopted as default SMT solvers. All of them can be directly installed via `pip`. 
+Our tool applies Lark as its parser and interpreter development tool; Furthermore, Z3, CVC5 and bitwuzla are adopted as default SMT solvers. All of them except bitwuzla can be directly installed via `pip`. 
 
 ```bash
 pip install lark=0.12.0
@@ -15,8 +15,22 @@ pip install z3-solver
 
 pip install cvc5
 ```
+Installing bitwuzla requires some additional work; Do the following in the folder to install bitwuzla
 
-[Lark 0.12.0] is required to ensure proper operation. On the other hand, We recommend [Python 3.9.18], [z3 4.13.0], [cvc5 1.2.0] as the default running environment. 
+```bash
+git clone https://github.com/bitwuzla/bitwuzla
+cd bitwuzla
+
+./configure.py
+
+cd build && ninja install
+```
+Or install python bindings after installing bitwuzla:
+```bash
+git clone https://github.com/bitwuzla/bitwuzla && cd bitwuzla
+pip install .
+```
+[Lark 0.12.0] is required to ensure proper operation. On the other hand, We recommend [Python 3.9.18], [z3 4.13.0], [cvc5 1.2.0] [bitwuzla 0.7.0] as the default running environment. 
 
 ## Main features
 - Automatic parsing, interpretation for input Hoare triples.
@@ -81,4 +95,4 @@ For accurate detection tasks, we provide the following codes as candidates:
 - 'carbon' : $[[12,2,4]]$ quantum code.
 - 'triorthogonal': $[[3k+8, k, 2]]$ quantum code, which is an instance of triorthogonal codes designed for fault-tolerant T and CCZ gates with low overhead. 
 
-- 'tanner': quantum Tanner code with classical 7-bit Hamming code as the construction gadget. 
+- 'tanner': Quantum Tanner code with classical 7-bit Hamming code or classical 5-bit repetition code as the construction gadget. 

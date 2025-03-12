@@ -72,10 +72,10 @@ def estimate_difficulty(remained_qubits, remained_ones):
     # return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num) -> None:
+    def __init__(self, distance, numq, max_proc_num, checktype) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
-        
+        self.checktype = checktype
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
         self.tasks = []
@@ -87,7 +87,7 @@ class subtask_generator:
         self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
-    def easy_enough(self, remained_qubit_num, remained_one_num):
+    def easy_enough(self, remained_qubit_num, remained_one_num, checktype):
         if remained_qubit_num == 1:
             return True
         if remained_qubit_num <= remained_one_num + 1:
@@ -105,8 +105,19 @@ class subtask_generator:
         #     return False
 
         ### For Tanner code detection ###
-        if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-            return False
+        # if checktype == 'x':
+        #     if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
+        #         return False
+        # else:
+        #     if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
+                # return False
+
+        if checktype == 'x':
+            if 10 * assigned_one_num * self.distance +  4 * assigned_bit_num < self.num_qubits:
+                return False
+        else:
+            if 6 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+                return False
         #### For detection other than Tanner code ####
         # if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
         #     return False
@@ -117,29 +128,34 @@ class subtask_generator:
         return True
         # return False
     
-    def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
+    def generate_tasks(self, checktype, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         # if remained_qubit_num == 0 \
         #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        if self.easy_enough(remained_qubit_num, remained_one_num):
+        if self.easy_enough(remained_qubit_num, remained_one_num, checktype):
             self.tasks.append(list(curr_enum_qubits))
             return
+
+        # curr_enum_qubits.append(0)
+        # self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
+        # curr_enum_qubits.pop()
+
 
         if remained_one_num > 0:
 
             curr_enum_qubits.append(1)
-            self.generate_tasks(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
+            self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
 
         curr_enum_qubits.append(0)
-        self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
+        self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
         
     
     def __call__(self):
-        self.generate_tasks(self.num_qubits, self.distance - 1, [])
+        self.generate_tasks(self.checktype, self.num_qubits, self.distance - 1, [])
         return self.tasks
 
 
@@ -226,12 +242,21 @@ def process_callback(result, pool):
         print('Counterexample Info:\n')
         print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
         print(ti[1])
-        print(f'{" | ".join(ti[2])}\n')
+        info = [f'num_bit: {ti[2][0]}', f'num_zero: {ti[2][1]}', f'num_one: {ti[2][2]}', f'one_pos: {ti[2][3]}']
+        print(f'{" | ".join(info)}\n')
+        # print(f'{" | ".join(ti[2])}\n')
         print("About to terminate")
         
         pool.terminate()
         # pool.join()
-        
+    elif res_smt == 'unknown':
+        ti = task_info[task_id]
+        print('Difficult instances, information:')
+        print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+        print(ti[1])
+        info = [f'num_bit: {ti[2][0]}', f'num_zero: {ti[2][1]}', f'num_one: {ti[2][2]}', f'one_pos: {ti[2][3]}']
+        print(f'{" | ".join(info)}\n')
+        # print(f'{" | ".join(ti[2])}\n')
     
     curr_time = time.time()
     processed_job += 1
@@ -257,8 +282,54 @@ def analysis_task(task_id: int, task: list):
             one_pos.append(i)
         num_bit += 1
     num_zero = num_bit - num_one
-    info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
+    info = [num_bit, num_zero, num_one, one_pos]
+    # info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
+
+def divide_and_check(unknown_info, max_proc_num):
+    global task_info
+    global packed_x
+    global packed_z
+    global total_job
+    global start_time
+    global max_process_num
+    global err_info
+    global last_print
+    global is_sat
+    is_sat = 0
+    task_info = []
+    err_info = []
+    total_job = len(unknown_info)
+    print(f"tasks for X error: {len(unknown_info)} | tasks for Z error: {len(unknown_info)}")
+    print(f"total_job: {total_job}")
+    print("Task generated. Start checking.")
+    start_time = time.time()
+    last_print = start_time
+    with Pool(processes = max_proc_num) as pool1:
+        result_objects = []
+        for i, task in enumerate(unknown_info):
+            opt = 'z'    
+            task_info.append(analysis_task(i, task))
+            result_objects.append(pool1.apply_async(worker, (i, task, opt), 
+                                                callback= lambda result: process_callback(result, pool1), 
+                                                error_callback=process_error))
+        pool1.close()
+        pool1.join()
+    endt_z = time.time()
+    print(f"Check X time: {endt_z - start_time}")
+    with Pool(processes = max_proc_num) as pool2:
+        result_objects = []
+        for i, task in enumerate(unknown_info):
+            opt = 'x'
+            task_info.append(analysis_task(i + len(unknown_info), task))
+            result_objects.append(pool2.apply_async(worker, (i + len(unknown_info), task, opt), 
+                                                callback=lambda result: process_callback(result, pool2), 
+                                                error_callback=process_error))
+        pool2.close()
+        pool2.join()
+    endt_x = time.time()
+    print(f"Check Z time: {endt_x - endt_z}")
+    return task_info, err_info
 
 @timebudget 
 def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
@@ -276,103 +347,141 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
-    
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # min_x = np.argmin(np.count_nonzero(matrix[n - k + i]) for i in range(k))
-    # min_z = np.argmin(np.count_nonzero(matrix[n + i]) for i in range(k))
-    # err_inds_x = np.array(np.nonzero(matrix[min_x + n -k ,:]))[0]
-    # err_inds_z = np.array(np.nonzero(matrix[min_z + n, :]))[0] - 343
-    # tasks_x = task_generator_fixed(err_inds_x, numq, 3)
-    # tasks_z = task_generator_fixed(err_inds_z, numq, 3)
-    tg_x = subtask_generator(dz, numq, max_proc_num)
+    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    end_gen = time.time()
+    print(f"Condition generation time: {end_gen - start_time}")
+
+    ## Generate tasks and check 
+    unknown_info = []
+    tg_x = subtask_generator(dz, numq, max_proc_num, 'z')
     tasks_x = tg_x() 
-    tg_z = subtask_generator(dx, numq, max_proc_num)
+    tg_z = subtask_generator(dx, numq, max_proc_num, 'x')
     tasks_z = tg_z() 
     total_job = len(tasks_x) + len(tasks_z)
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}")
     print(f"total_job: {total_job}")
 
     print("Task generated. Start checking.")
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    end_gen = time.time()
-    print(f"Condition generation time: {end_gen - start_time}")
+    # , unknown_info = divide_and_check()
     start_time = time.time()
     last_print = start_time
     task_info = []
     err_info = []
+    
     with Pool(processes = max_proc_num) as pool1:
         result_objects = []
         for i, task in enumerate(tasks_z):
             opt = 'z'    
-            task_info.append(analysis_task(i, task))
+            task_info.append(analysis_task(i , task))
             result_objects.append(pool1.apply_async(worker, (i, task, opt), 
                                                 callback= lambda result: process_callback(result, pool1), 
                                                 error_callback=process_error))
         pool1.close()
         pool1.join()
-    endt_z = time.time()
-    # for i, ti in enumerate(task_info):
-    #     if str(ti[-1]) == 'sat':
-    #         is_sat = 1
-    #         print('There exists a counterexample for X error:\n')
-    #         print(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         print(ti[1])
-    #         print(f'{" | ".join(ti[2])}\n')
-    
-    if is_sat == 0: 
-        print("No counterexample for X error is found, all errors can be detected.\n")
-
-    is_sat = 0
-    print(f"Check X time: {endt_z - end_gen}")
-    with Pool(processes = max_proc_num) as pool2:
-        result_objects = []
-        for i, task in enumerate(tasks_x):
-            opt = 'x'
-            task_info.append(analysis_task(i + len(tasks_z), task))
-            result_objects.append(pool2.apply_async(worker, (i + len(tasks_z), task, opt), 
-                                                callback=lambda result: process_callback(result, pool2), 
-                                                error_callback=process_error))
-        pool2.close()
-
-        pool2.join()
     endt_x = time.time()
    
-    print(f"Check Z time: {endt_x - endt_z}")
-
-    # with Pool(processes = max_proc_num) as pool:
+    if is_sat == 0: 
+        print("No counterexample for X error is found, all errors can be detected.\n")
+    # print(f"Check X time: {endt_z - endt_x}")
+    print(f"Check X time: {endt_x - start_time}")
+    # is_sat = 0
+    # task_info = []
+    # with Pool(processes = max_proc_num) as pool2:
+    #     task_info = []
     #     result_objects = []
     #     for i, task in enumerate(tasks_x):
-    #         opt = 'x'    
+    #         opt = 'x'
     #         task_info.append(analysis_task(i, task))
-    #         result_objects.append(pool.apply_async(worker, (i, task, opt), 
-    #                                                 callback= lambda result: process_callback(result, pool), 
+    #         result_objects.append(pool2.apply_async(worker, (i, task, opt), 
+    #                                             callback=lambda result: process_callback(result, pool2), 
+    #                                             error_callback=process_error))
+    #     pool2.close()
+
+    #     pool2.join()
+    # endt_z = time.time()
+    # print(f"Check Z time: {endt_z - start_time}")
+    # if is_sat == 0: 
+    #     print("No counterexample for Z error is found, all errors can be detected.\n")
+    # unknown_info = [[i, ti[1], ti[2]] for i, ti in enumerate(task_info) if ti[-1] == 'unknown']
+    # task_info = []
+    # while len(unknown_info) > 0:
+    #     length = len(tasks_z)
+    #     tasks_x = []
+    #     tasks_z = []
+    #     # task_info, err_info = divide_and_check(unknown_info, max_proc_num)
+    #     for i, ti in enumerate(unknown_info):
+    #         [numq_enum, num_zero, num_one] = ti[2,:-1]
+    #         pre_enum = ti[1]
+    #         if i < length:
+    #             tg = subtask_generator(dz - num_one, numq - numq_enum, max_proc_num, 'z') 
+    #         else:
+    #             tg = subtask_generator(dx - num_one, numq - numq_enum, max_proc_num, 'x')
+    #         tasks = tg()
+    #         for task in tasks:
+    #             task = pre_enum + task 
+    #             if i < length:
+    #                 tasks_z.append(task)
+    #             else:
+    #                 tasks_x.append(task)
+    #     start = time.time()
+    #     with Pool(processes = max_proc_num) as pool1:
+    #         result_objects = []
+    #         for i, task in enumerate(tasks_z):
+    #             opt = 'z'    
+    #             task_info.append(analysis_task(i , task))
+    #             result_objects.append(pool1.apply_async(worker, (i, task, opt), 
+    #                                                 callback= lambda result: process_callback(result, pool1), 
     #                                                 error_callback=process_error))
-    #     for i, task in enumerate(tasks_z):
-    #         opt = 'z'
-    #         task_info.append(analysis_task(i + len(tasks_x), task))
-    #         result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), 
-    #                                                 callback=lambda result: process_callback(result, pool), 
+    #         pool1.close()
+    #         pool1.join()
+
+
+    #     endt_z = time.time()
+    #     with Pool(processes = max_proc_num) as pool2:
+    #         result_objects = []
+    #         for i, task in enumerate(tasks_x):
+    #             opt = 'x'
+    #             task_info.append(analysis_task(i + len(tasks_z), task))
+    #             result_objects.append(pool2.apply_async(worker, (i + len(tasks_z) , task, opt), 
+    #                                                 callback=lambda result: process_callback(result, pool2), 
     #                                                 error_callback=process_error))
-    #     pool.close()
-    #     [res.wait() for res in result_objects]
-    #     pool.join()
-    # end_time = time.time()  
-    # print(f"Total time: {end_time - start_time}")
+    #         pool2.close()
+    #         pool2.join()
+
+    #     unknown_info = [[i, ti[1], ti[2]] for i, ti in enumerate(task_info) if ti[-1] == 'unknown']
+    #     task_info = []
+    # print(f"Check Z time: {endt_x - start_time}")
+
+   
+
+    
+    # tasks_z_succ, tasks_x_succ = [], []
+    # for i, ti in enumerate(task_info):
+    #     ## Recycle difficult instances and enumerate the successors
+    #     if ti[-1] == 'unknown':
+    #         numq_enum = ti[2][0]
+    #         num_zero = ti[2][1]
+    #         num_one = ti[2][2]
+    #         pre_enum = ti[1]
+    #         ## Regenerate the indexes 
+    #         if i < len(tasks_z):
+    #             tg = subtask_generator(dz - num_one, numq - numq_enum, max_proc_num) 
+    #         else:
+    #             tg = subtask_generator(dx - num_one, numq - numq_enum, max_proc_num)
+    #         tasks = tg()
+    #         for task in tasks:
+    #             task = pre_enum + task 
+    #             if i < len(tasks_z):
+    #                 tasks_z_succ.append(task)
+    #             else:
+    #                 tasks_x_succ.append(task)     
+
+        # subtask_generator(dz, numq, max_proc_num)
+   
     for i, ei in enumerate(err_info):   
         ei.re_raise()
-    # is_sat = 0
-    # for i in range(len(tasks_z), len(task_info)):
-    #     ti = task_info[i]
-    #     if str(ti[-1]) == 'sat':
-    #         is_sat = 1
-    #         print('There exists a counterexample for Z error:\n')
-    #         print(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         print(ti[1])
-    #         print(f'{" | ".join(ti[2])}\n')
-    
-    if is_sat == 0: 
-        print("No counterexample for Z error is found, all errors can be detected.\n")
+
+   
 
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)

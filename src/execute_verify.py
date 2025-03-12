@@ -4,7 +4,7 @@ import math
 from multiprocessing import Pool
 from smt_partition_merge import *
 # from smt_detect_only import *
-
+import argparse
 from timebudget import timebudget
 import datetime
 import tblib.pickling_support
@@ -55,9 +55,10 @@ def estimate_difficulty(remained_qubits, remained_ones):
     return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num) -> None:
+    def __init__(self, distance, numq, max_proc_num, checktype) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
+        self.checktype = checktype
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
         self.tasks = []
@@ -69,7 +70,7 @@ class subtask_generator:
         self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
-    def easy_enough(self, remained_qubit_num, remained_one_num):
+    def easy_enough(self, remained_qubit_num, remained_one_num, checktype):
         if remained_qubit_num == 1:
             return True
         # if self.one_num_thres >= remained_one_num and \
@@ -87,31 +88,35 @@ class subtask_generator:
         #     return False
 
         ### For verification task ###
-        if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits:
-            return False
+        if checktype == 'z':
+            if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits :
+                return False
+        else:
+            if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits + 12:
+                return False
         ### For condition II ###
         # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
         #     return False
         return True
         # return False
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
-    def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
+    def generate_tasks(self, checktype, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         # if remained_qubit_num == 0 \
         #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
         # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        if self.easy_enough(remained_qubit_num, remained_one_num):
+        if self.easy_enough(remained_qubit_num, remained_one_num, checktype):
             self.tasks.append(list(curr_enum_qubits))
             return
 
         curr_enum_qubits.append(0)
         # curr_seg_qubits.append(0)
-        self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
+        self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
         if remained_one_num > 0 :
             curr_enum_qubits.append(1)
             # curr_seg_qubits.append(0)
-            self.generate_tasks(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
+            self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
     # ### Constraint I: The number of 1s in each length d segment is at most 1
@@ -142,7 +147,7 @@ class subtask_generator:
         #     self.generate_tasks_II(num_ones, self.distance - 1, [])
         #     return self.tasks, selected_set
         # elif self.method == 'I':
-        self.generate_tasks(self.num_qubits, self.distance - 1, [])
+        self.generate_tasks(self.checktype, self.num_qubits, self.distance - 1, [])
             
         return self.tasks
 
@@ -179,10 +184,11 @@ def get_current_infos(not_done = True):
     return ret
 
     
-def process_callback(result):
+def process_callback(result, pool):
     # print(result)
     global task_info
     global err_info
+    global is_sat
     if isinstance(result[1], ExceptionWrapper):
         task_id = result[0]
         print(task_info[task_id])
@@ -194,10 +200,29 @@ def process_callback(result):
     task_id, time_cost, res_smt = result
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
-    
+    if res_smt == 'sat':
+        is_sat = 1
+        # print(task_id)
+        # errs = errs_enum + res_smt[1]
+        # with open('Details/violation_Tanner.txt', 'a') as f:
+        #     f.write(f"task_id: {task_id} | time: {time_cost}\n")
+        #     f.write(f"counterexample: {errs}\n")
+
+        # control_signal.value = 1
+        ti = task_info[task_id]
+        print("Counter example found, there exists errors cannot be corrected.\n")
+        print('Counterexample Info:\n')
+        print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+        print(ti[1])
+        print(f'{" | ".join(ti[2])}\n')
+        print("About to terminate")
+        
+        pool.terminate()
+
+
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 10:
+    if curr_time - last_print > 60:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
@@ -232,18 +257,20 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global max_process_num
     global err_info
     global last_print
+    global is_sat
     # global indices_x
     # global indices_z
     # global is_counter
     # is_counter = 0
+    is_sat = 0
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
-    tg_x = subtask_generator(dz, numq, max_proc_num)
+    tg_x = subtask_generator(dz, numq, max_proc_num, 'z')
     tasks_x = tg_x()
-    tg_z = subtask_generator(dx, numq, max_proc_num)
+    tg_z = subtask_generator(dx, numq, max_proc_num, 'x')
     tasks_z = tg_z()
     # print(tasks_x)
     # print(tasks_z)
@@ -252,6 +279,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     total_job = len(tasks_x) + len(tasks_z)
     end_gen = time.time()
     print(f"total_job: {total_job}")
+    print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
     print(f"task generation time: {end_gen - start_time}")
 
     task_info = []
@@ -262,13 +290,15 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         for i, task in enumerate(tasks_x):
             opt = 'x'    
             task_info.append(analysis_task(i, task))
-            result_objects.append(pool.apply_async(worker, (i, task, opt), callback=process_callback, error_callback=process_error))
-            # if (i % 50 == 0):
-                #print(i, task)
+            result_objects.append(pool.apply_async(worker, (i, task, opt), 
+                                                   callback= lambda result: process_callback(result, pool), 
+                                                   error_callback=process_error))
         for i, task in enumerate(tasks_z):
             opt = 'z'
             task_info.append(analysis_task(i + len(tasks_x), task))
-            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), callback=process_callback, error_callback=process_error))
+            result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), 
+                                                   callback=lambda result: process_callback(result, pool), 
+                                                   error_callback=process_error))
         pool.close()
         [res.wait() for res in result_objects]
         pool.join()
@@ -283,13 +313,16 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     #         f.write(f'{" | ".join(ti[2])}\n')
     # # for info in task_info:
     # #     print(info)
-    task_info.sort(key=lambda x: x[0])
+    if is_sat == 0: 
+        print("No counterexample found, all errors can be corrected.\n")
+    # task_info.sort(key=lambda x: x[0])
+    
 
-    with open('sorted_results.txt', 'w') as f:
-        for i, ti in enumerate(task_info):
-            f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-            f.write(f'{ti[1]}\n')
-            f.write(f'{" | ".join(ti[2])}\n')
+    # with open('sorted_results.txt', 'w') as f:
+    #     for i, ti in enumerate(task_info):
+    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+    #         f.write(f'{ti[1]}\n')
+    #         f.write(f'{" | ".join(ti[2])}\n')
     print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 
@@ -302,7 +335,7 @@ if __name__ == "__main__":
     tblib.pickling_support.install()
     # dx = 3
     # dz = 3
-    max_proc_num = int(input("Enter the CPU counts:"))
+    # max_proc_num = int(input("Enter the CPU counts:"))
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
                    [0, 1, 1, 1, 0, 0, 1]])
@@ -315,38 +348,67 @@ if __name__ == "__main__":
     #               [1, 0, 0, 1, 0],
     #               [1, 0, 0, 0, 1]])
     # Par54 = np.array([[1, 1, 1, 1, 1]])
-
-    # code_to_func = {
-    #     'surface': (surface_matrix_gen, 1),
-    #     'steane': (special_codes.stabs_steane, 0),
-    #     'reed_muller': (special_codes.stabs_Reed_Muller, 1),
-    #     'dodecacode': (special_codes.stabs_1115, 0),
-    #     'XZZX': (special_codes.stabs_XZZX, 2)
-    # }
-    user_input = input("Enter the code type: ")
+    # matrix4 = special_codes.stabs_Reed_Muller(4)
+    # matrix3 = special_codes.stabs_
+    # print(matrix4)
+    # exit(0)
+    ## Parsing input parameters
+    parser = argparse.ArgumentParser(description="Process some parameters.")
+    parser.add_argument('--cpucount', type=int, default=8, help='The CPU counts.')
+    parser.add_argument('--code', type=str, default='surface', help='The code type.')
+    parser.add_argument('--p1', type=int, default = 3, help='Additional parameters of the code.')
+    parser.add_argument('--p2', type=int, help='Additional parameters of the code.')
+    args = parser.parse_args()
+    max_proc_num = args.cpucount
+    # user_input = input("Enter the code type: ")
+    user_input = args.code
     if user_input == 'surface':
-        d = int(input("Enter the distance: "))
+        # d = int(input("Enter the distance: "))
+        if args.p1 is None:
+            raise ValueError("Please enter the distance.") 
+        d = args.p1
             # matrix = surface_matrix_gen(d)
         sur_cond_checker(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
         cond_checker(matrix, 3, 3, max_proc_num)
     elif user_input == 'reed_muller':
-        m = int(input("Enter the params: "))
+        # m = int(input("Enter the params: "))
+        if args.p1 is None and args.p2 is None:
+            raise ValueError("Please enter parameters.")
+        m = args.p1 if args.p1 is not None else args.p2
         matrix = special_codes.stabs_Reed_Muller(m)
+        # exit(0)
         cond_checker(matrix, 3, 3, max_proc_num)
     elif user_input == 'dodecacode':
         matrix = special_codes.stabs_1115()
         cond_checker(matrix, 5, 5, max_proc_num)
     elif user_input == 'XZZX':
-        dx = int(input("Enter the dx: "))
-        dz = int(input("Enter the dz: "))
+        if args.p1 is None or args.p2 is None:
+            raise ValueError("Both distances should be provided.")
+        # dx = int(input("Enter the dx: "))
+        # dz = int(input("Enter the dz: "))
+        dx = args.p1
+        dz = args.p2
         matrix = special_codes.stabs_XZZX(dx, dz)
-        cond_checker(matrix, 5, 5, max_proc_num)
+        cond_checker(matrix, dx, dz, max_proc_num)
     elif user_input == 'Honeycomb':
         #Only support d = 3, d = 5 currently
-        d = int(input("Enter the distance: "))
+        if args.p1 is None and args.p2 is None:
+            raise ValueError("Both distances should be provided.")
+        d = args.p1 if args.p1 is not None else args.p2
+        assert d <= 5, "Only support d = 3, d = 5 currently."
+        # d = int(input("Enter the distance: "))
         matrix = special_codes.stabs_honeycomb(d)
+        cond_checker(matrix, d, d, max_proc_num)
+    
+    elif user_input == 'Goettsman':
+        if args.p1 is None and args.p2 is None:
+            raise ValueError("Shape parameter should be provided.")
+        m = args.p1 if args.p1 is not None else args.p2
+        matrix = special_codes.stabs_goettsman(m)
+        cond_checker(matrix, 3, 3, max_proc_num)
+        
     #     cond_checker(matrix, d, d, max_proc_num)
     # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)]) 
     # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
