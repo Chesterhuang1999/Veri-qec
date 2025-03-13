@@ -41,9 +41,9 @@ RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
 FROM lib-base as builder
 RUN mkdir /Veri-qec/
 RUN mkdir /Veri-qec/src
-WORKDIR /Veri-qec/src
+WORKDIR /Veri-qec
 COPY ./src /Veri-qec/src
-
+CMD ["/bin/bash"]
 # CMD ["python", "execute_verify.py", "--cpucount 16", "--code surface", "--p1 7"]
 # RUN pip install --no-cache-dir -r requirements.txt
 

@@ -113,10 +113,10 @@ class subtask_generator:
                 # return False
 
         if checktype == 'x':
-            if 8 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+            if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
                 return False
         else:
-            if 6 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+            if 8 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
                 return False
         #### For detection other than Tanner code ####
         # if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
@@ -211,12 +211,12 @@ def get_current_infos(not_done = True):
 # def process_callback(result, control_signal, pool):
 def process_callback(result, pool):
     # print(result)
-    global task_info
+    # global task_infos
     global err_info
     global is_sat
     if isinstance(result[1], ExceptionWrapper):
         task_id = result[0]
-        print(task_info[task_id])
+        # print(task_info[task_id])
         err_info.append(result[1])
         return
     global processed_job
@@ -224,8 +224,8 @@ def process_callback(result, pool):
     
     task_id, time_cost, res_smt = result
     
-    task_info[task_id].append(time_cost)
-    task_info[task_id].append(res_smt)
+    # task_info[task_id].append(time_cost)
+    # task_info[task_id].append(res_smt)
    
     # if res_smt[0] == 'sat':
     if res_smt == 'sat':
@@ -237,25 +237,27 @@ def process_callback(result, pool):
         #     f.write(f"counterexample: {errs}\n")
 
         # control_signal.value = 1
-        ti = task_info[task_id]
+        # ti = task_info[task_id]
         print("Counterexample found, there exists errors cannot be corrected.\n")
         print('Counterexample Info:\n')
-        print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-        print(ti[1])
-        info = [f'num_bit: {ti[2][0]}', f'num_zero: {ti[2][1]}', f'num_one: {ti[2][2]}', f'one_pos: {ti[2][3]}']
-        print(f'{" | ".join(info)}\n')
+        print(f'rank: {task_id} | time: {time_cost}')
+        # print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+        # print(ti[1])
+        # info = [f'num_bit: {ti[2][0]}', f'num_zero: {ti[2][1]}', f'num_one: {ti[2][2]}', f'one_pos: {ti[2][3]}']
+        # print(f'{" | ".join(info)}\n')
         # print(f'{" | ".join(ti[2])}\n')
         print("About to terminate")
         
         pool.terminate()
         # pool.join()
     elif res_smt == 'unknown':
-        ti = task_info[task_id]
+        # ti = task_info[task_id]
         print('Difficult instances, information:')
-        print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-        print(ti[1])
-        info = [f'num_bit: {ti[2][0]}', f'num_zero: {ti[2][1]}', f'num_one: {ti[2][2]}', f'one_pos: {ti[2][3]}']
-        print(f'{" | ".join(info)}\n')
+        print(f'rank: {task_id} | time: {time_cost}')
+        # print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
+        # print(ti[1])
+        # info = [f'num_bit: {ti[2][0]}', f'num_zero: {ti[2][1]}', f'num_one: {ti[2][2]}', f'one_pos: {ti[2][3]}']
+        # print(f'{" | ".join(info)}\n')
         # print(f'{" | ".join(ti[2])}\n')
     
     curr_time = time.time()
@@ -264,7 +266,7 @@ def process_callback(result, pool):
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
-        print(task_info[task_id])
+        # print(task_info[task_id])
         print(get_current_infos())
         sys.stdout.flush()
         last_print = curr_time
@@ -286,57 +288,59 @@ def analysis_task(task_id: int, task: list):
     # info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
-def divide_and_check(unknown_info, max_proc_num):
-    global task_info
-    global packed_x
-    global packed_z
-    global total_job
-    global start_time
-    global max_process_num
-    global err_info
-    global last_print
-    global is_sat
-    is_sat = 0
-    task_info = []
-    err_info = []
-    total_job = len(unknown_info)
-    print(f"tasks for X error: {len(unknown_info)} | tasks for Z error: {len(unknown_info)}")
-    print(f"total_job: {total_job}")
-    print("Task generated. Start checking.")
-    start_time = time.time()
-    last_print = start_time
-    with Pool(processes = max_proc_num) as pool1:
-        result_objects = []
-        for i, task in enumerate(unknown_info):
-            opt = 'z'    
-            task_info.append(analysis_task(i, task))
-            result_objects.append(pool1.apply_async(worker, (i, task, opt), 
-                                                callback= lambda result: process_callback(result, pool1), 
-                                                error_callback=process_error))
-        pool1.close()
-        pool1.join()
-    endt_z = time.time()
-    print(f"Check X time: {endt_z - start_time}")
-    with Pool(processes = max_proc_num) as pool2:
-        result_objects = []
-        for i, task in enumerate(unknown_info):
-            opt = 'x'
-            task_info.append(analysis_task(i + len(unknown_info), task))
-            result_objects.append(pool2.apply_async(worker, (i + len(unknown_info), task, opt), 
-                                                callback=lambda result: process_callback(result, pool2), 
-                                                error_callback=process_error))
-        pool2.close()
-        pool2.join()
-    endt_x = time.time()
-    print(f"Check Z time: {endt_x - endt_z}")
-    return task_info, err_info
+# def divide_and_check(unknown_info, max_proc_num):
+#     global task_info
+#     global packed_x
+#     global packed_z
+#     global total_job
+#     global start_time
+#     global max_process_num
+#     global err_info
+#     global last_print
+#     global is_sat
+#     is_sat = 0
+#     task_info = []
+#     err_info = []
+#     total_job = len(unknown_info)
+#     print(f"tasks for X error: {len(unknown_info)} | tasks for Z error: {len(unknown_info)}")
+#     print(f"total_job: {total_job}")
+#     print("Task generated. Start checking.")
+#     start_time = time.time()
+#     last_print = start_time
+#     with Pool(processes = max_proc_num) as pool1:
+#         result_objects = []
+#         for i, task in enumerate(unknown_info):
+#             opt = 'z'    
+#             task_info.append(analysis_task(i, task))
+#             result_objects.append(pool1.apply_async(worker, (i, task, opt), 
+#                                                 callback= lambda result: process_callback(result, pool1), 
+#                                                 error_callback=process_error))
+#         pool1.close()
+#         pool1.join()
+#     endt_z = time.time()
+#     print(f"Check X time: {endt_z - start_time}")
+#     with Pool(processes = max_proc_num) as pool2:
+
+#         result_objects = []
+#         for i, task in enumerate(unknown_info):
+#             opt = 'x'
+#             task_info.append(analysis_task(i + len(unknown_info), task))
+#             result_objects.append(pool2.apply_async(worker, (i + len(unknown_info), task, opt), 
+#                                                 callback=lambda result: process_callback(result, pool2), 
+#                                                 error_callback=process_error))
+#         pool2.close()
+#         pool2.join()
+#     endt_x = time.time()
+#     print(f"Check Z time: {endt_x - endt_z}")
+#     return task_info, err_info
 
 @timebudget 
 def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
-    global task_info
+    # global task_info
     global packed_x
     global packed_z
     global total_job
+    # global z_job
     global start_time
     global max_process_num
     global err_info
@@ -358,6 +362,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     tg_z = subtask_generator(dx, numq, max_proc_num, 'x')
     tasks_z = tg_z() 
     total_job = len(tasks_x) + len(tasks_z)
+    # z_job = len(tasks_z)
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}")
     print(f"total_job: {total_job}")
 
@@ -365,14 +370,14 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     # , unknown_info = divide_and_check()
     start_time = time.time()
     last_print = start_time
-    task_info = []
+    # task_info = []
     err_info = []
     
     with Pool(processes = max_proc_num) as pool1:
         result_objects = []
         for i, task in enumerate(tasks_z):
             opt = 'z'    
-            task_info.append(analysis_task(i , task))
+            # task_info.append(analysis_task(i , task))
             result_objects.append(pool1.apply_async(worker, (i, task, opt), 
                                                 callback= lambda result: process_callback(result, pool1), 
                                                 error_callback=process_error))
@@ -385,13 +390,14 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     # print(f"Check X time: {endt_z - endt_x}")
     print(f"Check X time: {endt_x - start_time}")
     is_sat = 0
+
     # task_info = []
     with Pool(processes = max_proc_num) as pool2:
         # task_info = []
         result_objects = []
         for i, task in enumerate(tasks_x):
             opt = 'x'
-            task_info.append(analysis_task(i + len(tasks_z), task))
+            # task_info.append(analysis_task(i, task))
             result_objects.append(pool2.apply_async(worker, (i + len(tasks_z), task, opt), 
                                                 callback=lambda result: process_callback(result, pool2), 
                                                 error_callback=process_error))
@@ -399,7 +405,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
         pool2.join()
     endt_z = time.time()
-    print(f"Check Z time: {endt_z - endt_x}")
+    print(f"Check Z time: {endt_z - endt_x - 300}")
     if is_sat == 0: 
         print("No counterexample for Z error is found, all errors can be detected.\n")
     # unknown_info = [[i, ti[1], ti[2]] for i, ti in enumerate(task_info) if ti[-1] == 'unknown']

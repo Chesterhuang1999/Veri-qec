@@ -29,14 +29,20 @@ After obtaining the number of CPU cores in your machine, you can load the docker
 
 For Linux/ MacOS: 
 ```bash
-docker load < docker/docker-image-veriqec
+docker load < docker/docker-veriqec-image
 ```
 PowerShell: 
 ```bash
-docker load -i docker\docker-image-veriqec
+docker load -i docker\docker-veriqec-image
 ```
 
-Execute the following commands to start the docker container and 
+Execute the following commands to start the docker container, enter the working directory and load the directory of the output scripts:
+
+```bash 
+docker run -v `pwd`/Output: /Veri-qec/Output --rm -it docker-veriqec
+```
+
+You can load the /Output/ 
 
 # Detailed Instructions for Evaluation
 
