@@ -39,6 +39,7 @@ RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
 FROM lib-base as builder
 RUN mkdir /Veri-qec/
 RUN mkdir /Veri-qec/src
+RUN mkdir /Veri-qec/eval-Output
 WORKDIR /Veri-qec
 COPY ./src /Veri-qec/src
 CMD ["/bin/bash"]

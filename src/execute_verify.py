@@ -2,6 +2,8 @@ import time
 import numpy as np
 import math
 from multiprocessing import Pool
+import os
+from contextlib import redirect_stdout
 from smt_partition_merge import *
 # from smt_detect_only import *
 import argparse
@@ -343,6 +345,13 @@ if __name__ == "__main__":
                    [0, 1, 0, 0, 1, 0, 1],
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
+    classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
+                        [0, 1, 1 ,0, 1, 0, 0],
+                        [0, 0, 1, 1, 0, 1, 0],
+                        [0, 0, 0, 1, 1, 0, 1],
+                        [1, 0, 0, 0, 1, 1, 0],
+                        [0, 1, 0, 0, 0, 1, 1],
+                        [1, 0, 1, 0, 0, 0, 1]], dtype = int)
     # Rep51 = np.array([[1, 1, 0, 0, 0],
     #               [1, 0, 1, 0, 0],
     #               [1, 0, 0, 1, 0],
@@ -356,58 +365,96 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process some parameters.")
     parser.add_argument('--cpucount', type=int, default=8, help='The CPU counts.')
     parser.add_argument('--code', type=str, default='surface', help='The code type.')
-    parser.add_argument('--p1', type=int, default = 3, help='Additional parameters of the code.')
-    parser.add_argument('--p2', type=int, help='Additional parameters of the code.')
+    parser.add_argument('--param1', type=int, default = 3, help='Additional parameters of the code.')
+    parser.add_argument('--param2', type=int, help='Additional parameters of the code.')
     args = parser.parse_args()
     max_proc_num = args.cpucount
     # user_input = input("Enter the code type: ")
     user_input = args.code
+
+    output_dir = "./eval_Output"
+    os.makedirs(output_dir, exist_ok=True)
+    file_name = f"correction_{user_input}"
+    # print(file_name)
+    # with open(os.path.join(output_dir, f"correction_{user_input}_{args}"))
     if user_input == 'surface':
         # d = int(input("Enter the distance: "))
-        if args.p1 is None:
+        if args.param1 is None:
             raise ValueError("Please enter the distance.") 
-        d = args.p1
+        d = args.param1
+        file_name += f"_{d}.txt"
+        # print(os.path.join(output_dir, file_name))
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                sur_cond_checker(d, max_proc_num)
             # matrix = surface_matrix_gen(d)
-        sur_cond_checker(d, max_proc_num)
+        # sur_cond_checker(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
-        cond_checker(matrix, 3, 3, max_proc_num)
+        file_name += f".txt"
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 3, 3, max_proc_num)
+        # cond_checker(matrix, 3, 3, max_proc_num)
     elif user_input == 'reed_muller':
         # m = int(input("Enter the params: "))
-        if args.p1 is None and args.p2 is None:
+        if args.param1 is None and args.param2 is None:
             raise ValueError("Please enter parameters.")
-        m = args.p1 if args.p1 is not None else args.p2
+        m = args.param1 if args.param1 is not None else args.param2
         matrix = special_codes.stabs_Reed_Muller(m)
-        # exit(0)
-        cond_checker(matrix, 3, 3, max_proc_num)
+        file_name += f"_{m}.txt"
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):  
+                cond_checker(matrix, 3, 3, max_proc_num)
+        # matrix = special_codes.stabs_Reed_Muller(m)
+        # # exit(0)
+        # cond_checker(matrix, 3, 3, max_proc_num)
     elif user_input == 'dodecacode':
         matrix = special_codes.stabs_1115()
-        cond_checker(matrix, 5, 5, max_proc_num)
+        file_name += f"_5.txt"
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 5, 5, max_proc_num)
+        # cond_checker(matrix, 5, 5, max_proc_num)
     elif user_input == 'XZZX':
-        if args.p1 is None or args.p2 is None:
+        if args.param1 is None or args.param2 is None:
             raise ValueError("Both distances should be provided.")
         # dx = int(input("Enter the dx: "))
         # dz = int(input("Enter the dz: "))
-        dx = args.p1
-        dz = args.p2
+        dx = args.param1
+        dz = args.param2
         matrix = special_codes.stabs_XZZX(dx, dz)
-        cond_checker(matrix, dx, dz, max_proc_num)
+        file_name += f"_{dx}_{dz}.txt"
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, dx, dz, max_proc_num)
+        # cond_checker(matrix, dx, dz, max_proc_num)
     elif user_input == 'Honeycomb':
         #Only support d = 3, d = 5 currently
-        if args.p1 is None and args.p2 is None:
+        if args.param1 is None and args.param2 is None:
             raise ValueError("Both distances should be provided.")
-        d = args.p1 if args.p1 is not None else args.p2
+        d = args.param1 if args.param1 is not None else args.param2
         assert d <= 5, "Only support d = 3, d = 5 currently."
         # d = int(input("Enter the distance: "))
         matrix = special_codes.stabs_honeycomb(d)
-        cond_checker(matrix, d, d, max_proc_num)
+        file_name += f"_{d}.txt"
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, d, d, max_proc_num)
+        # cond_checker(matrix, d, d, max_proc_num)
+
     
     elif user_input == 'Goettsman':
-        if args.p1 is None and args.p2 is None:
+        if args.param1 is None and args.param2 is None:
             raise ValueError("Shape parameter should be provided.")
-        m = args.p1 if args.p1 is not None else args.p2
+        m = args.param1 if args.param1 is not None else args.param2
         matrix = special_codes.stabs_goettsman(m)
-        cond_checker(matrix, 3, 3, max_proc_num)
+        file_name += f"_{m}.txt" 
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 3, 3, max_proc_num)
+        # cond_checker(matrix, 3, 3, max_proc_num)
+
         
     #     cond_checker(matrix, d, d, max_proc_num)
     # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)]) 

@@ -1,1 +1,1508 @@
 nohup: ignoring input
+Check condition: dx = 4, dz = 4
+Condition generation time: 477.027996301651
+tasks for X error: 2524820 | tasks for Z error: 3948690
+total_job: 6473510
+Task generated. Start checking.
+5456/6473510: finish job file[5527], cost_time: 0.1099088191986084
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:00:04
+cost time: 0:01:00.138605
+left time: 19:48:13.941886
+estimated time: 19:49:14.080491
+estimated finished time: 2025-03-14 04:48:18
+instance per seconed(all process): 90.72
+instance average runtime(s): 2.20
+finished persent: 0.08%
+processed jobs: 5456
+unprocessed jobs: 6468054
+
+15045/6473510: finish job file[15041], cost_time: 0.029421091079711914
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:01:08
+cost time: 0:02:03.545738
+left time: 14:43:55.282668
+estimated time: 14:45:58.828406
+estimated finished time: 2025-03-13 23:45:03
+instance per seconed(all process): 121.78
+instance average runtime(s): 1.64
+finished persent: 0.23%
+processed jobs: 15045
+unprocessed jobs: 6458465
+
+40823/6473510: finish job file[40830], cost_time: 0.11187863349914551
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:02:08
+cost time: 0:03:03.545811
+left time: 8:02:02.243635
+estimated time: 8:05:05.789446
+estimated finished time: 2025-03-13 17:04:10
+instance per seconed(all process): 222.41
+instance average runtime(s): 0.90
+finished persent: 0.63%
+processed jobs: 40823
+unprocessed jobs: 6432687
+
+133161/6473510: finish job file[133158], cost_time: 0.02858138084411621
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:03:08
+cost time: 0:04:03.546290
+left time: 3:13:16.251712
+estimated time: 3:17:19.798002
+estimated finished time: 2025-03-13 12:16:24
+instance per seconed(all process): 546.76
+instance average runtime(s): 0.37
+finished persent: 2.06%
+processed jobs: 133161
+unprocessed jobs: 6340349
+
+209122/6473510: finish job file[209069], cost_time: 0.19648361206054688
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:04:08
+cost time: 0:05:03.545989
+left time: 2:31:32.921123
+estimated time: 2:36:36.467112
+estimated finished time: 2025-03-13 11:35:41
+instance per seconed(all process): 688.93
+instance average runtime(s): 0.29
+finished persent: 3.23%
+processed jobs: 209122
+unprocessed jobs: 6264388
+
+284116/6473510: finish job file[283998], cost_time: 0.24445605278015137
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:05:08
+cost time: 0:06:03.549102
+left time: 2:11:59.823697
+estimated time: 2:18:03.372799
+estimated finished time: 2025-03-13 11:17:08
+instance per seconed(all process): 781.51
+instance average runtime(s): 0.26
+finished persent: 4.39%
+processed jobs: 284116
+unprocessed jobs: 6189394
+
+341134/6473510: finish job file[341170], cost_time: 0.2198176383972168
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:06:08
+cost time: 0:07:03.548818
+left time: 2:06:53.901294
+estimated time: 2:13:57.450112
+estimated finished time: 2025-03-13 11:13:02
+instance per seconed(all process): 805.42
+instance average runtime(s): 0.25
+finished persent: 5.27%
+processed jobs: 341134
+unprocessed jobs: 6132376
+
+406617/6473510: finish job file[406609], cost_time: 0.1454601287841797
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:07:08
+cost time: 0:08:03.550440
+left time: 2:00:14.771584
+estimated time: 2:08:18.322024
+estimated finished time: 2025-03-13 11:07:23
+instance per seconed(all process): 840.90
+instance average runtime(s): 0.24
+finished persent: 6.28%
+processed jobs: 406617
+unprocessed jobs: 6066893
+
+481821/6473510: finish job file[481867], cost_time: 0.08818197250366211
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:08:08
+cost time: 0:09:03.549985
+left time: 1:52:39.320296
+estimated time: 2:01:42.870280
+estimated finished time: 2025-03-13 11:00:47
+instance per seconed(all process): 886.43
+instance average runtime(s): 0.23
+finished persent: 7.44%
+processed jobs: 481821
+unprocessed jobs: 5991689
+
+573659/6473510: finish job file[573689], cost_time: 0.10973477363586426
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:09:08
+cost time: 0:10:03.550978
+left time: 1:43:27.277916
+estimated time: 1:53:30.828894
+estimated finished time: 2025-03-13 10:52:35
+instance per seconed(all process): 950.47
+instance average runtime(s): 0.21
+finished persent: 8.86%
+processed jobs: 573659
+unprocessed jobs: 5899851
+
+648377/6473510: finish job file[648332], cost_time: 0.14569664001464844
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:10:08
+cost time: 0:11:03.551101
+left time: 1:39:21.459796
+estimated time: 1:50:25.010898
+estimated finished time: 2025-03-13 10:49:29
+instance per seconed(all process): 977.13
+instance average runtime(s): 0.20
+finished persent: 10.02%
+processed jobs: 648377
+unprocessed jobs: 5825133
+
+723143/6473510: finish job file[723260], cost_time: 0.04748678207397461
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:11:08
+cost time: 0:12:03.552047
+left time: 1:35:53.619703
+estimated time: 1:47:57.171749
+estimated finished time: 2025-03-13 10:47:01
+instance per seconed(all process): 999.43
+instance average runtime(s): 0.20
+finished persent: 11.17%
+processed jobs: 723143
+unprocessed jobs: 5750367
+
+792011/6473510: finish job file[792099], cost_time: 0.018515348434448242
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:12:08
+cost time: 0:13:03.555246
+left time: 1:33:40.841565
+estimated time: 1:46:44.396811
+estimated finished time: 2025-03-13 10:45:49
+instance per seconed(all process): 1010.79
+instance average runtime(s): 0.20
+finished persent: 12.23%
+processed jobs: 792011
+unprocessed jobs: 5681499
+
+854821/6473510: finish job file[854791], cost_time: 0.12076520919799805
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:13:08
+cost time: 0:14:03.556065
+left time: 1:32:24.645234
+estimated time: 1:46:28.201299
+estimated finished time: 2025-03-13 10:45:33
+instance per seconed(all process): 1013.35
+instance average runtime(s): 0.20
+finished persent: 13.20%
+processed jobs: 854821
+unprocessed jobs: 5618689
+
+926756/6473510: finish job file[926730], cost_time: 0.16823863983154297
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:14:08
+cost time: 0:15:03.556020
+left time: 1:30:07.899134
+estimated time: 1:45:11.455154
+estimated finished time: 2025-03-13 10:44:16
+instance per seconed(all process): 1025.68
+instance average runtime(s): 0.19
+finished persent: 14.32%
+processed jobs: 926756
+unprocessed jobs: 5546754
+
+999889/6473510: finish job file[999826], cost_time: 0.16402435302734375
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:15:08
+cost time: 0:16:03.557177
+left time: 1:27:54.732296
+estimated time: 1:43:58.289473
+estimated finished time: 2025-03-13 10:43:03
+instance per seconed(all process): 1037.71
+instance average runtime(s): 0.19
+finished persent: 15.45%
+processed jobs: 999889
+unprocessed jobs: 5473621
+
+1075486/6473510: finish job file[1075514], cost_time: 0.08755230903625488
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:16:08
+cost time: 0:17:03.557807
+left time: 1:25:37.388684
+estimated time: 1:42:40.946491
+estimated finished time: 2025-03-13 10:41:45
+instance per seconed(all process): 1050.73
+instance average runtime(s): 0.19
+finished persent: 16.61%
+processed jobs: 1075486
+unprocessed jobs: 5398024
+
+1163987/6473510: finish job file[1164003], cost_time: 0.1165320873260498
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:17:08
+cost time: 0:18:03.559685
+left time: 1:22:22.654057
+estimated time: 1:40:26.213742
+estimated finished time: 2025-03-13 10:39:31
+instance per seconed(all process): 1074.23
+instance average runtime(s): 0.19
+finished persent: 17.98%
+processed jobs: 1163987
+unprocessed jobs: 5309523
+
+1237259/6473510: finish job file[1237161], cost_time: 0.2011561393737793
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:18:08
+cost time: 0:19:03.559874
+left time: 1:20:39.703357
+estimated time: 1:39:43.263231
+estimated finished time: 2025-03-13 10:38:48
+instance per seconed(all process): 1081.94
+instance average runtime(s): 0.18
+finished persent: 19.11%
+processed jobs: 1237259
+unprocessed jobs: 5236251
+
+1304798/6473510: finish job file[1304836], cost_time: 0.11671757698059082
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:19:08
+cost time: 0:20:03.561580
+left time: 1:19:27.682952
+estimated time: 1:39:31.244531
+estimated finished time: 2025-03-13 10:38:36
+instance per seconed(all process): 1084.11
+instance average runtime(s): 0.18
+finished persent: 20.16%
+processed jobs: 1304798
+unprocessed jobs: 5168712
+
+1385517/6473510: finish job file[1385570], cost_time: 0.08875632286071777
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:20:08
+cost time: 0:21:03.570976
+left time: 1:17:20.174232
+estimated time: 1:38:23.745208
+estimated finished time: 2025-03-13 10:37:28
+instance per seconed(all process): 1096.51
+instance average runtime(s): 0.18
+finished persent: 21.40%
+processed jobs: 1385517
+unprocessed jobs: 5087993
+
+1471707/6473510: finish job file[1471588], cost_time: 0.20302581787109375
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:21:08
+cost time: 0:22:03.572630
+left time: 1:14:58.347532
+estimated time: 1:37:01.920162
+estimated finished time: 2025-03-13 10:36:06
+instance per seconed(all process): 1111.92
+instance average runtime(s): 0.18
+finished persent: 22.73%
+processed jobs: 1471707
+unprocessed jobs: 5001803
+
+1576220/6473510: finish job file[1576322], cost_time: 0.028746843338012695
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:22:08
+cost time: 0:23:03.573570
+left time: 1:11:38.740662
+estimated time: 1:34:42.314232
+estimated finished time: 2025-03-13 10:33:47
+instance per seconed(all process): 1139.24
+instance average runtime(s): 0.18
+finished persent: 24.35%
+processed jobs: 1576220
+unprocessed jobs: 4897290
+
+1671359/6473510: finish job file[1671370], cost_time: 0.1282358169555664
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:23:08
+cost time: 0:24:03.574039
+left time: 1:09:07.678934
+estimated time: 1:33:11.252974
+estimated finished time: 2025-03-13 10:32:16
+instance per seconed(all process): 1157.79
+instance average runtime(s): 0.17
+finished persent: 25.82%
+processed jobs: 1671359
+unprocessed jobs: 4802151
+
+1739837/6473510: finish job file[1739943], cost_time: 0.0339505672454834
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:24:08
+cost time: 0:25:03.575577
+left time: 1:08:10.863173
+estimated time: 1:33:14.438749
+estimated finished time: 2025-03-13 10:32:19
+instance per seconed(all process): 1157.13
+instance average runtime(s): 0.17
+finished persent: 26.88%
+processed jobs: 1739837
+unprocessed jobs: 4733673
+
+1807902/6473510: finish job file[1807907], cost_time: 0.15128588676452637
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:25:08
+cost time: 0:26:03.576662
+left time: 1:07:15.083640
+estimated time: 1:33:18.660302
+estimated finished time: 2025-03-13 10:32:23
+instance per seconed(all process): 1156.26
+instance average runtime(s): 0.17
+finished persent: 27.93%
+processed jobs: 1807902
+unprocessed jobs: 4665608
+
+1879861/6473510: finish job file[1879938], cost_time: 0.055222272872924805
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:26:08
+cost time: 0:27:03.577702
+left time: 1:06:07.392316
+estimated time: 1:33:10.970019
+estimated finished time: 2025-03-13 10:32:15
+instance per seconed(all process): 1157.85
+instance average runtime(s): 0.17
+finished persent: 29.04%
+processed jobs: 1879861
+unprocessed jobs: 4593649
+
+1958619/6473510: finish job file[1958674], cost_time: 0.08202457427978516
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:27:08
+cost time: 0:28:03.578406
+left time: 1:04:40.883925
+estimated time: 1:32:44.462330
+estimated finished time: 2025-03-13 10:31:49
+instance per seconed(all process): 1163.37
+instance average runtime(s): 0.17
+finished persent: 30.26%
+processed jobs: 1958619
+unprocessed jobs: 4514891
+
+2043123/6473510: finish job file[2043230], cost_time: 0.05425739288330078
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:28:08
+cost time: 0:29:03.577981
+left time: 1:03:00.841985
+estimated time: 1:32:04.419965
+estimated finished time: 2025-03-13 10:31:09
+instance per seconed(all process): 1171.80
+instance average runtime(s): 0.17
+finished persent: 31.56%
+processed jobs: 2043123
+unprocessed jobs: 4430387
+
+2120939/6473510: finish job file[2120876], cost_time: 0.1664597988128662
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:29:08
+cost time: 0:30:03.578968
+left time: 1:01:41.287737
+estimated time: 1:31:44.866705
+estimated finished time: 2025-03-13 10:30:49
+instance per seconed(all process): 1175.96
+instance average runtime(s): 0.17
+finished persent: 32.76%
+processed jobs: 2120939
+unprocessed jobs: 4352571
+
+2194702/6473510: finish job file[2194750], cost_time: 0.09368515014648438
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:30:08
+cost time: 0:31:03.580419
+left time: 1:00:33.250803
+estimated time: 1:31:36.831222
+estimated finished time: 2025-03-13 10:30:41
+instance per seconed(all process): 1177.68
+instance average runtime(s): 0.17
+finished persent: 33.90%
+processed jobs: 2194702
+unprocessed jobs: 4278808
+
+2268195/6473510: finish job file[2268065], cost_time: 0.17829084396362305
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:31:08
+cost time: 0:32:03.580062
+left time: 0:59:26.386527
+estimated time: 1:31:29.966589
+estimated finished time: 2025-03-13 10:30:34
+instance per seconed(all process): 1179.15
+instance average runtime(s): 0.17
+finished persent: 35.04%
+processed jobs: 2268195
+unprocessed jobs: 4205315
+
+2347959/6473510: finish job file[2347942], cost_time: 0.14789104461669922
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:32:08
+cost time: 0:33:03.580126
+left time: 0:58:05.308291
+estimated time: 1:31:08.888417
+estimated finished time: 2025-03-13 10:30:13
+instance per seconed(all process): 1183.70
+instance average runtime(s): 0.17
+finished persent: 36.27%
+processed jobs: 2347959
+unprocessed jobs: 4125551
+
+2438322/6473510: finish job file[2438303], cost_time: 0.10648465156555176
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:33:08
+cost time: 0:34:03.582098
+left time: 0:56:21.931492
+estimated time: 1:30:25.513590
+estimated finished time: 2025-03-13 10:29:30
+instance per seconed(all process): 1193.16
+instance average runtime(s): 0.17
+finished persent: 37.67%
+processed jobs: 2438322
+unprocessed jobs: 4035188
+
+2528939/6473510: finish job file[2528818], cost_time: 0.5847339630126953
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:34:08
+cost time: 0:35:03.585495
+left time: 0:54:41.116049
+estimated time: 1:29:44.701544
+estimated finished time: 2025-03-13 10:28:49
+instance per seconed(all process): 1202.20
+instance average runtime(s): 0.17
+finished persent: 39.07%
+processed jobs: 2528939
+unprocessed jobs: 3944571
+
+2571067/6473510: finish job file[2571076], cost_time: 0.4227116107940674
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:35:08
+cost time: 0:36:03.586492
+left time: 0:54:43.956801
+estimated time: 1:30:47.543293
+estimated finished time: 2025-03-13 10:29:52
+instance per seconed(all process): 1188.34
+instance average runtime(s): 0.17
+finished persent: 39.72%
+processed jobs: 2571067
+unprocessed jobs: 3902443
+
+2612836/6473510: finish job file[2612734], cost_time: 0.5251491069793701
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:36:08
+cost time: 0:37:03.588151
+left time: 0:54:45.529195
+estimated time: 1:31:49.117346
+estimated finished time: 2025-03-13 10:30:53
+instance per seconed(all process): 1175.05
+instance average runtime(s): 0.17
+finished persent: 40.36%
+processed jobs: 2612836
+unprocessed jobs: 3860674
+
+2655327/6473510: finish job file[2655475], cost_time: 0.10189318656921387
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:37:08
+cost time: 0:38:03.588648
+left time: 0:54:43.648061
+estimated time: 1:32:47.236709
+estimated finished time: 2025-03-13 10:31:52
+instance per seconed(all process): 1162.79
+instance average runtime(s): 0.17
+finished persent: 41.02%
+processed jobs: 2655327
+unprocessed jobs: 3818183
+
+2709498/6473510: finish job file[2709555], cost_time: 0.06233859062194824
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:38:08
+cost time: 0:39:03.589858
+left time: 0:54:15.695464
+estimated time: 1:33:19.285321
+estimated finished time: 2025-03-13 10:32:24
+instance per seconed(all process): 1156.13
+instance average runtime(s): 0.17
+finished persent: 41.86%
+processed jobs: 2709498
+unprocessed jobs: 3764012
+
+2776579/6473510: finish job file[2776500], cost_time: 0.441852331161499
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:39:08
+cost time: 0:40:03.595618
+left time: 0:53:20.314903
+estimated time: 1:33:23.910521
+estimated finished time: 2025-03-13 10:32:28
+instance per seconed(all process): 1155.18
+instance average runtime(s): 0.17
+finished persent: 42.89%
+processed jobs: 2776579
+unprocessed jobs: 3696931
+
+2819852/6473510: finish job file[2819809], cost_time: 0.14573097229003906
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:40:08
+cost time: 0:41:03.597685
+left time: 0:53:12.062346
+estimated time: 1:34:15.660031
+estimated finished time: 2025-03-13 10:33:20
+instance per seconed(all process): 1144.61
+instance average runtime(s): 0.17
+finished persent: 43.56%
+processed jobs: 2819852
+unprocessed jobs: 3653658
+
+2862459/6473510: finish job file[2862616], cost_time: 0.030614852905273438
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:41:08
+cost time: 0:42:03.597325
+left time: 0:53:03.570016
+estimated time: 1:35:07.167341
+estimated finished time: 2025-03-13 10:34:11
+instance per seconed(all process): 1134.28
+instance average runtime(s): 0.18
+finished persent: 44.22%
+processed jobs: 2862459
+unprocessed jobs: 3611051
+
+2904843/6473510: finish job file[2904971], cost_time: 0.09151339530944824
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:42:08
+cost time: 0:43:03.601665
+left time: 0:52:54.014569
+estimated time: 1:35:57.616233
+estimated finished time: 2025-03-13 10:35:02
+instance per seconed(all process): 1124.34
+instance average runtime(s): 0.18
+finished persent: 44.87%
+processed jobs: 2904843
+unprocessed jobs: 3568667
+
+2947175/6473510: finish job file[2946923], cost_time: 0.6569104194641113
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:43:08
+cost time: 0:44:03.600900
+left time: 0:52:43.104457
+estimated time: 1:36:46.705357
+estimated finished time: 2025-03-13 10:35:51
+instance per seconed(all process): 1114.83
+instance average runtime(s): 0.18
+finished persent: 45.53%
+processed jobs: 2947175
+unprocessed jobs: 3526335
+
+2992299/6473510: finish job file[2992373], cost_time: 0.0559849739074707
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:44:08
+cost time: 0:45:03.601883
+left time: 0:52:25.343635
+estimated time: 1:37:28.945518
+estimated finished time: 2025-03-13 10:36:33
+instance per seconed(all process): 1106.78
+instance average runtime(s): 0.18
+finished persent: 46.22%
+processed jobs: 2992299
+unprocessed jobs: 3481211
+
+3039722/6473510: finish job file[3039715], cost_time: 0.31604790687561035
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:45:08
+cost time: 0:46:03.602251
+left time: 0:52:01.872410
+estimated time: 1:38:05.474661
+estimated finished time: 2025-03-13 10:37:10
+instance per seconed(all process): 1099.91
+instance average runtime(s): 0.18
+finished persent: 46.96%
+processed jobs: 3039722
+unprocessed jobs: 3433788
+
+3083344/6473510: finish job file[3083358], cost_time: 0.28659486770629883
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:46:08
+cost time: 0:47:03.604689
+left time: 0:51:44.580161
+estimated time: 1:38:48.184850
+estimated finished time: 2025-03-13 10:37:52
+instance per seconed(all process): 1091.99
+instance average runtime(s): 0.18
+finished persent: 47.63%
+processed jobs: 3083344
+unprocessed jobs: 3390166
+
+3126457/6473510: finish job file[3126620], cost_time: 0.025587797164916992
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:47:08
+cost time: 0:48:03.606133
+left time: 0:51:27.067104
+estimated time: 1:39:30.673236
+estimated finished time: 2025-03-13 10:38:35
+instance per seconed(all process): 1084.22
+instance average runtime(s): 0.18
+finished persent: 48.30%
+processed jobs: 3126457
+unprocessed jobs: 3347053
+
+3170512/6473510: finish job file[3170446], cost_time: 0.29471349716186523
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:48:08
+cost time: 0:49:03.609252
+left time: 0:51:06.613681
+estimated time: 1:40:10.222933
+estimated finished time: 2025-03-13 10:39:15
+instance per seconed(all process): 1077.08
+instance average runtime(s): 0.19
+finished persent: 48.98%
+processed jobs: 3170512
+unprocessed jobs: 3302998
+
+3238399/6473510: finish job file[3238391], cost_time: 0.06459212303161621
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:49:08
+cost time: 0:50:03.610381
+left time: 0:50:00.560766
+estimated time: 1:40:04.171147
+estimated finished time: 2025-03-13 10:39:08
+instance per seconed(all process): 1078.17
+instance average runtime(s): 0.19
+finished persent: 50.03%
+processed jobs: 3238399
+unprocessed jobs: 3235111
+
+3304084/6473510: finish job file[3304199], cost_time: 0.10436201095581055
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:50:08
+cost time: 0:51:03.618729
+left time: 0:48:58.760895
+estimated time: 1:40:02.379624
+estimated finished time: 2025-03-13 10:39:07
+instance per seconed(all process): 1078.49
+instance average runtime(s): 0.19
+finished persent: 51.04%
+processed jobs: 3304084
+unprocessed jobs: 3169426
+
+3347591/6473510: finish job file[3347681], cost_time: 0.12763667106628418
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:51:08
+cost time: 0:52:03.618623
+left time: 0:48:36.777707
+estimated time: 1:40:40.396330
+estimated finished time: 2025-03-13 10:39:45
+instance per seconed(all process): 1071.70
+instance average runtime(s): 0.19
+finished persent: 51.71%
+processed jobs: 3347591
+unprocessed jobs: 3125919
+
+3395405/6473510: finish job file[3395515], cost_time: 0.04528522491455078
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:52:08
+cost time: 0:53:03.619300
+left time: 0:48:06.110637
+estimated time: 1:41:09.729937
+estimated finished time: 2025-03-13 10:40:14
+instance per seconed(all process): 1066.52
+instance average runtime(s): 0.19
+finished persent: 52.45%
+processed jobs: 3395405
+unprocessed jobs: 3078105
+
+3440298/6473510: finish job file[3440136], cost_time: 0.5321366786956787
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:53:08
+cost time: 0:54:03.620051
+left time: 0:47:39.806697
+estimated time: 1:41:43.426748
+estimated finished time: 2025-03-13 10:40:48
+instance per seconed(all process): 1060.64
+instance average runtime(s): 0.19
+finished persent: 53.14%
+processed jobs: 3440298
+unprocessed jobs: 3033212
+
+3483753/6473510: finish job file[3483568], cost_time: 0.5590593814849854
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:54:08
+cost time: 0:55:03.621277
+left time: 0:47:15.167946
+estimated time: 1:42:18.789223
+estimated finished time: 2025-03-13 10:41:23
+instance per seconed(all process): 1054.53
+instance average runtime(s): 0.19
+finished persent: 53.82%
+processed jobs: 3483753
+unprocessed jobs: 2989757
+
+3529372/6473510: finish job file[3529394], cost_time: 0.02934575080871582
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:55:08
+cost time: 0:56:03.620716
+left time: 0:46:45.871290
+estimated time: 1:42:49.492006
+estimated finished time: 2025-03-13 10:41:54
+instance per seconed(all process): 1049.28
+instance average runtime(s): 0.19
+finished persent: 54.52%
+processed jobs: 3529372
+unprocessed jobs: 2944138
+
+3574677/6473510: finish job file[3574802], cost_time: 0.053725481033325195
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:56:08
+cost time: 0:57:03.624652
+left time: 0:46:16.339267
+estimated time: 1:43:19.963919
+estimated finished time: 2025-03-13 10:42:24
+instance per seconed(all process): 1044.12
+instance average runtime(s): 0.19
+finished persent: 55.22%
+processed jobs: 3574677
+unprocessed jobs: 2898833
+
+3617293/6473510: finish job file[3617345], cost_time: 0.1738262176513672
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:57:08
+cost time: 0:58:03.624171
+left time: 0:45:50.672002
+estimated time: 1:43:54.296173
+estimated finished time: 2025-03-13 10:42:59
+instance per seconed(all process): 1038.37
+instance average runtime(s): 0.19
+finished persent: 55.88%
+processed jobs: 3617293
+unprocessed jobs: 2856217
+
+3664291/6473510: finish job file[3663723], cost_time: 0.5872178077697754
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:58:08
+cost time: 0:59:03.624865
+left time: 0:45:16.710627
+estimated time: 1:44:20.335492
+estimated finished time: 2025-03-13 10:43:25
+instance per seconed(all process): 1034.05
+instance average runtime(s): 0.19
+finished persent: 56.60%
+processed jobs: 3664291
+unprocessed jobs: 2809219
+
+3717064/6473510: finish job file[3717147], cost_time: 0.043657779693603516
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 09:59:08
+cost time: 1:00:03.624899
+left time: 0:44:32.323489
+estimated time: 1:44:35.948388
+estimated finished time: 2025-03-13 10:43:40
+instance per seconed(all process): 1031.48
+instance average runtime(s): 0.19
+finished persent: 57.42%
+processed jobs: 3717064
+unprocessed jobs: 2756446
+
+3780234/6473510: finish job file[3780088], cost_time: 0.5300402641296387
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:00:08
+cost time: 1:01:03.624992
+left time: 0:43:30.196423
+estimated time: 1:44:33.821415
+estimated finished time: 2025-03-13 10:43:38
+instance per seconed(all process): 1031.83
+instance average runtime(s): 0.19
+finished persent: 58.40%
+processed jobs: 3780234
+unprocessed jobs: 2693276
+
+3826651/6473510: finish job file[3826625], cost_time: 0.26326632499694824
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:01:08
+cost time: 1:02:03.625427
+left time: 0:42:55.597167
+estimated time: 1:44:59.222593
+estimated finished time: 2025-03-13 10:44:04
+instance per seconed(all process): 1027.67
+instance average runtime(s): 0.19
+finished persent: 59.11%
+processed jobs: 3826651
+unprocessed jobs: 2646859
+
+3870556/6473510: finish job file[3870725], cost_time: 0.033698320388793945
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:02:08
+cost time: 1:03:03.626443
+left time: 0:42:24.493759
+estimated time: 1:45:28.120202
+estimated finished time: 2025-03-13 10:44:32
+instance per seconed(all process): 1022.98
+instance average runtime(s): 0.20
+finished persent: 59.79%
+processed jobs: 3870556
+unprocessed jobs: 2602954
+
+3915357/6473510: finish job file[3914918], cost_time: 0.5095345973968506
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:03:08
+cost time: 1:04:03.627290
+left time: 0:41:51.287396
+estimated time: 1:45:54.914686
+estimated finished time: 2025-03-13 10:44:59
+instance per seconed(all process): 1018.66
+instance average runtime(s): 0.20
+finished persent: 60.48%
+processed jobs: 3915357
+unprocessed jobs: 2558153
+
+3961211/6473510: finish job file[3961170], cost_time: 0.3943653106689453
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:04:08
+cost time: 1:05:03.628664
+left time: 0:41:15.778844
+estimated time: 1:46:19.407508
+estimated finished time: 2025-03-13 10:45:24
+instance per seconed(all process): 1014.75
+instance average runtime(s): 0.20
+finished persent: 61.19%
+processed jobs: 3961211
+unprocessed jobs: 2512299
+
+4007526/6473510: finish job file[4007644], cost_time: 0.027146577835083008
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:05:08
+cost time: 1:06:03.629189
+left time: 0:40:38.972614
+estimated time: 1:46:42.601803
+estimated finished time: 2025-03-13 10:45:47
+instance per seconed(all process): 1011.07
+instance average runtime(s): 0.20
+finished persent: 61.91%
+processed jobs: 4007526
+unprocessed jobs: 2465984
+
+4054513/6473510: finish job file[4054546], cost_time: 0.2028348445892334
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:06:08
+cost time: 1:07:03.632577
+left time: 0:40:00.573172
+estimated time: 1:47:04.205749
+estimated finished time: 2025-03-13 10:46:09
+instance per seconed(all process): 1007.67
+instance average runtime(s): 0.20
+finished persent: 62.63%
+processed jobs: 4054513
+unprocessed jobs: 2418997
+
+4103477/6473510: finish job file[4103519], cost_time: 0.1294713020324707
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:07:08
+cost time: 1:08:03.633843
+left time: 0:39:18.572247
+estimated time: 1:47:22.206090
+estimated finished time: 2025-03-13 10:46:27
+instance per seconed(all process): 1004.86
+instance average runtime(s): 0.20
+finished persent: 63.39%
+processed jobs: 4103477
+unprocessed jobs: 2370033
+
+4160087/6473510: finish job file[4159947], cost_time: 0.1683635711669922
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:08:08
+cost time: 1:09:03.635256
+left time: 0:38:24.274191
+estimated time: 1:47:27.909446
+estimated finished time: 2025-03-13 10:46:32
+instance per seconed(all process): 1003.97
+instance average runtime(s): 0.20
+finished persent: 64.26%
+processed jobs: 4160087
+unprocessed jobs: 2313423
+
+4204716/6473510: finish job file[4204736], cost_time: 0.04569125175476074
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:09:08
+cost time: 1:10:03.634718
+left time: 0:37:48.210559
+estimated time: 1:47:51.845277
+estimated finished time: 2025-03-13 10:46:56
+instance per seconed(all process): 1000.26
+instance average runtime(s): 0.20
+finished persent: 64.95%
+processed jobs: 4204716
+unprocessed jobs: 2268794
+
+4253180/6473510: finish job file[4253142], cost_time: 0.17124438285827637
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:10:08
+cost time: 1:11:03.636201
+left time: 0:37:05.788555
+estimated time: 1:48:09.424755
+estimated finished time: 2025-03-13 10:47:14
+instance per seconed(all process): 997.55
+instance average runtime(s): 0.20
+finished persent: 65.70%
+processed jobs: 4253180
+unprocessed jobs: 2220330
+
+4301765/6473510: finish job file[4301820], cost_time: 0.043840646743774414
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:11:08
+cost time: 1:12:03.637137
+left time: 0:36:22.787143
+estimated time: 1:48:26.424281
+estimated finished time: 2025-03-13 10:47:31
+instance per seconed(all process): 994.94
+instance average runtime(s): 0.20
+finished persent: 66.45%
+processed jobs: 4301765
+unprocessed jobs: 2171745
+
+4348123/6473510: finish job file[4348062], cost_time: 0.1557939052581787
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:12:08
+cost time: 1:13:03.637184
+left time: 0:35:42.746533
+estimated time: 1:48:46.383717
+estimated finished time: 2025-03-13 10:47:51
+instance per seconed(all process): 991.90
+instance average runtime(s): 0.20
+finished persent: 67.17%
+processed jobs: 4348123
+unprocessed jobs: 2125387
+
+4396544/6473510: finish job file[4396700], cost_time: 0.028818130493164062
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:13:08
+cost time: 1:14:03.638714
+left time: 0:34:59.213957
+estimated time: 1:49:02.852671
+estimated finished time: 2025-03-13 10:48:07
+instance per seconed(all process): 989.40
+instance average runtime(s): 0.20
+finished persent: 67.92%
+processed jobs: 4396544
+unprocessed jobs: 2076966
+
+4445120/6473510: finish job file[4445184], cost_time: 0.0894310474395752
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:14:08
+cost time: 1:15:03.639249
+left time: 0:34:15.093410
+estimated time: 1:49:18.732659
+estimated finished time: 2025-03-13 10:48:23
+instance per seconed(all process): 987.01
+instance average runtime(s): 0.20
+finished persent: 68.67%
+processed jobs: 4445120
+unprocessed jobs: 2028390
+
+4493067/6473510: finish job file[4493217], cost_time: 0.07010340690612793
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:15:08
+cost time: 1:16:03.641477
+left time: 0:33:31.550644
+estimated time: 1:49:35.192121
+estimated finished time: 2025-03-13 10:48:40
+instance per seconed(all process): 984.54
+instance average runtime(s): 0.20
+finished persent: 69.41%
+processed jobs: 4493067
+unprocessed jobs: 1980443
+
+4555899/6473510: finish job file[4555798], cost_time: 0.1369640827178955
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:16:08
+cost time: 1:17:03.643325
+left time: 0:32:26.125079
+estimated time: 1:49:29.768404
+estimated finished time: 2025-03-13 10:48:34
+instance per seconed(all process): 985.35
+instance average runtime(s): 0.20
+finished persent: 70.38%
+processed jobs: 4555899
+unprocessed jobs: 1917611
+
+4606924/6473510: finish job file[4606971], cost_time: 0.16575837135314941
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:17:08
+cost time: 1:18:03.643818
+left time: 0:31:37.670545
+estimated time: 1:49:41.314363
+estimated finished time: 2025-03-13 10:48:46
+instance per seconed(all process): 983.62
+instance average runtime(s): 0.20
+finished persent: 71.17%
+processed jobs: 4606924
+unprocessed jobs: 1866586
+
+4657142/6473510: finish job file[4657266], cost_time: 0.053924560546875
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:18:08
+cost time: 1:19:03.648123
+left time: 0:30:50.106923
+estimated time: 1:49:53.755046
+estimated finished time: 2025-03-13 10:48:58
+instance per seconed(all process): 981.76
+instance average runtime(s): 0.20
+finished persent: 71.94%
+processed jobs: 4657142
+unprocessed jobs: 1816368
+
+4707573/6473510: finish job file[4707626], cost_time: 0.040518999099731445
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:19:08
+cost time: 1:20:03.648284
+left time: 0:30:01.977418
+estimated time: 1:50:05.625702
+estimated finished time: 2025-03-13 10:49:10
+instance per seconed(all process): 980.00
+instance average runtime(s): 0.20
+finished persent: 72.72%
+processed jobs: 4707573
+unprocessed jobs: 1765937
+
+4758411/6473510: finish job file[4758371], cost_time: 0.13295245170593262
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:20:08
+cost time: 1:21:03.650048
+left time: 0:29:13.030861
+estimated time: 1:50:16.680909
+estimated finished time: 2025-03-13 10:49:21
+instance per seconed(all process): 978.36
+instance average runtime(s): 0.20
+finished persent: 73.51%
+processed jobs: 4758411
+unprocessed jobs: 1715099
+
+4807604/6473510: finish job file[4807732], cost_time: 0.025038719177246094
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:21:08
+cost time: 1:22:03.650556
+left time: 0:28:26.117851
+estimated time: 1:50:29.768407
+estimated finished time: 2025-03-13 10:49:34
+instance per seconed(all process): 976.43
+instance average runtime(s): 0.20
+finished persent: 74.27%
+processed jobs: 4807604
+unprocessed jobs: 1665906
+
+4866875/6473510: finish job file[4866923], cost_time: 0.07673406600952148
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:22:08
+cost time: 1:23:03.651155
+left time: 0:27:25.184718
+estimated time: 1:50:28.835873
+estimated finished time: 2025-03-13 10:49:33
+instance per seconed(all process): 976.57
+instance average runtime(s): 0.20
+finished persent: 75.18%
+processed jobs: 4866875
+unprocessed jobs: 1606635
+
+4928473/6473510: finish job file[4928560], cost_time: 0.08540844917297363
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:23:08
+cost time: 1:24:03.652858
+left time: 0:26:21.144968
+estimated time: 1:50:24.797826
+estimated finished time: 2025-03-13 10:49:29
+instance per seconed(all process): 977.16
+instance average runtime(s): 0.20
+finished persent: 76.13%
+processed jobs: 4928473
+unprocessed jobs: 1545037
+
+4979995/6473510: finish job file[4979939], cost_time: 0.2429807186126709
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:24:08
+cost time: 1:25:03.654422
+left time: 0:25:30.600821
+estimated time: 1:50:34.255242
+estimated finished time: 2025-03-13 10:49:39
+instance per seconed(all process): 975.77
+instance average runtime(s): 0.20
+finished persent: 76.93%
+processed jobs: 4979995
+unprocessed jobs: 1493515
+
+5033688/6473510: finish job file[5033809], cost_time: 0.07719707489013672
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:25:08
+cost time: 1:26:03.653733
+left time: 0:24:36.997034
+estimated time: 1:50:40.650767
+estimated finished time: 2025-03-13 10:49:45
+instance per seconed(all process): 974.83
+instance average runtime(s): 0.21
+finished persent: 77.76%
+processed jobs: 5033688
+unprocessed jobs: 1439822
+
+5083809/6473510: finish job file[5083950], cost_time: 0.037513017654418945
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:26:08
+cost time: 1:27:03.655320
+left time: 0:23:47.929142
+estimated time: 1:50:51.584461
+estimated finished time: 2025-03-13 10:49:56
+instance per seconed(all process): 973.23
+instance average runtime(s): 0.21
+finished persent: 78.53%
+processed jobs: 5083809
+unprocessed jobs: 1389701
+
+5135845/6473510: finish job file[5135784], cost_time: 0.4261653423309326
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:27:08
+cost time: 1:28:03.655029
+left time: 0:22:56.163106
+estimated time: 1:50:59.818135
+estimated finished time: 2025-03-13 10:50:04
+instance per seconed(all process): 972.03
+instance average runtime(s): 0.21
+finished persent: 79.34%
+processed jobs: 5135845
+unprocessed jobs: 1337665
+
+5200414/6473510: finish job file[5200501], cost_time: 0.07767295837402344
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:28:08
+cost time: 1:29:03.656435
+left time: 0:21:48.162703
+estimated time: 1:50:51.819138
+estimated finished time: 2025-03-13 10:49:56
+instance per seconed(all process): 973.19
+instance average runtime(s): 0.21
+finished persent: 80.33%
+processed jobs: 5200414
+unprocessed jobs: 1273096
+
+5254718/6473510: finish job file[5254809], cost_time: 0.026360034942626953
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:29:08
+cost time: 1:30:03.655942
+left time: 0:20:53.337026
+estimated time: 1:50:56.992969
+estimated finished time: 2025-03-13 10:50:01
+instance per seconed(all process): 972.44
+instance average runtime(s): 0.21
+finished persent: 81.17%
+processed jobs: 5254718
+unprocessed jobs: 1218792
+
+5309432/6473510: finish job file[5309512], cost_time: 0.11184501647949219
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:30:08
+cost time: 1:31:03.656152
+left time: 0:19:57.891211
+estimated time: 1:51:01.547362
+estimated finished time: 2025-03-13 10:50:06
+instance per seconed(all process): 971.77
+instance average runtime(s): 0.21
+finished persent: 82.02%
+processed jobs: 5309432
+unprocessed jobs: 1164078
+
+5364024/6473510: finish job file[5364109], cost_time: 0.15160036087036133
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:31:08
+cost time: 1:32:03.657895
+left time: 0:19:02.504415
+estimated time: 1:51:06.162311
+estimated finished time: 2025-03-13 10:50:10
+instance per seconed(all process): 971.10
+instance average runtime(s): 0.21
+finished persent: 82.86%
+processed jobs: 5364024
+unprocessed jobs: 1109486
+
+5424423/6473510: finish job file[5424289], cost_time: 0.1732468605041504
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:32:08
+cost time: 1:33:03.657930
+left time: 0:17:59.883141
+estimated time: 1:51:03.541071
+estimated finished time: 2025-03-13 10:50:08
+instance per seconed(all process): 971.48
+instance average runtime(s): 0.21
+finished persent: 83.79%
+processed jobs: 5424423
+unprocessed jobs: 1049087
+
+5480610/6473510: finish job file[5480296], cost_time: 0.7282075881958008
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:33:08
+cost time: 1:34:03.658186
+left time: 0:17:02.438782
+estimated time: 1:51:06.096968
+estimated finished time: 2025-03-13 10:50:10
+instance per seconed(all process): 971.11
+instance average runtime(s): 0.21
+finished persent: 84.66%
+processed jobs: 5480610
+unprocessed jobs: 992900
+
+5534860/6473510: finish job file[5535007], cost_time: 0.036017656326293945
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:34:08
+cost time: 1:35:03.659372
+left time: 0:16:07.276475
+estimated time: 1:51:10.935847
+estimated finished time: 2025-03-13 10:50:15
+instance per seconed(all process): 970.41
+instance average runtime(s): 0.21
+finished persent: 85.50%
+processed jobs: 5534860
+unprocessed jobs: 938650
+
+5594280/6473510: finish job file[5593889], cost_time: 0.6060116291046143
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:35:08
+cost time: 1:36:03.661366
+left time: 0:15:05.850973
+estimated time: 1:51:09.512339
+estimated finished time: 2025-03-13 10:50:14
+instance per seconed(all process): 970.61
+instance average runtime(s): 0.21
+finished persent: 86.42%
+processed jobs: 5594280
+unprocessed jobs: 879230
+
+5673962/6473510: finish job file[5674050], cost_time: 0.05926322937011719
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:36:08
+cost time: 1:37:03.663357
+left time: 0:13:40.643210
+estimated time: 1:50:44.306567
+estimated finished time: 2025-03-13 10:49:49
+instance per seconed(all process): 974.29
+instance average runtime(s): 0.21
+finished persent: 87.65%
+processed jobs: 5673962
+unprocessed jobs: 799548
+
+5733340/6473510: finish job file[5733217], cost_time: 0.3564493656158447
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:37:08
+cost time: 1:38:03.669174
+left time: 0:12:39.577386
+estimated time: 1:50:43.246561
+estimated finished time: 2025-03-13 10:49:48
+instance per seconed(all process): 974.45
+instance average runtime(s): 0.21
+finished persent: 88.57%
+processed jobs: 5733340
+unprocessed jobs: 740170
+
+5794067/6473510: finish job file[5794075], cost_time: 0.055045127868652344
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:38:08
+cost time: 1:39:03.670341
+left time: 0:11:36.986280
+estimated time: 1:50:40.656621
+estimated finished time: 2025-03-13 10:49:45
+instance per seconed(all process): 974.83
+instance average runtime(s): 0.21
+finished persent: 89.50%
+processed jobs: 5794067
+unprocessed jobs: 679443
+
+5868709/6473510: finish job file[5868712], cost_time: 0.14754581451416016
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:39:08
+cost time: 1:40:03.671973
+left time: 0:10:18.709637
+estimated time: 1:50:22.381609
+estimated finished time: 2025-03-13 10:49:27
+instance per seconed(all process): 977.52
+instance average runtime(s): 0.20
+finished persent: 90.66%
+processed jobs: 5868709
+unprocessed jobs: 604801
+
+5940780/6473510: finish job file[5940903], cost_time: 0.06082010269165039
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:40:08
+cost time: 1:41:03.673316
+left time: 0:09:03.750263
+estimated time: 1:50:07.423578
+estimated finished time: 2025-03-13 10:49:12
+instance per seconed(all process): 979.73
+instance average runtime(s): 0.20
+finished persent: 91.77%
+processed jobs: 5940780
+unprocessed jobs: 532730
+
+6017314/6473510: finish job file[6017464], cost_time: 0.029989242553710938
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:41:08
+cost time: 1:42:03.675085
+left time: 0:07:44.259648
+estimated time: 1:49:47.934732
+estimated finished time: 2025-03-13 10:48:52
+instance per seconed(all process): 982.63
+instance average runtime(s): 0.20
+finished persent: 92.95%
+processed jobs: 6017314
+unprocessed jobs: 456196
+
+6084962/6473510: finish job file[6085041], cost_time: 0.09554243087768555
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:42:08
+cost time: 1:43:03.675340
+left time: 0:06:34.851223
+estimated time: 1:49:38.526562
+estimated finished time: 2025-03-13 10:48:43
+instance per seconed(all process): 984.04
+instance average runtime(s): 0.20
+finished persent: 94.00%
+processed jobs: 6084962
+unprocessed jobs: 388548
+
+6168498/6473510: finish job file[6168630], cost_time: 0.03487658500671387
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:43:08
+cost time: 1:44:03.675805
+left time: 0:05:08.729296
+estimated time: 1:49:12.405101
+estimated finished time: 2025-03-13 10:48:17
+instance per seconed(all process): 987.96
+instance average runtime(s): 0.20
+finished persent: 95.29%
+processed jobs: 6168498
+unprocessed jobs: 305012
+
+6264126/6473510: finish job file[6264125], cost_time: 0.0429377555847168
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:44:08
+cost time: 1:45:03.676367
+left time: 0:03:30.706006
+estimated time: 1:48:34.382374
+estimated finished time: 2025-03-13 10:47:39
+instance per seconed(all process): 993.73
+instance average runtime(s): 0.20
+finished persent: 96.77%
+processed jobs: 6264126
+unprocessed jobs: 209384
+
+6350977/6473510: finish job file[6350450], cost_time: 0.5507087707519531
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:45:08
+cost time: 1:46:03.676862
+left time: 0:02:02.778026
+estimated time: 1:48:06.454888
+estimated finished time: 2025-03-13 10:47:11
+instance per seconed(all process): 998.00
+instance average runtime(s): 0.20
+finished persent: 98.11%
+processed jobs: 6350977
+unprocessed jobs: 122533
+
+6431864/6473510: finish job file[6431819], cost_time: 0.18272638320922852
+ ++++++ show progress ++++++ 
+start time: 2025-03-13 08:59:04
+current time: 2025-03-13 10:46:08
+cost time: 1:47:03.677362
+left time: 0:00:41.592992
+estimated time: 1:47:45.270354
+estimated finished time: 2025-03-13 10:46:50
+instance per seconed(all process): 1001.27
+instance average runtime(s): 0.20
+finished persent: 99.36%
+processed jobs: 6431864
+unprocessed jobs: 41646
+
+No counterexample is found, all errors can be detected.
+
+Check  time: 6467.583302736282
+cond_checker took 7086.360sec
