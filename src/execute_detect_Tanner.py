@@ -106,15 +106,15 @@ class subtask_generator:
 
         ### For Tanner code detection ###
 
-        if checktype == 'x':
-            if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
-                return False
-        else:
-            if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
-                return False
+        # if checktype == 'x':
+        #     if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+        #         return False
+        # else:
+        #     if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+        #         return False
         #### For detection other than Tanner code ####
-        # if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
-        #     return False
+        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+            return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
         #     return False
@@ -345,7 +345,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    is_Ham = False if numq != 343 else True
+    packed_x, packed_z = cond_generator(matrix, dx, dz, is_Ham, is_sym)
     end_gen = time.time()
     print(f"Condition generation time: {end_gen - start_time}")
 

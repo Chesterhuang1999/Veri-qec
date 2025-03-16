@@ -30,6 +30,10 @@ RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple \
         z3-solver==4.13.0.0 \ 
         cvc5==1.2.0  
 
+
+# RUN git config --global  http.https://github.com.proxy http://localhost:8118 \
+#     && git config --global https.https://github.com.proxy  http://localhost:8118
+
 RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
     cd bitwuzla && \
     pip install .
