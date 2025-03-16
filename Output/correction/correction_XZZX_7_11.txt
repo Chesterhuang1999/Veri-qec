@@ -1,53 +1,39 @@
 nohup: ignoring input
 Task generated. Start checking.
 total_job: 100518
-task generation time: 1.938767671585083
-28423/100518: finish job file[28389], cost_time: 0.4006781578063965
-[28389, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 39', 'num_zero: 36', 'num_one: 3', 'one_pos: [10, 26, 38]'], 0.4006781578063965, 'unsat']
+tasks for X error: 93170 | tasks for Z error: 7348
+task generation time: 1.9479382038116455
+42213/100518: finish job file[42164], cost_time: 0.45154714584350586
+[42164, [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0], ['num_bit: 21', 'num_zero: 17', 'num_one: 4', 'one_pos: [7, 9, 12, 19]'], 0.45154714584350586, 'unsat']
  ++++++ show progress ++++++ 
-start time: 2025-03-08 11:36:51
-current time: 2025-03-08 11:37:51
-cost time: 0:01:00.003468
-left time: 0:02:32.198925
-estimated time: 0:03:32.202393
-estimated finished time: 2025-03-08 11:40:23
-instance per seconed(all process): 473.69
-instance average runtime(s): 0.53
-finished persent: 28.28%
-processed jobs: 28423
-unprocessed jobs: 72095
+start time: 2025-03-16 14:10:15
+current time: 2025-03-16 14:11:15
+cost time: 0:01:00.011794
+left time: 0:01:22.888865
+estimated time: 0:02:22.900658
+estimated finished time: 2025-03-16 14:12:38
+instance per seconed(all process): 703.41
+instance average runtime(s): 0.28
+finished persent: 42.00%
+processed jobs: 42213
+unprocessed jobs: 58305
 
-65002/100518: finish job file[65032], cost_time: 0.3351261615753174
-[65032, [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 29', 'num_zero: 25', 'num_one: 4', 'one_pos: [3, 8, 20, 28]'], 0.3351261615753174, 'unsat']
+79938/100518: finish job file[79879], cost_time: 0.36485981941223145
+[79879, [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 31', 'num_zero: 27', 'num_one: 4', 'one_pos: [1, 14, 22, 30]'], 0.36485981941223145, 'unsat']
  ++++++ show progress ++++++ 
-start time: 2025-03-08 11:36:51
-current time: 2025-03-08 11:38:51
-cost time: 0:02:00.003195
-left time: 0:01:05.567728
-estimated time: 0:03:05.570924
-estimated finished time: 2025-03-08 11:39:56
-instance per seconed(all process): 541.67
-instance average runtime(s): 0.46
-finished persent: 64.67%
-processed jobs: 65002
-unprocessed jobs: 35516
-
-99269/100518: finish job file[99295], cost_time: 0.3918461799621582
-[99295, [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 33', 'num_zero: 29', 'num_one: 4', 'one_pos: [0, 1, 12, 32]'], 0.3918461799621582, 'unsat']
- ++++++ show progress ++++++ 
-start time: 2025-03-08 11:36:51
-current time: 2025-03-08 11:39:51
-cost time: 0:03:00.006609
-left time: 0:00:02.264839
-estimated time: 0:03:02.271447
-estimated finished time: 2025-03-08 11:39:53
-instance per seconed(all process): 551.47
-instance average runtime(s): 0.45
-finished persent: 98.76%
-processed jobs: 99269
-unprocessed jobs: 1249
+start time: 2025-03-16 14:10:15
+current time: 2025-03-16 14:12:15
+cost time: 0:02:00.011979
+left time: 0:00:30.897027
+estimated time: 0:02:30.909006
+estimated finished time: 2025-03-16 14:12:46
+instance per seconed(all process): 666.08
+instance average runtime(s): 0.30
+finished persent: 79.53%
+processed jobs: 79938
+unprocessed jobs: 20580
 
 No counterexample found, all errors can be corrected.
 
-Finish all jobs. Checking time: 181.00057888031006
-cond_checker took 183.075sec
+Finish all jobs. Checking time: 154.064293384552
+cond_checker took 156.133sec

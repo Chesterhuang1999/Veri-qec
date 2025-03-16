@@ -183,7 +183,7 @@ def meas_gen_detect(H, n, k):
             prog_parts_z.append(";")
 
     return ''.join(prog_parts_x[:-1]), ''.join(prog_parts_z[:-1])
-def cond_generator(matrix, dx, dz, is_sym = False):
+def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
     num_qubits = matrix.shape[1] // 2
     # ez_max = (dz - 1) // 2
     # ex_max = (dx - 1) // 2
@@ -194,10 +194,12 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     # print(precond_x)  
     # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {ex_max}"
     # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
-    err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {dx - 1}"
-    err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {dz - 1}"
-    # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {dx - 1} && sum i 1 {num_qubits} (ex_(i)) >= 1"
-    # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {dz - 1} && sum i 1 {num_qubits} (ez_(i)) >= 1"
+    if is_Tanner:
+        err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {dx - 1}"
+        err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {dz - 1}"
+    else:   
+        err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {dx - 1} && sum i 1 {num_qubits} (ex_(i)) >= 1"
+        err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {dz - 1} && sum i 1 {num_qubits} (ez_(i)) >= 1"
     err_prog_z = f"for i in 1 to {num_qubits} do q_(i) *= ex_(i) X end"
     err_prog_x = f"for i in 1 to {num_qubits} do q_(i) *= ez_(i) Z end"
     postcond_x, postcond_z =  precond_x , precond_z

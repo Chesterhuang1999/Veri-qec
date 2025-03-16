@@ -291,7 +291,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     total_job = len(tasks_x) + len(tasks_z)
     print(f"total_job: {total_job}")
     # packed_x, packed_z = cond_generator(matrix, dx, dz, info_x, info_z, is_sym)
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    is_discrete = False if cstype == 'local' else True
+    packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
     end_gen = time.time()
     print(f"cond generation time: {end_gen - start_time}")
     # exit(0)

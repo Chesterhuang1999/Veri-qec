@@ -94,7 +94,7 @@ class subtask_generator:
             if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits :
                 return False
         else:
-            if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits:
+            if 2 * assigned_one_num * self.distance  + assigned_bit_num < self.num_qubits :
                 return False
         ### For condition II ###
         # if assigned_one_num * self.distance + assigned_bit_num // 2 < self.num_qubits: 
@@ -269,7 +269,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
     tg_x = subtask_generator(dz, numq, max_proc_num, 'z')
     tasks_x = tg_x()
     tg_z = subtask_generator(dx, numq, max_proc_num, 'x')
@@ -384,11 +384,11 @@ if __name__ == "__main__":
         d = args.param1
         file_name += f"_{d}.txt"
         # print(os.path.join(output_dir, file_name))
-        with open(os.path.join(output_dir, file_name), 'w') as f:
-            with redirect_stdout(f):
-                sur_cond_checker(d, max_proc_num)
+        # with open(os.path.join(output_dir, file_name), 'w') as f:
+        #     with redirect_stdout(f):
+        #         sur_cond_checker(d, max_proc_num)
             # matrix = surface_matrix_gen(d)
-        # sur_cond_checker(d, max_proc_num)
+        sur_cond_checker(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
         file_name += f".txt"
@@ -427,8 +427,8 @@ if __name__ == "__main__":
         file_name += f"_{dx}_{dz}.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, dx, dz, max_proc_num)
-        # cond_checker(matrix, dx, dz, max_proc_num)
+                cond_checker(matrix, dx, dz, max_proc_num, False, is_sym = True)
+        # cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
     elif user_input == 'Honeycomb':
         #Only support d = 3, d = 5 currently
         if args.param1 is None and args.param2 is None:
@@ -450,10 +450,10 @@ if __name__ == "__main__":
         m = args.param1 if args.param1 is not None else args.param2
         matrix = special_codes.stabs_goettsman(m)
         file_name += f"_{m}.txt" 
-        with open(os.path.join(output_dir, file_name), 'w') as f:
-            with redirect_stdout(f):
-                cond_checker(matrix, 3, 3, max_proc_num)
-        # cond_checker(matrix, 3, 3, max_proc_num)
+        # with open(os.path.join(output_dir, file_name), 'w') as f:
+        #     with redirect_stdout(f):
+        #         cond_checker(matrix, 3, 3, max_proc_num)
+        cond_checker(matrix, 3, 3, max_proc_num)
 
         
     #     cond_checker(matrix, d, d, max_proc_num)

@@ -8,6 +8,8 @@ from itertools import combinations
 from timebudget import timebudget
 import datetime
 import tblib.pickling_support
+import os 
+from contextlib import redirect_stdout
 import sys
 import argparse
 ##Import special codes
@@ -113,7 +115,7 @@ class subtask_generator:
             if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
                 return False
         #### For detection other than Tanner code ####
-        # if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+        # if 8 * assigned_one_num * self.distance + 6 * assigned_bit_num < self.num_qubits:
         #     return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
@@ -146,8 +148,7 @@ class subtask_generator:
         self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
-        
-    
+
     def __call__(self):
         self.generate_tasks(self.checktype, self.num_qubits, self.distance - 1, [])
         return self.tasks
@@ -345,7 +346,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    is_Ham = False if numq != 343 else True
+    packed_x, packed_z = cond_generator(matrix, dx, dz, is_Ham, is_sym)
     end_gen = time.time()
     print(f"Condition generation time: {end_gen - start_time}")
 
@@ -521,7 +523,7 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 1, 0, 0],
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
-    matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    matrix = qldpc_codes.stabs_Tanner(2, 1, Par54, Rep51)
     # matrix = surface_matrix_gen(11)
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
@@ -530,23 +532,28 @@ if __name__ == "__main__":
     dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
     weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
     print(dx_max, dz_max, weight_min)
-    exit(0)
+    # exit(0)
     # matrix = special_codes.stabs_832code()
     
-    cond_checker(matrix, 5, 5, max_proc_num)
+    # cond_checker(matrix, 4, 4, max_proc_num)
     
     
     
     #### Parsing input parameters ####
-    # parser = argparse.ArgumentParser(description='Error detection for quantum codes')
-    # parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPU cores')
+    parser = argparse.ArgumentParser(description='Error detection for quantum codes')
+    parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPU cores')
     # parser.add_argument('--code', type = str, default = 'camp_howard', help = 'The code type')
     # parser.add_argument('--p1', type = int, default = 2, help = 'The parameter for the code')
     # parser.add_argument('--p2', type = int, default = 2, help = 'The parameter for the code')
-    # args = parser.parse_args()
+    args = parser.parse_args()
     # user_input = args.code
-    # max_proc_num = args.cpucount
-
+    max_proc_num = args.cpucount
+    output_dir = './eval_Output'
+    # with open(f'{output_dir}/detect_Tanner_Ham7.txt', 'w') as f:
+    #     # f.write(f"CPU counts: {max_proc_num}\n")
+    #     with redirect_stdout(f):
+    #         cond_checker(matrix, 4, 4, max_proc_num)
+    cond_checker(matrix, 4, 4, max_proc_num)
     # # user_input = input("Enter the code type: ")
     # if user_input == 'camp_howard':
     #     # d = int(input("Enter the parameter: "))

@@ -1,0 +1,39 @@
+nohup: ignoring input
+Task generated. Start checking.
+total_job: 67800
+tasks for X error: 33900 | tasks for Z error: 33900
+task generation time: 1.387199878692627
+33646/67800: finish job file[33668], cost_time: 0.4196598529815674
+[33668, [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 20', 'num_zero: 16', 'num_one: 4', 'one_pos: [0, 1, 11, 19]'], 0.4196598529815674, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-16 14:17:58
+current time: 2025-03-16 14:18:58
+cost time: 0:01:00.001166
+left time: 0:01:00.907087
+estimated time: 0:02:00.908253
+estimated finished time: 2025-03-16 14:19:59
+instance per seconed(all process): 560.76
+instance average runtime(s): 0.45
+finished persent: 49.63%
+processed jobs: 33646
+unprocessed jobs: 34154
+
+64227/67800: finish job file[64269], cost_time: 0.3052856922149658
+[64269, [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 37', 'num_zero: 34', 'num_one: 3', 'one_pos: [0, 29, 36]'], 0.3052856922149658, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-03-16 14:17:58
+current time: 2025-03-16 14:19:58
+cost time: 0:02:00.002183
+left time: 0:00:06.675819
+estimated time: 0:02:06.678002
+estimated finished time: 2025-03-16 14:20:05
+instance per seconed(all process): 535.22
+instance average runtime(s): 0.47
+finished persent: 94.73%
+processed jobs: 64227
+unprocessed jobs: 3573
+
+No counterexample found, all errors can be corrected.
+
+Finish all jobs. Checking time: 125.83272314071655
+cond_checker took 127.311sec

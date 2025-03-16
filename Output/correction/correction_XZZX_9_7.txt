@@ -1,8 +1,9 @@
 nohup: ignoring input
 Task generated. Start checking.
 total_job: 17894
-task generation time: 1.409074306488037
+tasks for X error: 4104 | tasks for Z error: 13790
+task generation time: 1.2189617156982422
 No counterexample found, all errors can be corrected.
 
-Finish all jobs. Checking time: 20.376786947250366
-cond_checker took 21.817sec
+Finish all jobs. Checking time: 17.089674472808838
+cond_checker took 18.356sec

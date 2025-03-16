@@ -178,7 +178,7 @@ def sym_gen(dx, dz):
 
 
 
-def cond_generator(matrix, dx, dz, is_sym = False):
+def cond_generator(matrix, dx, dz, is_discrete, is_sym = False):
     num_qubits = matrix.shape[1] // 2
     # begin_x, length_x, _ = info_x
     # begin_z, length_z, _ = info_z
@@ -197,21 +197,22 @@ def cond_generator(matrix, dx, dz, is_sym = False):
     err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {2 * ex_max}"
     err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}"
-    for i in range(slice_z):
-        start = i * dz + 1
-        if start + dz - 1 <= num_qubits:
-            err_gt_x += f" && sum i {start} {start + dz - 1} (ez_(i)) <= 1"
-        else:
-        # elif start <= num_qubits:
-            err_gt_x += f" && sum i {start} {num_qubits} (ez_(i)) <= 1"
+    if is_discrete == True:
+        for i in range(slice_z):
+            start = i * dz + 1
+            if start + dz - 1 <= num_qubits:
+                err_gt_x += f" && sum i {start} {start + dz - 1} (ez_(i)) <= 1"
+            else:
+            # elif start <= num_qubits:
+                err_gt_x += f" && sum i {start} {num_qubits} (ez_(i)) <= 1"
 
-    for i in range(slice_x):
-        start = i * dx + 1
-        if start + dx - 1 <= num_qubits:
-            err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
-        else:
-        # elif start <= num_qubits:
-            err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
+        for i in range(slice_x):
+            start = i * dx + 1
+            if start + dx - 1 <= num_qubits:
+                err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
+            else:
+            # elif start <= num_qubits:
+                err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
     # print(err_gt_x, err_gt_z)
     postcond_x, postcond_z = precond_x, precond_z
 
