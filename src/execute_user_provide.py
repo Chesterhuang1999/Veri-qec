@@ -4,6 +4,9 @@ import math
 from multiprocessing import Pool
 from smt_partition_merge import *
 # from smt_detect_only import *
+
+import os
+from contextlib import redirect_stdout
 import argparse
 from timebudget import timebudget
 import datetime
@@ -377,7 +380,13 @@ if __name__ == "__main__":
     max_proc_num = args.cpucount
     matrix = surface_matrix_gen(d)
     cstype = args.constraint
-    sur_cond_checker(d, max_proc_num, cstype = cstype)
+    output_dir = './eval_Output'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
+        with redirect_stdout(f):
+            cond_checker(matrix, d, d, max_proc_num, cstype)
+    # sur_cond_checker(d, max_proc_num, cstype = cstype)
     # sur_cond_checker(d, max_proc_num, cstype = cstype)
     # if user_input == 'surface':
     #     d = int(input("Enter the distance: "))

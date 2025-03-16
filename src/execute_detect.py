@@ -5,9 +5,14 @@ from multiprocessing import Pool, Manager
 # from smt_partition_merge import *
 from smt_detect_only import *
 from itertools import combinations
+
 from timebudget import timebudget
 import datetime
 import tblib.pickling_support
+
+
+import os
+from contextlib import redirect_stdout
 import sys
 import argparse
 ##Import special codes
@@ -105,11 +110,11 @@ class subtask_generator:
         #     return False
 
         ### For Tanner code detection ###
-        if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-            return False
+        # if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
+            # return False
         #### For detection other than Tanner code ####
-        # if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
-        #     return False
+        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+            return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
         #     return False
@@ -290,6 +295,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     tg_z = subtask_generator(dx, numq, max_proc_num)
     tasks_z = tg_z() 
     total_job = len(tasks_x) + len(tasks_z)
+    print(f"Check condition: dx = {dx}, dz = {dz}")
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}")
     print(f"total_job: {total_job}")
 
@@ -432,6 +438,10 @@ if __name__ == "__main__":
     user_input = args.code
     max_proc_num = args.cpucount
 
+    output_dir = './eval_Output'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    file_name = f'{output_dir}/detection_{user_input}'
     # user_input = input("Enter the code type: ")
     if user_input == 'camp_howard':
         # d = int(input("Enter the parameter: "))
@@ -439,8 +449,12 @@ if __name__ == "__main__":
             raise ValueError("The parameters are not provided.")
         k = args.p1 if args.p1 is not None else args.p2
             # matrix = surface_matrix_gen(d)
+        file_name += f"_{k}.txt"
         matrix = special_codes.stabs_camp_howard(k)
-        cond_checker(matrix, 4, 2, max_proc_num)
+        with open(file_name, 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 4, 2, max_proc_num)
+        # cond_checker(matrix, 4, 2, max_proc_num)
         
     elif user_input == 'triorthogonal':
         # k = int(input("Enter the parameter: "))
@@ -448,8 +462,12 @@ if __name__ == "__main__":
             raise ValueError("The parameters are not provided.")
         k = args.p1 if args.p1 is not None else args.p2
         matrix = special_codes.stabs_triotho(k)
-        print("Check condition: dx = 7, dz = 2")
-        cond_checker(matrix, 7, 2, max_proc_num)
+        file_name += f"_{k}_6_2.txt"
+        with open(file_name, 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 6, 2, max_proc_num)
+        # print("Check condition: dx = 7, dz = 2")
+        # cond_checker(matrix, 7, 2, max_proc_num)
         
     elif user_input == 'basic_color':
         # m = int(input("Enter the params: "))
@@ -457,20 +475,28 @@ if __name__ == "__main__":
         if args.p1 is None or args.p2 is None:
             raise ValueError("The parameters are not provided.")
         dx,dz = args.p1, args.p2
-        print(f"Check condition: dx = {dx}, dz = {dz}")
-        cond_checker(matrix, dx, dz, max_proc_num)
+        # print(f"Check condition: dx = {dx}, dz = {dz}")
+        file_name += f"_{dx}_{dz}.txt"
+        with open(file_name, 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, dx, dz, max_proc_num)
+        # cond_checker(matrix, dx, dz, max_proc_num)
     elif user_input == 'carbon':
         # d = int(input("Enter the distance: "))
         matrix = special_codes.stabs_carbon()
-        print("Check condition: dx = 4, dz = 4")
-        cond_checker(matrix, 4, 4, max_proc_num)
-    elif user_input == 'tanner': ## To be tested
-        matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-        if args.p1 is None or args.p2 is None:
-            raise ValueError("The parameters are not provided.")
-        dx,dz = args.p1, args.p2
-        print(f"Check condition: dx = {dx}, dz = {dz}")
-        cond_checker(matrix, dx, dz, max_proc_num)
+        # print("Check condition: dx = 4, dz = 4")
+        file_name += ".txt"
+        with open(file_name, 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 4, 4, max_proc_num)
+        # cond_checker(matrix, 4, 4, max_proc_num)
+    # elif user_input == 'tanner': ## To be tested
+    #     matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    #     if args.p1 is None or args.p2 is None:
+    #         raise ValueError("The parameters are not provided.")
+    #     dx,dz = args.p1, args.p2
+    #     print(f"Check condition: dx = {dx}, dz = {dz}")
+    #     cond_checker(matrix, dx, dz, max_proc_num)
     # matrix = special_codes.stabs_camp_howard(2)
     # cond_checker(matrix, 4, 2, max_proc_num)
     # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)

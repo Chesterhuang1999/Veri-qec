@@ -28,6 +28,7 @@ RUN apt-get update && \
 RUN rm -rf /var/lib/apt/lists/*
 # RUN pip install tabulate
 RUN pip install --no-cache-dir -r \
+        tblib=3.0.0 \
         lark=0.12.0 \
         z3-solver=4.13.0.0 \ 
         cvc5=1.2.0  
@@ -41,6 +42,7 @@ RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
 FROM lib-base as builder
 RUN mkdir /Veri-qec/
 RUN mkdir /Veri-qec/src
+RUN mkdir /Veri-qec/eval-Output
 WORKDIR /Veri-qec
 COPY ./src /Veri-qec/src
 CMD ["/bin/bash"]
