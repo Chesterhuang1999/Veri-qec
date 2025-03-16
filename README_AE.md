@@ -209,6 +209,54 @@ We list the benchmarks of codes and properties we aim to verify for them in the 
   </tr>
 </table>
 
-For Hypergraph product code and quantum Tanner code we fix the clessical 
-The default parameters for 
+For Hypergraph product code and quantum Tanner code we fix the classical codes used as constructors. 
+
+The evaluation commands and parameters set for verification are as follows.
+
+- Evaluation for error correcting property (full verification)
+```bash
+python3 src/execute_verify.py --cpucount nc --code codename --param1 d1 --param2 d2
+```
+Parameters for verification: 
+| codename | param1 | param2 |
+| --------- | ------| -------| 
+| surface  | {3,5,7,9,11}| / | 
+| reed_muller | {3,4,5,6,7,8,9} | / |
+| XZZX | {5,7,9,11} | {5,7,9,11} |
+| Goettsman | {3,4,5,6,7,8} | / | 
+| Honeycomb | {3,5} | / | 
+| steane | / | /|
+| dodecacode | / | / | 
+
+
+- Evaluation for error correcting property with user-provided constraints (partial verification)
+```bash
+python3 src/execute_user_provide.py --cpucount nc --distance d --constraint cstype 
+```
+
+We use surface code as the benchmark code here and the distances for three types of constraints are:
+
+|cstype | distance |
+|------- | --------|
+| discrete | {3,5,7,9,11} | 
+| local | {5,7,9,11,13} | 
+| combined | {7,9,11,13,15,17,19} |
+
+- Evaluation for error detecting property (full-verification)
+
+```bash 
+python3 src/execute_detect.py --cpucount nc --code codename --param1 d1 --param2 d2
+```
+
+The default parameters for codes in the benchmarks:
+
+| codename | p
+
+The only exception is quantum Tanner code. Due to the number of qubits and relative large weight of stabilizers, we specifically designed an empirical function for dividing it into subtasks. The evaluation command for quantum Tanner code is :
+```bash 
+python3 src/execute_detect_Tanner.py 
+```
+
+
+You can go to the `/eval-Output/` directory to  
 ### Updates for the evaluation results in the paper

@@ -525,67 +525,67 @@ if __name__ == "__main__":
     # matrix = surface_matrix_gen(11)
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
-    # print(n, k)
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # print(dx_max, dz_max, weight_min)
-    # exit(0)
+    print(n, k)
+    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    print(dx_max, dz_max, weight_min)
+    exit(0)
     # matrix = special_codes.stabs_832code()
     
-    # cond_checker(matrix, 5, 5, max_proc_num)
+    cond_checker(matrix, 5, 5, max_proc_num)
     
     
     
     #### Parsing input parameters ####
-    parser = argparse.ArgumentParser(description='Error detection for quantum codes')
-    parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPU cores')
-    parser.add_argument('--code', type = str, default = 'camp_howard', help = 'The code type')
-    parser.add_argument('--p1', type = int, default = 2, help = 'The parameter for the code')
-    parser.add_argument('--p2', type = int, default = 2, help = 'The parameter for the code')
-    args = parser.parse_args()
-    user_input = args.code
-    max_proc_num = args.cpucount
+    # parser = argparse.ArgumentParser(description='Error detection for quantum codes')
+    # parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPU cores')
+    # parser.add_argument('--code', type = str, default = 'camp_howard', help = 'The code type')
+    # parser.add_argument('--p1', type = int, default = 2, help = 'The parameter for the code')
+    # parser.add_argument('--p2', type = int, default = 2, help = 'The parameter for the code')
+    # args = parser.parse_args()
+    # user_input = args.code
+    # max_proc_num = args.cpucount
 
-    # user_input = input("Enter the code type: ")
-    if user_input == 'camp_howard':
-        # d = int(input("Enter the parameter: "))
-        if args.p1 is None and args.p2 is None:
-            raise ValueError("The parameters are not provided.")
-        k = args.p1 if args.p1 is not None else args.p2
-            # matrix = surface_matrix_gen(d)
-        matrix = special_codes.stabs_camp_howard(k)
-        cond_checker(matrix, 4, 2, max_proc_num)
+    # # user_input = input("Enter the code type: ")
+    # if user_input == 'camp_howard':
+    #     # d = int(input("Enter the parameter: "))
+    #     if args.p1 is None and args.p2 is None:
+    #         raise ValueError("The parameters are not provided.")
+    #     k = args.p1 if args.p1 is not None else args.p2
+    #         # matrix = surface_matrix_gen(d)
+    #     matrix = special_codes.stabs_camp_howard(k)
+    #     cond_checker(matrix, 4, 2, max_proc_num)
         
-    elif user_input == 'triorthogonal':
-        # k = int(input("Enter the parameter: "))
-        if args.p1 is None and args.p2 is None:
-            raise ValueError("The parameters are not provided.")
-        k = args.p1 if args.p1 is not None else args.p2
-        matrix = special_codes.stabs_triotho(k)
-        print("Check condition: dx = 7, dz = 2")
-        cond_checker(matrix, 7, 2, max_proc_num)
+    # elif user_input == 'triorthogonal':
+    #     # k = int(input("Enter the parameter: "))
+    #     if args.p1 is None and args.p2 is None:
+    #         raise ValueError("The parameters are not provided.")
+    #     k = args.p1 if args.p1 is not None else args.p2
+    #     matrix = special_codes.stabs_triotho(k)
+    #     print("Check condition: dx = 7, dz = 2")
+    #     cond_checker(matrix, 7, 2, max_proc_num)
         
-    elif user_input == 'basic_color':
-        # m = int(input("Enter the params: "))
-        matrix = special_codes.stabs_832code()
-        if args.p1 is None or args.p2 is None:
-            raise ValueError("The parameters are not provided.")
-        dx,dz = args.p1, args.p2
-        print(f"Check condition: dx = {dx}, dz = {dz}")
-        cond_checker(matrix, dx, dz, max_proc_num)
-    elif user_input == 'carbon':
-        # d = int(input("Enter the distance: "))
-        matrix = special_codes.stabs_carbon()
-        print("Check condition: dx = 4, dz = 4")
-        cond_checker(matrix, 4, 4, max_proc_num)
-    elif user_input == 'tanner': ## To be tested
-        matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-        if args.p1 is None or args.p2 is None:
-            raise ValueError("The parameters are not provided.")
-        dx,dz = args.p1, args.p2
-        print(f"Check condition: dx = {dx}, dz = {dz}")
-        cond_checker(matrix, dx, dz, max_proc_num)
+    # elif user_input == 'basic_color':
+    #     # m = int(input("Enter the params: "))
+    #     matrix = special_codes.stabs_832code()
+    #     if args.p1 is None or args.p2 is None:
+    #         raise ValueError("The parameters are not provided.")
+    #     dx,dz = args.p1, args.p2
+    #     print(f"Check condition: dx = {dx}, dz = {dz}")
+    #     cond_checker(matrix, dx, dz, max_proc_num)
+    # elif user_input == 'carbon':
+    #     # d = int(input("Enter the distance: "))
+    #     matrix = special_codes.stabs_carbon()
+    #     print("Check condition: dx = 4, dz = 4")
+    #     cond_checker(matrix, 4, 4, max_proc_num)
+    # elif user_input == 'tanner': ## To be tested
+    #     matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    #     if args.p1 is None or args.p2 is None:
+    #         raise ValueError("The parameters are not provided.")
+    #     dx,dz = args.p1, args.p2
+    #     print(f"Check condition: dx = {dx}, dz = {dz}")
+    #     cond_checker(matrix, dx, dz, max_proc_num)
     # matrix = special_codes.stabs_camp_howard(2)
     # cond_checker(matrix, 4, 2, max_proc_num)
     # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)
