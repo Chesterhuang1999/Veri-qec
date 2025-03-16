@@ -300,7 +300,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
 
     print("Task generated. Start checking.")
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_sym)
+    packed_x, packed_z = cond_generator(matrix, dx, dz,False, is_sym)
     end_gen = time.time()
     print(f"Condition generation time: {end_gen - start_time}")
     start_time = time.time()
@@ -458,14 +458,16 @@ if __name__ == "__main__":
         
     elif user_input == 'triorthogonal':
         # k = int(input("Enter the parameter: "))
-        if args.p1 is None and args.p2 is None:
+        if args.p1 is None or args.p2 is None:
             raise ValueError("The parameters are not provided.")
-        k = args.p1 if args.p1 is not None else args.p2
+        k = args.p1 
+        # if args.p1 is not None else args.p2
+        dx = args.p2
         matrix = special_codes.stabs_triotho(k)
-        file_name += f"_{k}_6_2.txt"
+        file_name += f"_{k}_{dx}_2.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, 6, 2, max_proc_num)
+                cond_checker(matrix, dx, 2, max_proc_num)
         # print("Check condition: dx = 7, dz = 2")
         # cond_checker(matrix, 7, 2, max_proc_num)
         

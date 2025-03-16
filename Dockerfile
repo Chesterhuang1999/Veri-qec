@@ -1,14 +1,16 @@
 FROM ubuntu:22.04 as lib-base
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.ubuntu.com/ubuntu|http://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list
+
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         cmake \
         make \
         clang \
         g++ \
-        curl \
-        default-jdk \
         python3 \
+        python3-dev \
         build-essential \
         git \
         wget \
@@ -19,19 +21,18 @@ RUN apt-get update && \
         zlib1g-dev \
         unzip \
         python3-setuptools \
-        python-is-python3 \
-        vim \
-        python3-pip \
-        sudo 
+        python3-pip 
 
-    
 RUN rm -rf /var/lib/apt/lists/*
-# RUN pip install tabulate
-RUN pip install --no-cache-dir -r \
-        tblib=3.0.0 \
-        lark=0.12.0 \
-        z3-solver=4.13.0.0 \ 
-        cvc5=1.2.0  
+RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple \
+        lark==0.12.0 \
+        tblib==3.0.0 \
+        z3-solver==4.13.0.0 \ 
+        cvc5==1.2.0  
+
+
+# RUN git config --global  http.https://github.com.proxy http://localhost:8118 \
+#     && git config --global https.https://github.com.proxy  http://localhost:8118
 
 RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
     cd bitwuzla && \

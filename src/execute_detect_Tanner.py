@@ -108,12 +108,12 @@ class subtask_generator:
 
         ### For Tanner code detection ###
 
-        if checktype == 'x':
-            if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
-                return False
-        else:
-            if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
-                return False
+        # if checktype == 'x':
+        #     if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+        #         return False
+        # else:
+        #     if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+        #         return False
         #### For detection other than Tanner code ####
         # if 8 * assigned_one_num * self.distance + 6 * assigned_bit_num < self.num_qubits:
         #     return False

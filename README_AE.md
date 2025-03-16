@@ -7,7 +7,7 @@
 - Submission ID (Track: PLDI 2025 Artifacts): 10
 - Zenodo Link: 
 
-Veri-QEC is a prototype tool designed for automatic verification of quantum error correcting programs. 
+Veri-QEC is a prototype tool designed for automatic verification of quantum error correcting programs. As for the artifact evaluation, we claim for available and reusable badges. If it does not fulfill the reusable criteria, we claim the functional badge instead.
 <!-- As outlined in the paper, the artifacts include two modules, a verified verifier in Coq an an automatic verifier, Veri-QEC in Python.  -->
 We introduce a robust framework for parsing and interpretating quantum error-correcting programs and its associated assertion logic. It then encodes the derived verification conditions into logical formulas. Leveraging SMT solvers building upon a parallel solving framework, the tool efficiently checks the satisfiability of these formulas.
 
@@ -130,7 +130,7 @@ It may take a long time ($\approx 19.25$ CPU days or $\approx 24$ hours for a 16
 You can exit the container by typing `exit`. The test outputs will remain available in `pwd/eval-Output`. You can refer to it for evaluation. Once you have finished all evaluation, you can delete the docker image from the Docker environment:
 
 ```bash 
-
+docker rmi docker-veriqec
 ```
 ## Detailed Instructions for Evaluation
 
@@ -161,7 +161,7 @@ We list the benchmarks of codes and properties we aim to verify for them in the 
   </tr>
   <tr>
     <td>Surface code</td>
-    <td>[$d^2$, 1, d]</td>
+    <td>[d^2, 1, d]</td>
     <td>basic 3D color code</td>
     <td>[8,3,2]</td>
   </tr>
@@ -173,7 +173,7 @@ We list the benchmarks of codes and properties we aim to verify for them in the 
   </tr>
   <tr>
       <td> Goettsman code </td>
-      <td> [2^r] </td>
+      <td> [2^r, 2^r - r - 2, 3] </td>
       <td> Campbell-howard code </td>
       <td> 
   </tr>
@@ -247,16 +247,35 @@ We use surface code as the benchmark code here and the distances for three types
 ```bash 
 python3 src/execute_detect.py --cpucount nc --code codename --param1 d1 --param2 d2
 ```
+We configured the corresponding parameters for the error-correcting codes used in these experiments. Note that for triorthogonal code we additionally set the second parameter as to provide an example for incorrect parameters ($d_x = 6$ is correct, while $d_x = 7$ is not). If set to 7, the SMT solver would report counterexamples and terminate the process pool. 
 
-The default parameters for codes in the benchmarks:
+| codename | param1 | param2| 
+|----------|--------|--------|
+| camp_howard | {2} | /| 
+| carbon | / | / |
+| basic_color | / | / | 
+| triorthogonal | {32, 64} | {6,7} |
 
-| codename | p
-
-The only exception is quantum Tanner code. Due to the number of qubits and relative large weight of stabilizers, we specifically designed an empirical function for dividing it into subtasks. The evaluation command for quantum Tanner code is :
+The only exception is quantum Tanner code. Due to the number of qubits and relative large weight of stabilizers, we specifically designed another empirical function to dividing the problem into subtasks. The evaluation command for quantum Tanner code is:
 ```bash 
 python3 src/execute_detect_Tanner.py 
 ```
+Detailed discussions for verification of quantum Tanner code in the following section. 
 
 
-You can go to the `/eval-Output/` directory to  
 ### Updates for the evaluation results in the paper
+
+When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. 
+
+The updates of experimental results include:
+
+1) Results of quantum reed-muller code. We extend the scale of the code to $r = 9$ and verified the correctness of the program implementation for this $[511,1,3]$ code in $46.75$ hours. The time consumption is large but it has been the largest code we verified. 
+
+
+2) Results of Triorthogonal code. We first extend the scale of the code to $r = 64$ and further verify that the distance for $X$ error is $6$ for both codes. 
+
+
+3) Results of quantum Tanner code. We selected two sets of classical linear codes: the 5-bit repetition code and its dual, as well as the 7-bit Hamming code and its dual. We claim that the data in the paper should be updated from two perspectives:
+    - For Tanner code constructed with the 5-qubit repetition code, we verify the exact code distance **$d = 4$** in **$137$** seconds, which indicates that this construction is rather trivial;
+
+    - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$1.96$** hours to verify. We leave this problem to future work.  
