@@ -89,7 +89,7 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     # print(cass_tree)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-    # print(cass_expr)    
+    print(cass_expr)    
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
     

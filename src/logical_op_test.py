@@ -150,7 +150,7 @@ def sur_seq_checker_combine(matrix, dx, dz, program, N, rnds):
 def formula_gen_logical(matrix, dx, dz, gates, N):
     numq = matrix.shape[1] // 2
     prog_x, prog_z, err_gt_x, err_gt_z = program_gen_log_err(matrix, numq, N, gates, code = 'steane')
-  
+    print(prog_x)
     postcond_x, postcond_z = stab_cond_gen_log(matrix, N)
     bit_width = int(math.log2(numq * N)) + 1
     for ind, gateinfo in gates.items():
@@ -169,7 +169,7 @@ def formula_gen_logical(matrix, dx, dz, gates, N):
             if i >= 1:
                 err_cond_x = err_cond_x + f"&&sum i {start + 1} {start + numq} (ez_(i)) <= {(dz -1) //2 }"
                 err_cond_z = err_cond_z + f"&&sum i {start + 1} {start + numq} (ex_(i)) <= {(dx -1) //2 }"
-    
+        print(err_cond_x)
         decoder_cond_x, decoder_cond_z, _, _ = decode_cond_gen_mul(matrix, numq, N, 1, dx, dz)
         
         packed_x = smtencoding(bit_width, precond_x, prog_x, postcond_x, 
@@ -183,11 +183,6 @@ def formula_gen_logical(matrix, dx, dz, gates, N):
         return packed_x, packed_z
         # print(simplify(tree_to_z3(VCgeneration(precond_x, prog_x, postcond_x))))
 
-# def seq_cond_checker(packed_expr, err_vals, opt):
-#     t1 = time.time()
-#     expr, variables, constraints = packed_expr
-#     if opt == 'x':
-#         err_val_exprs = 
 if __name__ == "__main__" : 
     D = 3
     N = 2
@@ -203,18 +198,21 @@ if __name__ == "__main__" :
     H[1] = [['H', [1]], ['H', [2]]]
     # prog_log = program_gen_logic(matrix, 7, 3, H[1], 'surface')
     GHZ = defaultdict(list)
-    # GHZ[1] = [['H', [1]]]
-    GHZ[0] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
-    # prog_log = program_gen_logic(matrix, 7, 3, GHZ[2], 'steane')
+    GHZ[0] = [['H', [2]]]
+    GHZ[1] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
+    print(program_gen_logic(matrix, 7, 3, GHZ[0], 'steane'))
+    print(program_gen_logic(matrix, 7, 3, GHZ[1], 'steane'))    
+    # exit(0)
     packed_x, packed_z = formula_gen_logical(matrix, D, D, GHZ, 3)
+    exit(0)
     err_val_x = np.zeros(11, dtype = int)
     err_val_x[9] = 1 
     err_val_z = np.zeros(17, dtype = int)
     err_val_z[9] = 1
     err_val_z[16] = 1
 
-    tx, res_x = seq_cond_checker(packed_x, [0], [0],'x')    
-    tz, res_z = seq_cond_checker(packed_z, err_val_z, [1,0,0,0,0,0,0],'z')
+    tx, res_x = seq_cond_checker(packed_x, err_val_x,'x')    
+    tz, res_z = seq_cond_checker(packed_z, err_val_z,'z')
 
     print(tx, res_x)
     print(tz, res_z)

@@ -47,6 +47,24 @@ def worker_test(task_id, meas_corr, rnds, err_vals, opt):
         return task_id, cost, pos, res
     except Exception as e:
         return task_id, ExceptionWrapper(e)
+def worker(task_id, err_vals, opt):
+    
+    try:
+        start = time.time()
+        
+        if opt == 'x':
+            # smttime, res = seq_cond_checker(packed_x, err_vals, opt)
+            smttime, res = seq_cond_checker(packed_x, err_vals, opt)
+        else:
+            # smttime, res = seq_cond_checker(packed_z, err_vals, opt)
+            smttime, res = seq_cond_checker(packed_z, err_vals, opt)
+        end = time.time()
+        cost = end - start 
+
+        return task_id, smttime, str(res)
+    except Exception as e:
+        print(e)
+        return task_id, ExceptionWrapper(e)
 
 class subtask_generator:
     def __init__(self, distance, numq, max_proc_num) -> None:
@@ -275,10 +293,11 @@ def cond_checker_testing(matrix, dx, dz, rnds, N, max_sample_num, max_proc_num, 
         
     else:
         for ind, gateinfo in circuit.items():
-            prog_log = program_gen_logic(matrix, numq, N, gateinfo, 'surface')
+            prog_log = program_gen_logic(matrix, numq, N, gateinfo, 'steane')
+            print(prog_log)
             packed_x, packed_z = formula_gen_combine(matrix, dx, dz, 1, N, prog_log)
-            tgx = subtask_generator(numq * N, dz, max_sample_num)
-            tgz = subtask_generator(numq * N, dx, max_sample_num)
+            tgx = subtask_generator(numq * N, dz, max_proc_num)
+            tgz = subtask_generator(numq * N, dx, max_proc_num)
             tasks_x = tgx()
             tasks_z = tgz()
             print("Task generated. Start checking.")
@@ -320,4 +339,9 @@ def cond_checker_testing(matrix, dx, dz, rnds, N, max_sample_num, max_proc_num, 
     
 
 if __name__ == "__main__":
-    print(random_sample_test(9, 2, 8, 2, 3))
+    # print(random_sample_test(9, 2, 8, 2, 3))
+    matrix = special_codes.stabs_steane()
+    GHZ = defaultdict(list)
+    GHZ[0] = [['H', [2]]]
+    GHZ[1] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
+    cond_checker_testing(matrix, 3, 3, 1, 3, 0, 8, GHZ)

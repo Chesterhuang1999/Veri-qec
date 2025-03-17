@@ -282,22 +282,12 @@ if __name__ == '__main__':
                    [0, 1, 0, 0, 1, 0, 1],
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
-    # matrix = special_codes.stabs_triotho(256)
     Rep51 = np.array([[1, 1, 0, 0, 0],
                   [1, 0, 1, 0, 0],
                   [1, 0, 0, 1, 0],
                   [1, 0, 0, 0, 1]])
     Par54 = np.array([[1, 1, 1, 1, 1]])
-    # matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    # n = matrix.shape[1] // 2
-    # k = matrix.shape[0] - n
-    
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # print(dx_max, dz_max, weight_min)
-    # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)
-    # row_sum_z = np.sum(matrix[n:n + k,:] == 1, axis = 1)
+
     # min_x = np.argmin(row_sum_x)
     # min_z = np.argmin(row_sum_z)
     # err_inds_x = np.array(np.nonzero(matrix[min_x + n -k ,:]))[0]
@@ -318,7 +308,7 @@ if __name__ == '__main__':
     dx = 3
     start = time.time()
     packed_x, packed_z = cond_generator(matrix, dx, dz, False)
-    # exit(0)
+    
     err_vals_z = [0]
     err_vals_x = [1]
     end = time.time()
