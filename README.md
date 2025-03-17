@@ -46,7 +46,10 @@ We depend on the following external libraries to build this project:
   "coq-mathcomp-finmap"      { = "2.1.0"            }
 ```
 
-You can install them by [OPAM]
+You can install them by opam directly: 
+```bash 
+
+```
 ### Evaluation
 
 
@@ -133,7 +136,7 @@ python3 src/execute_verify.py \
 
 To evaluate the results of the first functionality, using the command above and adjust the additional parameter (which is the distance of the surface code) from the set $\{3,5,7,9,11\}$. The typical output for this example will be : 
 
-```bash 
+```
 Task generated. Start checking.
 total_job: 4018
 task generation time: 0.46747398376464844
@@ -144,7 +147,7 @@ cond_checker took 3.611sec
 ```
 The second line illustrates the total subtasks we divide and the third line is the time consumed to parsing and generate the logical formulas. If there are no counterexamples (which means all of the subtasks will output `unsat`), then you'll see the fourth line which reports success. The final line displays the time taken by the solver to resolve all subtasks. If it takes a relatively long time ($>10s$, or $>60s$, depending on the estimated time cost in totla) to finish the check, then we present the phased verification results and the current progress in the following way:
 
-```bash 
+```
 3078/67800: finish job file[3191], cost_time: 0.19430899620056152
 [3191, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 44', 'num_zero: 41', 'num_one: 3', 'one_pos: [20, 24, 43]'], 0.19430899620056152, 'unsat']
  ++++++ show progress ++++++ 
@@ -162,7 +165,7 @@ unprocessed jobs: 64722
 ```
 
 The array starting with $3191$ reports information about the subtasks completed at that moment, including the length of the enumeration, the number of ones, the verification time, and the check result. If there exists some counterexamples that indicate the violation of the property, we would report it immediately, as shown below. 
-```bash
+```
 There exists a counterexample for X error:
 
 rank: 719 | id: 719 | time: 0.053060293197631836 | result: sat
@@ -309,13 +312,19 @@ python3 src/execute_detect_Tanner.py
 Detailed discussions for verification of quantum Tanner code in the following section. 
 
 
-#### Updates for the evaluation results in the paper
+#### Claims Updates for the evaluation results in the paper
 
-When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. 
+I. The experimental results produced by Veri-QEC can support the following claims mentioned in the paper:
 
-The updates of experimental results include:
+- Veri-QEC can perform general verification for all error configurations on surface codes with up to 121 qubits in $\sim 200$ minutes (see `Output/correction/correction_surface_11.txt`);
 
-1) Results of quantum reed-muller code. We extend the scale of the code to $r = 9$ and verified the correctness of the program implementation for this $[511,1,3]$ code in $46.75$ hours. The time consumption is large but it has been the largest code we verified. 
+- Veri-QEC can perform partial verification for certain user-provided constraints up to 361 qubits within $\sim 100$ minutes (see `Output/userprov_constraint/usrprov_comb_19.txt`).
+
+
+
+II. When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. The updates of experimental results include:
+
+1) Results of quantum reed-muller code. We extend the scale of the code to $r = 9$ and verified the correctness of the program implementation for this $[511,1,3]$ code within $\sim 47$ hours. The time consumption is large but it has been the largest code we verified. 
 
 
 2) Results of Triorthogonal code. We first extend the scale of the code to $r = 64$ and further verify that the distance for $X$ error is $6$ for both codes. 
@@ -324,5 +333,5 @@ The updates of experimental results include:
 3) Results of quantum Tanner code. We selected two sets of classical linear codes: the 5-bit repetition code and its dual, as well as the 7-bit Hamming code and its dual. We also choose *bitwuzla* as the SMT solver for Tanner code. We claim that the data in the paper should be updated from two perspectives:
     - For Tanner code constructed with the 5-qubit repetition code, we verify the exact code distance **$d = 4$** in **$137$** seconds, which indicates that this construction is rather trivial;
 
-    - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$1.96$** hours to verify. We leave this problem to future work.  
+    - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$\approx 2$** hours to verify. 
 
