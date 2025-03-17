@@ -1,5 +1,5 @@
 <!-- This is the documentation for the artifacts attached to the paper 'Efficient Formal Verification of Quantum Error Correcting Programs'. As introduced in the paper, the artifacts include two modules, a verified verifier in Coq and an automatic verifier, Veri-QEC in Python. -->
-# Veri-qec: A prototype tool for automatic verification of quantum error correcting programs
+# Research Artifact for Paper 'Efficient Formal Verification for Quantum Error Correcting Programs'
 
 ## Basic Information
 - Artifact: Veri-QEC (A **Verification** tool for **Quantum Error Correcting** Programs)
@@ -7,15 +7,61 @@
 - Submission ID (Track: PLDI 2025 Artifacts): 10
 - Zenodo Link: 
 
-Veri-QEC is a prototype tool designed for automatic verification of quantum error correcting programs. As for the artifact evaluation, we claim for available and reusable badges. If it does not fulfill the reusable criteria, we claim the functional badge instead.
-<!-- As outlined in the paper, the artifacts include two modules, a verified verifier in Coq an an automatic verifier, Veri-QEC in Python.  -->
+As for the artifact evaluation, we claim for available and reusable badges. If the artifacts do not fulfill the criteria for reusability, we instead request consideration for the functional badge.
+
+As described in the paper, the artifacts include two modules. The first module is a verified verifier for QEC programs, developed in Coq and built upon the CoqQ library. The second one is a Python-based tool designed to automate the verification for quantum error correction programs.
+
+## Verified QEC Program Verifier
+In this verified program verifier, We first formalize the semantics of the classical-quantum programs and then build the verified prover, prove the soundness of its program logic. This is achieved by ~4700 lines of Coq codes based on the CoqQ project. 
+
+### Getting started 
+Installing dependencies requires **opam**, the source-based package manager for OCaml. To install opam, executing the following commands:
+
+- Debian and Ubuntu:
+```bash
+apt install opam
+```
+- MacOS: (Homebrew or MacPorts is required)
+```bash
+# Homebrew 
+brew install opam
+
+#MacPort
+port install opam
+```
+
+We depend on the following external libraries to build this project: 
+```
+  "coq"                      { = "8.18.0"           }
+  "coq-core"                 { = "8.18.0"           }
+  "coq-elpi"                 { = "2.0.0"            }
+  "dune"                     {>= "3.2" & <= "3.13.0"}
+  "dune-configurator"        { = "3.12.1"           }
+  "coq-hierarchy-builder"    { = "1.7.0"            }
+  "coq-mathcomp-ssreflect"   { = "2.2.0"            }
+  "coq-mathcomp-algebra"     { = "2.2.0"            }
+  "coq-mathcomp-fingroup"    { = "2.2.0"            }
+  "coq-mathcomp-analysis"    { = "1.3.1"            }
+  "coq-mathcomp-real-closed" { = "2.0.0"            }
+  "coq-mathcomp-finmap"      { = "2.1.0"            }
+```
+
+You can install them by [OPAM]
+### Evaluation
+
+
+## Veri-qec: A prototype tool for automatic verification of quantum error correcting programs
+
+
+Veri-QEC is a prototype tool designed for automatic verification of quantum error correcting programs. 
+<!-- As for the artifact evaluation, we claim for available and reusable badges. If it does not fulfill the reusable criteria, we claim the functional badge instead. -->
+
 We introduce a robust framework for parsing and interpretating quantum error-correcting programs and its associated assertion logic. It then encodes the derived verification conditions into logical formulas. Leveraging SMT solvers building upon a parallel solving framework, the tool efficiently checks the satisfiability of these formulas.
 
 
-## Getting Started for Evaluation
+### Getting Started for Evaluation
 
-
-### Preparation for docker container
+#### Preparation for docker container
 A docker image is provided for evaluation, so you don't need to install all of the dependencies by yourself.
 
 Firstly, you need to obtain the number of CPU cores in your machine. 
@@ -58,7 +104,7 @@ We set the default working directory to be `/Veri-qec/` and you can use `pwd` at
 
 
 
-### Artifact Usage 
+#### Artifact Usage 
 
 We primarily evaluate the effectiveness of the tool in verifying the following three functionalities for quantum error correcting programs:
 
@@ -132,10 +178,10 @@ You can exit the container by typing `exit`. The test outputs will remain availa
 ```bash 
 docker rmi docker-veriqec
 ```
-## Detailed Instructions for Evaluation
+### Detailed Instructions for Evaluation
 
 
-### Benchmarks 
+#### Benchmarks 
 During our evaluation of the tool's functionality, we use a total of 14 types of stabilizer codes and their implementations. Based on their properties (primarily code distance), we divided them into two categories: Error Correcting codes and Error Detecting codes. Most of the stabilizer codes can detect and correct errors below certain thresholds; these codes often have odd code distances to saturate the upper bound of correctable errors; typical examples are surface codes (and the variants) and quantum reed-muller code. Error Detecting codes, for example the basic [8,3,2] color code or the campbell-howard code have even code distance (for Z error, it is $2$), indicating that they can only detect a single Pauli $Z$ error but are not capable of determining the locations and correct it. For these codes along with some codes with even code distances, we tend to verify their abilities to detect certain number of errors. 
 <!-- There are also some codes whose exact code distances are not straightforward; to advance in identifying and verifying the precise code distances of these codes, we also  -->
 
@@ -263,7 +309,7 @@ python3 src/execute_detect_Tanner.py
 Detailed discussions for verification of quantum Tanner code in the following section. 
 
 
-### Updates for the evaluation results in the paper
+#### Updates for the evaluation results in the paper
 
 When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. 
 

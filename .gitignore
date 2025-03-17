@@ -1,6 +1,7 @@
 *.png
 *.pyc
 *.smt2
+*.tar
 /src/Dataset/__pycache__
 /linxi-develop/
 /Details/
@@ -13,10 +14,6 @@ __pycache__
 /src/Execute/
 /Figures/
 /MISC/
-/Details/
-temp.txt
-sorted_results.txt
-surface_code_test_runtime.png
-plot.py
-Object.py
 /src/Texts/
+
+/bitwuzla/

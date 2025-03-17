@@ -367,15 +367,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     # print(f"Total time: {end_time - start_time}")
     for i, ei in enumerate(err_info):   
         ei.re_raise()
-    # is_sat = 0
-    # for i in range(len(tasks_z), len(task_info)):
-    #     ti = task_info[i]
-    #     if str(ti[-1]) == 'sat':
-    #         is_sat = 1
-    #         print('There exists a counterexample for Z error:\n')
-    #         print(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         print(ti[1])
-    #         print(f'{" | ".join(ti[2])}\n')
+   
+
     
     if is_sat == 0: 
         print("No counterexample for Z error is found, all errors can be detected.\n")
@@ -387,10 +380,7 @@ def sur_cond_checker(distance, max_proc_num):
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
-    # dx = 3
-    # dz = 3
-    # max_proc_num = int(input("Enter the CPU counts:"))
-    # max_proc_num = 250
+   
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
                    [0, 1, 1, 1, 0, 0, 1]])
@@ -492,24 +482,4 @@ if __name__ == "__main__":
             with redirect_stdout(f):
                 cond_checker(matrix, 4, 4, max_proc_num)
         # cond_checker(matrix, 4, 4, max_proc_num)
-    # elif user_input == 'tanner': ## To be tested
-    #     matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    #     if args.p1 is None or args.p2 is None:
-    #         raise ValueError("The parameters are not provided.")
-    #     dx,dz = args.p1, args.p2
-    #     print(f"Check condition: dx = {dx}, dz = {dz}")
-    #     cond_checker(matrix, dx, dz, max_proc_num)
-    # matrix = special_codes.stabs_camp_howard(2)
-    # cond_checker(matrix, 4, 2, max_proc_num)
-    # row_sum_x = np.sum(matrix[n- k:n,:] == 1, axis = 1)
-    # row_sum_z = np.sum(matrix[n:n + k,:] == 1, axis = 1)
-    # min_x = np.argmin(row_sum_x)
-    # min_z = np.argmin(row_sum_z)
-    # err_inds_x = np.array(np.nonzero(matrix[min_x + n -k ,:]))[0]
-    # err_inds_z = np.array(np.nonzero(matrix[min_z + n, :]))[0] - 343
-    # print(task_generator_fixed(err_inds_x, 343, 1))
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # matrix = surface_matrix_gen(5)
-    # cond_checker(matrix, 4, 4, max_proc_num)
-    # print(matrix)
-    # sur_cond_checker(3, max_proc_num)
+    

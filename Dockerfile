@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as lib-base
+FROM ubuntu:22.04 AS lib-base
 ARG DEBIAN_FRONTEND=noninteractive
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu|http://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list && \
     sed -i 's|http://security.ubuntu.com/ubuntu|http://mirrors.tuna.tsinghua.edu.cn/ubuntu|g' /etc/apt/sources.list
@@ -23,25 +23,40 @@ RUN apt-get update && \
         python3-setuptools \
         python3-pip 
 
-RUN rm -rf /var/lib/apt/lists/*
-RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple \
+RUN apt-get -y install ninja-build
+
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
+        meson \ 
+        cython \
         lark==0.12.0 \
         tblib==3.0.0 \
         z3-solver==4.13.0.0 \ 
         cvc5==1.2.0  
 
+RUN meson --version
 
-# RUN git config --global  http.https://github.com.proxy http://localhost:8118 \
-#     && git config --global https.https://github.com.proxy  http://localhost:8118
 
-RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
-    cd bitwuzla && \
-    pip install .
+# RUN git config --global  http.proxy http://127.0.0.1:8118 \
+#     && git config --global https.proxy  http://127.0.0.1:8118
+
+# RUN git clone https://github.com/bitwuzla/bitwuzla.git && \
+#     cd bitwuzla && \
+#     pip install . && \
+#     cd .. 
 
 # Builder Image for Veri-qec
 
-FROM lib-base as builder
+FROM lib-base AS builder
 RUN mkdir /Veri-qec/
+RUN mkdir /bitwuzla/
+COPY ./bitwuzla/ /bitwuzla/
+RUN cd bitwuzla && \
+    pip install . --index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
+    cd ..
+
 RUN mkdir /Veri-qec/src
 RUN mkdir /Veri-qec/eval-Output
 WORKDIR /Veri-qec

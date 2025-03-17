@@ -191,9 +191,7 @@ def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
     k = matrix.shape[0] - num_qubits
    
     precond_x, precond_z = stab_cond_gen(matrix, num_qubits, k)
-    # print(precond_x)  
-    # err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {ex_max}"
-    # err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
+
     if is_Tanner == True:
         err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {dx - 1}"
         err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {dz - 1}"
@@ -216,7 +214,7 @@ def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
 def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog):              
     post_tree, _, meas_tree = precond_generator(program, postcond, precond)
     variables = {}
-    # print(recon_string(meas_tree))
+ 
     constraints = []
     meas_cond = recon_string(meas_tree)
     phase_tree = VCgeneration(precond, err_prog, meas_cond)
@@ -276,7 +274,6 @@ if __name__ == '__main__':
    
     dx = 4
     dz = 2
-    # print(bzla.get_version())
     err_vals = [0]
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],

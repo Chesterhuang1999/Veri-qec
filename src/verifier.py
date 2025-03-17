@@ -340,30 +340,13 @@ class simplifyeq(Transformer):
             return Tree(data, [terms[0],self.build_tree(terms[1:], data)])
         
 
-
-
-# # ## Test: Steane code 
-# # ### Precondition generation
-# # start = time.time()
-# # precond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 
-# # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
-
-# # program = """ for i in 1 to 7 do q_(i) *= ex_(i) X end; for i in 1 to 7 do q_(i) *= ez_(i) Z end; sz_(1) := meas (1,0,1)(1,0,3)(1,0,5)(1,0,7); sz_(2) := meas (1,0,2)(1,0,3)(1,0,6)(1,0,7); 
-# # sz_(3) := meas (1,0,4)(1,0,5)(1,0,6)(1,0,7); sx_(1) := meas (0,1,1)(0,1,3)(0,1,5)(0,1,7); 
-# # sx_(2) := meas (0,1,2)(0,1,3)(0,1,6)(0,1,7); sx_(3) := meas (0,1,4)(0,1,5)(0,1,6)(0,1,7); for i in 1 to 7 do q_(i) *= cx_(i) X end; for i in 1 to 7 do q_(i) *= cz_(i) Z end"""
-
-# # postcond = """(-1)^(b_(1))(1,0,1)(1,0,2)(1,0,3) && (1,0,1)(1,0,3)(1,0,5)(1,0,7) && (1,0,2)(1,0,3)(1,0,6)(1,0,7) && (1,0,4)(1,0,5)(1,0,6)(1,0,7) 
-# # &&(0,1,1)(0,1,3)(0,1,5)(0,1,7) && (0,1,2)(0,1,3)(0,1,6)(0,1,7) && (0,1,4)(0,1,5)(0,1,6)(0,1,7) """
-# # pre_tree, prog_tree, post_tree = precond_generator(program, precond, postcond)
-
-
 if __name__ == '__main__':
-    ## Test for T gate evaluation
-    # precond = """ QR2[0,0,1](-1)^(b_(1))(0,1,1) + QR2[0,0,-1](1,1,1) """
-    # postcond = """ QR2[0,0,1](-1)^(b_(1))(0,1,1) + QR2[0,0,1](1,1,1) """
+    # Test for T gate evaluation
+    precond = """ QR2[0,0,1](-1)^(b_(1))(0,1,1) + QR2[0,0,-1](1,1,1) """
+    postcond = """ QR2[0,0,1](-1)^(b_(1))(0,1,1) + QR2[0,0,1](1,1,1) """
 
-    # program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
-    # for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
+    program = """for i in 1 to 3 do q_(i) *= ez_(i) Z end; s_(1) := meas (0,1,1)(0,1,2); s_(2) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i) Z end;
+    for i in 1 to 3 do q_(i) *= ez_(i + 3) Z end; s_(3) := meas (0,1,1)(0,1,2); s_(4) := meas (0,1,2)(0,1,3); for i in 1 to 3 do q_(i) *= cz_(i+3) Z end"""
 
     # postcond = """(-1)^(b_(1))(0,1,1) && (0,1,1)(0,1,2) && (0,1,2)(0,1,3)"""
 
@@ -388,27 +371,19 @@ if __name__ == '__main__':
     stabs_mat_rep2, phase_rep2 = canonical_form(stab_list2)
     # print(stabs_mat_rep2, phase_rep2)
     LT, eq_tree = linear_transform(stabs_mat_rep, stabs_mat_rep2, phase_rep1, phase_rep2)
-    # print(LT)
-    
-    # print(eq_tree.pretty())
+   
     # exit(0)
     eq_tree = simplifyeq().transform(eq_tree) 
     print(recon_string(eq_tree))
 
-    # exit(0)
     # print(linalg_GF.gaussian_elimination(stabs_mat_rep))
     # print(linalg_GF.gaussian_elimination(stabs_mat_rep2))
     # print(recon_string(assertion_tree))
     cass_transformer = qassertion2c(pre_tree)
     cass_tree = cass_transformer.transform(assertion_tree.children[0].children[-1])
     cass_tree = simplifyeq().transform(cass_tree)
-    # print(cass_tree)
+  
     print(recon_string(cass_tree))
-    # for i, aux in enumerate(auxes):
-    #     cass_transformer = qassertion2c(pre_tree)
-    #     aux = cass_transformer.transform(aux)
-    #     aux = simplifyeq().transform(aux)
-    #     print(recon_string(aux))    
 
 
 
