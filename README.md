@@ -318,7 +318,7 @@ Our tool supports the verification of simple fault-tolerant gadgets, with or wit
 python3 src/logical_op_test.py
 ```
 
-#### Claims Updates for the evaluation results in the paper
+#### Claims and Updates for the evaluation results in the paper
 
 I. The experimental results produced by Veri-QEC can support the following claims mentioned in the paper:
 
