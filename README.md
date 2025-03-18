@@ -79,15 +79,23 @@ In Windows using PowerShell, you can use the following command:
 ```bash
 (Get-WMiObject Win32_Processor).NumberOfCores
 ```
-After obtaining the number of CPU cores in your machine, you can load the docker image and start the evaluation.
+After obtaining the number of CPU cores in your machine, you can load the docker image from the archive file `docker-veriqec.tar` and start the evaluation.
 
 For Linux/ MacOS: 
 ```bash
-docker load < docker/docker-veriqec
+tar -xvf docker-veriqec.tar
+docker load < docker-veriqec
 ```
 PowerShell: 
 ```bash
-docker load -i docker\docker-veriqec
+tar -xvf docker-veriqec.tar
+docker load -i docker-veriqec
+```
+Or you can directly build from the zip file of source codes `Veri-qec.zip`:
+
+Linux, MacOS and PowerShell:
+```bash
+docker build -t docker-veriqec .
 ```
 
 Execute the following commands to start the docker container, enter the bash environment and load the directory of the output results:
