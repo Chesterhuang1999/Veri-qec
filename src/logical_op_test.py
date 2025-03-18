@@ -35,7 +35,7 @@ def formula_gen_combine(mat, dx, dz, rnds, N, prog_log):
     
     postcond_x, postcond_z  = stab_cond_gen_multiq(mat, numq, N)
     # print(postcond_z)
-    decoder_cond_x, decoder_cond_z, meas_corr_x, meas_corr_z = decode_cond_gen_mul(mat, numq, N, rnds, dx, dz) 
+    decoder_cond_x, decoder_cond_z, meas_corr_x, meas_corr_z = decode_cond_gen_mul(mat, numq, N, rnds, dx, dz, False) 
     precond_x = recon_string(precond_generator(prog_log, postcond_x, postcond_x)[-1])
     precond_z = recon_string(precond_generator(prog_log, postcond_z, postcond_z)[-1])
     # print(precond_z)
@@ -137,11 +137,12 @@ def steane_checker_combine(matrix, dx, dz, program, N, rnds):
             t1z, res1_z = seq_cond_checker(packed_z, [0], 'z')
             t2x, res2_x = seq_cond_checker(packed_x, [1], 'x')
             t2z, res2_z = seq_cond_checker(packed_z, [1], 'z')
-            if str(res1_x) == 'unsat' and str(res2_x) == 'unsat':
+            # print(res1_x, res2_x, res1_z, res2_z)
+            if str(res1_x[0]) == 'unsat' and str(res2_x[0]) == 'unsat':
                 print(f"Layer {inds}: All Z error can be corrected;")
             else:
                 print(f"Layer {inds}: Exist errors that cannot be corrected;")
-            if str(res1_z) == 'unsat' and str(res2_z) == 'unsat':
+            if str(res1_z[0]) == 'unsat' and str(res2_z[0]) == 'unsat':
                 print(f"Layer {inds}: All X error can be corrected.")
             else:
                 print(f"Layer {inds}: Exist errors that cannot be corrected.")
@@ -192,7 +193,7 @@ def formula_gen_logical(matrix, dx, dz, gates, N):
                 err_cond_x = err_cond_x + f"&&sum i {start + 1} {start + numq} (ez_(i)) + sum i {start + 1} {start + numq} (pz_(i)) <= {(dz - 1) //2}"
                 err_cond_z = err_cond_z + f"&&sum i {start + 1} {start + numq} (ex_(i)) + sum i {start + 1} {start + numq} (px_(i)) <= {(dx - 1) //2}"
         
-        decoder_cond_x, decoder_cond_z, _, _ = decode_cond_gen_mul(matrix, numq, N, 1, dx, dz)
+        decoder_cond_x, decoder_cond_z, _, _ = decode_cond_gen_mul(matrix, numq, N, 1, dx, dz, True)
         
         packed_x = smtencoding(bit_width, precond_x, prog_x, postcond_x, 
                             err_cond_x, err_gt_x, 
@@ -236,13 +237,13 @@ def steane_checker_prop(matrix, dx, dz, gates, N):
     p_vals = [0] * numq
     err_vals = [0] * numq * N
     nums = numq * N
-    print("Possible propagation error in Block #1: ")
+    print("Possible propagation error in Qubit Block #1: ")
     t1x, res1_x = seq_cond_checker_prop(packed_x, [0], p_vals, nums, 'x', 2)
     t1z, res1_z = seq_cond_checker_prop(packed_z, [0], p_vals, nums, 'z', 2)
     # exit(0)
     t2x, res2_x = seq_cond_checker_prop(packed_x, [1], p_vals, nums, 'x', 2)
     t2z, res2_z = seq_cond_checker_prop(packed_z, [1], p_vals, nums, 'z', 2)
-    print(res1_x, res2_x, res1_z, res2_z)
+    # print(res1_x, res2_x, res1_z, res2_z)
     if str(res1_x[0]) == 'unsat' and str(res2_x[0]) == 'unsat':
     # if str(res1_x) == 'unsat':
         print(f"All Z error can be corrected;")
@@ -267,7 +268,7 @@ def steane_checker_prop(matrix, dx, dz, gates, N):
     # exit(0)
     # print(f"SMT time consumed:{t1x + t1z}")
     print('----------------------')
-    print("Possible propagation error in Block #2: ")
+    print("Possible propagation error in Qubit Block #2: ")
     t1x, res1_x = seq_cond_checker_prop(packed_x, [0], p_vals, nums, 'x', 1)
     t1z, res1_z = seq_cond_checker_prop(packed_z, [0], p_vals, nums, 'z', 1)
     # exit(0)
@@ -303,11 +304,11 @@ def steane_checker_prop(matrix, dx, dz, gates, N):
     t1z, res1_z = seq_cond_checker(packed_z, [0], 'z')
     t2x, res2_x = seq_cond_checker(packed_x, [1], 'x')
     t2z, res2_z = seq_cond_checker(packed_z, [1], 'z')
-    if str(res1_x) == 'unsat' and str(res2_x) == 'unsat':
+    if str(res1_x[0]) == 'unsat' and str(res2_x[0]) == 'unsat':
         print(f"All Z error can be corrected;")
     else:
         print(f"Exist Z errors that cannot be corrected;")
-    if str(res1_z) == 'unsat' and str(res2_z) == 'unsat':
+    if str(res1_z[0]) == 'unsat' and str(res2_z[0]) == 'unsat':
         print(f"All X error can be corrected.")
     else:
         print(f"Exist X errors that cannot be corrected.")
@@ -332,18 +333,18 @@ if __name__ == "__main__" :
     GHZ[0] = [['H', [2]]]
     GHZ[1] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
     
-    # print("Example I: Verify Fault-tolerance for GHZ state preparation: ")
-    # print("----------------------")
-    # print("Fault-free program: ")
-    # print(f"Layer 0: {program_gen_logic(matrix, 7, 3, GHZ[0], 'steane')}")
-    # print(f"Layer 1: {program_gen_logic(matrix, 7, 3, GHZ[1], 'steane')}")
-    # print("Verify with Faults injected:")
-    # steane_checker_combine(matrix, D, D, GHZ, 3, 1)
+    print("Example I: Verify Fault-tolerance for GHZ state preparation: ")
+    print("----------------------")
+    print("Fault-free program: ")
+    print(f"Layer 0: {program_gen_logic(matrix, 7, 3, GHZ[0], 'steane')}")
+    print(f"Layer 1: {program_gen_logic(matrix, 7, 3, GHZ[1], 'steane')}")
+    print("Verify with Faults injected:")
+    steane_checker_combine(matrix, D, D, GHZ, 3, 1)
 
 
     CNOT = {}
     CNOT[0] = [['CNOT', [1, 2]]]
-    print("Example II: Verify Fault-tolerance for CNOT gate with propagation error: ")
+    print("Example II: Verify Fault-tolerance for CNOT gate with propagated error: ")
     steane_checker_prop(matrix, D, D, CNOT, 2)
 
     # err_val_x = np.zeros(11, dtype = int)

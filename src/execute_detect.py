@@ -428,7 +428,7 @@ if __name__ == "__main__":
     user_input = args.code
     max_proc_num = args.cpucount
 
-    output_dir = './eval_Output'
+    output_dir = './eval-Output'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     file_name = f'{output_dir}/detection_{user_input}'

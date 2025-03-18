@@ -5,13 +5,13 @@
 - Artifact: Veri-QEC (A **Verification** tool for **Quantum Error Correcting** Programs)
 - Paper Title: Efficient Formal Verification for Quantum Error Correcting Programs
 - Submission ID (Track: PLDI 2025 Artifacts): 10
-- Zenodo Link: 
+- Zenodo Link: 10.5281/zenodo.15039215
 
 As for the artifact evaluation, we claim for available and reusable badges. If the artifacts do not fulfill the criteria for reusability, we instead request consideration for the functional badge.
 
-As described in the paper, the artifacts include two modules. The first module is a verified verifier for QEC programs, developed in Coq and built upon the CoqQ library. The second one is a Python-based tool designed to automate the verification for quantum error correction programs.
+As described in the paper, the artifacts include two modules. The first module is a verified verifier for QEC programs, developed in Coq and built upon the CoqQ library. The second one is a Python-based tool designed to automate the verification for quantum error correction programs. Here is the documentation for the Python-based tool, Veri-QEC.
 
-## Verified QEC Program Verifier
+<!-- ## Verified QEC Program Verifier
 In this verified program verifier, We first formalize the semantics of the classical-quantum programs and then build the verified prover, prove the soundness of its program logic. This is achieved by ~4700 lines of Coq codes based on the CoqQ project. 
 
 ### Getting started 
@@ -50,7 +50,7 @@ You can install them by opam directly:
 ```bash 
 
 ```
-### Evaluation
+### Evaluation -->
 
 
 ## Veri-qec: A prototype tool for automatic verification of quantum error correcting programs
@@ -83,22 +83,22 @@ After obtaining the number of CPU cores in your machine, you can load the docker
 
 For Linux/ MacOS: 
 ```bash
-docker load < docker/docker-veriqec-image
+docker load < docker/docker-veriqec
 ```
 PowerShell: 
 ```bash
-docker load -i docker\docker-veriqec-image
+docker load -i docker\docker-veriqec
 ```
 
 Execute the following commands to start the docker container, enter the bash environment and load the directory of the output results:
 
 For Linux/MacOS with bash: 
 ```bash 
-docker run -v `pwd`/eval-Output: /Veri-qec/eval-Output --rm -it docker-veriqec
+docker run -v `pwd`/eval-Output:/Veri-qec/eval-Output --rm -it docker-veriqec
 ```
 Powershell:
 ```bash
-docker run -v ${PWD}$ /eval-Output: /Veri-qec/eval-Output --rm -it docker-veriqec
+docker run -v ${PWD}$ /eval-Output:/Veri-qec/eval-Output --rm -it docker-veriqec
 ```
 
 `-v` options mounts the `eval-Output` folder in the current directory to the corresponding directory within the docker container, while `--rm` creates a container that will be deleted once exit. Through this you can view the evaluation results even when the container is closed. 
@@ -311,6 +311,12 @@ python3 src/execute_detect_Tanner.py
 ```
 Detailed discussions for verification of quantum Tanner code in the following section. 
 
+- Evaluation for examples of fault-tolerant gadgets 
+
+Our tool supports the verification of simple fault-tolerant gadgets, with or without propagated errors from the previous QEC cycle. We choose the logical GHZ state preparation (without propagated errors) and a logical CNOT gate (with propagated errors) as the examples. To see the results, you can execute the following command:
+```bash 
+python3 src/logical_op_test.py
+```
 
 #### Claims Updates for the evaluation results in the paper
 
@@ -320,6 +326,9 @@ I. The experimental results produced by Veri-QEC can support the following claim
 
 - Veri-QEC can perform partial verification for certain user-provided constraints up to 361 qubits within $\sim 100$ minutes (see `Output/userprov_constraint/usrprov_comb_19.txt`).
 
+- Veri-QEC can verify simple examples of fault-tolerant gadgets. (See Section 7.4 in the paper, and the outputs of `src/logical_op_test.py`).
+
+- Veri-QEC can verify a benchmark of 14 kinds of QEC codes. 
 
 
 II. When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. The updates of experimental results include:

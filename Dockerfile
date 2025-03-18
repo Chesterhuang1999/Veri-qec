@@ -32,6 +32,7 @@ RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
         meson \ 
         cython \
         numpy \
+        scipy \
         lark==1.1.9 \
         tblib==3.0.0 \
         timebudget==0.7.1 \
@@ -40,7 +41,6 @@ RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
         cvc5==1.2.0  
 
 RUN meson --version
-
 
 # RUN git config --global  http.proxy http://127.0.0.1:8118 \
 #     && git config --global https.proxy  http://127.0.0.1:8118

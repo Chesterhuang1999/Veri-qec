@@ -544,7 +544,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # user_input = args.code
     max_proc_num = args.cpucount
-    output_dir = './eval_Output'
+    output_dir = './eval-Output'
     with open(f'{output_dir}/detect_Tanner_Ham7.txt', 'w') as f:
         # f.write(f"CPU counts: {max_proc_num}\n")
         with redirect_stdout(f):

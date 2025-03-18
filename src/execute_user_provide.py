@@ -381,7 +381,7 @@ if __name__ == "__main__":
     max_proc_num = args.cpucount
     matrix = surface_matrix_gen(d)
     cstype = args.constraint
-    output_dir = './eval_Output'
+    output_dir = './eval-Output'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:

@@ -372,7 +372,7 @@ if __name__ == "__main__":
     # user_input = input("Enter the code type: ")
     user_input = args.code
 
-    output_dir = "./eval_Output"
+    output_dir = "./eval-Output"
     os.makedirs(output_dir, exist_ok=True)
     file_name = f"correction_{user_input}"
     # print(file_name)
@@ -384,9 +384,9 @@ if __name__ == "__main__":
         d = args.param1
         file_name += f"_{d}.txt"
         # print(os.path.join(output_dir, file_name))
-        # with open(os.path.join(output_dir, file_name), 'w') as f:
-        #     with redirect_stdout(f):
-        #         sur_cond_checker(d, max_proc_num)
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                sur_cond_checker(d, max_proc_num)
             # matrix = surface_matrix_gen(d)
         sur_cond_checker(d, max_proc_num)
     elif user_input == 'steane':

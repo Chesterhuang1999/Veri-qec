@@ -50,7 +50,7 @@ def decode_cond_gen(H, n, N, dx, dz):
         cond_parts_z.append(''.join(cpz))
     return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
 
-def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
+def decode_cond_gen_mul(H, n, N, rnd, dx, dz, isprop):
     dec_x = []
     dec_z = []
     k = H.shape[0] - n
@@ -93,9 +93,12 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
             # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
             # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n}  (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
             # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
-            dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
-            dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
-            
+            if isprop == True:
+                dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+                dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
+            else:
+                dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+                dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
         dec_x.append(''.join(dec_parts_x))
         dec_z.append(''.join(dec_parts_z))
     
