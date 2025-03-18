@@ -2,7 +2,7 @@
 *.pyc
 *.smt2
 *.tar
-/src/Dataset/__pycache__
+/src/Dataset/__pycache__/
 /linxi-develop/
 /Details/
 /Archive/

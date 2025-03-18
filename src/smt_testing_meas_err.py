@@ -9,7 +9,7 @@ from multiprocessing import Pool
 import tblib.pickling_support
 import sys
 from timebudget import timebudget
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 ## import customized functions
 from verifier import precond_generator
 from encoder import tree_to_z3, VCgeneration

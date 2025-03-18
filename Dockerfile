@@ -31,8 +31,11 @@ RUN apt-get clean && \
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
         meson \ 
         cython \
-        lark==0.12.0 \
+        numpy \
+        lark==1.1.9 \
         tblib==3.0.0 \
+        timebudget==0.7.1 \
+        galois==0.4.2 \
         z3-solver==4.13.0.0 \ 
         cvc5==1.2.0  
 

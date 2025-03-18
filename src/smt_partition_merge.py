@@ -42,6 +42,7 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
             vaux_list.append(var)
     # print(verr_list)
     var_list = vaux_list + vdata_list
+    # print(expr)
     ## SMT encoding
     ## SMT formula I: If #error <= max_err, then decoding formula is true
     # formula_to_check = ForAll(verr_list, 
@@ -51,6 +52,7 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
     #                                          Or(Not(err_expr), Not(sym_expr), decoding_formula)
     #                                          ))))
     # formula_to_check = ForAll(verr_list, Exists(var_list, expr))
+    # print(expr)
     formula_to_check = ForAll(var_list, Not(expr))
     # formula_to_check = expr
     # print(formula_to_check)
@@ -89,13 +91,15 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     # print(cass_tree)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-    print(cass_expr)    
+
+    # print(cass_expr)    
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
     
     err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
     err_gt_expr = tree_to_z3(err_gt_tree.children[0], variables, bit_width, [], False)
-    # print(err_gt_expr)
+    
+    # print(err_expr)
     decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True)
     decoder_expr = simplify(decoder_expr) 
     # print(decoder_expr)
@@ -150,11 +154,24 @@ def smtchecking(formula):
         cmd.invoke(s2, sm)
     
     r = s2.checkSat()
-    
+    err = []
+    if str(r) == 'sat':
+        vars = sm.getDeclaredTerms()
+        res_lines = (s2.getModel([], vars)).decode('utf-8').splitlines()[1:-1]
+        # print(res_lines)
+
+        for i, line in enumerate(res_lines):
+            # print(line)
+            if(line[-2] == '1'):
+                elems = line.split(' ')
+                # print(elems)
+                err.append(elems[1])
+        # print(err)
+        return r, err
     # if r.isSat():
     #     model = s2.getModel([],[])
     # print(model)
-    return r
+    return r, []
 def coord_to_index(x, y, distance):
     return x * distance + y
 def sym_gen(dx, dz):
@@ -268,15 +285,7 @@ def seq_cond_checker(packed_expr, err_vals, opt):
         err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
         # err_val_exprs.extend([f'(pz_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
     else:
-        ## Test for Reed-Muller codes ##
-        # verr_cnt = 0
-        # for name, var in variables.items():
-        #     if var.size() == 1:
-        #         sym, _ = name.split('_')
-        #         if (sym[0] == 'e'):
-        #             verr_cnt += 1
-        #         # print(name, var)
-        # err_val_exprs = [f'(ex_({verr_cnt - i})) == {err_vals[i]}' for i in range(len(err_vals))]
+        
         ### Normal form ### 
         err_val_exprs = [f'(ex_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
         # err_val_exprs.extend([f'(px_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
@@ -289,6 +298,7 @@ def seq_cond_checker(packed_expr, err_vals, opt):
     result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
+
 
 def seq_cond_checker_user(packed_expr, err_vals, info, opt):
     t2 = time.time()

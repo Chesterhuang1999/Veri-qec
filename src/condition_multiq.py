@@ -91,8 +91,10 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz):
 
             # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
             # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
-            dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
-            dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
+            # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n}  (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+            # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
+            dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
+            dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
             
         dec_x.append(''.join(dec_parts_x))
         dec_z.append(''.join(dec_parts_z))
@@ -418,10 +420,10 @@ def program_gen_log_err(matrix, numq, N, gates, code):
         totq = N * numq
         if ind >= 0:
             start = ind * totq
-            prog_parts_z.append(f"for i in 1 to {numq} do q_(i) *= px_(i) X end")
-            prog_parts_x.append(f"for i in 1 to {numq} do q_(i) *= pz_(i) Z end")
-            err_gt_x.append(f"sum i 1 {numq} (pz_(i)) <= 1")
-            err_gt_z.append(f"sum i 1 {numq} (px_(i)) <= 1")
+            prog_parts_z.append(f"for i in 1 to {totq} do q_(i) *= px_(i) X end")
+            prog_parts_x.append(f"for i in 1 to {totq} do q_(i) *= pz_(i) Z end")
+            err_gt_x.append(f"sum i 1 {totq} (pz_(i)) <= 1")
+            err_gt_z.append(f"sum i 1 {totq} (px_(i)) <= 1")
         prog_parts_x.append(prog_log)
         prog_parts_z.append(prog_log)
         prog_qec_x, prog_qec_z = prog_gen_qec_rnd(matrix, numq, N, ind)

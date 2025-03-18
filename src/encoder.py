@@ -2,7 +2,7 @@ from z3 import *
 from verifier import *
 from lark import Token
 import math
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from transformer import Loops
 
 ## For testing ## 
