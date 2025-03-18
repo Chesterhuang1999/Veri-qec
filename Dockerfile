@@ -55,7 +55,7 @@ RUN meson --version
 FROM lib-base AS builder
 RUN mkdir /Veri-qec/
 RUN mkdir /bitwuzla/
-COPY ./bitwuzla/ /bitwuzla/
+COPY ./bitwuzla-for-veriqec/ /bitwuzla/
 RUN cd bitwuzla && \
     pip install . --index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
     cd ..
