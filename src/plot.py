@@ -16,9 +16,9 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 # testopt_time = [1.978, 2.976, 12.187, 36.402, 97.913, 217.215, 657.429, 1914.706, 5108.013, 19346.465]
 # testopt_time = [1.978, 2.976, 12.187, 36.402, 97.913, 217.215, 657.429, 1914.706, 19346.465]
 ### Data II: testing using surface code ### 
-code_distance = [5, 7, 9, 11, 15, 19, 23, 27, 31, 35]
-generation_time = [0.159, 0.473, 1.977, 3.037, 10.857, 31.863, 76.491, 165.436, 327.126, 592.042]
-verification_time = [1.978, 2.976, 12.187, 36.402, 97.913, 217.215, 657.429, 1914.706, 5108.013, 19346.465]
+# code_distance = [5, 7, 9, 11, 15, 19, 23, 27, 31, 35]
+# generation_time = [0.159, 0.473, 1.977, 3.037, 10.857, 31.863, 76.491, 165.436, 327.126, 592.042]
+# verification_time = [1.978, 2.976, 12.187, 36.402, 97.913, 217.215, 657.429, 1914.706, 5108.013, 19346.465]
 
 
 ### Data III: test user-defined error conditions ###
@@ -31,8 +31,8 @@ tot_time_combine = [0.95,1.09,2.20, 7.01, 34.20, 156.59, 2071.12, 6020.08]
 gen_time_local = [0.23, 0.71, 1.94, 3.5, 7.20, 17.00]
 verify_time_local = [1.20, 1.48, 2.11, 9.29, 266.86, ]
 
-gen_time_dis = []
-verify_time_dis = []
+gen_time_dis = [0.13, 0.45, 1.32, 4.15]
+verify_time_dis = [0.70, 1.80, 25.63, 1323.85]
 # generation_time = [2.98, 5.95, 17.79, 32.47, 70.24]
 # verify_time = [0.44, 1.23, 3.35, 16.99, 189.14, 1717.46, 5947.71]
 # total_time = [0.68, 1.57, 6.34, 22.96, 207.33, 1750.40, 6020.081]
@@ -198,114 +198,114 @@ verify_time_dis = []
 
 ##### Log for detect-only task #####
 
-code_distance = [5, 7, 9, 11, 13, 17, 21, 23, 25]
-gen_time = [0.44, 0.84, 1.62, 2.88, 5.13, 15.48, 35.13, 53.26, 80.80]
-time_x = [0.493, 0.511, 0.657, 0.915, 1.93, 43.66, 1106.89, 808.60, 6087.17]
-time_z = [0.533, 0.527, 0.678, 0.974, 1.02, 9.51, 22.55, 40.00, 64.66]
-verify_time = [1.003, 1.407, 2.28, 4.06, 12.61, 101.98, 3218.04, 14380.55]
-detect_time = [round(x + z, 3) for x, z in zip(time_x, time_z)]
-total_task = [20, 66, 238, 852, 3460, 67600, 1436494, 384560, 1338440]
+# code_distance = [5, 7, 9, 11, 13, 17, 21, 23, 25]
+# gen_time = [0.44, 0.84, 1.62, 2.88, 5.13, 15.48, 35.13, 53.26, 80.80]
+# time_x = [0.493, 0.511, 0.657, 0.915, 1.93, 43.66, 1106.89, 808.60, 6087.17]
+# time_z = [0.533, 0.527, 0.678, 0.974, 1.02, 9.51, 22.55, 40.00, 64.66]
+# verify_time = [1.003, 1.407, 2.28, 4.06, 12.61, 101.98, 3218.04, 14380.55]
+# detect_time = [round(x + z, 3) for x, z in zip(time_x, time_z)]
+# total_task = [20, 66, 238, 852, 3460, 67600, 1436494, 384560, 1338440]
 
-plt.rcParams['font.family'] = 'Arial'
-# Create the plot
-fig, axs = plt.subplots(1, 2, figsize = (20, 7), sharex = True)
-axs[0].set_yscale('log')
+# plt.rcParams['font.family'] = 'Arial'
+# # Create the plot
+# fig, axs = plt.subplots(1, 2, figsize = (20, 7), sharex = True)
+# axs[0].set_yscale('log')
 
-axs[0].plot(code_distance, gen_time, marker = '*', linestyle='-', color='#c44e52', label = 'Condition generation time', linewidth = 3)
-axs[0].plot(code_distance, detect_time, marker= 'o', linestyle='-', color='#8172b2', label = 'Verify time for dt = d+1', linewidth = 3)
-axs[0].plot(code_distance[:8], verify_time, marker = 'o', linestyle='-', color='#ff6347', label = 'Verify time for dt = d', linewidth = 3)
-# axs[0].plot(code_distance, time_x, marker='o', linestyle='-', color='#4c72b0', label = 'detect Z error', linewidth = 3)
-# axs[0].plot(code_distance, time_z, marker='o', linestyle='-', color='#55a868', label = 'detect X error', linewidth = 3)
-axs[0].set_xlabel('Code Distance', fontsize = 20)
-axs[0].set_ylabel('Time (s)', fontsize = 20)
-axs[0].set_title('Verify vs Condition Generation Time', fontsize = 25)  
-axs[0].legend()
-axs[0].grid(True)
-# axs[1].set_ylabel('Time (s)', fontsize = 16)
-axs[1].set_yscale('log')
-axs[1].plot(code_distance, time_x, marker='o', linestyle='-', color='#4c72b0', label = 'detect Z error', linewidth = 3)
-axs[1].plot(code_distance, time_z, marker='o', linestyle='-', color='#55a868', label = 'detect X error', linewidth = 3)
-axs[1].set_xlabel('Code Distance', fontsize = 20)
+# axs[0].plot(code_distance, gen_time, marker = '*', linestyle='-', color='#c44e52', label = 'Condition generation time', linewidth = 3)
+# axs[0].plot(code_distance, detect_time, marker= 'o', linestyle='-', color='#8172b2', label = 'Verify time for dt = d+1', linewidth = 3)
+# axs[0].plot(code_distance[:8], verify_time, marker = 'o', linestyle='-', color='#ff6347', label = 'Verify time for dt = d', linewidth = 3)
+# # axs[0].plot(code_distance, time_x, marker='o', linestyle='-', color='#4c72b0', label = 'detect Z error', linewidth = 3)
+# # axs[0].plot(code_distance, time_z, marker='o', linestyle='-', color='#55a868', label = 'detect X error', linewidth = 3)
+# axs[0].set_xlabel('Code Distance', fontsize = 20)
+# axs[0].set_ylabel('Time (s)', fontsize = 20)
+# axs[0].set_title('Verify vs Condition Generation Time', fontsize = 25)  
+# axs[0].legend()
+# axs[0].grid(True)
+# # axs[1].set_ylabel('Time (s)', fontsize = 16)
+# axs[1].set_yscale('log')
+# axs[1].plot(code_distance, time_x, marker='o', linestyle='-', color='#4c72b0', label = 'detect Z error', linewidth = 3)
+# axs[1].plot(code_distance, time_z, marker='o', linestyle='-', color='#55a868', label = 'detect X error', linewidth = 3)
+# axs[1].set_xlabel('Code Distance', fontsize = 20)
 
-axs[1].set_title('Time to detect logical X and Z errors', fontsize = 25)  
-axs[1].legend()
-axs[1].grid(True)
+# axs[1].set_title('Time to detect logical X and Z errors', fontsize = 25)  
+# axs[1].legend()
+# axs[1].grid(True)
 
-# Create inset plot
-axins = inset_axes(axs[1], width="30%", height="30%", loc='upper left', borderpad=5)
-axins.plot(code_distance[:4], time_x[:4], marker='o', color='#4c72b0', linewidth = 3)  # First 4 points
-axins.plot(code_distance[:4], time_z[:4], marker='o', color='#55a868', linewidth = 3)  # First 4 points
+# # Create inset plot
+# axins = inset_axes(axs[1], width="30%", height="30%", loc='upper left', borderpad=5)
+# axins.plot(code_distance[:4], time_x[:4], marker='o', color='#4c72b0', linewidth = 3)  # First 4 points
+# axins.plot(code_distance[:4], time_z[:4], marker='o', color='#55a868', linewidth = 3)  # First 4 points
 
-# Set limits for the inset
-axins.set_xlim(min(code_distance[:4]) - 1, max(code_distance[:4]) + 1)
-axins.set_ylim(min(min(detect_time[:4]), min(gen_time[:4])) - 0.1, 
-               max(max(detect_time[:4]), max(gen_time[:4])) - 1.8 )
+# # Set limits for the inset
+# axins.set_xlim(min(code_distance[:4]) - 1, max(code_distance[:4]) + 1)
+# axins.set_ylim(min(min(detect_time[:4]), min(gen_time[:4])) - 0.1, 
+#                max(max(detect_time[:4]), max(gen_time[:4])) - 1.8 )
 
-# Optionally remove tick labels for clarity
-axins.set_xticks(code_distance[:4])
-axins.set_yticks(np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5))
-axins.set_xticklabels(code_distance[:4], rotation=45)  # Optional: Rotate x-axis labels
-axins.set_yticklabels(["{:.1f}".format(i) for i in np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5)])
+# # Optionally remove tick labels for clarity
+# axins.set_xticks(code_distance[:4])
+# axins.set_yticks(np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5))
+# axins.set_xticklabels(code_distance[:4], rotation=45)  # Optional: Rotate x-axis labels
+# axins.set_yticklabels(["{:.1f}".format(i) for i in np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5)])
 
-# Connect the main plot and inset
-# mark_inset(axs[1], axins, loc1=3, loc2=4, fc="none", ec="0.5")
-for i, txt in enumerate(detect_time):
-    if i > 4:
-        axs[0].annotate(f'{txt}', 
-                (code_distance[i],detect_time[i]), 
-                textcoords="offset points", 
-                xytext=(0,-20), 
-                ha='center', 
-                fontsize=14, color = '#8172b2')
-for i, txt in enumerate(verify_time):
-    loc = 8 if i <= 4 else 10
-    axs[0].annotate(f'{txt}',
-            (code_distance[i],verify_time[i]), 
-            textcoords="offset points", 
-            xytext=(0,loc), 
-            ha='center', 
-            fontsize=14, color = '#ff6347')
-for i, txt in enumerate(gen_time):
-    if i > 4:
-        axs[0].annotate(f'{txt}', 
-                (code_distance[i],gen_time[i]), 
-                    textcoords="offset points", 
-                    xytext=(0,-15), 
-                    ha='center', 
-                    fontsize=14, color = '#c44e52')
-for i, txt in enumerate(time_x):
-    if i < 4:
-        axins.annotate(f'{txt}',
-                       (code_distance[i],time_x[i]), 
-                textcoords="offset points", 
-                xytext=(0,-10), 
-                ha='center', 
-                fontsize=11, color = '#4c72b0')
-    if i >= 4:
-        axs[1].annotate(f'{txt}', 
-                (code_distance[i],time_x[i]), 
-                textcoords="offset points", 
-                xytext=(0,10), 
-                ha='center', 
-                fontsize=14, color = '#4c72b0')
-for i, txt in enumerate(time_z):
-    if i < 4:
-        axins.annotate(f'{txt}', 
-                (code_distance[i],time_z[i]), 
-                textcoords="offset points", 
-                xytext=(0,10), 
-                ha='center', 
-                fontsize=11, color = '#55a868')
-    if i >= 4:
-        axs[1].annotate(f'{txt}', 
-                (code_distance[i],time_z[i]), 
-                textcoords="offset points", 
-                xytext=(0,-20), 
-                ha='center', 
-                fontsize=14, color = '#55a868')
+# # Connect the main plot and inset
+# # mark_inset(axs[1], axins, loc1=3, loc2=4, fc="none", ec="0.5")
+# for i, txt in enumerate(detect_time):
+#     if i > 4:
+#         axs[0].annotate(f'{txt}', 
+#                 (code_distance[i],detect_time[i]), 
+#                 textcoords="offset points", 
+#                 xytext=(0,-20), 
+#                 ha='center', 
+#                 fontsize=14, color = '#8172b2')
+# for i, txt in enumerate(verify_time):
+#     loc = 8 if i <= 4 else 10
+#     axs[0].annotate(f'{txt}',
+#             (code_distance[i],verify_time[i]), 
+#             textcoords="offset points", 
+#             xytext=(0,loc), 
+#             ha='center', 
+#             fontsize=14, color = '#ff6347')
+# for i, txt in enumerate(gen_time):
+#     if i > 4:
+#         axs[0].annotate(f'{txt}', 
+#                 (code_distance[i],gen_time[i]), 
+#                     textcoords="offset points", 
+#                     xytext=(0,-15), 
+#                     ha='center', 
+#                     fontsize=14, color = '#c44e52')
+# for i, txt in enumerate(time_x):
+#     if i < 4:
+#         axins.annotate(f'{txt}',
+#                        (code_distance[i],time_x[i]), 
+#                 textcoords="offset points", 
+#                 xytext=(0,-10), 
+#                 ha='center', 
+#                 fontsize=11, color = '#4c72b0')
+#     if i >= 4:
+#         axs[1].annotate(f'{txt}', 
+#                 (code_distance[i],time_x[i]), 
+#                 textcoords="offset points", 
+#                 xytext=(0,10), 
+#                 ha='center', 
+#                 fontsize=14, color = '#4c72b0')
+# for i, txt in enumerate(time_z):
+#     if i < 4:
+#         axins.annotate(f'{txt}', 
+#                 (code_distance[i],time_z[i]), 
+#                 textcoords="offset points", 
+#                 xytext=(0,10), 
+#                 ha='center', 
+#                 fontsize=11, color = '#55a868')
+#     if i >= 4:
+#         axs[1].annotate(f'{txt}', 
+#                 (code_distance[i],time_z[i]), 
+#                 textcoords="offset points", 
+#                 xytext=(0,-20), 
+#                 ha='center', 
+#                 fontsize=14, color = '#55a868')
         
-plt.tight_layout()
-plt.savefig('Figures/Verification_time_detect.svg')
+# plt.tight_layout()
+# plt.savefig('Figures/Verification_time_detect.svg')
 # plt.show()
 
 

@@ -1,11 +1,11 @@
 <!-- This is the documentation for the artifacts attached to the paper 'Efficient Formal Verification of Quantum Error Correcting Programs'. As introduced in the paper, the artifacts include two modules, a verified verifier in Coq and an automatic verifier, Veri-QEC in Python. -->
-# Research Artifact for Paper 'Efficient Formal Verification for Quantum Error Correcting Programs'
+# Research Artifact for Paper 228 'Efficient Formal Verification for Quantum Error Correcting Programs'
 
 ## Basic Information
 - Artifact: Veri-QEC (A **Verification** tool for **Quantum Error Correcting** Programs)
 - Paper Title: Efficient Formal Verification for Quantum Error Correcting Programs
 - Submission ID (Track: PLDI 2025 Artifacts): 10
-- Zenodo Link: 10.5281/zenodo.15039215
+- Zenodo Link: 10.5281/zenodo.15050947
 
 As for the artifact evaluation, we claim for available and reusable badges. If the artifacts do not fulfill the criteria for reusability, we instead request consideration for the functional badge.
 
