@@ -204,7 +204,6 @@ We list the benchmarks of codes and properties we aim to verify for them in the 
 | ------ | -----------|  -->
 
 
-<script id="MathJax-script" src="https://cdn.bootcss.com/mathjax/3.0.5/es5/tex-mml-chtml.js"></script>
 <table>
   <tr>
     <th colspan = "2">Error correcting property</th>
