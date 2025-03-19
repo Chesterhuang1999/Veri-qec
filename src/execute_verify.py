@@ -450,10 +450,10 @@ if __name__ == "__main__":
         m = args.param1 if args.param1 is not None else args.param2
         matrix = special_codes.stabs_goettsman(m)
         file_name += f"_{m}.txt" 
-        # with open(os.path.join(output_dir, file_name), 'w') as f:
-        #     with redirect_stdout(f):
-        #         cond_checker(matrix, 3, 3, max_proc_num)
-        cond_checker(matrix, 3, 3, max_proc_num)
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                cond_checker(matrix, 3, 3, max_proc_num)
+        # cond_checker(matrix, 3, 3, max_proc_num)
 
         
     #     cond_checker(matrix, d, d, max_proc_num)
