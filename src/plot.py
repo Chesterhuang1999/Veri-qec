@@ -33,6 +33,61 @@ verify_time_local = [1.20, 1.48, 2.11, 9.29, 266.86, ]
 
 gen_time_dis = [0.13, 0.45, 1.32, 4.15]
 verify_time_dis = [0.70, 1.80, 25.63, 1323.85]
+
+verify_time_no = [ 0.646, 3.607, 117.0, 12799] 
+plt.figure(figsize=(10, 6), dpi=100)
+
+# 绘制四条曲线
+plt.plot(code_distance_user[:len(verify_time_combine)], verify_time_combine, 
+         color='#e6194b', marker='o', linestyle='-', linewidth=3, 
+         markersize=6, label='+locality, +discrete')
+
+plt.plot(code_distance_user[:len(verify_time_local)], verify_time_local,
+         color='#42b44b', marker='s', linestyle='-', linewidth=3,
+         markersize=6, label='+locality')
+
+plt.plot(code_distance_user[:len(verify_time_dis)], verify_time_dis,
+         color='#800080', marker='^', linestyle='-', linewidth=3,
+         markersize=6, label='+discrete')
+
+plt.plot(code_distance_user[:len(verify_time_no)], verify_time_no,
+         color='#4363d8', marker='x', linestyle='-', linewidth=3,
+         markersize=6, label='No constraint')
+
+# 配置坐标轴
+plt.xlabel('Code Distance', fontsize=16)
+plt.ylabel('Verify Time', fontsize=16)
+plt.title('Time to Verify User-provided Errors', fontweight = 'bold', fontsize=18)
+
+def annotate_last_points(data_x, data_y, num, offset, color):
+    for x, y in zip(data_x[-num:], data_y[-num:]):
+        plt.annotate(f"{y:.2f}", (x, y), 
+                    textcoords="offset points",
+                    xytext=offset, 
+                    ha='center',
+                    color = color)
+        
+
+annotate_last_points(code_distance_user, verify_time_combine, 5, (0, 10), '#e6194b')
+annotate_last_points(code_distance_user[:len(verify_time_local)], verify_time_local, 2, (0, 12),'#42b44b')
+annotate_last_points(code_distance_user[:len(verify_time_dis)], verify_time_dis, 2, (0, 10),'#800080')
+annotate_last_points(code_distance_user[:len(verify_time_no)], verify_time_no, 2, (0,5), '#4363d8')
+
+# 添加辅助元素
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend(fontsize=10)
+plt.yscale('log')  # 自动对数坐标显示大范围数据
+
+# 优化刻度显示
+# plt.xticks(code_distance_user)
+# plt.yticks([1, 10, 100, 1000, 10000], 
+#            ['1', '10^1', '1m', '10m', '100m'])
+
+# 显示图表
+plt.tight_layout()
+# plt.show()
+plt.savefig('verify_time_usr_prov.svg')
+
 # generation_time = [2.98, 5.95, 17.79, 32.47, 70.24]
 # verify_time = [0.44, 1.23, 3.35, 16.99, 189.14, 1717.46, 5947.71]
 # total_time = [0.68, 1.57, 6.34, 22.96, 207.33, 1750.40, 6020.081]
