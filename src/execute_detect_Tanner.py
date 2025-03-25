@@ -115,8 +115,8 @@ class subtask_generator:
         #     if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
         #         return False
         #### For detection other than Tanner code ####
-        # if 8 * assigned_one_num * self.distance + 6 * assigned_bit_num < self.num_qubits:
-        #     return False
+        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+            return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
         #     return False
@@ -520,7 +520,7 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 1, 0, 0],
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
-    matrix = qldpc_codes.stabs_Tanner(2, 1, Par54, Rep51)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Par54, Rep51)
     
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
@@ -545,9 +545,9 @@ if __name__ == "__main__":
     # user_input = args.code
     max_proc_num = args.cpucount
     output_dir = './eval-Output'
-    with open(f'{output_dir}/detect_Tanner_Ham7.txt', 'w') as f:
-        # f.write(f"CPU counts: {max_proc_num}\n")
-        with redirect_stdout(f):
-            cond_checker(matrix, 4, 4, max_proc_num)
-    # cond_checker(matrix, 4, 4, max_proc_num)
+    # with open(f'{output_dir}/detect_Tanner_Ham7.txt', 'w') as f:
+    #     # f.write(f"CPU counts: {max_proc_num}\n")
+    #     with redirect_stdout(f):
+    #         cond_checker(matrix, 4, 4, max_proc_num)
+    cond_checker(matrix, 4, 4, max_proc_num)
     

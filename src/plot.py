@@ -23,16 +23,58 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes, mark_inset
 
 ### Data III: test user-defined error conditions ###
 code_distance_user = [5,7,9,11,13, 15, 17, 19]
-gen_time_combine = [0.13,0.44,1.20, 2.89, 6.71, 17.95, 35.85, 70.24]
+# gen_time_combine = [0.13,0.44,1.20, 2.89, 6.71, 17.95, 35.85, 70.24]
 verify_time_combine = [0.81, 0.65, 0.99, 4.10, 27.42, 143.38, 2035.27, 5947.71]
-tot_time_combine = [0.95,1.09,2.20, 7.01, 34.20, 156.59, 2071.12, 6020.08]
+# tot_time_combine = [0.95,1.09,2.20, 7.01, 34.20, 156.59, 2071.12, 6020.08]
 
 
-gen_time_local = [0.23, 0.71, 1.94, 3.5, 7.20, 17.00]
+# gen_time_local = [0.23, 0.71, 1.94, 3.5, 7.20, 17.00]
 verify_time_local = [1.20, 1.48, 2.11, 9.29, 266.86, ]
 
-gen_time_dis = [0.13, 0.45, 1.32, 4.15]
+# gen_time_dis = [0.13, 0.45, 1.32, 4.15]
 verify_time_dis = [0.70, 1.80, 25.63, 1323.85]
+
+verify_time_no = [0.646, 3.607, 117.0, 12799]
+
+
+plt.figure(figsize=(10, 6), dpi=100)
+
+# 绘制四条曲线
+plt.plot(code_distance_user[:len(verify_time_combine)], verify_time_combine, 
+         color='#e6194b', marker='o', linestyle='-', linewidth=3, 
+         markersize=8, label='Combine')
+
+plt.plot(code_distance_user[:len(verify_time_local)], verify_time_local,
+         color='#42b44b', marker='s', linestyle='-', linewidth=3,
+         markersize=8, label='Local')
+
+plt.plot(code_distance_user[:len(verify_time_dis)], verify_time_dis,
+         color='#4363d8', marker='^', linestyle='-', linewidth=3,
+         markersize=8, label='Distributed')
+
+plt.plot(code_distance_user[:len(verify_time_no)], verify_time_no,
+         color='#800080', marker='x', linestyle='-', linewidth=3,
+         markersize=8, label='No Optimization')
+
+# 配置坐标轴
+plt.xlabel('Code Distance', fontsize=12, fontweight='bold')
+plt.ylabel('Verify Time (s)', fontsize=12, fontweight='bold')
+plt.title('Time to Verify User-provided Errors', fontsize=14, pad=20)
+
+# 添加辅助元素
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend(title='Verification Mode', title_fontsize=12, fontsize=10)
+plt.yscale('log')  # 自动对数坐标显示大范围数据
+
+# 优化刻度显示
+plt.xticks(code_distance_user)
+plt.yticks([1, 10, 100, 1000, 10000], 
+           ['1s', '10s', '1m', '10m', '100m'])
+
+# 显示图表
+plt.tight_layout()
+plt.show()
+
 # generation_time = [2.98, 5.95, 17.79, 32.47, 70.24]
 # verify_time = [0.44, 1.23, 3.35, 16.99, 189.14, 1717.46, 5947.71]
 # total_time = [0.68, 1.57, 6.34, 22.96, 207.33, 1750.40, 6020.081]
