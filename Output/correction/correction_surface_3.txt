@@ -1,0 +1,8 @@
+Task generated. Start checking.
+total_job: 24
+tasks for X error: 12 | tasks for Z error: 12
+task generation time: 0.1920304298400879
+No counterexample found, all errors can be corrected.
+
+Finish all jobs. Checking time: 0.5458250045776367
+cond_checker took 738.68ms

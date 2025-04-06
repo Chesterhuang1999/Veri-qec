@@ -297,18 +297,18 @@ def seq_cond_checker(packed_expr, err_vals, opt):
     # print(err_val_exprs_str)
     formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
     # print(formula)
-    solver = z3.Solver()
+    # solver = z3.Solver()
  
     # print(solver)
     t3 = time.time()
-    solver.add(formula)
-    result = solver.check()
-    if result == sat:
-        print("The assertion is not correct!")
-        print("Counterexample: ", solver.model())
-    else:
-        print("The assertion is correct!")
-    # result = smtchecking(formula)
+    # solver.add(formula)
+    # result = solver.check()
+    # if result == sat:
+    #     print("The assertion is not correct!")
+    #     print("Counterexample: ", solver.model())
+    # else:
+    #     print("The assertion is correct!")
+    result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
 
