@@ -1,0 +1,92 @@
+nohup: ignoring input
+Verifying the correctness when dt = d
+Check condition: dx = 17, dz = 17
+tasks for X error: 47381 | tasks for Z error: 47381
+total_job: 94762
+Task generated. Start checking.
+Condition generation time: 18.707486391067505
+47373/94762: finish job file[46684], cost_time: 30.12339973449707
+[46684, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0], ['num_bit: 51', 'num_zero: 49', 'num_one: 2', 'one_pos: [41, 42]'], 30.12339973449707, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-04-05 05:00:24
+current time: 2025-04-05 05:01:25
+cost time: 0:01:00.507449
+left time: 0:01:00.527885
+estimated time: 0:02:01.035333
+estimated finished time: 2025-04-05 05:02:25
+instance per seconed(all process): 782.93
+instance average runtime(s): 0.31
+finished persent: 49.99%
+processed jobs: 47373
+unprocessed jobs: 47389
+
+No counterexample for Z error is found, all errors can be detected.
+
+Check Z time: 67.08561396598816
+52581/94762: finish job file[52818], cost_time: 0.04931759834289551
+[52818, [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], ['num_bit: 18', 'num_zero: 14', 'num_one: 4', 'one_pos: [1, 4, 11, 17]'], 0.04931759834289551, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-04-05 05:00:24
+current time: 2025-04-05 05:02:25
+cost time: 0:02:00.537676
+left time: 0:01:36.696520
+estimated time: 0:03:37.234196
+estimated finished time: 2025-04-05 05:04:01
+instance per seconed(all process): 436.22
+instance average runtime(s): 0.55
+finished persent: 55.49%
+processed jobs: 52581
+unprocessed jobs: 42181
+
+60409/94762: finish job file[60647], cost_time: 0.04854130744934082
+[60647, [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1], ['num_bit: 20', 'num_zero: 16', 'num_one: 4', 'one_pos: [3, 6, 11, 19]'], 0.04854130744934082, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-04-05 05:00:24
+current time: 2025-04-05 05:03:25
+cost time: 0:03:00.573667
+left time: 0:01:42.687467
+estimated time: 0:04:43.261134
+estimated finished time: 2025-04-05 05:05:07
+instance per seconed(all process): 334.54
+instance average runtime(s): 0.72
+finished persent: 63.75%
+processed jobs: 60409
+unprocessed jobs: 34353
+
+67818/94762: finish job file[68055], cost_time: 0.02928781509399414
+[68055, [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 22', 'num_zero: 18', 'num_one: 4', 'one_pos: [5, 13, 16, 21]'], 0.02928781509399414, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-04-05 05:00:24
+current time: 2025-04-05 05:04:25
+cost time: 0:04:00.608393
+left time: 0:01:35.593390
+estimated time: 0:05:36.201784
+estimated finished time: 2025-04-05 05:06:00
+instance per seconed(all process): 281.86
+instance average runtime(s): 0.85
+finished persent: 71.57%
+processed jobs: 67818
+unprocessed jobs: 26944
+
+76722/94762: finish job file[76958], cost_time: 0.04598212242126465
+[76958, [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1], ['num_bit: 22', 'num_zero: 18', 'num_one: 4', 'one_pos: [9, 14, 16, 21]'], 0.04598212242126465, 'unsat']
+ ++++++ show progress ++++++ 
+start time: 2025-04-05 05:00:24
+current time: 2025-04-05 05:05:25
+cost time: 0:05:00.613074
+left time: 0:01:10.684547
+estimated time: 0:06:11.297621
+estimated finished time: 2025-04-05 05:06:35
+instance per seconed(all process): 255.22
+instance average runtime(s): 0.94
+finished persent: 80.96%
+processed jobs: 76722
+unprocessed jobs: 18040
+
+Check X time: 284.24294900894165
+No counterexample for X error is found, all errors can be detected.
+
+All tasks finished, total time:, 351.32855200767517
+cond_checker took 370.110sec
+-------------
+Detecting counterexamples when dt = d + 1

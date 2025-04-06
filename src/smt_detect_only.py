@@ -264,8 +264,8 @@ def seq_cond_checker_detect(packed_expr, err_vals, opt):
     formula = smtencoding_constrep(expr, variables, err_val_exprs_str)
     # print(formula)
     t3 = time.time()
-    result = smtchecking_bzla(formula)
-    # result = smtchecking(formula)
+    # result = smtchecking_bzla(formula)
+    result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
 

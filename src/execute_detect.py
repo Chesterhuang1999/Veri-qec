@@ -59,8 +59,8 @@ def worker(task_id, err_vals, opt):
         #     print(opt)
         #     is_counter = 1
         #     print(res)
-        return task_id, smttime, str(res)
-        # return task_id, smttime, str(res[0])
+        # return task_id, smttime, str(res)
+        return task_id, smttime, str(res[0])
     except Exception as e:
         return task_id, ExceptionWrapper(e)
 
@@ -113,7 +113,7 @@ class subtask_generator:
         # if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
             # return False
         #### For detection other than Tanner code ####
-        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+        if  4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
             return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
@@ -227,6 +227,7 @@ def process_callback(result, pool):
 
         # control_signal.value = 1
         ti = task_info[task_id]
+        # opt = "X" if task_id < len(task_info) // 2 else "Z"
         print("Counterexample found, there exists errors cannot be corrected.\n")
         print('Counterexample Info:\n')
         print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
@@ -300,7 +301,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
 
     print("Task generated. Start checking.")
-    packed_x, packed_z = cond_generator(matrix, dx, dz,False, is_sym)
+    packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
     end_gen = time.time()
     print(f"Condition generation time: {end_gen - start_time}")
     start_time = time.time()
@@ -327,10 +328,10 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     #         print(f'{" | ".join(ti[2])}\n')
     
     if is_sat == 0: 
-        print("No counterexample for X error is found, all errors can be detected.\n")
+        print("No counterexample for Z error is found, all errors can be detected.\n")
 
     is_sat = 0
-    print(f"Check X time: {endt_z - end_gen}")
+    print(f"Check Z time: {endt_z - end_gen}")
     with Pool(processes = max_proc_num) as pool2:
         result_objects = []
         for i, task in enumerate(tasks_x):
@@ -344,7 +345,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         pool2.join()
     endt_x = time.time()
    
-    print(f"Check Z time: {endt_x - endt_z}")
+    print(f"Check X time: {endt_x - endt_z}")
+
 
     # with Pool(processes = max_proc_num) as pool:
     #     result_objects = []
@@ -371,11 +373,17 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
     
     if is_sat == 0: 
-        print("No counterexample for Z error is found, all errors can be detected.\n")
+        print("No counterexample for X error is found, all errors can be detected.\n")
+        print(f"All tasks finished, total time:, {endt_x - start_time}")
 
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+    print("Verifying the correctness when dt = d")
+    # cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+    ## Detect abnormal cases 
+    print("-------------")
+    print("Detecting counterexamples when dt = d + 1")
+    cond_checker(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
 
 
 if __name__ == "__main__":
@@ -433,6 +441,11 @@ if __name__ == "__main__":
         os.makedirs(output_dir)
     file_name = f'{output_dir}/detection_{user_input}'
     # user_input = input("Enter the code type: ")
+    if user_input == 'surface':
+        if args.p1 is None:
+            raise ValueError("The parameters are not provided.")
+        d = args.p1
+        sur_cond_checker(d, max_proc_num)
     if user_input == 'camp_howard':
         # d = int(input("Enter the parameter: "))
         if args.p1 is None and args.p2 is None:

@@ -1,0 +1,45 @@
+nohup: ignoring input
+Verifying the correctness when dt = d
+Check condition: dx = 13, dz = 13
+tasks for X error: 2344 | tasks for Z error: 2344
+total_job: 4688
+Task generated. Start checking.
+Condition generation time: 6.035587310791016
+No counterexample for X error is found, all errors can be detected.
+
+Check X time: 7.5710999965667725
+Check Z time: 8.128737926483154
+No counterexample for Z error is found, all errors can be detected.
+
+All tasks finished, total time:, 15.699820041656494
+cond_checker took 21.742sec
+-------------
+Detecting counterexamples when dt = d + 1
+Check condition: dx = 14, dz = 14
+tasks for X error: 1730 | tasks for Z error: 1730
+total_job: 3460
+Task generated. Start checking.
+Condition generation time: 6.116839408874512
+Counterexample found, there exists errors cannot be corrected.
+
+Counterexample Info:
+
+rank: 201 | id: 201 | time: 0.365128755569458 | result: sat
+
+[0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 14 | num_zero: 11 | num_one: 3 | one_pos: [1, 2, 13]
+
+About to terminate
+Check X time: 1.3910949230194092
+Counterexample found, there exists errors cannot be corrected.
+
+Counterexample Info:
+
+rank: 1885 | id: 1885 | time: 1.3624839782714844 | result: sat
+
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+num_bit: 19 | num_zero: 17 | num_one: 2 | one_pos: [0, 13]
+
+About to terminate
+Check Z time: 2.2636373043060303
+cond_checker took 9.773sec

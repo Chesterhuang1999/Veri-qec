@@ -1,0 +1,44 @@
+Verifying the correctness when dt = d
+Check condition: dx = 11, dz = 11
+tasks for X error: 532 | tasks for Z error: 532
+total_job: 1064
+Task generated. Start checking.
+Condition generation time: 3.334326982498169
+No counterexample for X error is found, all errors can be detected.
+
+Check X time: 2.6674468517303467
+Check Z time: 2.5884971618652344
+No counterexample for Z error is found, all errors can be detected.
+
+All tasks finished, total time:, 5.255925893783569
+cond_checker took 8.595sec
+-------------
+Detecting counterexamples when dt = d + 1
+Check condition: dx = 12, dz = 12
+tasks for X error: 426 | tasks for Z error: 426
+total_job: 852
+Task generated. Start checking.
+Condition generation time: 3.2925467491149902
+Counterexample found, there exists X errors cannot be corrected.
+
+Counterexample Info:
+
+rank: 425 | id: 425 | time: 0.22681093215942383 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 41 | num_zero: 41 | num_one: 0 | one_pos: []
+
+About to terminate
+Check X time: 1.0922465324401855
+Counterexample found, there exists Z errors cannot be corrected.
+
+Counterexample Info:
+
+rank: 654 | id: 654 | time: 0.2597384452819824 | result: sat
+
+[0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+num_bit: 17 | num_zero: 15 | num_one: 2 | one_pos: [6, 16]
+
+About to terminate
+Check Z time: 1.1120145320892334
+cond_checker took 5.497sec

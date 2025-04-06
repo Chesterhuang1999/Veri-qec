@@ -19,15 +19,18 @@ sys.setrecursionlimit(1000000)
 def smtencoding_constrep(expr, variables, constraints, err_vals):
     
     # cass_expr, decoder_expr, err_expr, err_gt_expr, sym_expr = expr
-    err_vals_tree, _, _ = precond_generator('skip', err_vals, 'true')
     consts = {}
-    const_errors_to_z3(err_vals_tree.children[0], consts)
-    replace = []
-    for i, ki in enumerate(consts.keys()):
-        replace.append((variables[ki], consts[ki]))
-    
-    expr = simplify(substitute(expr, replace))
-    # print(expr)
+    if err_vals != "":
+        err_vals_tree, _, _ = precond_generator('skip', err_vals, 'true')
+        # consts = {}
+        const_errors_to_z3(err_vals_tree.children[0], consts)
+        replace = []
+        for i, ki in enumerate(consts.keys()):
+            replace.append((variables[ki], consts[ki]))
+        
+        expr = simplify(substitute(expr, replace))
+        # print(expr)
+
     vaux_list, verr_list, vdata_list = [], [], []
     # print(variables)
     for name, var in variables.items():
@@ -292,10 +295,20 @@ def seq_cond_checker(packed_expr, err_vals, opt):
     
     err_val_exprs_str = ' && '.join(err_val_exprs)
     # print(err_val_exprs_str)
-    
     formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
+    # print(formula)
+    solver = z3.Solver()
+ 
+    # print(solver)
     t3 = time.time()
-    result = smtchecking(formula)
+    solver.add(formula)
+    result = solver.check()
+    if result == sat:
+        print("The assertion is not correct!")
+        print("Counterexample: ", solver.model())
+    else:
+        print("The assertion is correct!")
+    # result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
 
@@ -368,10 +381,14 @@ def seq_cond_checker_user(packed_expr, err_vals, info, opt):
 if __name__ == '__main__':
    
     distance = 3
-    err_vals = [0,1,1]
+    # err_vals = [0,1,1]
+    err_vals = []
+    start = time.time()
     matrix = surface_matrix_gen(distance)
-    #print(err_vals)
-    packed_x, packed_z = cond_generator(matrix, distance, distance, True)
+    packed_x, packed_z = cond_generator(matrix, distance, distance, False, True)
     print(seq_cond_checker(packed_z, err_vals, 'z'))
+    print(seq_cond_checker(packed_x, err_vals, 'x'))
+    end = time.time()
+    print(end - start)
     # print(seq_cond_checker_part(packed_x, err_vals, 'x'))
     # print(seq_cond_checker_part(packed_z, err_vals, 'z'))
