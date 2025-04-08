@@ -386,11 +386,11 @@ if __name__ == "__main__":
         d = args.param1
         file_name += f"_{d}.txt"
         # print(os.path.join(output_dir, file_name))
-        # with open(os.path.join(output_dir, file_name), 'w') as f:
-        #     with redirect_stdout(f):
-        #         sur_cond_checker(d, max_proc_num)
+        with open(os.path.join(output_dir, file_name), 'w') as f:
+            with redirect_stdout(f):
+                sur_cond_checker(d, max_proc_num)
             # matrix = surface_matrix_gen(d)
-        sur_cond_checker(d, max_proc_num)
+        # sur_cond_checker(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
         file_name += f".txt"
