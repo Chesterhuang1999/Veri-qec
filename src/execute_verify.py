@@ -281,8 +281,10 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     total_job = len(tasks_x) + len(tasks_z)
     end_gen = time.time()
     print(f"total_job: {total_job}")
+
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
     print(f"task generation time: {end_gen - start_time}")
+    exit(0)
 
     task_info = []
     err_info = []

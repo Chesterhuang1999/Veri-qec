@@ -215,7 +215,18 @@ def process_callback(result, pool):
     
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
-   
+
+    curr_time = time.time()
+    processed_job += 1
+    if curr_time - last_print > 60.0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+        last_print = curr_time
+
     # if res_smt[0] == 'sat':
     if res_smt == 'sat':
         is_sat = 1
@@ -234,21 +245,21 @@ def process_callback(result, pool):
         print(ti[1])
         print(f'{" | ".join(ti[2])}\n')
         print("About to terminate")
-        
+        print(pool._state)
+        # if pool._state == 0:
         pool.terminate()
         # pool.join()
         
-    
-    curr_time = time.time()
-    processed_job += 1
-    if curr_time - last_print > 60.0:
-        info = "{}/{}: finish job file[{}], cost_time: {}" \
-                .format(processed_job, total_job, task_id, time_cost)
-        print(info)
-        print(task_info[task_id])
-        print(get_current_infos())
-        sys.stdout.flush()
-        last_print = curr_time
+    # curr_time = time.time()
+    # processed_job += 1
+    # if curr_time - last_print > 20.0:
+    #     info = "{}/{}: finish job file[{}], cost_time: {}" \
+    #             .format(processed_job, total_job, task_id, time_cost)
+    #     print(info)
+    #     print(task_info[task_id])
+    #     print(get_current_infos())
+    #     sys.stdout.flush()
+    #     last_print = curr_time
     
 def process_error(error):
     print(f'error: {error}')
@@ -310,8 +321,8 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     err_info = []
     with Pool(processes = max_proc_num) as pool1:
         result_objects = []
-        for i, task in enumerate(tasks_z):
-            opt = 'z'    
+        for i, task in enumerate(tasks_x):
+            opt = 'x'    
             task_info.append(analysis_task(i, task))
             result_objects.append(pool1.apply_async(worker, (i, task, opt), 
                                                 callback= lambda result: process_callback(result, pool1), 
@@ -319,35 +330,33 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
         pool1.close()
         pool1.join()
     endt_z = time.time()
-    # for i, ti in enumerate(task_info):
-    #     if str(ti[-1]) == 'sat':
-    #         is_sat = 1
-    #         print('There exists a counterexample for X error:\n')
-    #         print(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         print(ti[1])
-    #         print(f'{" | ".join(ti[2])}\n')
-    
+
     if is_sat == 0: 
         print("No counterexample for Z error is found, all errors can be detected.\n")
 
     is_sat = 0
     print(f"Check Z time: {endt_z - end_gen}")
+
     with Pool(processes = max_proc_num) as pool2:
         result_objects = []
-        for i, task in enumerate(tasks_x):
-            opt = 'x'
-            task_info.append(analysis_task(i + len(tasks_z), task))
-            result_objects.append(pool2.apply_async(worker, (i + len(tasks_z), task, opt), 
+        for i, task in enumerate(tasks_z):
+            opt = 'z'
+            task_info.append(analysis_task(i + len(tasks_x), task))
+            result_objects.append(pool2.apply_async(worker, (i + len(tasks_x), task, opt), 
                                                 callback=lambda result: process_callback(result, pool2), 
                                                 error_callback=process_error))
         pool2.close()
-
         pool2.join()
+
     endt_x = time.time()
    
     print(f"Check X time: {endt_x - endt_z}")
+    if is_sat == 0: 
+        print("No counterexample for X error is found, all errors can be detected.\n")
+        print(f"All tasks finished, total time: {endt_x - start_time}")
 
-
+    for i, ei in enumerate(err_info):   
+        ei.re_raise()
     # with Pool(processes = max_proc_num) as pool:
     #     result_objects = []
     #     for i, task in enumerate(tasks_x):
@@ -367,23 +376,19 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     #     pool.join()
     # end_time = time.time()  
     # print(f"Total time: {end_time - start_time}")
-    for i, ei in enumerate(err_info):   
-        ei.re_raise()
+    
    
 
     
-    if is_sat == 0: 
-        print("No counterexample for X error is found, all errors can be detected.\n")
-        print(f"All tasks finished, total time:, {endt_x - start_time}")
-
+  
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
     print("Verifying the correctness when dt = d")
-    # cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
     ## Detect abnormal cases 
-    print("-------------")
-    print("Detecting counterexamples when dt = d + 1")
-    cond_checker(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
+    # print("-------------")
+    # print("Detecting counterexamples when dt = d + 1")
+    # cond_checker(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
 
 
 if __name__ == "__main__":
@@ -445,7 +450,11 @@ if __name__ == "__main__":
         if args.p1 is None:
             raise ValueError("The parameters are not provided.")
         d = args.p1
-        sur_cond_checker(d, max_proc_num)
+        # sur_cond_checker(d, max_proc_num)
+        file_name += f"_{d}.txt"
+        with open(file_name, 'w') as f:
+            with redirect_stdout(f):
+                sur_cond_checker(matrix, d, d, max_proc_num, is_sym = True)
     if user_input == 'camp_howard':
         # d = int(input("Enter the parameter: "))
         if args.p1 is None and args.p2 is None:

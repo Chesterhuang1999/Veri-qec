@@ -1,0 +1,9 @@
+total_job: 24
+tasks for X error: 12 | tasks for Z error: 12
+task generation time: 0.06276226043701172
+No counterexample found, all errors can be corrected.
+
+Finish all jobs. Checking time: 0.25507664680480957
+cond_checker took 318.30ms
+
+(*Note*: experiment done on another server, faster than default environment)

@@ -6,3 +6,5 @@ No counterexample found, all errors can be corrected.
 
 Finish all jobs. Checking time: 0.5458250045776367
 cond_checker took 738.68ms
+
+(*Note*: Experiment run on the server with most of its cores occupied, slower)
