@@ -159,17 +159,23 @@ python3 src/execute_verify.py \
 --cpucount 16 --code surface --param1 7 
 ```
 
-To evaluate the results of the first functionality, using the command above and adjust the additional parameter (which is the distance of the surface code) from the set $\{3,5,7,9,11\}$. **You can find the output results in the `eval-Output/correction` directory.** The typical output for this example will be (the running time is obtained using 240 cores): 
+To evaluate the results of the first functionality, using the command above and adjust the additional parameter (which is the distance of the surface code) from the set $\{3,5,7,9,11\}$. 
+In terminal, the output is like:
+```
+cond_checker took 3.611sec
+```
 
+**You can find the detailed output results in the `eval-Output/correction` directory.** The typical output for this example will be (the running time is obtained using 240 cores): 
 ```
 Task generated. Start checking.
 total_job: 4018
+tasks for X error: 2009 | tasks for Z error: 2009
 task generation time: 0.46747398376464844
 No counterexample found, all errors can be corrected.
 
 Finish all jobs. Checking time: 3.138540744781494
-cond_checker took 3.611sec
 ```
+
 The second line illustrates the total subtasks we divide and the third line is the time consumed to parsing and generate the logical formulas. If there are no counterexamples (which means all of the subtasks will output `unsat`), then you'll see the fourth line which reports success. The final line displays the time taken by the solver to resolve all subtasks. If it takes a relatively long time ($>10s$, or $>60s$, depending on the estimated time cost in total) to finish the check, then we present the phased verification results and the current progress in the following way:
 
 ```
