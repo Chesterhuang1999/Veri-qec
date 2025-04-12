@@ -284,7 +284,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
     print(f"task generation time: {end_gen - start_time}")
-    exit(0)
+    
 
     task_info = []
     err_info = []
@@ -429,7 +429,7 @@ if __name__ == "__main__":
         file_name += f"_{dx}_{dz}.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, dx, dz, max_proc_num, False, is_sym = True)
+                cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
         # cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
     elif user_input == 'Honeycomb':
         #Only support d = 3, d = 5 currently

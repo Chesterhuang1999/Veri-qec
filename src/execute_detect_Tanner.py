@@ -74,12 +74,13 @@ def estimate_difficulty(remained_qubits, remained_ones):
     # return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num, checktype) -> None:
+    def __init__(self, distance, numq, max_proc_num, checktype, is_Ham7) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
         self.checktype = checktype
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
+        self.Ham7 = is_Ham7
         self.tasks = []
         
         # self.one_num_thres = distance // 2
@@ -94,29 +95,22 @@ class subtask_generator:
             return True
         if remained_qubit_num <= remained_one_num + 1:
             return True
-        # if self.one_num_thres >= remained_one_num and \
-        #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        #     return True
+       
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         
-
-        ### For detection task ###
-
-        # if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-        #     return False
-
         ### For Tanner code detection ###
-
-        # if checktype == 'x':
-        #     if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
-        #         return False
-        # else:
-        #     if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
-        #         return False
+        if self.Ham7:
+            if checktype == 'x':
+                if 12 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+                    return False
+            else:
+                if 7 * assigned_one_num * self.distance +  assigned_bit_num < self.num_qubits:
+                    return False
         #### For detection other than Tanner code ####
-        if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
-            return False
+        else:
+            if 4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+                return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
         #     return False
@@ -346,16 +340,16 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
-    is_Ham = False if numq != 343 else True
-    packed_x, packed_z = cond_generator(matrix, dx, dz, is_Ham, is_sym)
+    is_Ham7 = False if numq != 343 else True
+    # packed_x, packed_z = cond_generator(matrix, dx, dz, is_Ham7, is_sym)
     end_gen = time.time()
     print(f"Condition generation time: {end_gen - start_time}")
 
     ## Generate tasks and check 
     unknown_info = []
-    tg_x = subtask_generator(dz, numq, max_proc_num, 'z')
+    tg_x = subtask_generator(dz, numq, max_proc_num, 'z', is_Ham7)
     tasks_x = tg_x() 
-    tg_z = subtask_generator(dx, numq, max_proc_num, 'x')
+    tg_z = subtask_generator(dx, numq, max_proc_num, 'x', is_Ham7)
     tasks_z = tg_z() 
     total_job = len(tasks_x) + len(tasks_z)
     # z_job = len(tasks_z)
@@ -363,6 +357,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
 
     print("Task generated. Start checking.")
+    exit(0)
     # , unknown_info = divide_and_check()
     start_time = time.time()
     last_print = start_time
@@ -524,11 +519,11 @@ if __name__ == "__main__":
     
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
-    print(n, k)
-    dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    print(dx_max, dz_max, weight_min)
+    # print(n, k)
+    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
+    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
+    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
+    # print(dx_max, dz_max, weight_min)
 
     
     # cond_checker(matrix, 4, 4, max_proc_num)
@@ -538,16 +533,19 @@ if __name__ == "__main__":
     #### Parsing input parameters ####
     parser = argparse.ArgumentParser(description='Error detection for quantum codes')
     parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPU cores')
+    parser.add_argument('--basis', type = str, default = 'Ham7', help = 'The basis type')
     # parser.add_argument('--code', type = str, default = 'camp_howard', help = 'The code type')
     # parser.add_argument('--p1', type = int, default = 2, help = 'The parameter for the code')
     # parser.add_argument('--p2', type = int, default = 2, help = 'The parameter for the code')
     args = parser.parse_args()
     # user_input = args.code
     max_proc_num = args.cpucount
+    basis = args.basis
     output_dir = './eval-Output'
-    # with open(f'{output_dir}/detect_Tanner_Ham7.txt', 'w') as f:
-    #     # f.write(f"CPU counts: {max_proc_num}\n")
-    #     with redirect_stdout(f):
-    #         cond_checker(matrix, 4, 4, max_proc_num)
-    cond_checker(matrix, 4, 4, max_proc_num)
+    matrix = qldpc_codes.stabs_Tanner(1, 1, Par54, Rep51) if basis == 'Rep5' else qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
+    with open(f'{output_dir}/detect_Tanner_{basis}.txt', 'w') as f:
+        # f.write(f"CPU counts: {max_proc_num}\n")
+        with redirect_stdout(f):
+            cond_checker(matrix, 4, 4, max_proc_num)
+    # cond_checker(matrix, 4, 4, max_proc_num)
     

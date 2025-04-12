@@ -91,6 +91,17 @@ PowerShell:
 tar -xvf docker-veriqec.tar
 docker load -i docker-veriqec
 ```
+
+If it fails, try the following in Linux/MacOS:
+```bash
+cat docker-veriqec.tar 
+sudo docker load
+```
+or in PowerShell:
+```bash
+Get-Content docker-veriqec.tar -Raw | docker load
+```
+
 Or you can directly build from the zip file of source codes `Veri-qec.zip`:
 
 Linux, MacOS and PowerShell:
@@ -113,7 +124,13 @@ docker run -v ${PWD}$ /eval-Output:/Veri-qec/eval-Output --rm -it docker-veriqec
 
 We set the default working directory to be `/Veri-qec/` and you can use `pwd` at the initial interface to verify whether the working directory is correct.
 
+### Package lists in Zenodo
 
+- docker-veriqec.tar: The archive file for the docker environment containing the artifact Veri-qec.
+
+- dirac-project-veriqec.zip: The source codes and Dockerfile for the verified verifier developed in Coq. 
+
+- Veri-qec.zip: The source codes and Dockerfile for Veri-qec along with the output scripts.
 
 #### Artifact Usage 
 
@@ -142,7 +159,7 @@ python3 src/execute_verify.py \
 --cpucount 16 --code surface --param1 7 
 ```
 
-To evaluate the results of the first functionality, using the command above and adjust the additional parameter (which is the distance of the surface code) from the set $\{3,5,7,9,11\}$. The typical output for this example will be : 
+To evaluate the results of the first functionality, using the command above and adjust the additional parameter (which is the distance of the surface code) from the set $\{3,5,7,9,11\}$. **You can find the output results in the `eval-Output/correction` directory.** The typical output for this example will be (the running time is obtained using 240 cores): 
 
 ```
 Task generated. Start checking.
@@ -153,7 +170,7 @@ No counterexample found, all errors can be corrected.
 Finish all jobs. Checking time: 3.138540744781494
 cond_checker took 3.611sec
 ```
-The second line illustrates the total subtasks we divide and the third line is the time consumed to parsing and generate the logical formulas. If there are no counterexamples (which means all of the subtasks will output `unsat`), then you'll see the fourth line which reports success. The final line displays the time taken by the solver to resolve all subtasks. If it takes a relatively long time ($>10s$, or $>60s$, depending on the estimated time cost in totla) to finish the check, then we present the phased verification results and the current progress in the following way:
+The second line illustrates the total subtasks we divide and the third line is the time consumed to parsing and generate the logical formulas. If there are no counterexamples (which means all of the subtasks will output `unsat`), then you'll see the fourth line which reports success. The final line displays the time taken by the solver to resolve all subtasks. If it takes a relatively long time ($>10s$, or $>60s$, depending on the estimated time cost in total) to finish the check, then we present the phased verification results and the current progress in the following way:
 
 ```
 3078/67800: finish job file[3191], cost_time: 0.19430899620056152
@@ -301,11 +318,11 @@ We use surface code as the benchmark code here and the distances for three types
 - Evaluation for error detecting property (full-verification)
 
 ```bash 
-python3 src/execute_detect.py --cpucount nc --code codename --param1 d1 --param2 d2
+python3 src/execute_detect.py --cpucount nc --code codename --p1 d1 --p2 d2
 ```
 We configured the corresponding parameters for the error-correcting codes used in these experiments. Note that for triorthogonal code we additionally set the second parameter as to provide an example for incorrect parameters ($d_x = 6$ is correct, while $d_x = 7$ is not). If set to 7, the SMT solver would report counterexamples and terminate the process pool. 
 
-| codename | param1 | param2| 
+| codename | p1 | p2| 
 |----------|--------|--------|
 | camp_howard | {2} | /| 
 | carbon | / | / |
@@ -314,8 +331,11 @@ We configured the corresponding parameters for the error-correcting codes used i
 
 The only exception is quantum Tanner code. Due to the number of qubits and relative large weight of stabilizers, we specifically designed another empirical function to dividing the problem into subtasks. The evaluation command for quantum Tanner code is:
 ```bash 
-python3 src/execute_detect_Tanner.py 
+python3 src/execute_detect_Tanner.py --cpucount nc --basis (Ham7, Rep5)
 ```
+
+Ham7 refers to the quantum Tanner code which have 343 qubits; Rep5 refers to the code with 125 qubits. 
+
 Detailed discussions for verification of quantum Tanner code in the following section. 
 
 - Evaluation for examples of fault-tolerant gadgets 
@@ -347,7 +367,7 @@ II. When revising the experimental results for the QEC code benchmarks, we ident
 
 
 3) Results of quantum Tanner code. We selected two sets of classical linear codes: the 5-bit repetition code and its dual, as well as the 7-bit Hamming code and its dual. We also choose *bitwuzla* as the SMT solver for Tanner code. We claim that the data in the paper should be updated from two perspectives:
-    - For Tanner code constructed with the 5-qubit repetition code, we verify the exact code distance **$d = 4$** in **$137$** seconds, which indicates that this construction is rather trivial;
+    - For Tanner code constructed with the 5-qubit repetition code Rep5, we verify the exact code distance **$d = 4$** in about **$20.5$** minutes, following the termination condition $4*d * N(ones) + 3 * N(bits) > N$. This matches the results in Table 4. We remove the result with running time being $137$ seconds because the verification condition is not correctly set. The details are illustrated in `Veri-qec/Output/detection/detection_Tanner_Rep5_4.txt`.
 
-    - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$\approx 2$** hours to verify. 
+    - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$\approx 2$** hours to verify. The details are illustrated in `Veri-qec/Output/detection/detection_Tanner_Ham7_4_4.txt`.
 

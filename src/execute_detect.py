@@ -113,7 +113,7 @@ class subtask_generator:
         # if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
             # return False
         #### For detection other than Tanner code ####
-        if  4 * assigned_one_num * self.distance + 3 * assigned_bit_num < self.num_qubits:
+        if  int(5.15 * assigned_one_num * self.distance) + 3 * assigned_bit_num < self.num_qubits:
             return False
         
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
@@ -454,7 +454,8 @@ if __name__ == "__main__":
         file_name += f"_{d}.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                sur_cond_checker(matrix, d, d, max_proc_num, is_sym = True)
+                # sur_cond_checker(matrix, d, d, max_proc_num, is_sym = True)
+                sur_cond_checker(d, max_proc_num)
     if user_input == 'camp_howard':
         # d = int(input("Enter the parameter: "))
         if args.p1 is None and args.p2 is None:
