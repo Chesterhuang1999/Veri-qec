@@ -355,14 +355,15 @@ python3 src/logical_op_test.py
 
 I. The experimental results produced by Veri-QEC can support the following claims mentioned in the paper:
 
-- Veri-QEC can perform general verification for all error configurations on surface codes with up to 121 qubits in $\sim 200$ minutes (see `Output/correction/correction_surface_11.txt`);
+- Veri-QEC can perform general verification for all error configurations on surface codes with up to 121 qubits in $\sim 200$ minutes (see `Output/correction/correction_surface_11.txt`); 
+
+- Veri-QEC can verify the correctness detection property on surface code with distance up to 23; It can detect an counterexample when distance is set to be the real value + 1 for surface codes with distance up to 25 (see `Output/detection_surface/detection_surface_(23,25).txt`). 
 
 - Veri-QEC can perform partial verification for certain user-provided constraints up to 361 qubits within $\sim 100$ minutes (see `Output/userprov_constraint/usrprov_comb_19.txt`).
 
 - Veri-QEC can verify simple examples of fault-tolerant gadgets. (See Section 7.4 in the paper, and the outputs of `src/logical_op_test.py`).
 
 - Veri-QEC can verify a benchmark of 14 kinds of QEC codes. 
-
 
 II. When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. The updates of experimental results include:
 

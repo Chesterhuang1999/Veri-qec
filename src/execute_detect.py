@@ -77,10 +77,10 @@ def estimate_difficulty(remained_qubits, remained_ones):
     # return sum(math.comb(n, i) for i in range(k + 1))
 
 class subtask_generator:
-    def __init__(self, distance, numq, max_proc_num) -> None:
+    def __init__(self, distance, numq, value, max_proc_num) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
-        
+        self.value = value
         # self.num_qubits = distance ** 2
         self.num_qubits = numq
         self.tasks = []
@@ -103,19 +103,19 @@ class subtask_generator:
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         
-
         ### For detection task ###
-
+        ta, tb = self.value
         # if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
         #     return False
-
-        ### For Tanner code detection ###
-        # if 10 * assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-            # return False
-        #### For detection other than Tanner code ####
-        if  int(5.15 * assigned_one_num * self.distance) + 3 * assigned_bit_num < self.num_qubits:
+        if  int(ta * assigned_one_num * self.distance) + tb * assigned_bit_num < self.num_qubits:
             return False
-        
+        # else:
+        #     if int(ta) == ta:
+        #         if ta * assigned_one_num + tb * assigned_bit_num < self.num_qubits:
+        #             return False
+        #     else:
+        #         if int(ta * assigned_one_num) + tb * assigned_bit_num < self.num_qubits:
+        #             return False
         # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
         #     return False
         
@@ -144,6 +144,7 @@ class subtask_generator:
         
     
     def __call__(self):
+        
         self.generate_tasks(self.num_qubits, self.distance - 1, [])
         return self.tasks
 
@@ -293,24 +294,26 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
-    
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # min_x = np.argmin(np.count_nonzero(matrix[n - k + i]) for i in range(k))
-    # min_z = np.argmin(np.count_nonzero(matrix[n + i]) for i in range(k))
-    # err_inds_x = np.array(np.nonzero(matrix[min_x + n -k ,:]))[0]
-    # err_inds_z = np.array(np.nonzero(matrix[min_z + n, :]))[0] - 343
-    # tasks_x = task_generator_fixed(err_inds_x, numq, 3)
-    # tasks_z = task_generator_fixed(err_inds_z, numq, 3)
-    tg_x = subtask_generator(dz, numq, max_proc_num)
+    ta = 4
+    tb = 3
+    choice = [6, 4, 0, 0, 4.8, 4, 5.15, 5, 0, 5]
+    if dx >= 17:
+        ta = choice[dx - 17]
+    if 17 <= dx <= 23: 
+        tb = 3
+    elif dx == 24 or dx == 26:
+        tb = 4
+    value = (ta, tb)
+    print(value)
+    tg_x = subtask_generator(dz, numq, value, max_proc_num)
     tasks_x = tg_x() 
-    tg_z = subtask_generator(dx, numq, max_proc_num)
+    tg_z = subtask_generator(dx, numq, value, max_proc_num)
     tasks_z = tg_z() 
     total_job = len(tasks_x) + len(tasks_z)
     print(f"Check condition: dx = {dx}, dz = {dz}")
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}")
     print(f"total_job: {total_job}")
-
+    
     print("Task generated. Start checking.")
     packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
     end_gen = time.time()
@@ -383,8 +386,11 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
   
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
-    print("Verifying the correctness when dt = d")
-    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+    if distance > 23:
+        print("Exceed the limit for verifying correctness.")
+    else:
+        print("Verifying the correctness when dt = d")
+        cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
     ## Detect abnormal cases 
     print("-------------")
     print("Detecting counterexamples when dt = d + 1")
@@ -456,6 +462,7 @@ if __name__ == "__main__":
             with redirect_stdout(f):
                 # sur_cond_checker(matrix, d, d, max_proc_num, is_sym = True)
                 sur_cond_checker(d, max_proc_num)
+        # sur_cond_checker(d, max_proc_num)
     if user_input == 'camp_howard':
         # d = int(input("Enter the parameter: "))
         if args.p1 is None and args.p2 is None:

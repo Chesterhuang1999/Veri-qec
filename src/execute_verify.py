@@ -310,23 +310,10 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     for i, ei in enumerate(err_info):
         ei.re_raise()
 
-    # with open('unsorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]}| result: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
-    # # for info in task_info:
-    # #     print(info)
+    
     if is_sat == 0: 
         print("No counterexample found, all errors can be corrected.\n")
-    # task_info.sort(key=lambda x: x[0])
     
-
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
     print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 

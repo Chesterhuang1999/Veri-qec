@@ -3252,7 +3252,7 @@ Check X time: 2674.400039434433
 No counterexample for X error is found, all errors can be detected.
 
 All tasks finished, total time: 13639.40778517723
-
+(5.15, 3)
 -------------
 Detecting counterexamples when dt = d + 1
 Check condition: dx = 24, dz = 24
