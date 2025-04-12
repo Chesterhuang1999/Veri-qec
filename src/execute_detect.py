@@ -386,9 +386,9 @@ def sur_cond_checker(distance, max_proc_num):
     print("Verifying the correctness when dt = d")
     cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
     ## Detect abnormal cases 
-    # print("-------------")
-    # print("Detecting counterexamples when dt = d + 1")
-    # cond_checker(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
+    print("-------------")
+    print("Detecting counterexamples when dt = d + 1")
+    cond_checker(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
 
 
 if __name__ == "__main__":
