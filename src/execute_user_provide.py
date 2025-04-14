@@ -162,6 +162,7 @@ class subtask_generator:
             return self.tasks, (err_set, free_set)
         
         ## Only local constraint is imposed ##
+        ## Local: error can only happen in a specific(randomly choice) region ##
         elif self.method == 'local':
             err_len = (self.distance**2 - 1) // 2
             begin = np.random.randint(0, int(self.num_qubits // 4))
@@ -173,6 +174,8 @@ class subtask_generator:
             return self.tasks, (err_set, free_set)
         
         ## Only discrete constraint is imposed ##
+        ## Discrete: Uniformly divide the total qubits into  segments, 
+        # within each segment there exists no more than one error. 
         elif self.method == 'discrete':
             self.generate_tasks_I(self.num_qubits, self.distance - 1, 0, [])
             return self.tasks
@@ -291,7 +294,6 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     numq = matrix.shape[1] // 2
     ### Generate tasks w.r.t the supposed distance ### 
     tg_x = subtask_generator(dz, numq, max_proc_num, cstype)
-    
     tg_z = subtask_generator(dx, numq, max_proc_num, cstype)
     if cstype == 'discrete':
         tasks_x = tg_x()

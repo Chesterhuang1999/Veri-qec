@@ -188,7 +188,7 @@ def process_callback(result, pool):
 
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 60.0:
+    if curr_time - last_print > 300.0:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)

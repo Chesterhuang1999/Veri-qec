@@ -22,6 +22,7 @@ class add_comparison(Transformer):
       
     def row_xor(self, row1, row2):
         return [row1[i] ^ row2[i] for i in range(len(row1))]
+    ## Show that 
     def exist_match(self, E, F):
         k1, k2 = E.shape[0], F.shape[0]
         assert k1 == k2
@@ -82,7 +83,6 @@ class add_comparison(Transformer):
                     if all(elem1 == elem2):
                         perm[i] = j
                         break
-                # print(perm)
                 
                 sexp_set1 = [args[2*i] for i in range(len(args)//2)]
                 sexp_set2 = [self.child[2*i] for i in range(len(args)//2)]

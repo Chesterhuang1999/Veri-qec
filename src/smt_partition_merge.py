@@ -77,17 +77,19 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
 
     variables = {}
     constraints = []
-   
+    ## generated from phases of stabilizers
     cass_tree = VCgeneration(precond, program, postcond)
     cass_expr = tree_to_z3(cass_tree, variables, bit_width, [], False)
     cass_expr = simplify(cass_expr)
-
+    
+    ## The assumed condition for correctable errors
     err_tree, _, decoder_tree = precond_generator('skip', err_cond, decoder_cond)
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, True)
-    
+    ## Err_gt: assumes error should be detected.
     err_gt_tree, _, _ = precond_generator('skip', err_gt, err_cond)
     err_gt_expr = tree_to_z3(err_gt_tree.children[0], variables, bit_width, [], False)
     
+    ### Generate decoder's condition
     decoder_expr = tree_to_z3(decoder_tree.children[0],variables, bit_width, constraints, True)
     decoder_expr = simplify(decoder_expr) 
    
@@ -102,7 +104,8 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     
         formula = Or(Not(err_gt_expr), And(substitution, 
                 Or(Not(err_expr), Not(sym_expr), decoding_formula)))
-    
+    ### Not( err_gt_expr => And(substitution, err_expr => decoding_formula))
+    ## Substitution is auxiliary, introduced to simplify summation
     else:
         formula = Or(Not(err_gt_expr), And(substitution, 
                 Or(Not(err_expr), decoding_formula)))
@@ -111,7 +114,7 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
   
 ### Invokes CVC5 to check the SMT formula ### 
 def smtchecking(formula):
-    
+
     solver = SolverFor('QF_BV')
     solver.add(formula)
 
@@ -121,6 +124,7 @@ def smtchecking(formula):
 
     s2 = cvc5.Solver()
     s2.setOption('produce-models', 'true')  
+    # Parse the input SMT2 formula
     cvc5_parser = cvc5.InputParser(s2)
 
     cvc5_parser.setStringInput(cvc5.InputLanguage.SMT_LIB_2_6, formula_smt2, "MyInput")
@@ -131,7 +135,7 @@ def smtchecking(formula):
         if cmd.isNull():
             break
         cmd.invoke(s2, sm)
-    
+    ## You can use this to produce the counterexample information
     r = s2.checkSat()
     err = []
     if str(r) == 'sat':
@@ -148,6 +152,7 @@ def smtchecking(formula):
     return r, []
 
 ### Generate the symmetry condition for the surface code ###    
+## Surface code is central symmetric, so we leverage this property to simplify the code ##
 def coord_to_index(x, y, distance):
     return x * distance + y
 def sym_gen(dx, dz):
@@ -174,7 +179,7 @@ def sym_gen(dx, dz):
 def cond_generator(matrix, dx, dz, is_discrete, is_sym = False):
     num_qubits = matrix.shape[1] // 2
   
-    slice_x = num_qubits // dx
+    slice_x = num_qubits // dx ## Divide the whole tasks into slices
     slice_z = num_qubits // dz
 
     ez_max = (dz - 1) // 2
@@ -183,11 +188,12 @@ def cond_generator(matrix, dx, dz, is_discrete, is_sym = False):
     k = matrix.shape[0] - num_qubits
    
     precond_x, precond_z = stab_cond_gen(matrix, num_qubits, k)
-
+    ## The correctable threshold determined by the supposed code distance.
     err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) <= {ex_max}"
     err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) <= {ez_max}"
+    ### Assume that all of the errors can be detected.
     err_gt_z = f"sum i 1 {num_qubits} (ex_(i)) <= {2 * ex_max}"
-    err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}"
+    err_gt_x = f"sum i 1 {num_qubits} (ez_(i)) <= {2 * ez_max}" 
     ## If the discreteness constraint is imposed, then we need to add extra constraints over errors.
     if is_discrete == True:
         for i in range(slice_z):
@@ -230,6 +236,7 @@ def cond_generator(matrix, dx, dz, is_discrete, is_sym = False):
 def seq_cond_checker_logical(packed_expr, err_vals, p_vals, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
+    ## Generate assertions for enumerated values
     if opt == 'x':
         err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
         err_val_exprs.extend([f'(pz_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
@@ -249,6 +256,7 @@ def seq_cond_checker_logical(packed_expr, err_vals, p_vals, opt):
 def seq_cond_checker(packed_expr, err_vals, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
+    ## Generate assertions for enumerated values
     if opt == 'x':
         err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
     else:
@@ -269,6 +277,8 @@ def seq_cond_checker_user(packed_expr, err_vals, info, opt):
     t2 = time.time()
     expr, variables, constraints = packed_expr
     err_set, free_set = info
+    ## Generate assertions for enumerated values
+    ## Pay attention to the err-free set, we assume no corrections are made there.
     if opt == 'x':
         err_val_exprs = [f'ez_({i + 1}) == 0' for i in free_set]
         err_val_exprs.extend([f'cz_({i + 1}) == 0' for i in free_set])

@@ -114,6 +114,7 @@ def smtchecking(formula):
         cmd.invoke(s2, sm)
     err = []
     r = s2.checkSat()
+    ## Use this to produce the counterexample information
     if str(r) == 'sat':
         vars = sm.getDeclaredTerms()
         res_lines = (s2.getModel([], vars)).decode('utf-8').splitlines()[1:-1]
@@ -200,7 +201,7 @@ def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
     k = matrix.shape[0] - num_qubits
    
     precond_x, precond_z = stab_cond_gen(matrix, num_qubits, k)
-
+    
     if is_Tanner == True:
         err_cond_z = f"sum i 1 {num_qubits} (ex_(i)) == {dx - 1}"
         err_cond_x = f"sum i 1 {num_qubits} (ez_(i)) == {dz - 1}"
@@ -222,6 +223,10 @@ def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
 
 
 ### SMT encoding for detect-only task ###
+## logic_expr = true: exist logical error
+## cass_expr = true: syndrome meets the error injection results
+## phase_expr: all of the syndromes are 0
+## err_expr: assume that the weight of error is less than distance
 def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog):              
     post_tree, _, meas_tree = precond_generator(program, postcond, precond)
     variables = {}
@@ -252,7 +257,7 @@ def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog
     err_tree = precond_generator('skip', err_cond, 'true')[0]
     err_expr = tree_to_z3(err_tree.children[0], variables, bit_width, constraints, False)
 
-  
+   
     detect_formula = simplify(And(logic_expr, phase_expr, cass_expr))
    
     expr = simplify(And(err_expr, detect_formula))

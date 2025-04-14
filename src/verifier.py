@@ -38,7 +38,7 @@ def find_stab_rep(stab_dict, stab_list, s):
     is_matched = 0
     # stab_dict_cpy = stab_dict.deepcopy()
     stab_dict_cpy = copy.deepcopy(stab_dict)
-    while is_matched == 0:
+    while is_matched == 0: ## Find if the stabilizer is in current list
         for s_c in stab_dict_cpy[l]:
             if eq_pexpr(s, s_c):
                 if len(s_c.children[0].children) == 4:
@@ -49,7 +49,7 @@ def find_stab_rep(stab_dict, stab_list, s):
                 break
         if is_matched == 1:
             break
-        
+        ## Not found, extend the list by multiplying stabilizers, and continue
         stab_list_cpy = copy.deepcopy(stab_list)
         length = len(stab_list_cpy)
         for i in range(length):
@@ -62,7 +62,10 @@ def find_stab_rep(stab_dict, stab_list, s):
     return phase
      
 
-### Canonical form of stabilizers, designed to find the linear transformation between two sets of generators ###
+### Canonical form of stabilizers,
+#  designed to find the linear transformation between two sets of generators ###
+### The generators can be viewed as two binary matrices, 
+# and the transformation is the linear transformation between two binary matrices. ###
 def canonical_form(stab_list):
     stab_list = sorted(stab_list, key = lambda x: int(x.children[0].children[-1].value)) 
     max_ind = 1
@@ -85,7 +88,7 @@ def canonical_form(stab_list):
         
     return stabs_mat_rep, phase_rep
 
-### Linear transformation between two set of generators. P = LQ, so Q is precondition, stab_mat1 ###
+### Linear transformation between two set of generators. P = LQ, so Q is precondition, so is stab_mat1 ###
 def linear_transform(stab_mat1, stab_mat2, phase1, phase2):
     Qt = stab_mat1.T
     Pt = stab_mat2.T 
@@ -145,6 +148,7 @@ def stab_mul(u: Tree, v: Tree):
     for stab in stabs:
         stab_dict[int(stab.children[-1])].append(stab)
     
+    ## Multiply in turns and pay attention to phases
     stab_new = []
     isphase = 0
     for i in stab_dict.keys():
@@ -246,7 +250,7 @@ class calc_sym(Transformer):
             return Token('NUMBER', int(l.value) - int(r.value)) 
         else: return Tree('sub', [l, r])
 
-### Eliminate same terms in both sides of eq/leq ###
+### Eliminate same terms and redundant 0s in both sides of eq/leq ###
 class simplifyeq(Transformer):
     @v_args(inline=True)
     def eq(self, l, r):

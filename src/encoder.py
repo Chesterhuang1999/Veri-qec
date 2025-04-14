@@ -165,14 +165,13 @@ def VCgeneration_meas(precond, prog_qec, postcond, prog_log = None):
 def VCgeneration(precond, program, postcond):
     
     result = precond_generator(program, precond, postcond)
-    
+    ## Multiple rounds of measurement, auxes stores the mediated assertion trees ## 
     if len(result) == 4:
         pre_tree, _, post_tree, auxes = result
            
         cass_transformer = qassertion2c(pre_tree)
         cass_tree = cass_transformer.transform(post_tree.children[0].children[-1])
         cass_tree = simplifyeq().transform(cass_tree)
-        
         
         aux_trees = []
         for i, aux in enumerate(auxes):
@@ -185,7 +184,7 @@ def VCgeneration(precond, program, postcond):
             aux_trees.append(aux)
         
         return cass_tree, aux_trees
-    
+    ## Single round (default, no auxes) ##
     else:
         pre_tree, _, post_tree = result
         

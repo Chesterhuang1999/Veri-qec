@@ -152,7 +152,7 @@ def get_current_infos(not_done = True):
 
 ### Process the return value of the task ###   
 def process_callback(result, pool):
-    # print(result)
+    
     global task_info
     global err_info
     global is_sat
@@ -245,10 +245,9 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
     print(f"task generation time: {end_gen - start_time}")
     
-
     task_info = []
     err_info = []
-    
+    ## Start checking ##
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks_x):
@@ -266,7 +265,7 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
         pool.close()
         [res.wait() for res in result_objects]
         pool.join()
-    
+    ## Deal with possible error info (for debugging) ##
     for i, ei in enumerate(err_info):
         ei.re_raise()
 
@@ -299,7 +298,7 @@ if __name__ == "__main__":
                         [0, 1, 0, 0, 0, 1, 1],
                         [1, 0, 1, 0, 0, 0, 1]], dtype = int)
    
-    ## Parsing input parameters
+    ## Parsing input parameters ##
     parser = argparse.ArgumentParser(description="Process some parameters.")
     parser.add_argument('--cpucount', type=int, default=8, help='The CPU counts.')
     parser.add_argument('--code', type=str, default='surface', help='The code type.')
@@ -309,12 +308,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
     max_proc_num = args.cpucount
     user_input = args.code
-
+    ## Redirect output to another directory ##
     output_dir = "./eval-Output"
     os.makedirs(output_dir, exist_ok=True)
     file_name = f"correction_{user_input}"
     
     if user_input == 'surface':
+        ## surface code, basic candidate for experiments ## 
         if args.param1 is None:
             raise ValueError("Please enter the distance.") 
         d = args.param1
@@ -324,15 +324,13 @@ if __name__ == "__main__":
             with redirect_stdout(f):
                 sur_cond_checker_verify(d, max_proc_num)
             
-        # sur_cond_checker_verify(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
         file_name += f".txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
-        # cond_checker_verify(matrix, 3, 3, max_proc_num)
-
+        
     elif user_input == 'reed_muller':
         
         if args.param1 is None and args.param2 is None:
@@ -344,18 +342,19 @@ if __name__ == "__main__":
             with redirect_stdout(f):  
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
       
-        # cond_checker_verify(matrix, 3, 3, max_proc_num)
+        
     elif user_input == 'dodecacode':
         matrix = special_codes.stabs_1115()
         file_name += f"_5.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
                 cond_checker_verify(matrix, 5, 5, max_proc_num)
-        # cond_checker_verify(matrix, 5, 5, max_proc_num)
+        
     elif user_input == 'XZZX':
+        ## XZZX code, a variant of surface code ## 
         if args.param1 is None or args.param2 is None:
             raise ValueError("Both distances should be provided.")
-        
+        ## Enter the distances of X and Z ##
         dx = args.param1
         dz = args.param2
         matrix = special_codes.stabs_XZZX(dx, dz)
@@ -363,8 +362,9 @@ if __name__ == "__main__":
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
                 cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = True)
-        # cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = True)
+        
     elif user_input == 'Honeycomb':
+        ## Honeycomb code, consists of hexagon regions ##
         # Only support d = 3, d = 5 currently
         if args.param1 is None and args.param2 is None:
             raise ValueError("Both distances should be provided.")
@@ -376,9 +376,10 @@ if __name__ == "__main__":
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
                 cond_checker_verify(matrix, d, d, max_proc_num)
-        # cond_checker_verify(matrix, d, d, max_proc_num)
+        
 
     elif user_input == 'Gottesman':
+        ##[[2^r, 2^r-r-2, 3]] Gottesman code
         if args.param1 is None and args.param2 is None:
             raise ValueError("Shape parameter should be provided.")
         m = args.param1 if args.param1 is not None else args.param2
@@ -387,7 +388,7 @@ if __name__ == "__main__":
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
-        # cond_checker_verify(matrix, 3, 3, max_proc_num)
+
 
         
     
