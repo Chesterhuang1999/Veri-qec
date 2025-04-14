@@ -30,12 +30,9 @@ def worker(task_id, err_vals, opt):
     
     try:
         start = time.time()
-        
         if opt == 'x':
-            
             smttime, res = seq_cond_checker(packed_x, err_vals, opt)
         else:
-            
             smttime, res = seq_cond_checker(packed_z, err_vals, opt)
         end = time.time()
         cost = end - start 

@@ -9,7 +9,7 @@ import sys
 import time
 sys.setrecursionlimit(10**7)
 
-
+### Compare whether two ASTs are the same, in the presence of additive pauli strings ###
 class add_comparison(Transformer):
     def __init__(self, base, stabs):
         self.child = base.children[0].children
@@ -108,9 +108,8 @@ class eval_and(Transformer): ##Pruning for And conjunctions
             return Tree('cap', [args[0], args[1]])
 
         
-## Const logical S gate program generation for surface code (fault-free)
 
-## Const logical T gate program generation for surface code (fault-free)
+### Const logical T gate program generation for surface code (fault-free) ### 
 def program_T(matrix, distance):
     
     numq = matrix.shape[1] // 2
@@ -129,6 +128,8 @@ def program_T(matrix, distance):
     prog_rev = " ".join(prog_part_rev)[:-1]
     prog = prog_op + prog_T + prog_rev
     return prog, prog_op[:-1]
+
+### Expected precondition generation (no exact physcial implementation) ###
 
 def construct_precond(gate, pc_x, pc_z, d):
     pcx_part = pc_x.split('&&')
@@ -165,6 +166,8 @@ def construct_precond(gate, pc_x, pc_z, d):
     precond_x = stab_cond + "&&" + log_X_pre
     precond_z = stab_cond + "&&" + log_Z_pre
     return log_X_pre, log_Z_pre
+
+### Precondition generation for logical T gate ###  
 def sur_cond_gen_logical(d, N):
     numq = d**2
     sur_mat = surface_matrix_gen(d)

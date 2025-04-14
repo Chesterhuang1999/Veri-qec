@@ -1,5 +1,13 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/11/01
+# Description: SMT formula generation, SMT solver invokation
+# for verifying accurate detection of errors
+# Design for a special subclass of codes which can detect but cannot correct errors
+#----------#
+
 import sys
-from condition import stab_cond_gen, surface_matrix_gen
+from condition import stab_cond_gen
 from verifier import precond_generator, qassertion2c
 from transformer import recon_string
 from encoder import tree_to_z3, const_errors_to_z3, VCgeneration
@@ -13,11 +21,15 @@ import numpy as np
 import math
 from collections import defaultdict
 from Dataset import linalg_GF, special_codes, qldpc_codes
-### Design for a special subclass of codes which can detect but cannot correct errors
+
+
 sys.setrecursionlimit(1000000)
 
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
+
+
+### Replace the error variables in formula using enumerated values ### 
 def smtencoding_constrep(expr, variables, err_vals):
     
     
@@ -28,7 +40,6 @@ def smtencoding_constrep(expr, variables, err_vals):
     for i, ki in enumerate(consts.keys()):
         replace.append((variables[ki], consts[ki]))
     
-
     expr = simplify(substitute(expr, replace))
     
     vaux_list, verr_list, vdata_list = [], [], []
@@ -41,14 +52,13 @@ def smtencoding_constrep(expr, variables, err_vals):
                 verr_list.append(var)
         else:
             vaux_list.append(var)
-
     var_list = vaux_list + vdata_list
    
     formula_to_check = expr
     return formula_to_check
 
   
-# @timebudget 
+## Set time limit for difficult checks
 class Terminator:
     def __init__(self, time_limit):
         self.start_time = time.time()
@@ -56,10 +66,11 @@ class Terminator:
     def __call__(self):
         return (time.time() - self.start_time) > self.time_limit
 
+### Invoke bitwuzla for extreme hard cases (Tanner code) ### 
 def smtchecking_bzla(formula):
     solver = Solver()
     solver.add(formula)
-    # print(formula)
+    
     formula_smt2 = solver.to_smt2()
     lines = formula_smt2.splitlines()
     formula_smt2 = f"(set-logic QF_BV)\n" + "\n".join(lines[2:])
@@ -67,7 +78,7 @@ def smtchecking_bzla(formula):
     tm = bzla.TermManager()
     options = bzla.Options()
   
-    ### Set the timeout for the solver
+    ## Set the timeout for the solver
     parser = bzla.Parser(tm, options)
     
     parser.parse(formula_smt2, True, False)
@@ -79,6 +90,8 @@ def smtchecking_bzla(formula):
     
     return result
 
+
+### Invokes CVC5 to check the SMT formula ### 
 def smtchecking(formula):
    
     solver = Solver()
@@ -110,8 +123,10 @@ def smtchecking(formula):
                 elems = line.split(' ')
                 err.append(elems[1])
         return r, err
-      
     return r, []
+
+
+### Generate the symmetry condition for the surface code ###    
 def coord_to_index(x, y, distance):
     return x * distance + y
 def sym_gen(dx, dz):
@@ -133,6 +148,8 @@ def sym_gen(dx, dz):
     sym_x, sym_z = '&&'.join(sym_x), '&&'.join(sym_z)
     return sym_x, sym_z
 
+
+### Generate the stabilizer assertions for detect-only task ###
 def stab_cond_gen_detect(matrix, n, k):
     cond_parts_x = []
     cond_parts_z = []
@@ -152,6 +169,8 @@ def stab_cond_gen_detect(matrix, n, k):
     
     return ''.join(cond_parts_x[:-1]), ''.join(cond_parts_z[:-1])
 
+
+### Generate measurement program commands for detect only task ###
 def meas_gen_detect(H, n, k): 
     prog_parts_x = []
     prog_parts_z = []
@@ -171,6 +190,9 @@ def meas_gen_detect(H, n, k):
             prog_parts_z.append(";")
 
     return ''.join(prog_parts_x[:-1]), ''.join(prog_parts_z[:-1])
+
+
+### Generate the SMT formula to check ### 
 def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
     num_qubits = matrix.shape[1] // 2
     
@@ -198,6 +220,8 @@ def cond_generator(matrix, dx, dz, is_Tanner, is_sym = False):
 
     return packed_x, packed_z
 
+
+### SMT encoding for detect-only task ###
 def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog):              
     post_tree, _, meas_tree = precond_generator(program, postcond, precond)
     variables = {}
@@ -234,6 +258,8 @@ def smtencoding_detect(bit_width, precond, program, postcond, err_cond, err_prog
     expr = simplify(And(err_expr, detect_formula))
     return expr, variables
 
+
+### A SMT checker with some enumerated values, invoke cvc5 as the solver### 
 def seq_cond_checker_detect(packed_expr, err_vals, opt):
     t2 = time.time()
     expr, variables = packed_expr
@@ -252,6 +278,8 @@ def seq_cond_checker_detect(packed_expr, err_vals, opt):
     t4 = time.time()
     return t4 - t3, result
 
+
+### A SMT checker with some enumerated values, invoke bitwuzla as the solver ### 
 def seq_cond_checker_detect_bzla(packed_expr, err_vals, opt):
     t2 = time.time()
     expr, variables = packed_expr

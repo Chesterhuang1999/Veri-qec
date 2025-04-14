@@ -26,17 +26,15 @@ def stabs_steane():
     matrix[3:, n:] = css_1
     stabs = np.zeros((n+1, 2*n), dtype = int)
 
-    # x_stabs = np.zeros((n, 2*n), dtype = int)
-    # z_stabs = np.zeros((n, 2*n), dtype = int)
-    # x_stabs[0:n, :] = matrix
-    # z_stabs[0:n, :] = matrix
+
     logs = np.array([[1,1,1,1,1,1,1]])
     stabs[0:n - 1, :] = matrix
     stabs[n - 1, 0:n] = logs
     stabs[n, n:] = logs
-    # x_stabs[n, 0:n] = logs
-    # z_stabs[n, n:] = logs
+   
     return stabs
+
+
 ## [[2d^2, 2, d]] Toric code
 def stabs_Toric(d):
     nq = d ** 2
@@ -70,15 +68,15 @@ def stabs_Toric(d):
         mat[2 * nq + 1, 2 * nq + i] = 1
     
     return mat
+
+
 ## [[2^r, 2^r - r- 2, 3]] Goettsman code
 def stabs_goettsman(m):
     n = int(math.pow(2, m))
     k = n - m - 2
     d = 3
     matrix = np.zeros((n - k, 2*n), dtype = int)
-    # x_stabs_matrix = np.zeros((n, 2*n), dtype = int) 
-    # z_stabs_matrix = np.zeros((n, 2*n), dtype = int)
-    # stabs_matrix = np.zeros((n + k, 2*n), dtype = int)
+    
     for i in range(n):
         matrix[0][i] = 1
         matrix[1][i + n] = 1
@@ -94,7 +92,7 @@ def stabs_goettsman(m):
             temp = i // 2
             comp = i % 2
             binary_str = format(temp, f'0{m}b')
-            #print(binary_str)
+            
             bit_pos = j - 2 
             if bit_pos < m:
                 bit_value = int(binary_str[bit_pos])
@@ -111,12 +109,10 @@ def stabs_goettsman(m):
     matrix = stab_matrix_transformation(matrix, n)
     logs_Z, logs_X = logical_op_gen(matrix, rank, n, k)
     stabs_matrix = np.concatenate((matrix, logs_X, logs_Z), axis = 0)
-    # stabs_matrix[0:n - k, :] = matrix
-    # stabs_matrix[n - k:n, 0:n] = logs_X
-    # stabs_matrix[n:n + k, n:] = logs_Z
-    # x_stabs_matrix, z_stabs_matrix = stab_matrix_transformation(matrix, rank, n, k, d)
-    # return x_stabs_matrix, z_stabs_matrix
+    
     return stabs_matrix
+
+
 ## [[6, 1, 3]] stabilizer code
 def stabs_613():
     matrix = np.zeros((5,12), dtype = int)
@@ -125,18 +121,15 @@ def stabs_613():
     matrix[2] = [0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0]
     matrix[3] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
     matrix[4] = [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0]
-
-    # x_stabs_mat = np.zeros((6, 12), dtype = int)    
-    # z_stabs_mat = np.zeros((6, 12), dtype = int)
-    # x_stabs_mat[0:5, :] = matrix
-    # z_stabs_mat[0:5, :] = matrix
+    
     stabs_mat = np.zeros((7, 12), dtype = int)
-    # x_stabs_mat[5] = [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]
-    # z_stabs_mat[5] = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
+    
     stabs_mat[0:5, :] = matrix
     stabs_mat[5] = [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0]
     stabs_mat[6] = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1]
     return stabs_mat
+
+
 ## [[11, 1, 5]] stabilizer code
 def stabs_1115():
     matrix = np.zeros((10, 22), dtype = int)
@@ -168,19 +161,16 @@ def stabs_1115():
         for j in x_nonz[i]:
             matrix[i][j] = 1
     
-    # x_stabs_mat = np.zeros((11, 22), dtype = int) 
-    # z_stabs_mat = np.zeros((11, 22), dtype = int)
-    # x_stabs_mat[0:10, :] = matrix
-    # z_stabs_mat[0:10, :] = matrix
+    
     stabs = np.zeros((12, 22), dtype = int)
     stabs[0:10, :] = matrix
 
     for i in range(6, 11):
-        # x_stabs_mat[10, i] = 1
-        # z_stabs_mat[10, i + 11] = 1
+        
         stabs[10, i] = 1    
         stabs[11, i + 11] = 1
     return stabs
+
 
 ## Brown-Fawzi random circuit code
 def Brown_Fawzi(n, k, d):
@@ -188,7 +178,6 @@ def Brown_Fawzi(n, k, d):
 
 
 ## [[2^r-1, 1, 3]] Reed-Muller code
-
 def stabs_Reed_Muller(m):
     n = int(math.pow(2, m)) - 1
     # Generate classical RM(1,m)
@@ -207,10 +196,10 @@ def stabs_Reed_Muller(m):
         gen_c1 = temp_mat
         i += 1 
     classical_RM = gen_c1
-    # print(classical_RM)
+    
     gf = galois.GF(2)
     gen_c1_gf = gen_c1.view(gf)
-    #print(isinstance(gen_c1_gf, galois.FieldArray))
+    
     gen_c2_gf = gen_c1_gf.null_space()
     gen_c2 = gen_c2_gf.view(np.ndarray)
     
@@ -221,28 +210,21 @@ def stabs_Reed_Muller(m):
     # print(m)
 #   
     matrix[m:, n:] = gen_c2
-    # print(find_null_space_GF2(gen_c2))
+   
     x_stabs_mat[:n - 1, :] = matrix
     z_stabs_mat[:n - 1, :] = matrix
     rank = np.linalg.matrix_rank(matrix[:, :n])
-    # matrix = stab_matrix_transformation(matrix, n)
+    
 
     stabs_mat = np.zeros((n + 1, 2*n), dtype = int)
     stabs_mat[0:n - 1, :] = matrix
     stabs_mat[n - 1, 0:n] = np.ones((1, n), dtype = int)
     stabs_mat[n, n:] = np.ones((1, n), dtype = int)
-    # x_stabs_mat[n - 1, 0:n] = np.ones((1, n), dtype = int)
-    # z_stabs_mat[n - 1, n:] = np.ones((1, n), dtype = int)
     
-    
-
-    # return classical_RM, x_stabs_mat, z_stabs_mat
     return stabs_mat
 
-#RM, X, Z = stabs_Reed_Muller(3)
 
 # XZZX twisted surface code
-
 def stabs_XZZX(dx, dz):
     numq = dx * dz
     stabs = np.zeros((numq + 1, 2 * numq), dtype = int)
@@ -289,6 +271,7 @@ def stabs_XZZX(dx, dz):
 
     return stabs
 
+
 ### Honeycomb code, only support d = 3, d = 5
 def stabs_honeycomb(d):        
     if d == 3:
@@ -316,6 +299,8 @@ def stabs_honeycomb(d):
         return matrix 
     else: 
         raise ValueError("Only support d = 3, d = 5")
+    
+
 ### Stabilizers that detect single qubit errors
 
 ## 3D [[8,3,2]] color code, minimum 
@@ -352,16 +337,18 @@ def stabs_carbon():
         if np.all(symplectic_product(HX, temp) == 0) == True:
             HZ = temp 
             break 
-    # print(HZ)
+    
     matrix = np.zeros((10, 24), dtype = int)
     matrix[:5, :12] = HX
     matrix[5:10, 12:] = HZ
     rank = np.linalg.matrix_rank(matrix[:, :12])
-    # print(rank)
+    
     log_Z, log_X = logical_op_gen(matrix, rank, 12, 2)
     assert np.all(symplectic_product(matrix, matrix) == 0)
     stabs_mat = np.concatenate((matrix, log_X, log_Z), axis = 0)
     return stabs_mat 
+
+
 ## [[3k+8, k, 2]] triorthogonal code
 def stabs_triotho(k):
     assert k % 2 == 0
@@ -396,10 +383,11 @@ def stabs_triotho(k):
     m, n = G_orth.shape
     GO = np.zeros((m, n), dtype = int)
     SZ = np.concatenate((GO, G_orth), axis = 1)
-    # assert np.all(symplectic_product(matrix, matrix) == 0)
+    
     matrix = np.concatenate((SX, SZ, LX, LZ), axis = 0)
     
     return matrix
+
 
 ## [[6k+2, 3k, 2]] campbell-howard code
 def stabs_camp_howard(k):
@@ -410,47 +398,23 @@ def stabs_camp_howard(k):
                   [1,1,1,1,1,1,1,0,1,1,0,1,0,0],
                   [0,0,0,0,0,0,0,1,1,1,0,0,1,0],
                   [1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
-    # [[8,3,2]]
-    # K = np.array([[1,1,0,1,1,0,0,0],
-    #               [1,0,1,1,0,1,0,0],
-    #               [0,1,1,1,0,0,1,0]])
-    S = np.array([[1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
-    # L = np.concatenate((K, S), axis = 0)
-    H_orig = find_null_space_GF2(K)
-    # print(H_orig)
-    # H_X = find_null_space_GF2(S)
-
-    # print(H_X)
-    # print(H_orig @ S.T % 2)
-    k1, n = H_orig.shape[1] - H_orig.shape[0], H_orig.shape[1]
-    # print(k1, n)
-    # s1 = np.ones((1, n), dtype = int)
-    # for i in range (n - k1):
-    #     H_orig[i, -1] = H_orig[i, -1] ^ 1
     
-    # # print((H_orig @ K.T) % 2)
-    # H_orig = H_orig[:-1,:]
+    S = np.array([[1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
+    
+    H_orig = find_null_space_GF2(K)
+    
+    k1, n = H_orig.shape[1] - H_orig.shape[0], H_orig.shape[1]
+   
     
     matrix = np.zeros((n - k1 + 1, 2 * n), dtype = int)
     matrix[0,:n] = S
-    # matrix[0, n - 1] = 1
+    
     matrix[1: n - k1 + 1, n:] = H_orig
-    # print(H_orig)
-    # print((H_orig @ np.ones((1,n), dtype = int).T) )
+   
     rank = np.linalg.matrix_rank(matrix[:, :n])
     logs_Z, logs_X = logical_op_gen(stab_matrix_transformation(matrix, n), rank, n, k1 - 1)
-    # logs_X[2,:] = logs_X[2,:] ^ logs_X[0,:]
+    
     stabs_mat = np.concatenate((matrix, logs_X, logs_Z), axis = 0)
     assert np.all(symplectic_product(matrix, matrix) == 0)
-    # print(logs_Z)
-    # print(logs_X)
-    # print(symplectic_product(matrix, logs_X))
-    # print(symplectic_product(matrix, logs_Z))
-    # print(symplectic_product(logs_X, logs_Z))
-    # print(symplectic_product(matrix, matrix))
-    # print(logs_X)
-    # print(logs_Z)
+    
     return stabs_mat
-if __name__ == "__main__":  
-    mat = stabs_camp_howard(2)
-    # print(stabs_mat)

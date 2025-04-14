@@ -131,12 +131,6 @@ Par54 = np.array([[1, 1, 1, 1, 1]])
 Rep31 = np.array([[1, 1, 0],
                   [1, 0, 1]])
 Par32 = np.array([[1, 1, 1]])
-#Rm13, _, _ = stabs_Reed_Muller(3)
-
-
-#stabilizers = stabs_Tanner(1, 1, Ham743, Ham733)   
-
-## Fiber bundle code
 
 
 ## Hypergraph product code
@@ -163,8 +157,7 @@ def stabs_hyp_prod(C1, C2):
     rank = gf2_matrix_rank(HX)
     log_Z, log_X = logical_op_gen(matrix, rank, N, K) 
     stabs_mat = np.concatenate((matrix, log_X, log_Z), axis = 0)
-    # x_stabs_mat = np.concatenate(matrix, log_X, axis = 0)
-    # z_stabs_mat = np.concatenate(matrix, log_Z, axis = 0)
+   
     return stabs_mat
 
 classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
@@ -174,34 +167,5 @@ classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
                         [1, 0, 0, 0, 1, 1, 0],
                         [0, 1, 0, 0, 0, 1, 1],
                         [1, 0, 1, 0, 0, 0, 1]], dtype = int)
-# HX, HZ = stabs_hyp_prod(classical734, classical734)
 
-if __name__ == '__main__':
-    stabs_mat = stabs_Tanner(1, 1, Rep31, Par32)
-## Subsystem codes (not a stabilizer code, incompatible with current codes )
-# def stabs_subsystem(HX1, HZ1, HX2, HZ2):
-#     mx1, nx1 = HX1.shape
-#     mz1, nz1 = HZ1.shape
-#     assert nx1 == nz1
-#     CX1 = np.concatenate(HX1, np.zeros((mx1, nx1), dtype = int), axis = 1)
-#     CZ1 = np.concatenate(np.zeros((mz1, nz1), dtype = int), HZ1, axis = 1)
-#     C1 = np.concatenate(CX1, CZ1, axis = 0)
-#     rank1 = gf2_matrix_rank(C1)
-#     LZ1, LX1 = logical_op_gen(C1, gf2_matrix_rank(C1), nx1,  nx1 - rank1)
-#     LZ1, LX1 = LZ1[:,:nx1], LX1[:,:nz1]
-#     mx2, nx2 = HX2.shape
-#     mz2, nz2 = HZ2.shape
-#     assert nx2 == nz2
-#     CX2 = np.concatenate(HX2, np.zeros((mx2, nx2), dtype = int), axis = 1)
-#     CZ2 = np.concatenate(np.zeros((mz2, nz2), dtype = int), HZ2, axis = 1)
-#     C2 = np.concatenate(CX2, CZ2, axis = 0)
-#     rank2 = gf2_matrix_rank(C2)
-#     LZ2, LX2 = logical_op_gen(C2, gf2_matrix_rank(C2), nx2, nx2 - rank2)
-#     LZ2, LX2 = LZ2[:,:nx2], LX2[:,:nz2]
-#     HX = np.concatenate((np.kron(HX1, HX2), np.kron(HX1, LX2), np.kron(LX1, HX2)), axis = 0)
-#     HZ = np.concatenate((np.kron(HZ1, HZ2), np.kron(HZ1, LZ2), np.kron(LZ1, HZ2)), axis = 0)
-#     LX = np.kron(LX1, LX2)
-#     LZ = np.kron(LZ1, LZ2)
-#     n1, n2 = HX.shape[0], HZ.shape[0]
-#     k1, k2 = LZ1.shape[0], LX1.shape[0]
-#     matrix = np.zeros()
+

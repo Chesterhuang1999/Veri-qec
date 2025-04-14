@@ -157,23 +157,6 @@ def surface_matrix_gen(n):
         H[n * n][(n + i) * n] = 1 
     
     return H
-def rep_cond(n, k): ## n: num of physical qubits, k: num of logical qubits
-    
-    cond = ""
-    for i in range(1, n):
-        cond = cond + f"(1,0,{i})" + f"(1,0,{i+1})&&"
-    cond = cond + f"(-1)^(b_(1))(1,0,1)"
-    
-    return cond
-
-def rep_program(n):
-    program = ""
-    program = program + f"for i in 1 to {n} do q_(i) *= e_(i) X end;"
-    for i in range(1, n):
-        program = program + f"s_({i}) := meas (1,0,{i})(1,0,{i+1}); "
-    program = program + f"for i in 1 to {n} do q_(i) *= c_(i) X end"
-
-    return program
 
 
 

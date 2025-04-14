@@ -1,11 +1,17 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/11/05
+# Description: Parallel execution for accurate detection program
+# Without Tanner code ( the termination condition for Tanner code requires re-design)
+#----------#
+
 import time
 import numpy as np
 import math
 from multiprocessing import Pool, Manager
-# from smt_partition_merge import *
 from smt_detect_only import *
 from itertools import combinations
-
+from condition_multiq import surface_matrix_gen
 from timebudget import timebudget
 import datetime
 import tblib.pickling_support
@@ -15,11 +21,13 @@ import os
 from contextlib import redirect_stdout
 import sys
 import argparse
+
 ##Import special codes
 from Dataset import special_codes
 from Dataset import qldpc_codes
 
 sys.setrecursionlimit(1000000)
+### Handling errors in pools
 class ExceptionWrapper(object):
     def __init__(self, ee):
         self.ee = ee
@@ -28,19 +36,11 @@ class ExceptionWrapper(object):
     def re_raise(self):
         raise self.ee.with_traceback(self.tb)
 
-
-# def worker(task_id, err_vals, control_signal, opt):
-   
+#### Load the subtask in each thread ####   
 def worker(task_id, err_vals, opt): 
     try:
         start = time.time()
-        # packed_x = cond_x[distance]
-        # packed_z = cond_z[distance]
-       
-        # if control_signal.value == 1:
-        #     print(f"task_id: {task_id} is terminated.")
-        #     return None
-        # smttime, resx, resz = seq_cond_checker(packed_x, packed_z, err_vals)
+        
         if opt == 'x':
             smttime, res = seq_cond_checker_detect(packed_x, err_vals, opt)
             errs_enum = [f"ez_{ind + 1}" for ind, val in enumerate(err_vals) if val == 1]
@@ -49,100 +49,68 @@ def worker(task_id, err_vals, opt):
             errs_enum = [f"ex_{ind + 1}" for ind, val in enumerate(err_vals) if val == 1]
         end = time.time()
         cost = end - start 
-        # if str(res[0]) == 'sat':
-        #     errs_enum.extend(res[1])
-        #     print(errs_enum)
-        # if str(res) == 'sat':
-        #     print(task_id)              
-        # if str(res) == 'sat' and is_counter == 0:
-        #     # print(task_id)
-        #     print(opt)
-        #     is_counter = 1
-        #     print(res)
-        # return task_id, smttime, str(res)
+      
         return task_id, smttime, str(res[0])
     except Exception as e:
         return task_id, ExceptionWrapper(e)
 
-
+#### Estimate the difficulty of the task by combination ####
 def estimate_difficulty(remained_qubits, remained_ones):
     n = remained_qubits
     k = remained_ones
-    # k = min(remained_ones, remained_qubits - remained_ones)
+    
     if k >= n:
         return 2 ** n
     return math.comb(n, k)
-    # k = min(k, n - k)
     
-    # return sum(math.comb(n, i) for i in range(k + 1))
-
+#### Generating subtasks by enumerating variables ####
 class subtask_generator:
     def __init__(self, distance, numq, value, max_proc_num) -> None:
         self.distance = distance
         self.max_proc_num = max_proc_num
         self.value = value
-        # self.num_qubits = distance ** 2
+       
         self.num_qubits = numq
         self.tasks = []
-        
-        # self.one_num_thres = distance // 2
-        # self.assigned_bit_thres = 16
         
         self.target_task_num =  2 * (10 ** 4)
         self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
+     ### Judging terminate or not ###
     def easy_enough(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
         if remained_qubit_num <= remained_one_num + 1:
             return True
-        # if self.one_num_thres >= remained_one_num and \
-        #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        #     return True
+    
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         
         ### For detection task ###
+        # Termination condition is decided by the problem size 
         ta, tb = self.value
-        # if assigned_one_num * self.distance + 2 * assigned_bit_num < self.num_qubits:
-        #     return False
-        if  int(ta * assigned_one_num * self.distance) + tb * assigned_bit_num < self.num_qubits:
-            return False
-        # else:
-        #     if int(ta) == ta:
-        #         if ta * assigned_one_num + tb * assigned_bit_num < self.num_qubits:
-        #             return False
-        #     else:
-        #         if int(ta * assigned_one_num) + tb * assigned_bit_num < self.num_qubits:
-        #             return False
-        # if estimate_difficulty(remained_qubit_num, remained_one_num) > self.parti_diffi_thres:
-        #     return False
-        
-        return True
-        # return False
     
+        if int(ta * assigned_one_num * self.distance) + tb * assigned_bit_num < self.num_qubits:
+            return False
+        return True
+        
+     ### Recursively enumerate the variables ###
     def generate_tasks(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
-        # if remained_qubit_num == 0 \
-        #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
+        
         if self.easy_enough(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
             return
 
         if remained_one_num > 0:
-
             curr_enum_qubits.append(1)
             self.generate_tasks(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
-
 
         curr_enum_qubits.append(0)
         self.generate_tasks(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
-        
-    
     def __call__(self):
         
         self.generate_tasks(self.num_qubits, self.distance - 1, [])
@@ -160,7 +128,6 @@ def task_generator_fixed(err_inds, numq, count):
             for i in subp[j]:
                 bin_arr[i] = 1
 
-        # bin_arr[subp] = 1
             tasks.append(bin_arr)
     return tasks    
 
@@ -171,6 +138,7 @@ unsolved_job = 0
 sat_job = 0
 unsat_job = 0
 
+#### Print current Progress ####
 def get_current_infos(not_done = True):
     curr_time = time.time()
     cost_time = curr_time - start_time
@@ -197,13 +165,14 @@ def get_current_infos(not_done = True):
     ret += "unprocessed jobs: {}".format(unprocessed_job) + "\n"
     return ret
 
-    
-# def process_callback(result, control_signal, pool):
+#### Process the return value of the task ####    
 def process_callback(result, pool):
     # print(result)
     global task_info
     global err_info
     global is_sat
+    
+    ### Print the current process ###
     if isinstance(result[1], ExceptionWrapper):
         task_id = result[0]
         print(task_info[task_id])
@@ -227,19 +196,12 @@ def process_callback(result, pool):
         print(get_current_infos())
         sys.stdout.flush()
         last_print = curr_time
-
-    # if res_smt[0] == 'sat':
+    ## Find counterexample, terminate the process ##
     if res_smt == 'sat':
         is_sat = 1
-        # print(task_id)
-        # errs = errs_enum + res_smt[1]
-        # with open('Details/violation_Tanner.txt', 'a') as f:
-        #     f.write(f"task_id: {task_id} | time: {time_cost}\n")
-        #     f.write(f"counterexample: {errs}\n")
-
-        # control_signal.value = 1
+      
         ti = task_info[task_id]
-        # opt = "X" if task_id < len(task_info) // 2 else "Z"
+        
         print("Counterexample found, there exists errors cannot be corrected.\n")
         print('Counterexample Info:\n')
         print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
@@ -247,24 +209,14 @@ def process_callback(result, pool):
         print(f'{" | ".join(ti[2])}\n')
         print("About to terminate")
         print(pool._state)
-        # if pool._state == 0:
-        pool.terminate()
-        # pool.join()
         
-    # curr_time = time.time()
-    # processed_job += 1
-    # if curr_time - last_print > 20.0:
-    #     info = "{}/{}: finish job file[{}], cost_time: {}" \
-    #             .format(processed_job, total_job, task_id, time_cost)
-    #     print(info)
-    #     print(task_info[task_id])
-    #     print(get_current_infos())
-    #     sys.stdout.flush()
-    #     last_print = curr_time
+        pool.terminate()
+        
     
 def process_error(error):
     print(f'error: {error}')
 
+#### Pre-processing the tasks ####
 def analysis_task(task_id: int, task: list):
     num_bit = 0
     num_one = 0
@@ -278,6 +230,7 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
+#### Checking the condition in parallel ####
 @timebudget 
 def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
@@ -294,6 +247,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     start_time = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
+    ### Manually set the termination condition, determined by the problem size
     ta = 4
     tb = 3
     choice = [6, 4, 0, 0, 4.8, 4, 5.15, 5, 0, 5]
@@ -304,7 +258,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     elif dx == 24 or dx == 26:
         tb = 4
     value = (ta, tb)
-    print(value)
+    ## Generate tasks w.r.t supposed distances ##
     tg_x = subtask_generator(dz, numq, value, max_proc_num)
     tasks_x = tg_x() 
     tg_z = subtask_generator(dx, numq, value, max_proc_num)
@@ -315,6 +269,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
     
     print("Task generated. Start checking.")
+    ## Generate the verification condition ##
     packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
     end_gen = time.time()
     print(f"Condition generation time: {end_gen - start_time}")
@@ -322,6 +277,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     last_print = start_time
     task_info = []
     err_info = []
+    ## Start checking ##
     with Pool(processes = max_proc_num) as pool1:
         result_objects = []
         for i, task in enumerate(tasks_x):
@@ -363,7 +319,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     
 
     
-  
+### Checker for surface code ###
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
     if distance > 23:
@@ -407,7 +363,7 @@ if __name__ == "__main__":
     k = matrix.shape[0] - n
   
     
-    
+
     #### Parsing input parameters ####
     parser = argparse.ArgumentParser(description='Error detection for quantum codes')
     parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPU cores')
@@ -417,7 +373,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     user_input = args.code
     max_proc_num = args.cpucount
-
+    
+    ### Set the default output directory ###
     output_dir = './eval-Output'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -433,7 +390,8 @@ if __name__ == "__main__":
             with redirect_stdout(f):
                 
                 sur_cond_checker(d, max_proc_num)
-        
+    
+
     if user_input == 'camp_howard':
        
         if args.p1 is None and args.p2 is None:
@@ -474,7 +432,7 @@ if __name__ == "__main__":
                 cond_checker(matrix, dx, dz, max_proc_num)
         # cond_checker(matrix, dx, dz, max_proc_num)
     elif user_input == 'carbon':
-        # d = int(input("Enter the distance: "))
+        
         matrix = special_codes.stabs_carbon()
         # print("Check condition: dx = 4, dz = 4")
         file_name += ".txt"
