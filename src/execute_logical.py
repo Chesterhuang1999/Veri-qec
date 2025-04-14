@@ -92,10 +92,7 @@ class add_comparison(Transformer):
                         return Tree('false', [])
         
             return Tree('true', [])
-            # eq_sexp = [self.eq_sexpr(sexp_set1[i], sexp_set2[i]) for i in range(len(sexp_set1))]
-            # if all(eq_sexp == True) == False:
-            #     return False
-            # else: ##Judge whether base = g * args
+            
 
 class eval_and(Transformer): ##Pruning for And conjunctions 
     def cap(self, args):
@@ -115,7 +112,7 @@ class eval_and(Transformer): ##Pruning for And conjunctions
 
 ## Const logical T gate program generation for surface code (fault-free)
 def program_T(matrix, distance):
-    # matrix = surface_matrix_gen(distance)
+    
     numq = matrix.shape[1] // 2
     prog_part = []
     for i in range(1, numq):
@@ -124,7 +121,7 @@ def program_T(matrix, distance):
     for i in range(1, numq):
         if(matrix[numq][i + numq] == 1):
             prog_part.append(f"q_({i + 1}), q_(1) *= CNOT;")
-    # prog_part.append(f"q_(1) *= T;")
+    
     prog_T = "q_(1) *= T;"
     prog_part_rev = prog_part[::-1]
     
@@ -145,7 +142,7 @@ def construct_precond(gate, pc_x, pc_z, d):
     vec_y = sur_mat[numq-1] + sur_mat[numq]
 
     for i in range(numq):
-        # vec_y  = sur_mat[numq-1] + sur_mat[]
+        
         if (sur_mat[numq-1][i] == 1):
             log_X = log_X + f"(0,1,{i + 1})"
         if (sur_mat[numq][i + numq] == 1):
@@ -164,10 +161,7 @@ def construct_precond(gate, pc_x, pc_z, d):
         log_Z_pre = log_Z
         log_X_pre = coeff + log_X + "+" + coeff_neg + log_Y
         log_Y_pre = coeff + log_X + "+" + coeff + log_Y
-        # if log_id == 'X':
-        #     precond = 
-    # if gate == 'T':
-    #     precond_x = 
+       
     precond_x = stab_cond + "&&" + log_X_pre
     precond_z = stab_cond + "&&" + log_Z_pre
     return log_X_pre, log_Z_pre
@@ -175,9 +169,9 @@ def sur_cond_gen_logical(d, N):
     numq = d**2
     sur_mat = surface_matrix_gen(d)
     pcx, pcz = stab_cond_gen_multiq(sur_mat, numq, N)
-    # precond_x, precond_z = construct_precond('T', pcx, pcz, d)
+   
     log_X_pre, log_Z_pre = construct_precond('T', pcx, pcz, d)
-    # print(precond_x)
+    
     stab_x_part = pcx.split('&&')[:-1]
     stab_z_part = pcz.split('&&')[:-1]
     stab_part = stab_x_part + stab_z_part 
@@ -188,7 +182,7 @@ def sur_cond_gen_logical(d, N):
     log_X, log_Z = pcx.split('&&')[-1], pcz.split('&&')[-1]
     
     program = program_T(sur_mat, d)[0]
-    # print(program)
+    
     ##Stabilizer evaluation
     pre_tree, _, post_tree = precond_generator(program, stab_cond, stab_cond)
     cass_transformer = qassertion2c(pre_tree)
@@ -212,9 +206,7 @@ def sur_cond_gen_logical(d, N):
     return stab_eval, logX_eval, logZ_eval
 
 if __name__ == "__main__":
-    # matrix = special_codes.stabs_Reed_Muller(4)
-    # print(matrix)
-    # print(program_T(matrix, 3)[0])
+    
     for i in range(1, 15):
        stab_eval, logX_eval, logZ_eval = sur_cond_gen_logical(2 * i + 1, 1) 
        print(stab_eval)

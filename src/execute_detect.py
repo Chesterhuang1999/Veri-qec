@@ -360,27 +360,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
     for i, ei in enumerate(err_info):   
         ei.re_raise()
-    # with Pool(processes = max_proc_num) as pool:
-    #     result_objects = []
-    #     for i, task in enumerate(tasks_x):
-    #         opt = 'x'    
-    #         task_info.append(analysis_task(i, task))
-    #         result_objects.append(pool.apply_async(worker, (i, task, opt), 
-    #                                                 callback= lambda result: process_callback(result, pool), 
-    #                                                 error_callback=process_error))
-    #     for i, task in enumerate(tasks_z):
-    #         opt = 'z'
-    #         task_info.append(analysis_task(i + len(tasks_x), task))
-    #         result_objects.append(pool.apply_async(worker, (i + len(tasks_x), task, opt), 
-    #                                                 callback=lambda result: process_callback(result, pool), 
-    #                                                 error_callback=process_error))
-    #     pool.close()
-    #     [res.wait() for res in result_objects]
-    #     pool.join()
-    # end_time = time.time()  
-    # print(f"Total time: {end_time - start_time}")
     
-   
 
     
   
@@ -422,19 +402,10 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
     matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
-    # matrix = surface_matrix_gen(11)
+    
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
-    # print(n, k)
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)])
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # print(dx_max, dz_max, weight_min)
-    # exit(0)
-    # matrix = special_codes.stabs_832code()
-    
-    # cond_checker(matrix, 5, 5, max_proc_num)
-    
+  
     
     
     #### Parsing input parameters ####
@@ -451,45 +422,44 @@ if __name__ == "__main__":
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     file_name = f'{output_dir}/detection_{user_input}'
-    # user_input = input("Enter the code type: ")
+    
     if user_input == 'surface':
         if args.p1 is None:
             raise ValueError("The parameters are not provided.")
         d = args.p1
-        # sur_cond_checker(d, max_proc_num)
+        
         file_name += f"_{d}.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                # sur_cond_checker(matrix, d, d, max_proc_num, is_sym = True)
+                
                 sur_cond_checker(d, max_proc_num)
-        # sur_cond_checker(d, max_proc_num)
+        
     if user_input == 'camp_howard':
-        # d = int(input("Enter the parameter: "))
+       
         if args.p1 is None and args.p2 is None:
             raise ValueError("The parameters are not provided.")
         k = args.p1 if args.p1 is not None else args.p2
-            # matrix = surface_matrix_gen(d)
+            
         file_name += f"_{k}.txt"
         matrix = special_codes.stabs_camp_howard(k)
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
                 cond_checker(matrix, 4, 2, max_proc_num)
-        # cond_checker(matrix, 4, 2, max_proc_num)
+       
         
     elif user_input == 'triorthogonal':
-        # k = int(input("Enter the parameter: "))
+      
         if args.p1 is None or args.p2 is None:
             raise ValueError("The parameters are not provided.")
         k = args.p1 
-        # if args.p1 is not None else args.p2
+        
         dx = args.p2
         matrix = special_codes.stabs_triotho(k)
         file_name += f"_{k}_{dx}_2.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
                 cond_checker(matrix, dx, 2, max_proc_num)
-        # print("Check condition: dx = 7, dz = 2")
-        # cond_checker(matrix, 7, 2, max_proc_num)
+  
         
     elif user_input == 'basic_color':
         # m = int(input("Enter the params: "))
@@ -497,7 +467,7 @@ if __name__ == "__main__":
         if args.p1 is None or args.p2 is None:
             raise ValueError("The parameters are not provided.")
         dx,dz = args.p1, args.p2
-        # print(f"Check condition: dx = {dx}, dz = {dz}")
+        
         file_name += f"_{dx}_{dz}.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):

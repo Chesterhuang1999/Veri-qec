@@ -2,10 +2,7 @@ import numpy as np
 import time
 import math
 from collections import defaultdict
-# For test
-# from parser_qec import get_parser
-# from transformer import precond_generator
-# from lark.reconstruct import Reconstructor
+
 import re
 from Dataset import special_codes
 ##
@@ -22,7 +19,7 @@ def decode_cond_gen(H, n, N, dx, dz):
     k = H.shape[0] - n
     max_err_x = int((dx - 1) // 2)
     max_err_z = int((dz - 1) // 2)
-    # start = (rnd - 1) * N
+    
     for cnt in range(N): 
         cpx = []
         cpz = []
@@ -89,10 +86,6 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz, isprop):
                         dec_parts_z.pop()
                     dec_parts_z.append("&&")
 
-            # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
-            # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
-            # dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n}  (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
-            # dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
             if isprop == True:
                 dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
                 dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
@@ -192,16 +185,14 @@ def program_gen_qec_mul(H, n, N, rnd):
             ppz = []
             for i in range(n - k):
                 if (np.all(H[i,:n] == 0) == False):
-                    # if m >= 1:
-                        # ppx.append(f"s_({i + 1 + s_base}) := s_({i + 1 + s_base}) + e_({i + 1 + s_base});")
+                    
                     ppx.append(f"s_({i + 1 + s_base}) := meas")
                     for j in range(n):
                         if H[i][j] == 1:
                             ppx.append(f"(0,1,{j + 1 + q_base})")
                     ppx.append(";")
                 if (np.all(H[i,n:] == 0) == False):
-                    # if m >= 1:
-                    #     ppz.append(f"s_({i + 1 + s_base}) := s_({i + 1 + s_base}) + e_({i + 1 + s_base});")
+                    
                     ppz.append(f"s_({i + 1 + s_base}) := meas")
                     for j in range(n):
                         if H[i][j + n] == 1:
@@ -223,14 +214,6 @@ def program_gen_qec_mul(H, n, N, rnd):
         prog_z.append(tempz)
         prog_x.append(tempx)
 
-        # if m < rnd - 1:
-        #     prog_parts_z.append(";")
-        #     prog_parts_x.append(";")
-    # prog_x = ''.join(prog_parts_x)
-    # prog_z = ''.join(prog_parts_z)
-    # print("prog_x: ", prog_x)   
-    # print("prog_z: ", prog_z)
-    # return prog_x, 
     progx, progz = ';'.join(prog_x), ';'.join(prog_z)
     return progx, progz
 
@@ -288,13 +271,12 @@ def surface_matrix_gen(n):
     
     return H
 def rep_cond(n, k): ## n: num of physical qubits, k: num of logical qubits
-    #row_ind, col_ind = zip(*((i, j) for i in range(1, n) for j in (i, (i + 1))))
+    
     cond = ""
     for i in range(1, n):
         cond = cond + f"(1,0,{i})" + f"(1,0,{i+1})&&"
     cond = cond + f"(-1)^(b_(1))(1,0,1)"
-    # for i in range(1,n+1):
-    #     cond = cond + f"(1,0,{i})"
+    
     return cond
 
 def rep_program(n):
@@ -340,7 +322,7 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
     prog_log =  ';'.join(prog_parts_log)
     return prog_log
     
-### Prog generation for logical ops with pre-introduced errors
+
 def stab_cond_gen_log(matrix, N):
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
@@ -433,40 +415,8 @@ def program_gen_log_err(matrix, numq, N, gates, code):
         prog_parts_z.append(prog_qec_z)
         prog_parts_x.append(prog_qec_x)
         
-        # ppx.append(';'.join(prog_parts_x))
-        # ppz.append(';'.join(prog_parts_z))
+        
 
     return ';'.join(prog_parts_x), ';'.join(prog_parts_z), '&&'.join(err_gt_x), '&&'.join(err_gt_z)
 
-if __name__ == "__main__":
-    mat = surface_matrix_gen(3)
-    gates = defaultdict(list)
-    gates[0] = [['H', [1]], ['H', [2]]]
-    gates[1] = [['CNOT', [1,2]]]
-    prog_x, prog_z, err_gt_x, err_gt_z = program_gen_log_err(mat, 9, 2, gates, 'surface')
-    print(prog_x)
-    # prog_log = program_gen_log_noerr(mat, 9, 2, gates, 'surface')
-    # print(prog_log)
-    # print(stab_cond_gen_log(mat))
-    # Zmat = np.array([[1,1,0],[0,1,1],[0,0,1]])
-    # mat = np.zeros((4, 6), dtype = int) 
-    # mat[0:3,3:] = Zmat
-    # _, prog_z_parts = program_gen_qec_mul(mat, 3, 1, 1, 2)
 
-    # for i in range(len(prog_z_parts)):
-    #     print(f"{i}-th meas:", prog_z_parts[i])
-    
-    # _, postcond_z = stab_cond_gen_multiq(mat, 3, 1, 1)
-    # precond_z = postcond_z
-    # print("precond_z: ", precond_z)
-
-    # pre_tree, program_tree, post_tree1 = precond_generator(prog_z_parts[1], precond_z, postcond_z) 
-    # postcond_z1 = re.sub( r'\s*_\s*', '_', Reconstructor(parser = get_parser()).reconstruct(post_tree1.children[0].children[-1]))
-    # print("postcond_z1: ", postcond_z1)
-    # pre_tree, program_tree, post_tree2 = precond_generator(prog_z_parts[0], precond_z, postcond_z1) 
-    # postcond_z2 = re.sub( r'\s*_\s*', '_', Reconstructor(parser = get_parser()).reconstruct(post_tree2.children[0].children[-1]))
-    # print("postcond_z2: ", postcond_z2)
-    # cass_transformer = qassertion2c(post_tree1)
-    # cass_tree = cass_transformer.transform(post_tree2.children[0].children[-1])
-    # cass_tree = simplifyeq().transform(cass_tree)
-    # print("formula:", tree_to_z3(cass_tree, {}, 1, [], False))

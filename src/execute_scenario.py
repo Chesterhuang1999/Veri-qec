@@ -194,7 +194,7 @@ def get_current_infos(not_done = True):
 
     
 def process_callback(result):
-    # print(result)
+    
     global task_info
     global err_info
 

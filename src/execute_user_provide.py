@@ -3,7 +3,7 @@ import numpy as np
 import math
 from multiprocessing import Pool
 from smt_partition_merge import *
-# from smt_detect_only import *
+
 
 import os
 from contextlib import redirect_stdout
@@ -37,10 +37,9 @@ def worker(task_id, err_vals, info, opt):
                 smttime, res = seq_cond_checker_user(packed_x, err_vals, info, opt)
             else:
                 smttime, res = seq_cond_checker(packed_x, err_vals, opt)
-            # # smttime, res = seq_cond_checker(packed_x, err_vals, opt)
-            # smttime, res = seq_cond_checker_user(packed_x, err_vals, info, opt)
+            
         else:
-            # smttime, res = seq_cond_checker(packed_z, err_vals, opt)
+            
             if info is not None:
                 smttime, res = seq_cond_checker_user(packed_z, err_vals, info, opt)
             else: 
@@ -57,7 +56,7 @@ def worker(task_id, err_vals, info, opt):
 def estimate_difficulty(remained_qubits, remained_ones):
     n = remained_qubits
     k = remained_ones
-    # k = min(remained_ones, remained_qubits - remained_ones)
+    
     if k >= n:
         return 2 ** n
     k = min(k, n - k)
@@ -69,11 +68,11 @@ class subtask_generator:
         self.distance = distance
         self.max_proc_num = max_proc_num
         self.method = method
-        # self.num_qubits = distance ** 2
+        
         self.num_qubits = numq
         self.tasks = []
         self.nonzero_len = (self.distance**2 - 1) // 2
-        # self.one_num_thres = distance // 2
+        
         self.assigned_bit_thres = 16
         
         self.target_task_num =  max_proc_num * 2
@@ -83,15 +82,13 @@ class subtask_generator:
     def easy_enough(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
-        # if self.one_num_thres >= remained_one_num and \
-        #     estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        #     return True
+       
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
-        # assigned_bit_num = self.nonzero_len - remained_qubit_num
+        
         
         ### For verification task ###
-        if  int(2 * assigned_one_num * self.distance)  + assigned_bit_num  < self.num_qubits:
+        if  2 * assigned_one_num * self.distance + assigned_bit_num  < self.num_qubits:
             return False
         ### For condition II ###
         # if  int(4 * assigned_one_num * self.distance // 3)  + assigned_bit_num < self.nonzero_len: 
@@ -100,21 +97,19 @@ class subtask_generator:
         # return False
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
     def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
-        # if remained_qubit_num == 0 \
-        #    or estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
-        # if estimate_difficulty(remained_qubit_num, remained_one_num) <= self.parti_diffi_thres:
+        
         if self.easy_enough(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
             return
 
         curr_enum_qubits.append(0)
-        # curr_seg_qubits.append(0)
+        
         self.generate_tasks_II(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
         if remained_one_num > 0 :
             curr_enum_qubits.append(1)
-            # curr_seg_qubits.append(0)
+            
             self.generate_tasks_II(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
@@ -129,40 +124,40 @@ class subtask_generator:
             curr_seg_count = 0
 
         curr_enum_qubits.append(0)
-        # curr_seg_qubits.append(0)
+        
         self.generate_tasks_I(remained_qubit_num - 1, remained_one_num, curr_seg_count, curr_enum_qubits)
         curr_enum_qubits.pop()
         
         if remained_one_num > 0 and curr_seg_count < 1:
             curr_enum_qubits.append(1)
-            # curr_seg_qubits.append(0)
+            
             self.generate_tasks_I(remained_qubit_num - 1, remained_one_num - 1, curr_seg_count + 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
     def __call__(self):
+        ## Both local and discrete constraints are imposed ##
         if self.method == 'combined':
             err_len = (self.distance**2 - 1) // 2
             begin = np.random.randint(0, int(self.num_qubits // 4))
             support_len = int(3 * self.num_qubits // 4)
             support_range = np.arange(begin, begin + support_len)
             err_set = np.sort(np.random.choice(support_range, err_len, replace = False))
-            # err_set = np.sort(np.random.choice(self.num_qubits, err_len, replace = False))
-            # begin = np.random.randint(0, self.num_qubits - self.nonzero_len)
             free_set = [i for i in range(self.num_qubits) if i not in err_set]
-            # self.generate_tasks_II(self.nonzero_len, self.distance - 1,  [])
             self.generate_tasks_I(self.nonzero_len, self.distance - 1, 0, [])
             return self.tasks, (err_set, free_set)
+        
+        ## Only local constraint is imposed ##
         elif self.method == 'local':
             err_len = (self.distance**2 - 1) // 2
             begin = np.random.randint(0, int(self.num_qubits // 4))
             support_len = int(3 * self.num_qubits // 4)
             support_range = np.arange(begin, begin + support_len)
             err_set = np.sort(np.random.choice(support_range, err_len, replace = False))
-            # err_set = np.sort(np.random.choice(self.num_qubits, err_len, replace = False))
-            # begin = np.random.randint(0, self.num_qubits - self.nonzero_len)
             free_set = [i for i in range(self.num_qubits) if i not in err_set]
             self.generate_tasks_II(self.nonzero_len, self.distance - 1,  [])
             return self.tasks, (err_set, free_set)
+        
+        ## Only discrete constraint is imposed ##
         elif self.method == 'discrete':
             self.generate_tasks_I(self.num_qubits, self.distance - 1, 0, [])
             return self.tasks
@@ -270,32 +265,28 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     global info_z
     global is_sat
     is_sat = 0
-    # global is_counter
-    # is_counter = 0
+    
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
-    
+    ### Generate tasks w.r.t the supposed distance ### 
     tg_x = subtask_generator(dz, numq, max_proc_num, cstype)
     tasks_x = tg_x()
     tg_z = subtask_generator(dx, numq, max_proc_num, cstype)
     tasks_z = tg_z()
     info_x, info_z = None, None
-    # tg_x = subtask_generator(dz, numq, max_proc_num, cstype)
-    # tasks_x, info_x = tg_x()
-    # tg_z = subtask_generator(dx, numq, max_proc_num, cstype)
-    # tasks_z, info_z = tg_z()
+    
     print("Task generated. Start checking.")
-    # print(info_x, info_z)
+    
     total_job = len(tasks_x) + len(tasks_z)
     print(f"total_job: {total_job}")
-    # packed_x, packed_z = cond_generator(matrix, dx, dz, info_x, info_z, is_sym)
+  
     is_discrete = False if cstype == 'local' else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
     end_gen = time.time()
     print(f"cond generation time: {end_gen - start_time}")
-    # exit(0)
+    
     task_info = []
     err_info = []
     
@@ -305,8 +296,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
             opt = 'x'    
             task_info.append(analysis_task(i, task))
             result_objects.append(pool.apply_async(worker, (i, task, info_x, opt), callback=process_callback, error_callback=process_error))
-            # if (i % 50 == 0):
-                #print(i, task)
+            
         for i, task in enumerate(tasks_z):
             opt = 'z'
             task_info.append(analysis_task(i + len(tasks_x), task))
@@ -320,21 +310,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
 
     if is_sat == 0: 
         print("No counterexample found, all errors can be corrected.")
-    # with open('unsorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]}| result: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
-    # # for info in task_info:
-    # #     print(info)
-    # task_info.sort(key=lambda x: x[0])
 
-    # with open('sorted_results.txt', 'w') as f:
-    #     for i, ti in enumerate(task_info):
-    #         f.write(f'rank: {i} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
-    #         f.write(f'{ti[1]}\n')
-    #         f.write(f'{" | ".join(ti[2])}\n')
-    #         # 
     print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 
@@ -345,10 +321,7 @@ def sur_cond_checker(distance, max_proc_num, cstype):
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
-    # dx = 3
-    # dz = 3
-    # max_proc_num = 250
-    # max_proc_num = int(input("Enter the max process number: "))
+
     Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
                    [1, 0, 1, 1, 0, 1, 0],
                    [0, 1, 1, 1, 0, 0, 1]])
@@ -356,21 +329,7 @@ if __name__ == "__main__":
                    [0, 1, 0, 0, 1, 0, 1],
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
-    # Rep51 = np.array([[1, 1, 0, 0, 0],
-    #               [1, 0, 1, 0, 0],
-    #               [1, 0, 0, 1, 0],
-    #               [1, 0, 0, 0, 1]])
-    # Par54 = np.array([[1, 1, 1, 1, 1]])
-
-    # code_to_func = {
-    #     'surface': (surface_matrix_gen, 1),
-    #     'steane': (special_codes.stabs_steane, 0),
-    #     'reed_muller': (special_codes.stabs_Reed_Muller, 1),
-    #     'dodecacode': (special_codes.stabs_1115, 0),
-    #     'XZZX': (special_codes.stabs_XZZX, 2)
-    # }
-    # constraint_type = input("Enter the constraint type: ")
-    # user_input = input("Enter the code type: ")
+  
     parser = argparse.ArgumentParser(description='Process the distance and constraints.')
     parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPUs')
     parser.add_argument('--distance', type = int, default = 9, help = 'The distance of the code')
