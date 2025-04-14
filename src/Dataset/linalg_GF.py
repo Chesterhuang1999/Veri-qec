@@ -1,3 +1,9 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/09/15
+# Description: Linear algebra libraries for GF(2)
+#----------#
+
 import numpy as np
 from scipy.linalg import lu
 from scipy.sparse import csc_matrix, block_diag, kron, eye
@@ -98,9 +104,6 @@ def find_null_space_GF2(G):
     
     free_columns = [col for col in range(num_cols) if col not in pivot_columns]
 
-
-                                 
-   
     null_space_basis = []
     
     
@@ -135,8 +138,6 @@ def aug_Gaussian(A, k):
             temp = deepcopy(A[row_pivot,:])
             A[row_pivot,:] = deepcopy(A[pivot,:])
             A[pivot,:] = deepcopy(temp)
-            # A[row_pivot], A[pivot] = A[pivot], A[row_pivot]
-
     
         for r in range(row_pivot + 1, n):
             if A[r, c] == 1:
@@ -167,21 +168,13 @@ def aug_Gaussian(A, k):
 ## Perform gaussian elimination of a matrix over GF(2)
 def gaussian_elimination(matrix):
     m, n = matrix.shape
-    
     n = n // 2
-    #col_swaps = list(range(2 * n))
+    
     r = gf2_matrix_rank(matrix[:, :n]) # Rank of G1
   
-    ## Gaussian elimination of G1
-    # i, j = 0, m - 1
-    # while(i < j):
-    #     while(np.all(matrix[i, :n] == 0) == False):
-    #         i += 1
-    #     while(np.all(matrix[j,:n] == 0) == True):
-    #         j -= 1
-    #     if i < j:
-    #         matrix[[i, j], :] = matrix[[j, i], :]
     botnz = m - 1
+    ## Gaussian elimination of G1, top left part
+    # Find the pivot
     for i in range(m):
         if np.all(matrix[i, :n] == 0) == True:
             j = botnz
@@ -196,34 +189,21 @@ def gaussian_elimination(matrix):
                 if matrix[i, j] == 1:
                     matrix[:, [i, j]] = matrix[:, [j, i]]
                     matrix[:, [n + i, n + j]] = matrix[:, [n + j, n + i]]
-                    #col_swaps[i], col_swaps[j] = col_swaps[j], col_swaps[i]
-                    #col_swaps[n + i], col_swaps[n + j] = col_swaps[n + j], col_swaps[n + i]
+                    
                     break
-
-        # print(matrix[i,:n]) 
-        # print(matrix[i+1,:n])           
+          
         for j in range(i + 1, m):
             if matrix[j, i] == 1:
                 matrix[j, :] ^= matrix[i, :]
         
-        # print(matrix[i + 1,:n])
-
-    # i, j = 0, m - 1
-    # while(i < j):
-    #     while(np.all(matrix[i, :n] == 0) == False):
-    #         i += 1
-    #     while(np.all(matrix[j,:n] == 0) == True):
-    #         j -= 1
-    #     if i < j:
-    #      matrix[[i, j], :] = matrix[[j, i], :]
-
+    # Eliminate non-zero entries above the pivot
     for i in range(r-1, -1, -1):
         for j in range(i):
             if matrix[j, i] == 1:
                 matrix[j, :] ^= matrix[i, :]
     
     
-    ### Gaussian elimination of G2, bottom right part
+    ## Gaussian elimination of G2, bottom right part
     #r2 = np.linalg.matrix_rank(matrix[r:, n+r:]) # Rank of G2
     botnz = m - 1
     for i in range(r, m):
@@ -244,28 +224,17 @@ def gaussian_elimination(matrix):
         for j in range(i + 1, m):
             if matrix[j, n + i] == 1:
                 matrix[j, :] ^= matrix[i, :]
-
-    
-    # i, j = r, m - 1
-    # while(i < j):
-    #     while(np.all(matrix[i, n:] == 0) == False and i < j):
-    #         i += 1
-    #     while(np.all(matrix[j,n:] == 0) == True and i < j):
-    #         j -= 1
-    #     if i < j:
-    #      matrix[[i, j], :] = matrix[[j, i], :]
+    ## Eliminate non-zero entries above the pivot
     for i in range(m - 1, r - 1, -1):
         
         for j in range(i):
             if matrix[j, n + i] == 1:
                 matrix[j, :] ^= matrix[i, :]
 
+    ## Eliminate duplicate stabilizers (all-zero entries)
     nz = m - 1
-    # print(nz)
     while(np.all(matrix[nz, :] == 0) == True):
         nz -= 1
-    
-    
     matrix = matrix[:nz + 1, :]
 
     return matrix
@@ -297,18 +266,5 @@ def stab_matrix_transformation(matrix, n):
     x_stabs_matrix = np.zeros((n, 2*n), dtype = int) 
     z_stabs_matrix = np.zeros((n, 2*n), dtype = int)
     matrix = gaussian_elimination(matrix)
-    #matrix[r:, n+r:] = gaussian_elimination(matrix[r:,n+r:], rank2)
-    # for col in range(n + r, n + m):
-    #     # 对于右侧的每一列，从上往下进行消元
-    #     for row in range(r):
-    #         if matrix[row, col] == 1:
-    #             # 使用第 r 到 k 行的行进行消元操作
-    #             for target_row in range(r, m):
-    #                 if matrix[target_row, col] == 1:
-    #                     matrix[row, :] ^= matrix[target_row, :]
-    #                     break  # 按位异或消元
     return matrix
     
-
-if __name__ == '__main__':
-    pass

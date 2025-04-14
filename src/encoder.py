@@ -1,3 +1,9 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/9/20
+# Description: Encode classical logical formula in AST format to SMT2
+#----------#
+
 from z3 import *
 from verifier import *
 from lark import Token
@@ -10,7 +16,7 @@ import re
 from lark.reconstruct import Reconstructor
 from parser_qec import get_parser
 
-#### Reconstruct strings from the abstract syntax tree ####
+### Reconstruct strings from the abstract syntax tree ###
 def recon_string(tree):
     assertion_reconstruct = Reconstructor(parser = get_parser()).reconstruct(tree)
     cleaned_assertion = re.sub(r'\s*_\s*','_', assertion_reconstruct)
@@ -18,7 +24,7 @@ def recon_string(tree):
     return cleaned_assertion
 
  
-#### automatically align the bit-width of two variables ####
+### automatically align the bit-width of two variables ###
 def auto_complement(a, b):
     if a.size() > b.size():
         return a, ZeroExt(a.size() - b.size(), b)
@@ -29,7 +35,7 @@ def auto_complement(a, b):
 
 
 
-#### Encode the values of enumerated variables to formula in format of SMT2 ####
+### Encode the values of enumerated variables to formula in format of SMT2 ###
 def const_errors_to_z3(tree, variables):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         return BitVecVal(tree.value, 1)
@@ -50,7 +56,7 @@ def const_errors_to_z3(tree, variables):
     else:
         raise ValueError(f"Unknown tree node: {tree}")
 
-#### Encode the classical logical formula from abstract syntax tree to SMT2 ####
+### Encode the classical logical formula from abstract syntax tree to SMT2 ###
 def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         bit_width = 1 if tree.value == '0' else int(math.log2(int(tree.value))) + 1
@@ -122,7 +128,7 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
         raise ValueError(f"Unknown tree node: {tree}")
 
 
-#### Generate the Verification condition in case of multi-round measurements ####
+### Generate the Verification condition in case of multi-round measurements ###
 def VCgeneration_meas(precond, prog_qec, postcond, prog_log = None):
     
     result_meas = precond_generator(prog_qec, postcond, postcond)
@@ -155,7 +161,7 @@ def VCgeneration_meas(precond, prog_qec, postcond, prog_log = None):
 
     return cass_tree, aux_trees
 
-####  Generate Verification Condition in case of measurement errors #####
+### Generate Verification Condition in case of measurement errors ###
 def VCgeneration(precond, program, postcond):
     
     result = precond_generator(program, precond, postcond)

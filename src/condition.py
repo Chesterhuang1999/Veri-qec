@@ -1,3 +1,9 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/09/01
+# Description: A condition generation script for codes
+#----------#
+
 import numpy as np
 import time
 import math
@@ -169,36 +175,5 @@ def rep_program(n):
 
     return program
 
-### Condition and program generation for logical operation ###
-#### Here we have to design programs specifically for each code, so only special cases are considered ####
-H = [['H', [1]]]
-CNOT = [['CNOT',[1,2]]]
-def program_gen_logical(matrix, numq, N, gateinfo, code):
-    prog_parts_log = []
-    prog_parts_x, prog_parts_z = [], []
-    
-    for i in range(len(gateinfo)):
-        gate, inds = gateinfo[i]
-        print(gate, inds)
-        if gate == 'CNOT':
-            assert len(inds[i]) == 2
-            k, l = inds[i]
-            if code in ('surface', 'steane'):
-                for i in range(numq):
-                    q1 = (k - 1) * numq + i
-                    q2 = (l - 1) * numq + i
-                    prog_parts_log.append(f"q_({q1}), q_{(q2)} *= CNOT")
-            
-        elif gate == 'H':
-            assert len(inds) == 1
-            k = inds[0]
-            if code in ('surface', 'steane'):
-                for i in range(numq):
-                    q = (k - 1) * numq + i
-                    prog_parts_log.append(f"q_({q}) *= H")
-    prog_log =  ';'.join(prog_parts_log)
-    for i in range(numq - 1):
-        prog_parts_x = []
-    return prog_log
-    
+
 

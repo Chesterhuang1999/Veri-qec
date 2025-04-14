@@ -1,3 +1,10 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/10/20
+# Description: Here is a condition generation for logical operations 
+# which perform on multiple logical qubits.
+#----------#
+
 import numpy as np
 import time
 import math
@@ -9,10 +16,11 @@ from Dataset import special_codes
 from encoder import *
 ### Notes: postscript z: z-stabilizers, z measurement, x error and corrections; 
 # postscript x: x-stabilizers, x measurement, z error and corrections   
-# Here is a condition generation for logical operations which perform on multiple logical qubits
 
 
-### Condition and program generation from check matrix ##
+
+### Condition and program generation from check matrix, 
+# only support single round measurement ###
 def decode_cond_gen(H, n, N, dx, dz): 
     cond_parts_x = []
     cond_parts_z = []
@@ -47,6 +55,9 @@ def decode_cond_gen(H, n, N, dx, dz):
         cond_parts_z.append(''.join(cpz))
     return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
 
+### A more general case ### 
+### Condition and program generation from check matrix, 
+# support multiple rounds measurement and propagation error ###
 def decode_cond_gen_mul(H, n, N, rnd, dx, dz, isprop):
     dec_x = []
     dec_z = []
@@ -85,7 +96,7 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz, isprop):
                     else:
                         dec_parts_z.pop()
                     dec_parts_z.append("&&")
-
+            ## Judging whether propagation error exists in the setting ##
             if isprop == True:
                 dec_parts_x.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cz_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (pz_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ez_(i)), {max_err_z})&&")
                 dec_parts_z.append(f"sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (cx_(i)) <= Min(sum i 1 {n + (m * N + cnt) * n} (px_(i)) + sum i {1 + (m * N + cnt) * n} {n + (m * N + cnt) * n} (ex_(i)), {max_err_x})&&")
@@ -98,6 +109,7 @@ def decode_cond_gen_mul(H, n, N, rnd, dx, dz, isprop):
     
     return ''.join(dec_x)[:-2], ''.join(dec_z)[:-2], meas_corr_x, meas_corr_z
    
+### Pre/post-condition generation, support multiple logical qubits ###   
 def stab_cond_gen_multiq(H, n, N):
     k = H.shape[0] - n  
     cond_parts_x = []
@@ -140,7 +152,7 @@ def stab_cond_gen_multiq(H, n, N):
         cond_parts_z.append(''.join(cpz))
     return '&&'.join(cond_parts_x), '&&'.join(cond_parts_z)
 
-### Generation of error correction programs ### 
+### Generation of error correction programs, support multiple logical qubits ### 
 def program_gen_qec(H, n, N):   
     k = H.shape[0] - n
     prog_parts_x = []
@@ -169,6 +181,7 @@ def program_gen_qec(H, n, N):
     prog_parts_x.append(f"for i in 1 to {n} do q_(i) *= cz_(i) Z end")
     return ''.join(prog_parts_x), ''.join(prog_parts_z)
 
+### Generation of error correction programs, with possible multiple rounds of measurement ### 
 def program_gen_qec_mul(H, n, N, rnd):
     prog_x, prog_z = [], []
     k = H.shape[0] - n
@@ -270,6 +283,7 @@ def surface_matrix_gen(n):
         H[n * n][(n + i) * n] = 1 
     
     return H
+## Repetition code
 def rep_cond(n, k): ## n: num of physical qubits, k: num of logical qubits
     
     cond = ""
@@ -322,7 +336,7 @@ def program_gen_logic(matrix, numq, N, gateinfo, code):
     prog_log =  ';'.join(prog_parts_log)
     return prog_log
     
-
+### Pre/post-condtion generation for logical operation ###
 def stab_cond_gen_log(matrix, N):
     n = matrix.shape[1] // 2
     k = matrix.shape[0] - n
@@ -346,7 +360,7 @@ def stab_cond_gen_log(matrix, N):
 
     return ''.join(cond_parts_x)[:-2], ''.join(cond_parts_z)[:-2]
 
-
+### Program generation, multi logical qubits, multi measurement rounds, no propagation error ###
 def prog_gen_qec_rnd(H, n, N, rnd):
     prog_parts_z = []
     prog_parts_x = []
@@ -385,6 +399,7 @@ def prog_gen_qec_rnd(H, n, N, rnd):
     
     return ''.join(prog_parts_x), ''.join(prog_parts_z)
 
+## Error-free logical programs ## 
 def program_gen_log_noerr(matrix, numq, N, gates, code):
     prog_parts = []
     for ind in range(len(gates)):
@@ -392,6 +407,7 @@ def program_gen_log_noerr(matrix, numq, N, gates, code):
 
     return ';'.join(prog_parts)
 
+### Logical operations programs with errors ### 
 def program_gen_log_err(matrix, numq, N, gates, code):
     prog_parts_x = []
     prog_parts_z = []
@@ -415,8 +431,6 @@ def program_gen_log_err(matrix, numq, N, gates, code):
         prog_parts_z.append(prog_qec_z)
         prog_parts_x.append(prog_qec_x)
         
-        
-
     return ';'.join(prog_parts_x), ';'.join(prog_parts_z), '&&'.join(err_gt_x), '&&'.join(err_gt_z)
 
 

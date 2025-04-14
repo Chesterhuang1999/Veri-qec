@@ -1,4 +1,8 @@
-
+#----------#
+# Developer: Chester Huang
+# Date: 2024/09/08
+# Description: A benchmark set of special stabilizer codes.
+#----------#
 import numpy as np
 from scipy.linalg import lu
 from scipy.sparse import csc_matrix, block_diag, kron, eye

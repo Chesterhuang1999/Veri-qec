@@ -1,6 +1,12 @@
-from lark import Lark
+#------------
+# developer: Chester Huang 
+# date: 2024.7.16
+# version: 1.1.0
+# description:parser for the program and assertions in the hoare triple
+#------------
 
-##### parser for the program and assertions in the hoare triple #####
+
+from lark import Lark
 
 ### The text should start with a Hoare triple consists of two assertions and a program ###
 ### The assertion is constructed following AExp ###

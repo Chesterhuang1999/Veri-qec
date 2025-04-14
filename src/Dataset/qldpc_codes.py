@@ -1,3 +1,9 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/10/20
+# Description: A benchmark libarary for quantum LDPC codes
+#----------#
+
 import numpy as np
 from timebudget import timebudget
 import math

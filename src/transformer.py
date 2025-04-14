@@ -1,10 +1,10 @@
 #------------
-# author: 
+# developer: Chester Huang 
 # date: 2024.7.16
 # version: 1.1.0
+# description:Transformers of the parsed abstract syntax tree 
+# for assertions based on the proof system.
 #------------
-
-##### Transformers of the parsed abstract syntax tree for assertions based on the proof system. #####
 
 
 from lark import Transformer, Tree, Token
@@ -58,15 +58,15 @@ class Assign(Transformer):
         return Tree('var', children)
 
 
-# Substitution rule for unitary gates, currently support conditional pauli gate and clifford gate without condition
+### Substitution rule for unitary gates, currently support conditional pauli gate, Clifford + T gate without condition ###
 class Unitary(Transformer):
     def __init__(self, var, bexp, unit):
         self.var_obj = var
         self.bexp = bexp
         self.unit = unit
+    ## subtitution over pauli string level ## 
     def pexpr(self, args):
         op = self.unit
-
         if op == 'CNOT':
             [q1, q2] = self.var_obj
             v_ind1 = int(q1.children[1])
@@ -153,9 +153,9 @@ class Unitary(Transformer):
             if ismatch == 0:
                 return Tree('pexpr', args)
         else:
-            return Tree('pexpr', args)         
+            return Tree('pexpr', args)    
+    ## Substitution over single pauli operator level ##         
     def pauli(self, args):
-       
         op = self.unit
         if op == "CNOT": # 2-qubit CNOT gate
             return Tree('pauli', args)
@@ -220,8 +220,7 @@ class Unitary(Transformer):
                         return Tree('pauli', [bexpr] + args[1:])
         
 
-
-# Measure rule substitution (need to deal with big operator)
+### Measure rule substitution (need to deal with big operator) ###
 class Measure(Transformer):
     def __init__(self, var, pexpr):
         self.var_obj = var
@@ -234,7 +233,6 @@ class Measure(Transformer):
                     args[0].children[0] = self.var_obj
                 else:
                     args[0].children.insert(0, self.var_obj)
-                
                 self.ismeasure = 1
         return Tree('pexpr', args)
     def condition(self, args):
@@ -274,7 +272,7 @@ def find_sym(tree, var, value):
             tree.children[i] = find_sym(tree.children[i], var, value)
     return tree
 
-#ToDo: Substitution of pauli operator indexes
+### Deal with finite loops, guided by 'for' statement ###
 class Loops(Transformer):
     def __init__(self, var, value):
         self.var_obj = var
@@ -289,7 +287,7 @@ class Loops(Transformer):
 
 
 
-## Additional transformers to reformulate the assertion to a compact form
+## Additional transformers to reformulate the assertion to a compact form ### 
 ### Combine the phases in the same stabilizer
 class Combinephase(Transformer):
     def pexpr(self, children):
@@ -316,7 +314,7 @@ class Combinephase(Transformer):
         else:
             return Tree('add', children)
                
-
+### Decoders with multiple measurement rounds ### 
 class Decode(Transformer):
     def __init__(self, var, pexpr):
         self.var_obj = var
@@ -353,7 +351,7 @@ class Decode(Transformer):
         return tree
 
                 
-## Perform transformations 
+### Perform transformations ###
 def assign(t, assertion_tree):
     var = t.children[0]
     new_expr = t.children[1]

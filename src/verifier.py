@@ -1,13 +1,9 @@
-
-#------------
-
+#------------#
+# Developer: Chester Huang
 # date: 2024.7.20
-# version: 1.2.0
-#------------
+# Description: Use heuristic rules to transform VCs generated into classical assertions
+#------------#
 
-
-#Introduction: This file use heuristic rules to transform VCs generated into classical assertions
-#and encode them into Z3 formulas
 
 from lark import Transformer, v_args, Tree, Token
 
@@ -18,11 +14,11 @@ from collections import defaultdict
 from z3 import *
 from condition import *
 
-## Overload operators
+## Overload operators ##
 def __xor__(a: Token, b: Token):
     assert a.type == 'NUMBER' and a.type == 'NUMBER'
     return Token('NUMBER', int(a.value) ^ int(b.value))
-## Heuristic rule I: judge whether stabilizers in two assertions belong to the same group (or same)
+### Heuristic rule I: judge whether stabilizers in two assertions belong to the same group (or same) 
 def stab_set_gen(u: Tree):
     stab_set = sorted(list(u.find_data('pexpr')), key = lambda x: int(x.children[0].children[-1].value))
     stab_dict = defaultdict(set) 
@@ -35,6 +31,7 @@ def stab_set_gen(u: Tree):
             raise Exception("Non-commute stabilizers!")
     return stab_dict, stab_list
 
+### Using greedy to find the representation of another set of stabilizers ###
 def find_stab_rep(stab_dict, stab_list, s):
     l = len(s.children)
     phase = Token('NUMBER','0')
@@ -65,7 +62,7 @@ def find_stab_rep(stab_dict, stab_list, s):
     return phase
      
 
-#### Canonical form of stabilizers
+### Canonical form of stabilizers, designed to find the linear transformation between two sets of generators ###
 def canonical_form(stab_list):
     stab_list = sorted(stab_list, key = lambda x: int(x.children[0].children[-1].value)) 
     max_ind = 1
@@ -88,7 +85,7 @@ def canonical_form(stab_list):
         
     return stabs_mat_rep, phase_rep
 
-## Linear transformation between two set of generators. P = LQ, so Q is precondition, stab_mat1
+### Linear transformation between two set of generators. P = LQ, so Q is precondition, stab_mat1 ###
 def linear_transform(stab_mat1, stab_mat2, phase1, phase2):
     Qt = stab_mat1.T
     Pt = stab_mat2.T 
@@ -115,7 +112,7 @@ def linear_transform(stab_mat1, stab_mat2, phase1, phase2):
             eq_tree = Tree('cap', [Tree('eq', [phase2[i], cur_sum]), eq_tree])
     return L.T, eq_tree
 
-## Check if two pauli strings commute
+### Check if two pauli strings commute ###
 def commute(u: Tree, v: Tree):
 
     u_dict = {}
@@ -131,7 +128,7 @@ def commute(u: Tree, v: Tree):
             mul = -mul   
     return mul
 
-### Multiplication of stabilizers
+### Multiplication of stabilizers ###
 def stab_mul(u: Tree, v: Tree):
     phase1 = None
     phase2 = None
@@ -187,7 +184,7 @@ def stab_mul(u: Tree, v: Tree):
     
     return Tree('pexpr', stab_new)
 
-## Transformation I: assertion with phase assembled implies the original assertion
+### Transformation I: assertion with phase assembled implies the original assertion ###
 class qassertion2c(Transformer):
     def __init__(self, base):
         self.base = base
@@ -206,7 +203,7 @@ class qassertion2c(Transformer):
         ## generate the condition
         return Tree('eq', [phase_desired, phase])
 
-### A modified version of the classical VC generation
+### A modified version of the classical VC generation ###
 
 def Qass2c(pre_tree, post_tree):
     stab_mat_rep1, phase_rep1 = canonical_form(pre_tree)
@@ -216,7 +213,7 @@ def Qass2c(pre_tree, post_tree):
     return simplifyeq().transform(eq_tree)
 
 
-### Simplification for classical assertion
+### Simplification for classical assertion ###
 def is_num(t):
     return isinstance(t, Token) and t.type == 'NUMBER'
 
@@ -249,7 +246,7 @@ class calc_sym(Transformer):
             return Token('NUMBER', int(l.value) - int(r.value)) 
         else: return Tree('sub', [l, r])
 
-# Eliminate same terms in both sides of eq/leq
+### Eliminate same terms in both sides of eq/leq ###
 class simplifyeq(Transformer):
     @v_args(inline=True)
     def eq(self, l, r):
