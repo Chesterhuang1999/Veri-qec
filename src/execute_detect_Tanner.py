@@ -245,7 +245,7 @@ def analysis_task(task_id: int, task: list):
 
 #### Checking the condition in parallel ####
 @timebudget 
-def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
+def cond_checker_Tanner(matrix, dx, dz, max_proc_num, is_sym = False):
     
     global packed_x
     global packed_z
@@ -352,6 +352,6 @@ if __name__ == "__main__":
     with open(f'{output_dir}/detect_Tanner_{basis}.txt', 'w') as f:
         
         with redirect_stdout(f):
-            cond_checker(matrix, 4, 4, max_proc_num)
+            cond_checker_Tanner(matrix, 4, 4, max_proc_num)
     
     

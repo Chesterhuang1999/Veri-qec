@@ -232,7 +232,7 @@ def analysis_task(task_id: int, task: list):
 
 ### Checking the condition in parallel ###
 @timebudget 
-def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
+def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
     global packed_x
     global packed_z
@@ -320,17 +320,17 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
     
 ### Checker for surface code ###
-def sur_cond_checker(distance, max_proc_num):
+def sur_cond_checker_detect(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
     if distance > 23:
         print("Exceed the limit for verifying correctness.")
     else:
         print("Verifying the correctness when dt = d")
-        cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+        cond_checker_detect(matrix, distance, distance, max_proc_num, is_sym = True)
     ## Detect abnormal cases 
     print("-------------")
     print("Detecting counterexamples when dt = d + 1")
-    cond_checker(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
+    cond_checker_detect(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
 
 
 if __name__ == "__main__":
@@ -357,6 +357,13 @@ if __name__ == "__main__":
                   [1, 0, 0, 0, 1, 0, 0],
                   [1, 0, 0, 0, 0, 1, 0],
                   [1, 0, 0, 0, 0, 0, 1]])
+    classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
+                        [0, 1, 1 ,0, 1, 0, 0],
+                        [0, 0, 1, 1, 0, 1, 0],
+                        [0, 0, 0, 1, 1, 0, 1],
+                        [1, 0, 0, 0, 1, 1, 0],
+                        [0, 1, 0, 0, 0, 1, 1],
+                        [1, 0, 1, 0, 0, 0, 1]], dtype = int)
     matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
     
     n = matrix.shape[1] // 2
@@ -389,7 +396,7 @@ if __name__ == "__main__":
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
                 
-                sur_cond_checker(d, max_proc_num)
+                sur_cond_checker_detect(d, max_proc_num)
     
 
     if user_input == 'camp_howard':
@@ -402,7 +409,7 @@ if __name__ == "__main__":
         matrix = special_codes.stabs_camp_howard(k)
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, 4, 2, max_proc_num)
+                cond_checker_detect(matrix, 4, 2, max_proc_num)
        
         
     elif user_input == 'triorthogonal':
@@ -416,7 +423,7 @@ if __name__ == "__main__":
         file_name += f"_{k}_{dx}_2.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, dx, 2, max_proc_num)
+                cond_checker_detect(matrix, dx, 2, max_proc_num)
   
         
     elif user_input == 'basic_color':
@@ -429,8 +436,8 @@ if __name__ == "__main__":
         file_name += f"_{dx}_{dz}.txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, dx, dz, max_proc_num)
-        # cond_checker(matrix, dx, dz, max_proc_num)
+                cond_checker_detect(matrix, dx, dz, max_proc_num)
+        # cond_checker_detect(matrix, dx, dz, max_proc_num)
     elif user_input == 'carbon':
         
         matrix = special_codes.stabs_carbon()
@@ -438,6 +445,20 @@ if __name__ == "__main__":
         file_name += ".txt"
         with open(file_name, 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, 4, 4, max_proc_num)
-        # cond_checker(matrix, 4, 4, max_proc_num)
-    
+                cond_checker_detect(matrix, 4, 4, max_proc_num)
+        # cond_checker_detect(matrix, 4, 4, max_proc_num)
+    elif user_input == 'hyp_prod':
+        # if isinstance(args.p1, 'numpy.ndarray'):
+        #     if isinstance(args.p2, 'numpy.ndarray'):
+        #         matrix = qldpc_codes.stabs_hyp_prod(args.p1, args.p2)
+        #     else:
+        #         matrix = qldpc_codes.stabs_hyp_prod(args.p1, args.p1)
+        # else:
+        print("verify with default case")
+        matrix = qldpc_codes.stabs_hyp_prod(classical734, classical734)
+        
+        file_name += ".txt"     
+        # with open(file_name, 'w') as f:
+        #     with redirect_stdout(f):
+        #         cond_checker_detect(matrix, 4, 4, max_proc_num)
+        cond_checker_detect(matrix, 4, 4, max_proc_num)

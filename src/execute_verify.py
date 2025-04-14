@@ -213,7 +213,7 @@ def analysis_task(task_id: int, task: list):
 
 ### Checking the condition in parallel ###
 @timebudget 
-def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
+def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
     global packed_x
     global packed_z
@@ -270,7 +270,6 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     for i, ei in enumerate(err_info):
         ei.re_raise()
 
-    
     if is_sat == 0: 
         print("No counterexample found, all errors can be corrected.\n")
     
@@ -278,9 +277,9 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
 
 
 ### Checker for surface code ### 
-def sur_cond_checker(distance, max_proc_num):
+def sur_cond_checker_verify(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
+    cond_checker_verify(matrix, distance, distance, max_proc_num, is_sym = True)
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
@@ -323,16 +322,16 @@ if __name__ == "__main__":
     
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                sur_cond_checker(d, max_proc_num)
+                sur_cond_checker_verify(d, max_proc_num)
             
-        # sur_cond_checker(d, max_proc_num)
+        # sur_cond_checker_verify(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
         file_name += f".txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, 3, 3, max_proc_num)
-        # cond_checker(matrix, 3, 3, max_proc_num)
+                cond_checker_verify(matrix, 3, 3, max_proc_num)
+        # cond_checker_verify(matrix, 3, 3, max_proc_num)
 
     elif user_input == 'reed_muller':
         
@@ -343,16 +342,16 @@ if __name__ == "__main__":
         file_name += f"_{m}.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):  
-                cond_checker(matrix, 3, 3, max_proc_num)
+                cond_checker_verify(matrix, 3, 3, max_proc_num)
       
-        # cond_checker(matrix, 3, 3, max_proc_num)
+        # cond_checker_verify(matrix, 3, 3, max_proc_num)
     elif user_input == 'dodecacode':
         matrix = special_codes.stabs_1115()
         file_name += f"_5.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, 5, 5, max_proc_num)
-        # cond_checker(matrix, 5, 5, max_proc_num)
+                cond_checker_verify(matrix, 5, 5, max_proc_num)
+        # cond_checker_verify(matrix, 5, 5, max_proc_num)
     elif user_input == 'XZZX':
         if args.param1 is None or args.param2 is None:
             raise ValueError("Both distances should be provided.")
@@ -363,8 +362,8 @@ if __name__ == "__main__":
         file_name += f"_{dx}_{dz}.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
-        # cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
+                cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = True)
+        # cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = True)
     elif user_input == 'Honeycomb':
         # Only support d = 3, d = 5 currently
         if args.param1 is None and args.param2 is None:
@@ -376,19 +375,19 @@ if __name__ == "__main__":
         file_name += f"_{d}.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, d, d, max_proc_num)
-        # cond_checker(matrix, d, d, max_proc_num)
+                cond_checker_verify(matrix, d, d, max_proc_num)
+        # cond_checker_verify(matrix, d, d, max_proc_num)
 
-    elif user_input == 'Goettsman':
+    elif user_input == 'Gottesman':
         if args.param1 is None and args.param2 is None:
             raise ValueError("Shape parameter should be provided.")
         m = args.param1 if args.param1 is not None else args.param2
-        matrix = special_codes.stabs_goettsman(m)
+        matrix = special_codes.stabs_gottesman(m)
         file_name += f"_{m}.txt" 
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
-                cond_checker(matrix, 3, 3, max_proc_num)
-        # cond_checker(matrix, 3, 3, max_proc_num)
+                cond_checker_verify(matrix, 3, 3, max_proc_num)
+        # cond_checker_verify(matrix, 3, 3, max_proc_num)
 
         
     

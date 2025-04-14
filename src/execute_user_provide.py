@@ -37,10 +37,9 @@ class ExceptionWrapper(object):
 
 ### Load the subtask in each thread ###
 def worker(task_id, err_vals, info, opt):
-    
+
     try:
         start = time.time()
-        
         if opt == 'x':
             if info is not None:
                 smttime, res = seq_cond_checker_user(packed_x, err_vals, info, opt)
@@ -48,15 +47,14 @@ def worker(task_id, err_vals, info, opt):
                 smttime, res = seq_cond_checker(packed_x, err_vals, opt)
             
         else:
-            
             if info is not None:
                 smttime, res = seq_cond_checker_user(packed_z, err_vals, info, opt)
             else: 
                 smttime, res = seq_cond_checker(packed_z, err_vals, opt)
         end = time.time()
         cost = end - start 
-
         return task_id, smttime, str(res)
+
     except Exception as e:
         print(e)
         return task_id, ExceptionWrapper(e)
@@ -90,26 +88,32 @@ class subtask_generator:
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
     ### Judging terminate or not ###
-    def easy_enough(self, remained_qubit_num, remained_one_num):
+    def easy_enough_I(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
        
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         
+        ### For verification task ###
+        if  2 * assigned_one_num * self.distance + assigned_bit_num < self.num_qubits:
+            return False
+       
+        return True
+    def easy_enough_II(self, remained_qubit_num, remained_one_num):
+        if remained_qubit_num == 1:
+            return True
+       
+        assigned_one_num = (self.distance - 1) - remained_one_num
+        assigned_bit_num = self.num_qubits - remained_qubit_num
         
         ### For verification task ###
-        if  2 * assigned_one_num * self.distance + assigned_bit_num  < self.num_qubits:
+        if  int(4 * assigned_one_num * self.distance // 3) + assigned_bit_num < self.num_qubits:
             return False
-        ### For condition II ###
-        # if  int(4 * assigned_one_num * self.distance // 3)  + assigned_bit_num < self.nonzero_len: 
-        #     return False
-        return True
-        
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
     def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         
-        if self.easy_enough(remained_qubit_num, remained_one_num):
+        if self.easy_enough_II(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
             return
 
@@ -127,7 +131,7 @@ class subtask_generator:
     ### Constraint I: The number of 1s in each length d segment is at most 1
     def generate_tasks_I(self, remained_qubit_num, remained_one_num, curr_seg_count, curr_enum_qubits: list):
         
-        if self.easy_enough(remained_qubit_num, remained_one_num):
+        if self.easy_enough_I(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
             return
         
@@ -267,7 +271,7 @@ def analysis_task(task_id: int, task: list):
 
 ### Checking the condition in parallel ###
 @timebudget 
-def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
+def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     global task_info
     global packed_x
     global packed_z
@@ -287,11 +291,16 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     numq = matrix.shape[1] // 2
     ### Generate tasks w.r.t the supposed distance ### 
     tg_x = subtask_generator(dz, numq, max_proc_num, cstype)
-    tasks_x = tg_x()
-    tg_z = subtask_generator(dx, numq, max_proc_num, cstype)
-    tasks_z = tg_z()
-    info_x, info_z = None, None
     
+    tg_z = subtask_generator(dx, numq, max_proc_num, cstype)
+    if cstype == 'discrete':
+        tasks_x = tg_x()
+        tasks_z = tg_z()
+        info_x, info_z = None, None
+    else:
+        tasks_x, info_x = tg_x()
+        tasks_z, info_z = tg_z()
+        
     print("Task generated. Start checking.")
     
     total_job = len(tasks_x) + len(tasks_z)
@@ -330,9 +339,9 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
 
 
 
-def sur_cond_checker(distance, max_proc_num, cstype):
+def sur_cond_checker_usrprov(distance, max_proc_num, cstype):
     matrix = surface_matrix_gen(distance)
-    cond_checker(matrix, distance, distance, max_proc_num, cstype, is_sym = True)
+    cond_checker_usrprov(matrix, distance, distance, max_proc_num, cstype, is_sym = True)
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
@@ -360,10 +369,8 @@ if __name__ == "__main__":
         os.makedirs(output_dir)
     with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
         with redirect_stdout(f):
-            cond_checker(matrix, d, d, max_proc_num, cstype)
+            cond_checker_usrprov(matrix, d, d, max_proc_num, cstype)
 
-
-    # sur_cond_checker(d, max_proc_num, cstype = cstype)
     
     
   

@@ -70,8 +70,8 @@ def stabs_Toric(d):
     return mat
 
 
-## [[2^r, 2^r - r- 2, 3]] Goettsman code
-def stabs_goettsman(m):
+## [[2^r, 2^r - r- 2, 3]] Gottesman code
+def stabs_gottesman(m):
     n = int(math.pow(2, m))
     k = n - m - 2
     d = 3
