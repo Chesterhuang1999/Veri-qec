@@ -1,7 +1,7 @@
 #----------#
 # Developer: Chester Huang
 # Date: 2024/11/05
-# Description: Parallel execution for accurate detection program
+# Description: Parallel execution for accurate detection property
 # Without Tanner code ( the termination condition for Tanner code requires re-design)
 #----------#
 
@@ -138,7 +138,7 @@ unsolved_job = 0
 sat_job = 0
 unsat_job = 0
 
-#### Print current Progress ####
+### Print current Progress ###
 def get_current_infos(not_done = True):
     curr_time = time.time()
     cost_time = curr_time - start_time
@@ -216,7 +216,7 @@ def process_callback(result, pool):
 def process_error(error):
     print(f'error: {error}')
 
-#### Pre-processing the tasks ####
+### Pre-processing the tasks ###
 def analysis_task(task_id: int, task: list):
     num_bit = 0
     num_one = 0
@@ -230,7 +230,7 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
-#### Checking the condition in parallel ####
+### Checking the condition in parallel ###
 @timebudget 
 def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info

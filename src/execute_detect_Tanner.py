@@ -1,3 +1,10 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/11/10
+# Description: Parallel execution for detection property, tanner code 
+#----------#
+
+
 import time
 import numpy as np
 import math
@@ -343,7 +350,7 @@ if __name__ == "__main__":
     output_dir = './eval-Output'
     matrix = qldpc_codes.stabs_Tanner(1, 1, Par54, Rep51) if basis == 'Rep5' else qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
     with open(f'{output_dir}/detect_Tanner_{basis}.txt', 'w') as f:
-        # f.write(f"CPU counts: {max_proc_num}\n")
+        
         with redirect_stdout(f):
             cond_checker(matrix, 4, 4, max_proc_num)
     

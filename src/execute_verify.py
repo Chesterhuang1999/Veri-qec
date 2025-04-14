@@ -1,3 +1,10 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/11/05
+# Description: Parallel execution for accurate correction property
+#----------#
+
+
 import time
 import numpy as np
 import math
@@ -5,7 +12,7 @@ from multiprocessing import Pool
 import os
 from contextlib import redirect_stdout
 from smt_partition_merge import *
-# from smt_detect_only import *
+
 import argparse
 from timebudget import timebudget
 import datetime
@@ -17,6 +24,8 @@ from Dataset import special_codes
 from Dataset import qldpc_codes
 
 sys.setrecursionlimit(1000000)
+
+### Handling errors in pools 
 class ExceptionWrapper(object):
     def __init__(self, ee):
         self.ee = ee
@@ -25,7 +34,7 @@ class ExceptionWrapper(object):
     def re_raise(self):
         raise self.ee.with_traceback(self.tb)
 
-
+#### Load the subtask in each thread ####   
 def worker(task_id, err_vals, opt):
     
     try:
@@ -42,7 +51,7 @@ def worker(task_id, err_vals, opt):
         print(e)
         return task_id, ExceptionWrapper(e)
 
-
+### Estimate the difficulty of the task by combination ###
 def estimate_difficulty(remained_qubits, remained_ones):
     n = remained_qubits
     k = remained_ones
@@ -53,6 +62,7 @@ def estimate_difficulty(remained_qubits, remained_ones):
     
     return sum(math.comb(n, i) for i in range(k + 1))
 
+### Generating subtasks by enumerating variables ###
 class subtask_generator:
     def __init__(self, distance, numq, max_proc_num, checktype) -> None:
         self.distance = distance
@@ -67,7 +77,7 @@ class subtask_generator:
         self.target_task_num =  max_proc_num * 2
         self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
-
+    ### Judging terminate or not ###
     def easy_enough(self, remained_qubit_num, remained_one_num, checktype):
         if remained_qubit_num == 1:
             return True
@@ -86,7 +96,7 @@ class subtask_generator:
         
         return True
         
-    ### Constraint II: The errors come from a restricted set (maybe the whole set)
+    ### Recursively enumerate the variables ###
     def generate_tasks(self, checktype, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         
         if self.easy_enough(remained_qubit_num, remained_one_num, checktype):
@@ -94,22 +104,17 @@ class subtask_generator:
             return
 
         curr_enum_qubits.append(0)
-        
         self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
         if remained_one_num > 0 :
             curr_enum_qubits.append(1)
-            
             self.generate_tasks(checktype, remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
-    
-
     def __call__(self):
        
-        self.generate_tasks(self.checktype, self.num_qubits, self.distance - 1, [])
-            
+        self.generate_tasks(self.checktype, self.num_qubits, self.distance - 1, []) 
         return self.tasks
 
 processed_job = 0
@@ -118,6 +123,7 @@ unsolved_job = 0
 sat_job = 0
 unsat_job = 0
 
+### Print current Progress ###
 def get_current_infos(not_done = True):
     curr_time = time.time()
     cost_time = curr_time - start_time
@@ -144,7 +150,7 @@ def get_current_infos(not_done = True):
     ret += "unprocessed jobs: {}".format(unprocessed_job) + "\n"
     return ret
 
-    
+### Process the return value of the task ###   
 def process_callback(result, pool):
     # print(result)
     global task_info
@@ -161,15 +167,10 @@ def process_callback(result, pool):
     task_id, time_cost, res_smt = result
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
+    ## Find counterexample, terminate the process 
     if res_smt == 'sat':
         is_sat = 1
-        # print(task_id)
-        # errs = errs_enum + res_smt[1]
-        # with open('Details/violation_Tanner.txt', 'a') as f:
-        #     f.write(f"task_id: {task_id} | time: {time_cost}\n")
-        #     f.write(f"counterexample: {errs}\n")
-
-        # control_signal.value = 1
+        
         ti = task_info[task_id]
         print("Counter example found, there exists errors cannot be corrected.\n")
         print('Counterexample Info:\n')
@@ -195,6 +196,7 @@ def process_callback(result, pool):
 def process_error(error):
     print(f'error: {error}')
 
+### Pre-processing the tasks ###
 def analysis_task(task_id: int, task: list):
     num_bit = 0
     num_one = 0
@@ -208,6 +210,8 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
+
+### Checking the condition in parallel ###
 @timebudget 
 def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
@@ -219,22 +223,19 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     global err_info
     global last_print
     global is_sat
-    # global indices_x
-    # global indices_z
-    # global is_counter
-    # is_counter = 0
+    
     is_sat = 0
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
     numq = matrix.shape[1] // 2
+    ## Generate the verification condition ##
     packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
+    ## Generate tasks w.r.t supposed distances ##
     tg_x = subtask_generator(dz, numq, max_proc_num, 'z')
     tasks_x = tg_x()
     tg_z = subtask_generator(dx, numq, max_proc_num, 'x')
     tasks_z = tg_z()
-    # print(tasks_x)
-    # print(tasks_z)
     
     print("Task generated. Start checking.")
     total_job = len(tasks_x) + len(tasks_z)
@@ -276,7 +277,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, is_sym = False):
     print("Finish all jobs. Checking time:", time.time() - end_gen)
 
 
-
+### Checker for surface code ### 
 def sur_cond_checker(distance, max_proc_num):
     matrix = surface_matrix_gen(distance)
     cond_checker(matrix, distance, distance, max_proc_num, is_sym = True)
@@ -305,27 +306,25 @@ if __name__ == "__main__":
     parser.add_argument('--code', type=str, default='surface', help='The code type.')
     parser.add_argument('--param1', type=int, default = 3, help='Additional parameters of the code.')
     parser.add_argument('--param2', type=int, help='Additional parameters of the code.')
+
     args = parser.parse_args()
     max_proc_num = args.cpucount
-    # user_input = input("Enter the code type: ")
     user_input = args.code
 
     output_dir = "./eval-Output"
     os.makedirs(output_dir, exist_ok=True)
     file_name = f"correction_{user_input}"
-    # print(file_name)
-    # with open(os.path.join(output_dir, f"correction_{user_input}_{args}"))
+    
     if user_input == 'surface':
-        # d = int(input("Enter the distance: "))
         if args.param1 is None:
             raise ValueError("Please enter the distance.") 
         d = args.param1
         file_name += f"_{d}.txt"
-        # print(os.path.join(output_dir, file_name))
+    
         with open(os.path.join(output_dir, file_name), 'w') as f:
             with redirect_stdout(f):
                 sur_cond_checker(d, max_proc_num)
-            # matrix = surface_matrix_gen(d)
+            
         # sur_cond_checker(d, max_proc_num)
     elif user_input == 'steane':
         matrix = special_codes.stabs_steane()
@@ -334,8 +333,9 @@ if __name__ == "__main__":
             with redirect_stdout(f):
                 cond_checker(matrix, 3, 3, max_proc_num)
         # cond_checker(matrix, 3, 3, max_proc_num)
+
     elif user_input == 'reed_muller':
-        # m = int(input("Enter the params: "))
+        
         if args.param1 is None and args.param2 is None:
             raise ValueError("Please enter parameters.")
         m = args.param1 if args.param1 is not None else args.param2
@@ -366,12 +366,12 @@ if __name__ == "__main__":
                 cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
         # cond_checker(matrix, dx, dz, max_proc_num, is_sym = True)
     elif user_input == 'Honeycomb':
-        #Only support d = 3, d = 5 currently
+        # Only support d = 3, d = 5 currently
         if args.param1 is None and args.param2 is None:
             raise ValueError("Both distances should be provided.")
         d = args.param1 if args.param1 is not None else args.param2
         assert d <= 5, "Only support d = 3, d = 5 currently."
-        # d = int(input("Enter the distance: "))
+        
         matrix = special_codes.stabs_honeycomb(d)
         file_name += f"_{d}.txt"
         with open(os.path.join(output_dir, file_name), 'w') as f:
@@ -379,7 +379,6 @@ if __name__ == "__main__":
                 cond_checker(matrix, d, d, max_proc_num)
         # cond_checker(matrix, d, d, max_proc_num)
 
-    
     elif user_input == 'Goettsman':
         if args.param1 is None and args.param2 is None:
             raise ValueError("Shape parameter should be provided.")

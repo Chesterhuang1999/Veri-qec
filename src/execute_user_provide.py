@@ -1,3 +1,10 @@
+#----------#
+# Developer: Chester Huang
+# Date: 2024/11/05
+# Description: Parallel execution for accurate correction property, with user-provided constraints
+#----------#
+
+
 import time
 import numpy as np
 import math
@@ -18,6 +25,8 @@ from Dataset import special_codes
 from Dataset import qldpc_codes
 
 sys.setrecursionlimit(1000000)
+
+### Handling errors in Pools ###
 class ExceptionWrapper(object):
     def __init__(self, ee):
         self.ee = ee
@@ -26,7 +35,7 @@ class ExceptionWrapper(object):
     def re_raise(self):
         raise self.ee.with_traceback(self.tb)
 
-
+### Load the subtask in each thread ###
 def worker(task_id, err_vals, info, opt):
     
     try:
@@ -52,7 +61,7 @@ def worker(task_id, err_vals, info, opt):
         print(e)
         return task_id, ExceptionWrapper(e)
 
-
+### Estimate the difficulty of the task by combination ###
 def estimate_difficulty(remained_qubits, remained_ones):
     n = remained_qubits
     k = remained_ones
@@ -63,6 +72,7 @@ def estimate_difficulty(remained_qubits, remained_ones):
     
     return sum(math.comb(n, i) for i in range(k + 1))
 
+### Generating subtasks by enumerating variables ###
 class subtask_generator:
     def __init__(self, distance, numq, max_proc_num, method) -> None:
         self.distance = distance
@@ -79,6 +89,7 @@ class subtask_generator:
         self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
         self.parti_diffi_thres = self.full_difficulty // self.target_task_num
 
+    ### Judging terminate or not ###
     def easy_enough(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
@@ -94,7 +105,7 @@ class subtask_generator:
         # if  int(4 * assigned_one_num * self.distance // 3)  + assigned_bit_num < self.nonzero_len: 
         #     return False
         return True
-        # return False
+        
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
     def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         
@@ -168,6 +179,7 @@ unsolved_job = 0
 sat_job = 0
 unsat_job = 0
 
+### Print current Progress ###
 def get_current_infos(not_done = True):
     curr_time = time.time()
     cost_time = curr_time - start_time
@@ -194,7 +206,7 @@ def get_current_infos(not_done = True):
     ret += "unprocessed jobs: {}".format(unprocessed_job) + "\n"
     return ret
 
-    
+### Process the return value of the task ###       
 def process_callback(result):
     # print(result)
     global task_info
@@ -212,6 +224,7 @@ def process_callback(result):
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
 
+    ## Find counterexample, print
     if res_smt == 'sat':
         is_sat = 1
 
@@ -222,8 +235,8 @@ def process_callback(result):
         print(ti[1])
         print(f'{" | ".join(ti[2])}\n')
         print("About to terminate")
-        
         # pool.terminate()
+
     curr_time = time.time()
     processed_job += 1
     if curr_time - last_print > 60.0:
@@ -238,6 +251,7 @@ def process_callback(result):
 def process_error(error):
     print(f'error: {error}')
 
+### Pre-process the tasks ###
 def analysis_task(task_id: int, task: list):
     num_bit = 0
     num_one = 0
@@ -251,6 +265,7 @@ def analysis_task(task_id: int, task: list):
     info = [f'num_bit: {num_bit}', f'num_zero: {num_zero}', f'num_one: {num_one}', f'one_pos: {one_pos}']
     return [task_id, task, info]
 
+### Checking the condition in parallel ###
 @timebudget 
 def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     global task_info
@@ -281,7 +296,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     
     total_job = len(tasks_x) + len(tasks_z)
     print(f"total_job: {total_job}")
-  
+    ## Generate the verification condition ##
     is_discrete = False if cstype == 'local' else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
     end_gen = time.time()
@@ -289,7 +304,7 @@ def cond_checker(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     
     task_info = []
     err_info = []
-    
+    ## Start checking ## 
     with Pool(processes = max_proc_num) as pool:
         result_objects = []
         for i, task in enumerate(tasks_x):
@@ -334,7 +349,7 @@ if __name__ == "__main__":
     parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPUs')
     parser.add_argument('--distance', type = int, default = 9, help = 'The distance of the code')
     parser.add_argument('--constraint', type = str, default = 'discrete', help = 'The constraint type')
-    # d = int(input("Enter the distance: "))
+    
     args = parser.parse_args()
     d = args.distance
     max_proc_num = args.cpucount
@@ -346,39 +361,10 @@ if __name__ == "__main__":
     with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
         with redirect_stdout(f):
             cond_checker(matrix, d, d, max_proc_num, cstype)
+
+
     # sur_cond_checker(d, max_proc_num, cstype = cstype)
-    # sur_cond_checker(d, max_proc_num, cstype = cstype)
-    # if user_input == 'surface':
-    #     d = int(input("Enter the distance: "))
-    #         # matrix = surface_matrix_gen(d)
-    #     sur_cond_checker(d, max_proc_num, constraint_type)
-    # elif user_input == 'steane':
-    #     matrix = special_codes.stabs_steane()
-    #     cond_checker(matrix, 3, 3, max_proc_num, constraint_type)
-    # elif user_input == 'reed_muller':
-    #     m = int(input("Enter the params: "))
-    #     matrix = special_codes.stabs_Reed_Muller(m)
-    #     cond_checker(matrix, 3, 3, max_proc_num, constraint_type)
-    # elif user_input == 'dodecacode':
-    #     matrix = special_codes.stabs_1115()
-    #     cond_checker(matrix, 5, 5, max_proc_num, constraint_type)
-    # elif user_input == 'XZZX':
-    #     dx = int(input("Enter the dx: "))
-    #     dz = int(input("Enter the dz: "))
-    #     matrix = special_codes.stabs_XZZX(dx, dz)
-    #     cond_checker(matrix, 5, 5, max_proc_num, constraint_type)
-    # elif user_input == 'Honeycomb':
-    #     d = int(input("Enter the distance: "))
-    #     matrix = special_codes.stabs_honeycomb(d)
-    #     cond_checker(matrix, d, d, max_proc_num, constraint_type)
-    # dx_max = min([np.count_nonzero(matrix[n - k + i]) for i in range(k)]) 
-    # dz_max = min([np.count_nonzero(matrix[n + i]) for i in range(k)])
-    # print(dx_max, dz_max)
-    # weight_min = min([np.count_nonzero(matrix[i]) for i in range(n - k)])
-    # matrix = surface_matrix_gen(3)
     
-    # print(matrix)
-    # sur_cond_checker(13, max_proc_num, constraint_type = 'II')
-    # matrix = special_codes.stabs_steane()
-    # cond_checker(matrix, 3, 3, max_proc_num)
+    
+  
 
