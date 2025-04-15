@@ -1,18 +1,14 @@
 import sys
 from condition_multiq import *
 from encoder import *
-from parser_qec import get_parser
-from lark.reconstruct import Reconstructor
+
 from z3 import *
-import os
-from contextlib import redirect_stdout
-# import matplotlib.pyplot as plt
+
 from timebudget import timebudget 
 from collections import defaultdict
 from smt_partition_merge import *
 from smt_testing_meas_err import *
-import re
-import cvc5
+
 from execute_verify import *
 
 sys.setrecursionlimit(10**6)
@@ -29,22 +25,18 @@ sys.setrecursionlimit(10**6)
 def formula_gen_combine(mat, dx, dz, rnds, N, prog_log):
     ## mat: check matrix, dx, dz: distance, rnd: measurement rounds per layer; N; number of logical qubits;
     numq = mat.shape[1] // 2
-    # k = mat.shape[0] - numq
-    
+   
     program_qec_x, program_qec_z = program_gen_qec_mul(mat, numq, N, rnds)
     
     postcond_x, postcond_z  = stab_cond_gen_multiq(mat, numq, N)
-    # print(postcond_z)
+    
     decoder_cond_x, decoder_cond_z, meas_corr_x, meas_corr_z = decode_cond_gen_mul(mat, numq, N, rnds, dx, dz, False) 
     precond_x = recon_string(precond_generator(prog_log, postcond_x, postcond_x)[-1])
     precond_z = recon_string(precond_generator(prog_log, postcond_z, postcond_z)[-1])
-    # print(precond_z)
-    # print(precond_x)
+    
     meas_cnt_max = max(len(meas_corr_x), len(meas_corr_z))
     bit_width = int(math.log2(numq * N * rnds + meas_cnt_max)) + 1
-    # print(bit_width)
-    # print(precond_x)
-    # print(precond_z)
+    
     sum_x = ""
     sum_z = ""
     for ci in meas_corr_x:
@@ -55,7 +47,6 @@ def formula_gen_combine(mat, dx, dz, rnds, N, prog_log):
     sum_x += f"sum i 1 {numq * N * rnds} (cz_(i))"
     sum_z += f"sum i 1 {numq * N * rnds} (cx_(i))" 
     
-    # print(precond_x, program_x, postcond_x)
     ## For only logical operation, is verification
     ## For logical op with measurement error, is test
     if rnds > 1:
@@ -86,7 +77,8 @@ def formula_gen_combine(mat, dx, dz, rnds, N, prog_log):
                             err_cond_z, err_gt_z, 
                             decoder_cond_z)
         return packed_x, packed_z
-    # return packed_x, packed_z, meas_corr_x, meas_corr_z
+    
+### Randomly generate samples   
 def random_sample_test(numq, N, meas_cnt, rnds, D):
     max_ham_weight = (D - 1) // 2
     indices = []
@@ -123,21 +115,23 @@ def random_sample_test(numq, N, meas_cnt, rnds, D):
     bin_arr[indices] = 1
     return bin_arr
 
+## Verify the correctness of a program, which consists of multiple layers of logical operations and error correction blocks. ##
 @timebudget
 def steane_checker_combine(matrix, dx, dz, program, N, rnds):
     numq = matrix.shape[1] // 2
-    # print(program.items())
-    # exit(0)
+    
+    ## verify the program layer by layer
     for inds, gateinfo in program.items():
         prog_log = program_gen_logic(matrix, numq, N, gateinfo, 'steane')
-        # print(prog_log)
+        
+        ## packed_x, packed_z are verification conditions
         if rnds == 1:
             packed_x, packed_z = formula_gen_combine(matrix, dx, dz, 1, N, prog_log)
             t1x, res1_x = seq_cond_checker(packed_x, [0], 'x')
             t1z, res1_z = seq_cond_checker(packed_z, [0], 'z')
             t2x, res2_x = seq_cond_checker(packed_x, [1], 'x')
             t2z, res2_z = seq_cond_checker(packed_z, [1], 'z')
-            # print(res1_x, res2_x, res1_z, res2_z)
+            
             if str(res1_x[0]) == 'unsat' and str(res2_x[0]) == 'unsat':
                 print(f"Layer {inds}: All Z error can be corrected;")
             else:
@@ -147,8 +141,7 @@ def steane_checker_combine(matrix, dx, dz, program, N, rnds):
             else:
                 print(f"Layer {inds}: Exist errors that cannot be corrected.")
             print(f"SMT time consumed:{t1x + t2x + t1z + t2z}")
-            # print(res1_x, res2_x, res1_z, res2_z)
-            # print(t1x, t2x, t1z, t2z)
+            
         else:
             packed_x, packed_z, meas_corr_x, meas_corr_z = formula_gen_combine(matrix, dx, dz, rnds, N, prog_log)
             ## Randomly generate 10 test cases
@@ -161,14 +154,7 @@ def steane_checker_combine(matrix, dx, dz, program, N, rnds):
                 print(posx)
 
                 result_x = seq_checker_meas_err(packed_x, meas_corr_x, rnds, err_vals_x, 'x')
-                # result_z = seq_checker_meas_err(packed_z, meas_corr_z, rnds, err_vals_z, 'z')
                 
-                # with open("Details/sur_meas_err_test.txt", "a") as f:
-                #     f.write(f"case id: {i} | type: x_stabs | err counts: {len(posx)}\n")
-                #     f.write(f"err pos: {posx} | result: {result_x}\n")
-                #     f.write(f"case id: {i} | type: z_stabs | err counts: {len(posz)}\n")
-                #     f.write(f"err pos: {posz} | result: {result_z}\n")
-
 ## Towards the fault-tolerant quantum computing, first thing is to                 
 def formula_gen_logical(matrix, dx, dz, gates, N):
     numq = matrix.shape[1] // 2
@@ -181,10 +167,10 @@ def formula_gen_logical(matrix, dx, dz, gates, N):
         pre_tree_z = precond_generator(prog_log, postcond_x, postcond_z)[-1]
         precond_x = recon_string(pre_tree_x)
         precond_z = recon_string(pre_tree_z)
-        # totq = numq * N
+        
         err_cond_x = f"sum i 1 {numq} (ez_(i)) + sum i 1 {numq} (pz_(i)) <= {(dz - 1) // 2}"
         err_cond_z = f"sum i 1 {numq} (ex_(i)) + sum i 1 {numq} (px_(i)) <= {(dx - 1) // 2}"
-        # err_cond_x, err_cond_z = "", ""
+        
         for i in range(N):
             start = i * numq 
             err_gt_x = err_gt_x + f"&&sum i {start + 1} {start + numq} (ez_(i)) + sum i {start + 1} {start + numq} (pz_(i))<= {(dz -1)}"
@@ -204,14 +190,18 @@ def formula_gen_logical(matrix, dx, dz, gates, N):
                             decoder_cond_z)
     
     return packed_x, packed_z
-        # print(simplify(tree_to_z3(VCgeneration(precond_x, prog_x, postcond_x))))
+        
+## A condition checker, with propagated error considered         
 def seq_cond_checker_prop(packed_expr, err_vals, p_vals, nums, opt, prop_free = 1):
     expr, variables, constraints = packed_expr
     if opt == 'x':
         err_val_exprs = [f'(ez_({i + 1})) == {err_vals[i]}' for i in range(len(err_vals))]
+        ## Assume that there is a logical qubit free from propagated error;
+        ## If prop_free = 2, then p_vals = all zero, we fill in the errors from back to forth
         if prop_free == 2:
             err_val_exprs.extend([f'(pz_({nums - i})) == {p_vals[i]}' for i in range(len(p_vals))])
         else:
+            ## Other wise fill in the values from start.
             err_val_exprs.extend([f'(pz_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
     else:
         ### Normal form ### 
@@ -221,62 +211,61 @@ def seq_cond_checker_prop(packed_expr, err_vals, p_vals, nums, opt, prop_free = 
         else:
             err_val_exprs.extend([f'(px_({i + 1})) == {p_vals[i]}' for i in range(len(p_vals))])
     err_val_exprs_str = ' && '.join(err_val_exprs)
-    # print(err_val_exprs_str)
-    # exit(0)
+    
     formula = smtencoding_constrep(expr, variables, constraints, err_val_exprs_str)
     t3 = time.time()
     result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
+
+## Verify a error correction program with possible propagated errors. 
 @timebudget
 def steane_checker_prop(matrix, dx, dz, gates, N):
     numq = matrix.shape[1] // 2 
     prog_log = program_gen_logic(matrix, numq, N, gates[0], 'steane')
     packed_x, packed_z = formula_gen_logical(matrix, dx, dz, gates, N)
-    # print(packed_x[0])
+    
     p_vals = [0] * numq
     err_vals = [0] * numq * N
     nums = numq * N
     print("Possible propagation error in Qubit Block #1: ")
     t1x, res1_x = seq_cond_checker_prop(packed_x, [0], p_vals, nums, 'x', 2)
     t1z, res1_z = seq_cond_checker_prop(packed_z, [0], p_vals, nums, 'z', 2)
-    # exit(0)
+    
     t2x, res2_x = seq_cond_checker_prop(packed_x, [1], p_vals, nums, 'x', 2)
     t2z, res2_z = seq_cond_checker_prop(packed_z, [1], p_vals, nums, 'z', 2)
-    # print(res1_x, res2_x, res1_z, res2_z)
+    ## Analyze the results; We need to append err_vals to final results if counterexample detected. 
     if str(res1_x[0]) == 'unsat' and str(res2_x[0]) == 'unsat':
-    # if str(res1_x) == 'unsat':
+    
         print(f"All Z error can be corrected;")
     elif str(res1_x[0]) == 'sat':
         print(f"Exist Z errors that cannot be corrected: {res1_x[1]}")
     else:
         res2_x[1].append('ez_1')
         print(f"Exist Z errors that cannot be corrected: {res2_x[1]}")
-    # else:
-    #     print(f"Exist Z errors that cannot be corrected;")
+    
     if str(res1_z[0]) == 'unsat' and str(res2_z[0]) == 'unsat':
-    # if str(res1_z) == 'unsat':
+    
         print(f"All X error can be corrected.")
     elif str(res1_z[0]) == 'sat':
         print(f"Exist X errors that cannot be corrected: {res1_z[1]}")
     else:
         res2_z[1].append('ex_1')
         print(f"Exist X errors that cannot be corrected: {res2_z[1]}")
-    # else:
-    #     print(f"Exist X errors that cannot be corrected.")
+   
     print(f"SMT time consumed:{t1x + t2x + t1z + t2z}")
-    # exit(0)
-    # print(f"SMT time consumed:{t1x + t1z}")
+    
     print('----------------------')
+    ### Qubit block #1 is free from propagation error, but Qubit block #2 is not.
     print("Possible propagation error in Qubit Block #2: ")
     t1x, res1_x = seq_cond_checker_prop(packed_x, [0], p_vals, nums, 'x', 1)
     t1z, res1_z = seq_cond_checker_prop(packed_z, [0], p_vals, nums, 'z', 1)
-    # exit(0)
+    
     t2x, res2_x = seq_cond_checker_prop(packed_x, [1], p_vals, nums, 'x', 1)
     t2z, res2_z = seq_cond_checker_prop(packed_z, [1], p_vals, nums, 'z', 1)
-    # print(res1_x, res2_x, res1_z, res2_z)
+    
     if str(res1_x[0]) == 'unsat' and str(res2_x[0]) == 'unsat':
-    # if str(res1_x) == 'unsat':
+    
         print(f"All Z error can be corrected;")
     elif str(res1_x[0]) == 'sat':
         print(f"Exist Z errors that cannot be corrected: {res1_x[1]}")
@@ -284,21 +273,21 @@ def steane_checker_prop(matrix, dx, dz, gates, N):
         res2_x[1].append('ez_1')
         print(f"Exist Z errors that cannot be corrected: {res2_x[1]}")
     if str(res1_z[0]) == 'unsat' and str(res2_z[0]) == 'unsat':
-    # if str(res1_z) == 'unsat':
+    
         print(f"All X error can be corrected.")
     elif str(res1_z[0]) == 'sat':
         print(f"Exist X errors that cannot be corrected: {res1_z[1]}")
     else:
         res2_z[1].append('ex_1')
         print(f"Exist X errors that cannot be corrected: {res2_z[1]}")
-    # else:
-    #     print(f"Exist X errors that cannot be corrected.")
-    # print(f"SMT time consumed:{t1x + t2x + t1z + t2z}")
+    
     print(f"SMT time consumed:{t1x + t1z}")
     print('----------------------')
     
+
+    ## No propagation error, all errors should be corrected.
     print("Without propagation error:")
-    # p_vals = [0] * numq * N
+    
     packed_x, packed_z = formula_gen_combine(matrix, dx, dz, 1, N, prog_log)
     t1x, res1_x = seq_cond_checker(packed_x, [0], 'x')
     t1z, res1_z = seq_cond_checker(packed_z, [0], 'z')
@@ -319,16 +308,12 @@ if __name__ == "__main__" :
     D = 3
     N = 2
     rnds = 2
-    # matrix = surface_matrix_gen(D)
+    
     matrix = special_codes.stabs_steane()
-    # print(matrix)
-    # DJ = defaultdict(list)
-    # DJ[1] = [['H', [1]], ['H',[2]], ['H', [3]]]
-    # DJ[2] = [['CNOT', [1,2]], ['CNOT', [1,3]]]
-    # DJ[3] = [['H', [1]], ['H',[2]]]
+    
     H = defaultdict(list)
     H[1] = [['H', [1]], ['H', [2]]]
-    # prog_log = program_gen_logic(matrix, 7, 3, H[1], 'surface')
+    
     GHZ = defaultdict(list)
     GHZ[0] = [['H', [2]]]
     GHZ[1] = [['CNOT', [2,1]], ['CNOT', [2, 3]]]
@@ -347,27 +332,4 @@ if __name__ == "__main__" :
     print("Example II: Verify Fault-tolerance for CNOT gate with propagated error: ")
     steane_checker_prop(matrix, D, D, CNOT, 2)
 
-    # err_val_x = np.zeros(11, dtype = int)
-    # err_val_x[9] = 1 
-    # err_val_z = np.zeros(17, dtype = int)
-    # err_val_z[9] = 1
-    # err_val_z[16] = 1
-
-    # tx, res_x = seq_cond_checker(packed_x, err_val_x,'x')    
-    # tz, res_z = seq_cond_checker(packed_z, err_val_z,'z')
-
-    # print(tx, res_x)
-    # print(tz, res_z)
-    # # print(prog_qec_z)
-    # DJ = defaultdict(list)
-    # DJ[1] = [['H', [1]], ['H', [2]], ['H', [3]]]
-
-    # DJ[2] = [['CNOT', [1,2]], ['CNOT', [1,3]]]
-    # DJ[3] = [['H', [1]], ['H', [2]]]
-    
-    # print(prog_log)
-    # packed_x, packed_z = formula_gen_combine(matrix, 3, 3, 1, 3, prog_log)
-    # print(packed_x[0])
-    # sur_seq_checker_combine(matrix, D, D, H, N, rnds)
-    # packed_x, packed_z = formula_gen_combine(matrix, D, D, rnds, N, prog_log)
-    # print(packed_x[0])
+   

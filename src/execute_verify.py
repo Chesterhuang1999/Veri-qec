@@ -72,11 +72,7 @@ class subtask_generator:
         self.num_qubits = numq
         self.tasks = []
         
-        self.assigned_bit_thres = 16
         
-        self.target_task_num =  max_proc_num * 2
-        self.full_difficulty = estimate_difficulty(self.num_qubits, distance - 1)
-        self.parti_diffi_thres = self.full_difficulty // self.target_task_num
     ### Judging terminate or not ###
     def easy_enough(self, remained_qubit_num, remained_one_num, checktype):
         if remained_qubit_num == 1:
@@ -125,6 +121,7 @@ unsat_job = 0
 
 ### Print current Progress ###
 def get_current_infos(not_done = True):
+    ## Get current time, time already costs, and estimated finish time. 
     curr_time = time.time()
     cost_time = curr_time - start_time
     estimated_time = cost_time / processed_job * total_job
@@ -332,7 +329,7 @@ if __name__ == "__main__":
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
         
     elif user_input == 'reed_muller':
-        
+       # Quantum reed-muller code  
         if args.param1 is None and args.param2 is None:
             raise ValueError("Please enter parameters.")
         m = args.param1 if args.param1 is not None else args.param2

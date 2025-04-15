@@ -37,6 +37,8 @@ def smtencoding_constrep(expr, variables, err_vals):
     consts = {}
     const_errors_to_z3(err_vals_tree.children[0], consts)
     replace = []
+    ## Replace the error variables with the enumerated values, 
+    # and store which variables are constants currently
     for i, ki in enumerate(consts.keys()):
         replace.append((variables[ki], consts[ki]))
     
@@ -48,6 +50,7 @@ def smtencoding_constrep(expr, variables, err_vals):
             sym, _ = name.split('_')
             if(sym[0] != 'e'):
                 vdata_list.append(var)
+            ## name in consts.keys are variables whose values are already enumerated
             elif name not in consts.keys():
                 verr_list.append(var)
         else:

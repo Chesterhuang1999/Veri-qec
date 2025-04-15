@@ -39,7 +39,8 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
         expr = simplify(substitute(expr, replace))
         
     vaux_list, verr_list, vdata_list = [], [], []
-   
+    # Collect all variables and select the 
+    # syndromes as bounded variables, errors as existential variables
     for name, var in variables.items():
         if var.size() == 1:
             sym, _ = name.split('_')
@@ -52,24 +53,9 @@ def smtencoding_constrep(expr, variables, constraints, err_vals):
             vaux_list.append(var)
    
     var_list = vaux_list + vdata_list
-    ## Include quantifiers
+    ## Include quantifiers to the expression
     formula_to_check = ForAll(var_list, Not(expr))
-    ## SMT formula III: Encode both directions together
-    #formula_to_check = ForAll(verr_list, 
-    #                        Exists(var_list, 
-    #                            Or(Not(err_gt_expr), 
-    #                                And(substitution, 
-    #                                    Or(Not(err_expr), decoding_formula),
-    #                                    Or(err_expr, Not(decoding_formula))
-    #                                        ))))
-    ## SMT formula IV: Apply symmetry condition
-    # formula_to_check = ForAll(verr_list, 
-    #                      Exists(var_list, 
-    #                            Or(Not(err_gt_expr), 
-    #                                And(substitution,
-    #                                    Or(Not(err_expr), Not(sym_expr), decoding_formula),
-    #                                    Or(And(err_expr, sym_expr), Not(decoding_formula))
-    #                                        )))) 
+    
     return formula_to_check
 
 ### Integrating the formulas together to obtain the verification condition to check###

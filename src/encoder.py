@@ -39,10 +39,13 @@ def auto_complement(a, b):
 def const_errors_to_z3(tree, variables):
     if isinstance(tree, Token) and tree.type == 'NUMBER':
         return BitVecVal(tree.value, 1)
+    ## Recursively deal with the childrens
     elif tree.data == 'cap':
         for child in tree.children:
             const_errors_to_z3(child, variables)
         return None
+    
+    ## The leaf nodes must be variables or values
     elif tree.data == 'eq':
         var_name = const_errors_to_z3(tree.children[0], variables)
         const_val = const_errors_to_z3(tree.children[1], variables)
@@ -66,6 +69,8 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
         
     elif tree.data == 'or':
         return Or(*[tree_to_z3(child, variables, bit_width,constraints, ifaux) for child in tree.children])
+    
+    ## For comparsion of two branches, first align their lengths ## 
     elif tree.data == 'eq':
         z3_child0, z3_child1 = auto_complement(
                                     tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), 
@@ -80,8 +85,13 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
     elif tree.data == 'geq':   
         z3_child0, z3_child1 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
         return UGE(z3_child0, z3_child1) 
+    
+    ## For bit-vector lengths, '+' is overloaded as bit-wise add, which equivalent with xor.
     elif tree.data == 'xor':
         return tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux) + tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux)
+    
+    ### Add treats 0,1 as integers, therefore we need to first extend the bit-width to make it an integer
+    # Since the basic type of variables is bit. 
     elif tree.data == 'add':
         ssum = BitVecVal(0, bit_width)
         for child in tree.children:
@@ -95,6 +105,7 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
         end = int(tree.children[2].value)
         body = tree.children[3]
         ssum = BitVecVal(0, bit_width)
+        ## Here we introduce an auxiliary variable var_aux to replace the sum and simplify for SMT solvers ##
         for j in range(start, end+1):
             loops_transformer = Loops(name, j)
             body_trans = loops_transformer.transform(body)
@@ -113,6 +124,7 @@ def tree_to_z3(tree, variables, bit_width, constraints, ifaux = False):
             return ssum
     elif tree.data == 'neg':
         return Not(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux))
+    ## For comparsion of two branches, first align their lengths ##
     elif tree.data == 'min':
         res1,res2 = auto_complement(tree_to_z3(tree.children[0], variables, bit_width,constraints, ifaux), tree_to_z3(tree.children[1], variables, bit_width,constraints, ifaux))
         
