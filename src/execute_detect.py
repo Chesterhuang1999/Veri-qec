@@ -186,16 +186,16 @@ def process_callback(result, pool):
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
 
-    curr_time = time.time()
-    processed_job += 1
-    if curr_time - last_print > 300.0:
-        info = "{}/{}: finish job file[{}], cost_time: {}" \
-                .format(processed_job, total_job, task_id, time_cost)
-        print(info)
-        print(task_info[task_id])
-        print(get_current_infos())
-        sys.stdout.flush()
-        last_print = curr_time
+    # curr_time = time.time()
+    # processed_job += 1
+    # if curr_time - last_print > 300.0:
+    #     info = "{}/{}: finish job file[{}], cost_time: {}" \
+    #             .format(processed_job, total_job, task_id, time_cost)
+    #     print(info)
+    #     print(task_info[task_id])
+    #     print(get_current_infos())
+    #     sys.stdout.flush()
+    #     last_print = curr_time
     ## Find counterexample, terminate the process ##
     if res_smt == 'sat':
         is_sat = 1
@@ -231,7 +231,7 @@ def analysis_task(task_id: int, task: list):
     return [task_id, task, info]
 
 ### Checking the condition in parallel ###
-@timebudget 
+# @timebudget 
 def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
     global packed_x
@@ -292,9 +292,11 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
 
     if is_sat == 0: 
         print("No counterexample for Z error is found, all errors can be detected.\n")
-
+    else:
+        print("------------------")
+        print(f"Find counterexample when dt = d + 1. Check Z time: {endt_z - end_gen}")
     is_sat = 0
-    print(f"Check Z time: {endt_z - end_gen}")
+    
 
     with Pool(processes = max_proc_num) as pool2:
         result_objects = []
@@ -327,6 +329,7 @@ def sur_cond_checker_detect(distance, max_proc_num):
     else:
         print("Verifying the correctness when dt = d")
         cond_checker_detect(matrix, distance, distance, max_proc_num, is_sym = True)
+        
     ## Detect abnormal cases 
     print("-------------")
     print("Detecting counterexamples when dt = d + 1")

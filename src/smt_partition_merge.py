@@ -16,8 +16,7 @@ import cvc5
 from itertools import combinations
 import math
 from collections import defaultdict
-import argparse
-import json
+
 
 sys.setrecursionlimit(1000000)
 
@@ -95,7 +94,7 @@ def smtencoding(bit_width, precond, program, postcond, err_cond, err_gt, decoder
     else:
         formula = Or(Not(err_gt_expr), And(substitution, 
                 Or(Not(err_expr), decoding_formula)))
-
+    
     return formula, variables, constraints
   
 ### Invokes CVC5 to check the SMT formula ### 
@@ -194,7 +193,6 @@ def cond_generator(matrix, dx, dz, is_discrete, is_sym = False):
             if start + dx - 1 <= num_qubits:
                 err_gt_z += f" && sum i {start} {start + dx - 1} (ex_(i)) <= 1"
             else:
-            
                 err_gt_z += f" && sum i {start} {num_qubits} (ex_(i)) <= 1"
     
     ## Generate initial hoare triple without error condition 
@@ -258,6 +256,7 @@ def seq_cond_checker(packed_expr, err_vals, opt):
     t4 = time.time()
     return t4 - t3, result
 
+
 ### A SMT checker with enumerated values and the constraints provided by the user ###
 def seq_cond_checker_user(packed_expr, err_vals, info, opt):
     t2 = time.time()
@@ -281,9 +280,4 @@ def seq_cond_checker_user(packed_expr, err_vals, info, opt):
     result = smtchecking(formula)
     t4 = time.time()
     return t4 - t3, result
-
-
-
-
-
 

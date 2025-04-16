@@ -1,6 +1,6 @@
 ## Test script for precise detection property on surface code ##
 
-from execute_detect import cond_checker, sur_cond_checker
+from execute_detect import cond_checker_detect, sur_cond_checker_detect
 
 from contextlib import redirect_stdout  
 import argparse
@@ -33,7 +33,7 @@ for d in distance_candidate:
     with open(file_name, 'w') as f:
         with redirect_stdout(f):
                 
-            sur_cond_checker(d, max_proc_num)
+            sur_cond_checker_detect(d, max_proc_num)
     
 
 print("Finish all the evaluations.")

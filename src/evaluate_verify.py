@@ -6,6 +6,7 @@ import tblib.pickling_support
 import numpy as np
 import sys
 import os
+import time
 
 sys.setrecursionlimit(10**6)
 
@@ -15,6 +16,12 @@ parser = argparse.ArgumentParser(description='Process the metadata.')
 parser.add_argument('--cpucount', type=int, default = 8, help='Number of CPU cores to use')
 args = parser.parse_args()
 max_proc_num = args.cpucount
+
+print(f"Baseline method:serial")
+
+t1 = time.time()
+
+
 print(f"Using {max_proc_num} CPU cores for parallel processing.")
 print(f"Detailed outputs will be redirected to files in the eval-Output directory.")
 distance_candidate = [3, 5, 7, 9, 11]

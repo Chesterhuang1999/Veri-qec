@@ -34,8 +34,7 @@ def decode_cond_gen(H, n, k, dx, dz, alts = 'verify'):
                     cond_parts_z.append("@^")
             cond_parts_z.pop()
             cond_parts_z.append("&&")
-        
-   
+     
     if alts == 'test-opt':
         return ''.join(cond_parts_x)[:-2], ''.join(cond_parts_z)[: -2]
     
@@ -51,8 +50,7 @@ def stab_cond_gen(H, n, k):
     for i in range(2 * k):
        
         if np.all(H[n - k + i, :n] == 0) == False:
-            
-
+        
             for j in range(n):
                 if H[n - k + i][j] == 1:
                     cond_parts_x.extend(f"(0,1,{j + 1})")
@@ -76,7 +74,6 @@ def stab_cond_gen(H, n, k):
             cond_parts_x.append("&&")
         if hasz == True:
             cond_parts_z.append("&&")
-    
     
     cond_parts_x.pop()
     cond_parts_z.pop()
