@@ -78,6 +78,8 @@ class subtask_generator:
         self.method = method
         self.value = 2 if method == 'discrete' else (4 / 3)
 
+        self.value = 2 if method == 'discrete' else (4 / 3)
+
         self.num_qubits = numq
         self.tasks = []
         self.nonzero_len = (self.distance**2 - 1) // 2
@@ -114,6 +116,7 @@ class subtask_generator:
         if  int(4 * assigned_one_num * self.distance // 3) + assigned_bit_num < self.num_qubits:
             return False
         
+        
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
     def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
         
@@ -135,6 +138,7 @@ class subtask_generator:
     ### Constraint I: The number of 1s in each length d segment is at most 1
     def generate_tasks_I(self, remained_qubit_num, remained_one_num, curr_seg_count, curr_enum_qubits: list):
         
+        # easy_judgment = self.easy_enough_I(remained_qubit_num, remained_one_num) if cstype == 'discrete' else self.easy_enough_II(remained_qubit_num, remained_one_num)
         # easy_judgment = self.easy_enough_I(remained_qubit_num, remained_one_num) if cstype == 'discrete' else self.easy_enough_II(remained_qubit_num, remained_one_num)
         if self.easy_enough_I(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
@@ -312,7 +316,7 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     
     total_job = len(tasks_x) + len(tasks_z)
     print(f"total_job: {total_job}")
-    exit(0)
+    
     ## Generate the verification condition ##
     is_discrete = False if cstype == 'local' else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
