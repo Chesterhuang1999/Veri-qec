@@ -255,7 +255,7 @@ def process_callback(result):
 
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 60.0:
+    if curr_time - last_print > 300.0:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
@@ -321,7 +321,7 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     is_discrete = False if cstype == 'local' else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
     end_gen = time.time()
-    print(f"cond generation time: {end_gen - start_time}")
+    print(f"verification condition generation time: {end_gen - start_time:.5f} sec")
     
     task_info = []
     err_info = []
@@ -347,7 +347,10 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     if is_sat == 0: 
         print("No counterexample found, all errors can be corrected.")
 
-    print("Finish all jobs. Checking time:", time.time() - end_gen)
+    endt_verify = time.time()
+    print(f"All tasks finished, total time for verification:{endt_verify - end_gen:.5f} sec")
+
+    print(f"cond_checker_usrprov took {endt_verify - start_time:.5f} sec")
 
 
 

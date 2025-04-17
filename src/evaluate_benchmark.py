@@ -22,126 +22,125 @@ output_dir = './eval-Output'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-print(f"Using {max_proc_num} CPU cores for parallel processing.")
-print(f"Detailed outputs will be redirected to files in the eval-Output directory.")
-file_name_head = f'{output_dir}/correction'
 
-print(f"----------")
-print(f"Verifying correction property on code benchmarks:")
-
-print(f"-----------")
-# file_name = file_name_head + f"_613code.txt"
-print(f"Steane code:")
-matrix = special_codes.stabs_steane()
-cond_checker_verify(matrix, 3, 3, max_proc_num)
-
-print(f"----------")
-print(f"[[6,1,3]] code:")
-matrix = special_codes.stabs_613()
-cond_checker_verify(matrix, 3, 3, max_proc_num)
-
-print(f"----------")
-print(f"[[11,1,5]] code:")
-matrix = special_codes.stabs_1115()
-cond_checker_verify(matrix, 5, 5, max_proc_num)
-
-print(f"----------")
-print(f"reed-muller code with m = 8:")
-matrix = special_codes.stabs_Reed_Muller(8)
-file_name = file_name_head + f"_reed_muller_8.txt"
-with open(file_name, 'w') as f:
+file_name_corr = f'{output_dir}/correction_benchmarks.txt'
+with open(file_name_corr, 'w') as f:
     with redirect_stdout(f):
+
+        print(f"Verifying correction property on code benchmarks:")
+
+        print(f"Using {max_proc_num} CPU cores for parallel processing.")
+        print(f"-----------")
+    # file_name = file_name_head + f"_613code.txt"
+        print(f"Steane code:")
+        matrix = special_codes.stabs_steane()
         cond_checker_verify(matrix, 3, 3, max_proc_num)
 
-print(f"----------")
-print(f"XZZX code with dx = 9, dz = 11:")
-matrix = special_codes.stabs_XZZX(9, 11)
-file_name = file_name_head + f"_XZZX_9_11.txt"
-with open(file_name, 'w') as f:
-    with redirect_stdout(f):
-        cond_checker_verify(matrix, 9, 11, max_proc_num)
-
-print(f"----------")
-print(f"[[2^r, 2^r-r-2, 3]] Gottesman code with r = 8:")
-matrix = special_codes.stabs_gottesman(8)
-file_name = file_name_head + f"_gottesman_8.txt"
-with open(file_name, 'w') as f:
-    with redirect_stdout(f):
+        print(f"----------")
+        print(f"[[6,1,3]] code:")
+        matrix = special_codes.stabs_613()
         cond_checker_verify(matrix, 3, 3, max_proc_num)
 
-print(f"----------")
-print(f"Honeycomb with distance = 5:")
-matrix = special_codes.stabs_honeycomb(5)
-file_name = file_name_head + f"_honeycomb_5.txt"
-with open(file_name, 'w') as f:
-    with redirect_stdout(f):
+        print(f"----------")
+        print(f"[[11,1,5]] code:")
+        matrix = special_codes.stabs_1115()
         cond_checker_verify(matrix, 5, 5, max_proc_num)
 
-print(f"-----------------------")
+        print(f"----------")
+        print(f"reed-muller code with m = 8:")
+        matrix = special_codes.stabs_Reed_Muller(8)
+
+        cond_checker_verify(matrix, 3, 3, max_proc_num)
+
+        print(f"----------")
+        print(f"XZZX code with dx = 9, dz = 11:")
+        matrix = special_codes.stabs_XZZX(9, 11)
+
+        cond_checker_verify(matrix, 9, 11, max_proc_num)
+
+        print(f"----------")
+        print(f"[[2^r, 2^r-r-2, 3]] Gottesman code with r = 8:")
+        matrix = special_codes.stabs_gottesman(8)
+
+        cond_checker_verify(matrix, 3, 3, max_proc_num)
+
+        print(f"----------")
+        print(f"Honeycomb with distance = 5:")
+        matrix = special_codes.stabs_honeycomb(5)
+        
+        cond_checker_verify(matrix, 5, 5, max_proc_num)
+        print("Finish all the evaluation.")
 
 
-print(f"Verifying detection property on code benchmarks:")
+file_name_dete = f'{output_dir}/detection_benchmarks.txt'
+with open(file_name_dete, 'w') as f:
+    with redirect_stdout(f):
+        print(f"Verifying detection property on code benchmarks:")
+        print(f"Using {max_proc_num} CPU cores for parallel processing.")
+        print(f"-----------")
+        print(f"[[8,3,2]] 3D color code:")
+        matrix = special_codes.stabs_832code()
+        cond_checker_detect(matrix, 4, 2, max_proc_num)
 
-print(f"-----------")
-print(f"[[8,3,2]] 3D color code:")
-matrix = special_codes.stabs_832code()
-cond_checker_detect(matrix, 4, 2, max_proc_num)
+        print(f"-----------")
+        print(f"carbon code:")
+        matrix = special_codes.stabs_carbon()
+        cond_checker_detect(matrix, 4, 4, max_proc_num)
 
-print(f"-----------")
-print(f"carbon code:")
-matrix = special_codes.stabs_carbon()
-cond_checker_detect(matrix, 4, 4, max_proc_num)
+        print(f"-----------")
+        print(f"[[3k+8,k,2]] Triorthogonal code:")
+        matrix = special_codes.stabs_triotho(64)
+        cond_checker_detect(matrix, 6, 2, max_proc_num)
 
-print(f"-----------")
-print(f"[[3k+8,k,2]] Triorthogonal code:")
-matrix = special_codes.stabs_triotho(64)
-cond_checker_detect(matrix, 6, 2, max_proc_num)
+        print(f"-----------")
+        print(f"[[6k+2, 3k, 2]] campbell-howard code:")
+        matrix = special_codes.stabs_camp_howard(2)
+        cond_checker_detect(matrix, 4, 2, max_proc_num)
 
-print(f"-----------")
-print(f"[[6k+2, 3k, 2]] campbell-howard code:")
-matrix = special_codes.stabs_camp_howard(2)
-cond_checker_detect(matrix, 4, 2, max_proc_num)
-
-print(f"-----------")
-print(f"Hypergraph product code constructed by classical [7,3,4] code:")
-classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
+        print(f"-----------")
+        print(f"Hypergraph product code constructed by classical [7,3,4] code:")
+        classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
                         [0, 1, 1 ,0, 1, 0, 0],
                         [0, 0, 1, 1, 0, 1, 0],
                         [0, 0, 0, 1, 1, 0, 1],
                         [1, 0, 0, 0, 1, 1, 0],
                         [0, 1, 0, 0, 0, 1, 1],
                         [1, 0, 1, 0, 0, 0, 1]], dtype = int)
-matrix = qldpc_codes.stabs_hyp_prod(classical734, classical734)
-cond_checker_detect(matrix, 4, 4, max_proc_num)
+        
+        matrix = qldpc_codes.stabs_hyp_prod(classical734, classical734)
+        cond_checker_detect(matrix, 4, 4, max_proc_num)
 
-print(f"-----------")
-print(f"Quantum Tanner code constructed by classical [5, 1, 5] repetition code:")
-Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
-                   [1, 0, 1, 1, 0, 1, 0],
-                   [0, 1, 1, 1, 0, 0, 1]])
-Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
-                   [0, 1, 0, 0, 1, 0, 1],
-                   [0, 0, 1, 0, 0, 1, 1],
-                   [0 ,0, 0, 1, 1, 1, 1]])
-Rep51 = np.array([[1, 1, 0, 0, 0],
-                  [1, 0, 1, 0, 0],
-                  [1, 0, 0, 1, 0],
-                  [1, 0, 0, 0, 1]])
-Par54 = np.array([[1, 1, 1, 1, 1]])
-matrix = qldpc_codes.stabs_Tanner(1, 1, Par54, Rep51)
+        print("Finish all the evaluation.")
+file_name_head = f'{output_dir}/detection_benchmar_tanner'
+
 file_name = file_name_head + f"_Tanner_Rep51.txt"
 with open(file_name, 'w') as f:
     with redirect_stdout(f):
+        
+        print(f"Quantum Tanner code constructed by classical [5, 1, 5] repetition code:")
+        Ham743 = np.array([[1, 1, 0, 1, 1, 0, 0],
+                        [1, 0, 1, 1, 0, 1, 0],
+                        [0, 1, 1, 1, 0, 0, 1]])
+        Ham733 = np.array([[1, 0, 0, 0, 1, 1, 0], 
+                        [0, 1, 0, 0, 1, 0, 1],
+                        [0, 0, 1, 0, 0, 1, 1],
+                        [0 ,0, 0, 1, 1, 1, 1]])
+        Rep51 = np.array([[1, 1, 0, 0, 0],
+                        [1, 0, 1, 0, 0],
+                        [1, 0, 0, 1, 0],
+                        [1, 0, 0, 0, 1]])
+        Par54 = np.array([[1, 1, 1, 1, 1]])
+        matrix = qldpc_codes.stabs_Tanner(1, 1, Par54, Rep51)
         cond_checker_Tanner(matrix, 4, 4, max_proc_num)
 
-print(f"-----------")
-print(f"Quantum Tanner code constructed by classical [7, 3, 3] Hamming code:")
 
 matrix = qldpc_codes.stabs_Tanner(1, 1, Ham743, Ham733)
 file_name = file_name_head + f"_Tanner_Ham733.txt"
 with open(file_name, 'w') as f:
     with redirect_stdout(f):
+    
+        print(f"Quantum Tanner code constructed by classical [7, 3, 3] Hamming code:")
+
         cond_checker_Tanner(matrix, 4, 4, max_proc_num)
 
-print(f"------------")
-print("All tasks finished.")
+

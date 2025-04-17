@@ -17,38 +17,36 @@ parser.add_argument('--cpucount', type=int, default = 8, help='Number of CPU cor
 args = parser.parse_args()
 max_proc_num = args.cpucount
 
-distance_candidate = [3, 5, 7, 9, 11]
+distance_candidate = [3, 5, 7]
 
 output_dir = './eval-Output'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-file_name_head = f'{output_dir}/correction_surface'
+file_name_head = f'{output_dir}/correction_surface.txt'
 with open(file_name_head, 'w') as f:
     with redirect_stdout(f):
         print("Verifying correction property on surface code")
         
-        print(f"Baseline method:serial")
-# print(f"Verifying correction property sequentially")
-        for i in range(1, 4):
+        print(f"Baseline method:sequential")
+
+        for i in range(1, 3):
     
             d = 2 * i + 1
             print(f"Distance {d}:")
-            time, result = serial_cond_checker(d)
-            print(f"Verification time: {time:.5f} seconds")
+            t1, t2, result = serial_cond_checker(d)
+            
+            print(f"total time for Verification: {t2:.5f} sec")
+            print(f"cond_checker_serial took {t1 + t2:.5f} sec")
 
-print("--------------------------")
+        print("--------------------------")
+        print("Our method: parallel")
+        print(f"Using {max_proc_num} CPU cores for parallel processing.")
 
-print(f"Using {max_proc_num} CPU cores for parallel processing.")
-print(f"Detailed outputs will be redirected to files in the eval-Output directory.")
-
-print(f"Verifying correction property on surface code")
-for d in distance_candidate:
-    print(f"Distance {d}:")
-    file_name = file_name_head + f"_{d}.txt"
-    with open(file_name, 'w') as f:
-        with redirect_stdout(f):
-                
-            sur_cond_checker_verify(d, max_proc_num)
-    print("---------------------")
+        for d in distance_candidate:
+            print(f"Distance {d}:")
+            file_name = file_name_head + f"_{d}.txt"
     
-print("Finish all the evaluations.")
+            sur_cond_checker_verify(d, max_proc_num)
+            print("---------------------")
+    
+        print("Finish all the evaluations.")

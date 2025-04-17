@@ -11,9 +11,6 @@ As for the artifact evaluation, we claim for available and reusable badges. If t
 
 As described in the paper, the artifacts include two modules. The first module is a verified verifier for QEC programs, developed in Coq and built upon the CoqQ library. The second one is a Python-based tool designed to automate the verification for quantum error correction programs. Here is the documentation for the Python-based tool, Veri-QEC.
 
-
-
-
 ## Veri-qec: A prototype tool for automatic verification of quantum error correcting programs
 
 
@@ -348,3 +345,5 @@ II. When revising the experimental results for the QEC code benchmarks, we ident
 
     - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$\approx 2$** hours to verify. The details are illustrated in `Veri-qec/Output/detection/detection_Tanner_Ham7_4_4.txt`.
 
+
+### Appendix: Instructions on adding new codes

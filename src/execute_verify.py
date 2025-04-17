@@ -209,7 +209,7 @@ def analysis_task(task_id: int, task: list):
 
 
 ### Checking the condition in parallel ###
-@timebudget 
+
 def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
     global packed_x
@@ -240,8 +240,8 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
 
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
-    print(f"verification condition generation time: {end_gen - start_time}")
-    
+    print(f"verification condition generation time: {end_gen - start_time:.5f} sec")
+    print(f"-----------------")
     task_info = []
     err_info = []
     ## Start checking ##
@@ -269,8 +269,11 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     if is_sat == 0: 
         print("No counterexample found, all errors can be corrected.\n")
     
-    print("All tasks finished, total time for verification:", time.time() - end_gen)
+    end_verify = time.time()
+    print(f"All tasks finished, total time for verification: {end_verify - end_gen:.5f} sec")
 
+    print(f"cond_checker_verify took {end_verify - start_time:.5f} sec")
+   
 
 ### Checker for surface code ### 
 def sur_cond_checker_verify(distance, max_proc_num):
@@ -387,6 +390,16 @@ if __name__ == "__main__":
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
 
 
-     #### User-defined code and properties
+    elif user_input == 'Others': #### User-defined code and properties
+        file_path = input("Please enter the file path of the code:")
+        dx = input("Enter dx:")
+        dz = input("Enter dz:")
+        dx,dz = int(dx), int(dz)
+        try: 
+            matrix = np.loadtxt(file_path, delimiter = ',', dtype = int)
+            cond_checker_verify(matrix, dx, dz, max_proc_num)
+        except Exception as e:
+            print("Error loading the file:", e)
+            sys.exit(1)
 
     

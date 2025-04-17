@@ -1,0 +1,49 @@
+Verifying correction property on surface code
+Baseline method:sequential
+Distance 3:
+verification condition generation time: 0.08799 sec
+No counterexample found, all errors can be corrected.
+time for Verification: 0.03167 sec
+cond_checker_serial took 0.11966 sec
+Distance 5:
+verification condition generation time: 0.49171 sec
+No counterexample found, all errors can be corrected.
+time for Verification: 1.14362 sec
+cond_checker_serial took 1.63533 sec
+--------------------------
+Our method: parallel
+Using 50 CPU cores for parallel processing.
+Distance 3:
+Task generated. Start checking.
+total_job: 24
+tasks for X error: 12 | tasks for Z error: 12
+verification condition generation time: 0.04787 sec
+-----------------
+No counterexample found, all errors can be corrected.
+
+All tasks finished, total time for verification: 0.46959 sec
+cond_checker_verify took 0.51746 sec
+---------------------
+Distance 5:
+Task generated. Start checking.
+total_job: 280
+tasks for X error: 140 | tasks for Z error: 140
+verification condition generation time: 0.15112 sec
+-----------------
+No counterexample found, all errors can be corrected.
+
+All tasks finished, total time for verification: 0.67055 sec
+cond_checker_verify took 0.82167 sec
+---------------------
+Distance 7:
+Task generated. Start checking.
+total_job: 4018
+tasks for X error: 2009 | tasks for Z error: 2009
+verification condition generation time: 0.90426 sec
+-----------------
+No counterexample found, all errors can be corrected.
+
+All tasks finished, total time for verification: 13.91747 sec
+cond_checker_verify took 14.82173 sec
+---------------------
+Finish all the evaluations.
