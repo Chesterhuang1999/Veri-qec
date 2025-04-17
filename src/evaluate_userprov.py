@@ -34,8 +34,7 @@ for d in distance_candidate:
     print(f"Verifying Surface code with Distance {d}")
     file_name = file_name_head + f"_discrete_{d}.txt"
     with open(file_name, 'w') as f:
-        with redirect_stdout(f):
-                
+        with redirect_stdout(f): 
             sur_cond_checker_usrprov(d, max_proc_num, cstype)
 print("-----------------")   
 ### Verification with only locality
@@ -47,7 +46,6 @@ for d in distance_candidate:
     file_name = file_name_head + f"_local_{d}.txt"
     with open(file_name, 'w') as f:
         with redirect_stdout(f):
-                
             sur_cond_checker_usrprov(d, max_proc_num, cstype)
 print("-----------------")   
 ### Verification with both discreteness and locality

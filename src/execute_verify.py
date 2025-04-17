@@ -181,7 +181,7 @@ def process_callback(result, pool):
 
     curr_time = time.time()
     processed_job += 1
-    if curr_time - last_print > 60:
+    if curr_time - last_print > 300:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
         print(info)
@@ -240,7 +240,7 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
 
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
-    print(f"task generation time: {end_gen - start_time}")
+    print(f"verification condition generation time: {end_gen - start_time}")
     
     task_info = []
     err_info = []
@@ -269,7 +269,7 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     if is_sat == 0: 
         print("No counterexample found, all errors can be corrected.\n")
     
-    print("Finish all jobs. Checking time:", time.time() - end_gen)
+    print("All tasks finished, total time for verification:", time.time() - end_gen)
 
 
 ### Checker for surface code ### 
@@ -387,5 +387,6 @@ if __name__ == "__main__":
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
 
 
-        
+     #### User-defined code and properties
+
     

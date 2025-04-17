@@ -186,30 +186,29 @@ def process_callback(result, pool):
     task_info[task_id].append(time_cost)
     task_info[task_id].append(res_smt)
 
-    # curr_time = time.time()
-    # processed_job += 1
-    # if curr_time - last_print > 300.0:
-    #     info = "{}/{}: finish job file[{}], cost_time: {}" \
-    #             .format(processed_job, total_job, task_id, time_cost)
-    #     print(info)
-    #     print(task_info[task_id])
-    #     print(get_current_infos())
-    #     sys.stdout.flush()
-    #     last_print = curr_time
+    curr_time = time.time()
+    processed_job += 1
+    if curr_time - last_print > 300.0:
+        info = "{}/{}: finish job file[{}], cost_time: {}" \
+                .format(processed_job, total_job, task_id, time_cost)
+        print(info)
+        print(task_info[task_id])
+        print(get_current_infos())
+        sys.stdout.flush()
+        last_print = curr_time
     ## Find counterexample, terminate the process ##
     if res_smt == 'sat':
         is_sat = 1
-      
+        opt = 'Z' if len(task_info) != total_job else 'X'
+
         ti = task_info[task_id]
         
-        print("Counterexample found, there exists errors cannot be corrected.\n")
+        print(f"Counterexample found, there exists {opt} errors cannot be corrected.\n")
         print('Counterexample Info:\n')
         print(f'rank: {task_id} | id: {ti[0]} | time: {ti[-2]} | result: {ti[-1]}\n')
         print(ti[1])
         print(f'{" | ".join(ti[2])}\n')
         print("About to terminate")
-        print(pool._state)
-        
         pool.terminate()
         
     
@@ -231,7 +230,7 @@ def analysis_task(task_id: int, task: list):
     return [task_id, task, info]
 
 ### Checking the condition in parallel ###
-# @timebudget 
+@timebudget 
 def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
     global task_info
     global packed_x
@@ -244,7 +243,7 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
     global is_sat
     is_sat = 0
     max_process_num = max_proc_num
-    start_time = time.time()
+    start_gen = time.time()
     # last_print = start_time
     numq = matrix.shape[1] // 2
     ### Manually set the termination condition, determined by the problem size
@@ -272,7 +271,8 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
     ## Generate the verification condition ##
     packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
     end_gen = time.time()
-    print(f"Condition generation time: {end_gen - start_time}")
+    print(f"verification condition generation time for dt = {dx}: {end_gen - start_gen:.5f} sec")
+    print(f"-----------------")
     start_time = time.time()
     last_print = start_time
     task_info = []
@@ -292,9 +292,11 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
 
     if is_sat == 0: 
         print("No counterexample for Z error is found, all errors can be detected.\n")
+        # print(f"-----------------")
     else:
+        
+        print(f"Time to detect a Z-type error: {endt_z - end_gen:.5f} sec")
         print("------------------")
-        print(f"Find counterexample when dt = d + 1. Check Z time: {endt_z - end_gen}")
     is_sat = 0
     
 
@@ -311,15 +313,21 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
 
     endt_x = time.time()
    
-    print(f"Check X time: {endt_x - endt_z}")
+    
     if is_sat == 0: 
         print("No counterexample for X error is found, all errors can be detected.\n")
-        print(f"All tasks finished, total time: {endt_x - start_time}")
-
+        # print(f"-----------------")
+    else:
+        print(f"Time to detect an X-type error: {endt_x - endt_z:.5f} sec")
+        # print(f"-----------------")
+        
+        
+    print(f"All tasks finished, total time for verification: {endt_x - start_time:.5f} sec")
+    
     for i, ei in enumerate(err_info):   
         ei.re_raise()
     
-
+    print(f"cond_checker_detect took {endt_x - start_gen:.5f} sec")
     
 ### Checker for surface code ###
 def sur_cond_checker_detect(distance, max_proc_num):
@@ -334,7 +342,7 @@ def sur_cond_checker_detect(distance, max_proc_num):
     print("-------------")
     print("Detecting counterexamples when dt = d + 1")
     cond_checker_detect(matrix, distance + 1, distance + 1, max_proc_num, is_sym = True)
-
+    print(f"----------------------")
 
 if __name__ == "__main__":
     tblib.pickling_support.install()
