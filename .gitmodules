@@ -1,0 +1,3 @@
+[submodule "dirac-project-veriqec"]
+	path = dirac-project-veriqec
+	url = https://gitee.com/zhou31416/dirac-project.git
