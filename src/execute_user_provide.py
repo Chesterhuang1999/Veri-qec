@@ -77,6 +77,8 @@ class subtask_generator:
         self.max_proc_num = max_proc_num
         self.method = method
         self.value = 2 if method == 'discrete' else (4 / 3)
+        if distance == 19:
+            self.value = 1.5
 
         self.num_qubits = numq
         self.tasks = []
@@ -111,7 +113,7 @@ class subtask_generator:
         assigned_bit_num = self.nonzero_len - remained_qubit_num
         
         ### For verification task with local constraint ###
-        if  4 * assigned_one_num * self.distance // 3 + assigned_bit_num < self.nonzero_len:
+        if  int(4 * assigned_one_num * self.distance // 3)  + assigned_bit_num < self.nonzero_len:
             return False
         
         return True
@@ -312,7 +314,6 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     
     total_job = len(tasks_x) + len(tasks_z)
     print(f"total_job: {total_job}")
-    
     ## Generate the verification condition ##
     is_discrete = False if cstype == 'local' else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
@@ -372,6 +373,7 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     d = args.distance
+   
     max_proc_num = args.cpucount
     matrix = surface_matrix_gen(d)
     cstype = args.constraint
