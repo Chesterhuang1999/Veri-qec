@@ -78,8 +78,6 @@ class subtask_generator:
         self.method = method
         self.value = 2 if method == 'discrete' else (4 / 3)
 
-        self.value = 2 if method == 'discrete' else (4 / 3)
-
         self.num_qubits = numq
         self.tasks = []
         self.nonzero_len = (self.distance**2 - 1) // 2
@@ -94,7 +92,7 @@ class subtask_generator:
     def easy_enough_I(self, remained_qubit_num, remained_one_num):
         if remained_qubit_num == 1:
             return True
-       
+        
         assigned_one_num = (self.distance - 1) - remained_one_num
         assigned_bit_num = self.num_qubits - remained_qubit_num
         
@@ -110,36 +108,32 @@ class subtask_generator:
             return True
        
         assigned_one_num = (self.distance - 1) - remained_one_num
-        assigned_bit_num = self.num_qubits - remained_qubit_num
+        assigned_bit_num = self.nonzero_len - remained_qubit_num
         
-        ### For verification task ###
-        if  int(4 * assigned_one_num * self.distance // 3) + assigned_bit_num < self.num_qubits:
+        ### For verification task with local constraint ###
+        if  4 * assigned_one_num * self.distance // 3 + assigned_bit_num < self.nonzero_len:
             return False
         
-        
+        return True
     ### Constraint II: The errors come from a restricted set (maybe the whole set)
     def generate_tasks_II(self, remained_qubit_num, remained_one_num, curr_enum_qubits: list):
-        
+
         if self.easy_enough_II(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
             return
-
-        curr_enum_qubits.append(0)
         
+        curr_enum_qubits.append(0)
         self.generate_tasks_II(remained_qubit_num - 1, remained_one_num, curr_enum_qubits)
         curr_enum_qubits.pop()
         
-        if remained_one_num > 0 :
+        if remained_one_num > 0:
             curr_enum_qubits.append(1)
-            
             self.generate_tasks_II(remained_qubit_num - 1, remained_one_num - 1, curr_enum_qubits)
             curr_enum_qubits.pop()
 
     ### Constraint I: The number of 1s in each length d segment is at most 1
     def generate_tasks_I(self, remained_qubit_num, remained_one_num, curr_seg_count, curr_enum_qubits: list):
         
-        # easy_judgment = self.easy_enough_I(remained_qubit_num, remained_one_num) if cstype == 'discrete' else self.easy_enough_II(remained_qubit_num, remained_one_num)
-        # easy_judgment = self.easy_enough_I(remained_qubit_num, remained_one_num) if cstype == 'discrete' else self.easy_enough_II(remained_qubit_num, remained_one_num)
         if self.easy_enough_I(remained_qubit_num, remained_one_num):
             self.tasks.append(list(curr_enum_qubits))
             return
@@ -164,6 +158,7 @@ class subtask_generator:
             err_len = (self.distance**2 - 1) // 2
             begin = np.random.randint(0, int(self.num_qubits // 4))
             support_len = int(3 * self.num_qubits // 4)
+            
             support_range = np.arange(begin, begin + support_len)
             err_set = np.sort(np.random.choice(support_range, err_len, replace = False))
             free_set = [i for i in range(self.num_qubits) if i not in err_set]
@@ -174,6 +169,7 @@ class subtask_generator:
         ## Local: error can only happen in a specific(randomly choice) region ##
         elif self.method == 'local':
             err_len = (self.distance**2 - 1) // 2
+            
             begin = np.random.randint(0, int(self.num_qubits // 4))
             support_len = int(3 * self.num_qubits // 4)
             support_range = np.arange(begin, begin + support_len)
@@ -255,6 +251,7 @@ def process_callback(result):
 
     curr_time = time.time()
     processed_job += 1
+    
     if curr_time - last_print > 300.0:
         info = "{}/{}: finish job file[{}], cost_time: {}" \
                 .format(processed_job, total_job, task_id, time_cost)
@@ -282,7 +279,7 @@ def analysis_task(task_id: int, task: list):
     return [task_id, task, info]
 
 ### Checking the condition in parallel ###
-@timebudget 
+
 def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     global task_info
     global packed_x
@@ -296,7 +293,6 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     global info_z
     global is_sat
     is_sat = 0
-    
     max_process_num = max_proc_num
     start_time = time.time()
     last_print = start_time
@@ -321,8 +317,8 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
     is_discrete = False if cstype == 'local' else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_discrete, is_sym)
     end_gen = time.time()
-    print(f"verification condition generation time: {end_gen - start_time:.5f} sec")
-    
+    print(f"verification condition generation time: {end_gen - start_time:.3f} sec")
+    print(f"--------------------")
     task_info = []
     err_info = []
     ## Start checking ## 
@@ -348,9 +344,9 @@ def cond_checker_usrprov(matrix, dx, dz, max_proc_num, cstype, is_sym = False):
         print("No counterexample found, all errors can be corrected.")
 
     endt_verify = time.time()
-    print(f"All tasks finished, total time for verification:{endt_verify - end_gen:.5f} sec")
+    print(f"All tasks finished, total time for verification:{endt_verify - end_gen:.3f} sec")
 
-    print(f"cond_checker_usrprov took {endt_verify - start_time:.5f} sec")
+    print(f"cond_checker_usrprov took {endt_verify - start_time:.3f} sec")
 
 
 
@@ -368,23 +364,26 @@ if __name__ == "__main__":
                    [0, 1, 0, 0, 1, 0, 1],
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
-  
-    parser = argparse.ArgumentParser(description='Process the distance and constraints.')
-    parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPUs')
-    parser.add_argument('--distance', type = int, default = 9, help = 'The distance of the code')
-    parser.add_argument('--constraint', type = str, default = 'discrete', help = 'The constraint type')
     
-    args = parser.parse_args()
-    d = args.distance
-    max_proc_num = args.cpucount
+    # parser = argparse.ArgumentParser(description='Process the distance and constraints.')
+    # parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPUs')
+    # parser.add_argument('--distance', type = int, default = 9, help = 'The distance of the code')
+    # parser.add_argument('--constraint', type = str, default = 'discrete', help = 'The constraint type')
+    
+    # args = parser.parse_args()
+    # d = args.distance
+    # max_proc_num = args.cpucount
+    d = 13
+    max_proc_num = 200
     matrix = surface_matrix_gen(d)
-    cstype = args.constraint
-    output_dir = './eval-Output'
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
-        with redirect_stdout(f):
-            cond_checker_usrprov(matrix, d, d, max_proc_num, cstype)
+    cond_checker_usrprov(matrix, d, d, max_proc_num, 'local', is_sym = True)
+    # cstype = args.constraint
+    # output_dir = './eval-Output'
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir)
+    # with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
+    #     with redirect_stdout(f):
+    #         cond_checker_usrprov(matrix, d, d, max_proc_num, cstype)
 
     
     

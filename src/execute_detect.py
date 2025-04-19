@@ -271,7 +271,7 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
     ## Generate the verification condition ##
     packed_x, packed_z = cond_generator(matrix, dx, dz, False, is_sym)
     end_gen = time.time()
-    print(f"verification condition generation time for dt = {dx}: {end_gen - start_gen:.5f} sec")
+    print(f"verification condition generation time for dt = {dx}: {end_gen - start_gen:.3f} sec")
     print(f"-----------------")
     start_time = time.time()
     last_print = start_time
@@ -295,7 +295,7 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
         # print(f"-----------------")
     else:
         
-        print(f"Time to detect a Z-type error: {endt_z - end_gen:.5f} sec")
+        print(f"Time to detect a Z-type error: {endt_z - end_gen:.3f} sec")
         print("------------------")
     is_sat = 0
     
@@ -318,16 +318,16 @@ def cond_checker_detect(matrix, dx, dz, max_proc_num, is_sym = False):
         print("No counterexample for X error is found, all errors can be detected.\n")
         # print(f"-----------------")
     else:
-        print(f"Time to detect an X-type error: {endt_x - endt_z:.5f} sec")
+        print(f"Time to detect an X-type error: {endt_x - endt_z:.3f} sec")
         # print(f"-----------------")
         
         
-    print(f"All tasks finished, total time for verification: {endt_x - start_time:.5f} sec")
+    print(f"All tasks finished, total time for verification: {endt_x - start_time:.3f} sec")
     
     for i, ei in enumerate(err_info):   
         ei.re_raise()
     
-    print(f"cond_checker_detect took {endt_x - start_gen:.5f} sec")
+    print(f"cond_checker_detect took {endt_x - start_gen:.3f} sec")
     
 ### Checker for surface code ###
 def sur_cond_checker_detect(distance, max_proc_num):

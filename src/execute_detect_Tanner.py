@@ -265,7 +265,7 @@ def cond_checker_Tanner(matrix, dx, dz, max_proc_num, is_sym = False):
     is_Ham7 = False if numq != 343 else True
     packed_x, packed_z = cond_generator(matrix, dx, dz, is_Ham7, is_sym)
     end_gen = time.time()
-    print(f"verification condition generation time: {end_gen - start_gen:.5f} sec")
+    print(f"verification condition generation time: {end_gen - start_gen:.3f} sec")
 
     ## Generate tasks w.r.t supposed distances ##
     unknown_info = []
@@ -306,8 +306,8 @@ def cond_checker_Tanner(matrix, dx, dz, max_proc_num, is_sym = False):
     if is_sat == 0: 
         print("No counterexample found, all errors can be detected.\n")
    
-    print(f"total time for verification: {endt_x - start_time:.5f} sec")
-    print(f"cond_checker_Tanner took {endt_x - start_gen:.5f} sec")
+    print(f"total time for verification: {endt_x - start_time:.3f} sec")
+    print(f"cond_checker_Tanner took {endt_x - start_gen:.3f} sec")
 
     for i, ei in enumerate(err_info):   
         ei.re_raise()

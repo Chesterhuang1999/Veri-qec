@@ -35,8 +35,8 @@ with open(file_name_head, 'w') as f:
             print(f"Distance {d}:")
             t1, t2, result = serial_cond_checker(d)
             
-            print(f"total time for Verification: {t2:.5f} sec")
-            print(f"cond_checker_serial took {t1 + t2:.5f} sec")
+            print(f"total time for Verification: {t2:.3f} sec")
+            print(f"cond_checker_serial took {t1 + t2:.3f} sec")
 
         print("--------------------------")
         print("Our method: parallel")

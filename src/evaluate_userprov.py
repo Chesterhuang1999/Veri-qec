@@ -15,50 +15,44 @@ parser = argparse.ArgumentParser(description='Process the metadata.')
 parser.add_argument('--cpucount', type=int, default = 8, help='Number of CPU cores to use')
 args = parser.parse_args()
 max_proc_num = args.cpucount
-print(f"Verifying with user-provided constraints")
-print(f"Using {max_proc_num} CPU cores for parallel processing.")
-print(f"Detailed outputs will be redirected to files in the eval-Output directory.")
 
-distance_candidate = [3, 5, 7, 9, 11, 13, 15, 17, 19]
+# distance_candidate = [3, 5, 7, 9, 11, 13, 15, 17, 19]
 
 output_dir = './eval-Output'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-file_name_head = f'{output_dir}/usrprov'
-
+file_name_head = f'{output_dir}/usrprov_surface.txt'
+with open(file_name_head, 'w') as f:
+    with redirect_stdout(f):
+        print(f"Verifying with user-provided constraints")
+        print(f"Using {max_proc_num} CPU cores for parallel processing.")
+        
 ### Verification with only discreteness
-distance_candidate = [5,7,9,11]
-print("Verifying Correction Property on Surface code with Discreteness constraint")
-cstype = "discrete"
-for d in distance_candidate:
-    print(f"Verifying Surface code with Distance {d}")
-    file_name = file_name_head + f"_discrete_{d}.txt"
-    with open(file_name, 'w') as f:
-        with redirect_stdout(f): 
+        distance_candidate = [5,7,9,11]
+        print("Verifying Correction Property on Surface code with Discreteness constraint")
+        cstype = "discrete"
+        for d in distance_candidate:
+            print(f"Distance {d}:")
             sur_cond_checker_usrprov(d, max_proc_num, cstype)
-print("-----------------")   
+            print("-----------------")   
 ### Verification with only locality
-distance_candidate = [5,7,9,11,13]
-cstype = "local"
-print("Verifying Correction Property on Surface code with Locality constraint")
-for d in distance_candidate:
-    print(f"Verifying Surface code with Distance {d}")
-    file_name = file_name_head + f"_local_{d}.txt"
-    with open(file_name, 'w') as f:
-        with redirect_stdout(f):
+        distance_candidate = [5, 7, 9,11,13]
+        cstype = "local"
+        print("Verifying Correction Property on Surface code with Locality constraint")
+        for d in distance_candidate:
+            print(f"Distance {d}:")
             sur_cond_checker_usrprov(d, max_proc_num, cstype)
-print("-----------------")   
+            print("-----------------")   
 ### Verification with both discreteness and locality
-distance_candidate = [5, 7, 9, 11, 13, 15, 17, 19]
-cstype = "combined"
-print("Verifying Correction Property on Surface with Discreteness and Locality constraints")
-for d in distance_candidate:
-    print(f"Verifying Surface code with Distance {d}")
-    file_name = file_name_head + f"_combined_{d}.txt"
-    with open(file_name, 'w') as f:
-        with redirect_stdout(f):
+        distance_candidate = [5, 7, 9, 11, 13, 15, 17, 19]
+        cstype = "combined"
+        print("Verifying Correction Property on Surface with Discreteness and Locality constraints")
+        for d in distance_candidate:
+            print(f"Distance {d}:")
+    
                 
             sur_cond_checker_usrprov(d, max_proc_num, cstype)
+            print("-----------------")
 
 
-print("Finish all the evaluations.")
+        print("Finish all the evaluations.")

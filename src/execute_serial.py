@@ -111,7 +111,7 @@ def serial_cond_checker(distance):
     ## Include quantifiers to the expression
     formula_to_check = ForAll(var_list, Not(expr))
     t2 = time.time()
-    print(f"verification condition generation time: {t2 - t1:.5f} sec")
+    print(f"verification condition generation time: {t2 - t1:.3f} sec")
     result = smtchecking(formula_to_check)  
     if result == sat:
         print("The assertion is not correct!")

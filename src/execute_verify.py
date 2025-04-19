@@ -240,7 +240,7 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
     print(f"total_job: {total_job}")
 
     print(f"tasks for X error: {len(tasks_z)} | tasks for Z error: {len(tasks_x)}") 
-    print(f"verification condition generation time: {end_gen - start_time:.5f} sec")
+    print(f"verification condition generation time: {end_gen - start_time:.3f} sec")
     print(f"-----------------")
     task_info = []
     err_info = []
@@ -270,9 +270,9 @@ def cond_checker_verify(matrix, dx, dz, max_proc_num, is_sym = False):
         print("No counterexample found, all errors can be corrected.\n")
     
     end_verify = time.time()
-    print(f"All tasks finished, total time for verification: {end_verify - end_gen:.5f} sec")
+    print(f"All tasks finished, total time for verification: {end_verify - end_gen:.3f} sec")
 
-    print(f"cond_checker_verify took {end_verify - start_time:.5f} sec")
+    print(f"cond_checker_verify took {end_verify - start_time:.3f} sec")
    
 
 ### Checker for surface code ### 
