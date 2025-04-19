@@ -365,25 +365,22 @@ if __name__ == "__main__":
                    [0, 0, 1, 0, 0, 1, 1],
                    [0 ,0, 0, 1, 1, 1, 1]])
     
-    # parser = argparse.ArgumentParser(description='Process the distance and constraints.')
-    # parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPUs')
-    # parser.add_argument('--distance', type = int, default = 9, help = 'The distance of the code')
-    # parser.add_argument('--constraint', type = str, default = 'discrete', help = 'The constraint type')
+    parser = argparse.ArgumentParser(description='Process the distance and constraints.')
+    parser.add_argument('--cpucount', type = int, default = 16, help = 'The number of CPUs')
+    parser.add_argument('--distance', type = int, default = 9, help = 'The distance of the code')
+    parser.add_argument('--constraint', type = str, default = 'discrete', help = 'The constraint type')
     
-    # args = parser.parse_args()
-    # d = args.distance
-    # max_proc_num = args.cpucount
-    d = 13
-    max_proc_num = 200
+    args = parser.parse_args()
+    d = args.distance
+    max_proc_num = args.cpucount
     matrix = surface_matrix_gen(d)
-    cond_checker_usrprov(matrix, d, d, max_proc_num, 'local', is_sym = True)
-    # cstype = args.constraint
-    # output_dir = './eval-Output'
-    # if not os.path.exists(output_dir):
-    #     os.makedirs(output_dir)
-    # with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
-    #     with redirect_stdout(f):
-    #         cond_checker_usrprov(matrix, d, d, max_proc_num, cstype)
+    cstype = args.constraint
+    output_dir = './eval-Output'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    with open(f'{output_dir}/usrprov_{d}_{cstype}.txt', 'w') as f:
+        with redirect_stdout(f):
+            cond_checker_usrprov(matrix, d, d, max_proc_num, cstype)
 
     
     
