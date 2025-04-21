@@ -48,40 +48,35 @@ plt.plot(code_distance_user[:len(verify_time_local)], verify_time_local,
 
 plt.plot(code_distance_user[:len(verify_time_dis)], verify_time_dis,
          color='#800080', marker='^', linestyle='-', linewidth=3,
-         markersize=6, label='+discrete')
+         markersize=8, label='+discrete')
 
 plt.plot(code_distance_user[:len(verify_time_no)], verify_time_no,
          color='#4363d8', marker='x', linestyle='-', linewidth=3,
-         markersize=6, label='No constraint')
+         markersize=8, label='No constraint')
 
 # 配置坐标轴
-plt.xlabel('Code Distance', fontsize=16)
-plt.ylabel('Verify Time', fontsize=16)
-plt.title('Time to Verify User-provided Errors', fontweight = 'bold', fontsize=18)
-
+plt.xlabel('Code Distance', fontsize=22)
+plt.ylabel('Verify Time', fontsize=22)
+plt.title('Time to Verify User-provided Errors', fontsize=25)
+plt.tick_params(axis='both', labelsize=20)
 def annotate_last_points(data_x, data_y, num, offset, color):
     for x, y in zip(data_x[-num:], data_y[-num:]):
         plt.annotate(f"{y:.2f}", (x, y), 
                     textcoords="offset points",
                     xytext=offset, 
                     ha='center',
-                    color = color)
+                    color = color, fontsize = 18)
         
 
-annotate_last_points(code_distance_user, verify_time_combine, 5, (0, 10), '#e6194b')
+annotate_last_points(code_distance_user, verify_time_combine, 5, (0, 15), '#e6194b')
 annotate_last_points(code_distance_user[:len(verify_time_local)], verify_time_local, 2, (0, 12),'#42b44b')
 annotate_last_points(code_distance_user[:len(verify_time_dis)], verify_time_dis, 2, (0, 10),'#800080')
 annotate_last_points(code_distance_user[:len(verify_time_no)], verify_time_no, 2, (0,5), '#4363d8')
 
 # 添加辅助元素
 plt.grid(True, linestyle='--', alpha=0.6)
-plt.legend(fontsize=10)
+plt.legend(fontsize=15)
 plt.yscale('log')  # 自动对数坐标显示大范围数据
-
-# 优化刻度显示
-# plt.xticks(code_distance_user)
-# plt.yticks([1, 10, 100, 1000, 10000], 
-#            ['1', '10^1', '1m', '10m', '100m'])
 
 # 显示图表
 plt.tight_layout()
@@ -89,7 +84,7 @@ plt.tight_layout()
 plt.savefig('verify_time_usr_prov.svg')
 
 # generation_time = [2.98, 5.95, 17.79, 32.47, 70.24]
-# verify_time = [0.44, 1.23, 3.35, 16.99, 189.14, 1717.46, 5947.71]
+# verify_time = [0.44, 1.23, 3.35, 18.99, 189.14, 1717.46, 5947.71]
 # total_time = [0.68, 1.57, 6.34, 22.96, 207.33, 1750.40, 6020.081]
 # smt_time = np.array(verification_time) - np.array(generation_time)
 # log_verification_time = np.log(verification_time)
@@ -126,8 +121,8 @@ plt.savefig('verify_time_usr_prov.svg')
 # # plt.yscale('log')
 
 # # Add labels and title
-# plt.xlabel('Code Distance', fontsize = 16)
-# plt.ylabel('Time (s)', fontsize = 16)
+# plt.xlabel('Code Distance', fontsize = 18)
+# plt.ylabel('Time (s)', fontsize = 18)
 # plt.title('Testing Time vs AST Generation Time', fontsize = 20)
 # plt.grid(which='both', linestyle='--', linewidth=1)
 # plt.xticks(code_distance)  # Set x-ticks to code distances
@@ -158,7 +153,7 @@ plt.savefig('verify_time_usr_prov.svg')
 # ax.plot(code_distance, generation_time, marker='s', label='VC Generation Time', color='#A52A2A')
 # ax.set_xlabel('Code Distance', fontsize = 13)
 # ax.set_ylabel('Time (s)', fontsize = 13)
-# ax.set_title('Code Distance vs Test Time', fontsize = 16)
+# ax.set_title('Code Distance vs Test Time', fontsize = 18)
 # ax.legend()
 # ax.grid(True)
 # ax.set_yscale('log')
@@ -210,36 +205,36 @@ plt.savefig('verify_time_usr_prov.svg')
 # plt.figure(figsize=(10, 6))
 # plt.plot(code_distance[:3], sequential_time, marker='o', linestyle='-', linewidth = 3, color='r', label='Sequential')
 # plt.plot(code_distance, parallel_time, marker='o', linestyle='-', linewidth = 3, color='g', label = 'Parallel')
-# plt.legend()
+# plt.legend(fontsize = 20)
 # # Set the scale to logarithmic for better visualization
 # plt.yscale('log')
 
 # # Add labels and title
-# plt.xlabel('Code Distance', fontsize = 20)
-# plt.ylabel('Verification Time (s)', fontsize = 20)
-# plt.title('Verification Time vs Code Distance', fontsize = 25)
-# plt.grid(which='both', linestyle='--', linewidth=1)
+# plt.xlabel('Code Distance', fontsize = 22)
+# plt.ylabel('Verification Time (s)', fontsize = 22)
+# plt.title('Verification Time vs Code Distance', fontsize = 27)
+# # plt.grid(which='both', linestyle='--', linewidth=1)
 # plt.xticks(code_distance)  # Set x-ticks to code distances
 # plt.yticks([1, 10, 100, 1000, 10000], ['1s', '10s', '100s', '1000s', '10000s'])  # Custom y-ticks for readability
-
+# plt.tick_params(axis='both', labelsize=20)
 # for i, txt in enumerate(sequential_time):
 #     plt.annotate(f'{txt}', 
 #                 (code_distance[i],sequential_time[i]), 
 #                  textcoords="offset points", 
 #                  xytext=(0,10), 
 #                  ha='center', 
-#                  fontsize=15)
+#                  fontsize=18)
 # for i, txt in enumerate(parallel_time):
 #     plt.annotate(f'{txt}', 
 #                 (code_distance[i],parallel_time[i]), 
 #                  textcoords="offset points", 
 #                  xytext=(0,10), 
 #                  ha='center', 
-#                  fontsize=15)
+#                  fontsize=18)
 
 # # Show the plot
 # # plt.show()
-# plt.savefig('Figures/verify_time_surface_code_11.svg')
+# plt.savefig('verify_time_surface_code_11.svg')
 
 
 
@@ -265,29 +260,29 @@ plt.savefig('verify_time_usr_prov.svg')
 # # Create the plot
 # fig, axs = plt.subplots(1, 2, figsize = (20, 7), sharex = True)
 # axs[0].set_yscale('log')
-
+# axs[0].tick_params(axis='both', labelsize=22)
 # axs[0].plot(code_distance, gen_time, marker = '*', linestyle='-', color='#c44e52', label = 'Condition generation time', linewidth = 3)
 # axs[0].plot(code_distance, detect_time, marker= 'o', linestyle='-', color='#8172b2', label = 'Verify time for dt = d+1', linewidth = 3)
 # axs[0].plot(code_distance[:8], verify_time, marker = 'o', linestyle='-', color='#ff6347', label = 'Verify time for dt = d', linewidth = 3)
 # # axs[0].plot(code_distance, time_x, marker='o', linestyle='-', color='#4c72b0', label = 'detect Z error', linewidth = 3)
 # # axs[0].plot(code_distance, time_z, marker='o', linestyle='-', color='#55a868', label = 'detect X error', linewidth = 3)
-# axs[0].set_xlabel('Code Distance', fontsize = 20)
-# axs[0].set_ylabel('Time (s)', fontsize = 20)
-# axs[0].set_title('Verify vs Condition Generation Time', fontsize = 25)  
-# axs[0].legend()
+# axs[0].set_xlabel('Code Distance', fontsize = 22)
+# axs[0].set_ylabel('Time (s)', fontsize = 22)
+# axs[0].set_title('Verify vs Condition Generation Time', fontsize = 27)  
+# axs[0].legend(fontsize = 20)
 # axs[0].grid(True)
-# # axs[1].set_ylabel('Time (s)', fontsize = 16)
+# # axs[1].set_ylabel('Time (s)', fontsize = 18)
 # axs[1].set_yscale('log')
 # axs[1].plot(code_distance, time_x, marker='o', linestyle='-', color='#4c72b0', label = 'detect Z error', linewidth = 3)
 # axs[1].plot(code_distance, time_z, marker='o', linestyle='-', color='#55a868', label = 'detect X error', linewidth = 3)
-# axs[1].set_xlabel('Code Distance', fontsize = 20)
-
-# axs[1].set_title('Time to detect logical X and Z errors', fontsize = 25)  
-# axs[1].legend()
+# axs[1].set_xlabel('Code Distance', fontsize = 22)
+# axs[1].tick_params(axis='both', labelsize=20)
+# axs[1].set_title('Time to detect logical X and Z errors', fontsize = 27)  
+# axs[1].legend(loc = 'upper left', bbox_to_anchor = (0.04, 1), fontsize = 22)
 # axs[1].grid(True)
 
 # # Create inset plot
-# axins = inset_axes(axs[1], width="30%", height="30%", loc='upper left', borderpad=5)
+# axins = inset_axes(axs[1], width="35%", height="35%", loc='upper left', bbox_to_anchor=(0.03, -0.2, 1, 1),bbox_transform=axs[1].transAxes, borderpad=2)
 # axins.plot(code_distance[:4], time_x[:4], marker='o', color='#4c72b0', linewidth = 3)  # First 4 points
 # axins.plot(code_distance[:4], time_z[:4], marker='o', color='#55a868', linewidth = 3)  # First 4 points
 
@@ -299,19 +294,22 @@ plt.savefig('verify_time_usr_prov.svg')
 # # Optionally remove tick labels for clarity
 # axins.set_xticks(code_distance[:4])
 # axins.set_yticks(np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5))
+# axins.tick_params(axis='both', labelsize=12)
 # axins.set_xticklabels(code_distance[:4], rotation=45)  # Optional: Rotate x-axis labels
 # axins.set_yticklabels(["{:.1f}".format(i) for i in np.linspace(min(axins.get_ylim()), max(axins.get_ylim()), num=5)])
 
 # # Connect the main plot and inset
 # # mark_inset(axs[1], axins, loc1=3, loc2=4, fc="none", ec="0.5")
+# # offset_det = []
 # for i, txt in enumerate(detect_time):
 #     if i > 4:
 #         axs[0].annotate(f'{txt}', 
 #                 (code_distance[i],detect_time[i]), 
 #                 textcoords="offset points", 
-#                 xytext=(0,-20), 
+#                 xytext=(0,-30), 
 #                 ha='center', 
-#                 fontsize=14, color = '#8172b2')
+#                 fontsize=18, color = '#8172b2')
+        
 # for i, txt in enumerate(verify_time):
 #     loc = 8 if i <= 4 else 10
 #     axs[0].annotate(f'{txt}',
@@ -319,7 +317,7 @@ plt.savefig('verify_time_usr_prov.svg')
 #             textcoords="offset points", 
 #             xytext=(0,loc), 
 #             ha='center', 
-#             fontsize=14, color = '#ff6347')
+#             fontsize=18, color = '#ff6347')
 # for i, txt in enumerate(gen_time):
 #     if i > 4:
 #         axs[0].annotate(f'{txt}', 
@@ -327,40 +325,44 @@ plt.savefig('verify_time_usr_prov.svg')
 #                     textcoords="offset points", 
 #                     xytext=(0,-15), 
 #                     ha='center', 
-#                     fontsize=14, color = '#c44e52')
+#                     fontsize=18, color = '#c44e52')
+# offset_Z = [-10, -12, -15, -15, 15, 20, 13, -20, 10]
 # for i, txt in enumerate(time_x):
 #     if i < 4:
 #         axins.annotate(f'{txt}',
 #                        (code_distance[i],time_x[i]), 
 #                 textcoords="offset points", 
-#                 xytext=(0,-10), 
+#                 xytext=(0,offset_Z[i]), 
 #                 ha='center', 
-#                 fontsize=11, color = '#4c72b0')
+#                 fontsize=12, color = '#4c72b0')
 #     if i >= 4:
 #         axs[1].annotate(f'{txt}', 
 #                 (code_distance[i],time_x[i]), 
 #                 textcoords="offset points", 
-#                 xytext=(0,10), 
+#                 xytext=(0,offset_Z[i]), 
 #                 ha='center', 
-#                 fontsize=14, color = '#4c72b0')
+#                 fontsize=18, color = '#4c72b0')
+
+# offset_X = [8, 9, 14, 10, -20, -25, -20, -20, -20]
 # for i, txt in enumerate(time_z):
 #     if i < 4:
 #         axins.annotate(f'{txt}', 
 #                 (code_distance[i],time_z[i]), 
 #                 textcoords="offset points", 
-#                 xytext=(0,10), 
+#                 xytext=(0,offset_X[i]), 
 #                 ha='center', 
-#                 fontsize=11, color = '#55a868')
+#                 fontsize=12, color = '#55a868')
 #     if i >= 4:
 #         axs[1].annotate(f'{txt}', 
 #                 (code_distance[i],time_z[i]), 
 #                 textcoords="offset points", 
-#                 xytext=(0,-20), 
+#                 xytext=(0,offset_X[i]), 
 #                 ha='center', 
-#                 fontsize=14, color = '#55a868')
+#                 fontsize=18, color = '#55a868')
         
 # plt.tight_layout()
-# plt.savefig('Figures/Verification_time_detect.svg')
-# plt.show()
+# # plt.savefig('Figures/Verification_time_detect.svg')
+# plt.savefig('Verification_time_detect.svg')
+# # plt.show()
 
 
