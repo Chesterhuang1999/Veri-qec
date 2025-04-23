@@ -21,14 +21,14 @@ max_proc_num = args.cpucount
 output_dir = './eval-Output'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-file_name_head = f'{output_dir}/usrprov_surface.txt'
+file_name_head = f'{output_dir}/eval_usrprov_surface.txt'
 with open(file_name_head, 'w') as f:
     with redirect_stdout(f):
         print(f"Verifying with user-provided constraints")
         print(f"Using {max_proc_num} CPU cores for parallel processing.")
         
 ### Verification with only discreteness
-        distance_candidate = [5,7,9,11]
+        distance_candidate = [3, 5, 7, 9, 11]
         print("Verifying Correction Property on Surface code with Discreteness constraint")
         cstype = "discrete"
         for d in distance_candidate:
@@ -36,7 +36,7 @@ with open(file_name_head, 'w') as f:
             sur_cond_checker_usrprov(d, max_proc_num, cstype)
             print("-----------------")   
 ### Verification with only locality
-        distance_candidate = [5, 7, 9,11,13]
+        distance_candidate = [5, 7, 9, 11, 13]
         cstype = "local"
         print("Verifying Correction Property on Surface code with Locality constraint")
         for d in distance_candidate:

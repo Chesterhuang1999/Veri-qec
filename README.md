@@ -9,18 +9,28 @@
 
 As for the artifact evaluation, we claim for available and reusable badges. If the artifacts do not fulfill the criteria for reusability, we instead request consideration for the functional badge.
 
-As described in the paper, the artifacts include two modules. The first module is a verified verifier for QEC programs, developed in Coq and built upon the CoqQ library. The second one is a Python-based tool designed to automate the verification for quantum error correction programs. Here is the documentation for the Python-based tool, Veri-QEC.
+As described in the paper, the artifacts include two modules. The first module is a verified verifier for QEC programs, formalized in Coq and built upon the CoqQ library. The second one is a Python-based tool designed to automate the verification for quantum error correction programs. Here is the documentation for the Python-based tool, Veri-QEC.
+
+</br>
 
 ## Veri-qec: A prototype tool for automatic verification of quantum error correcting programs
 
-
 Veri-QEC is a prototype tool designed for automatic verification of quantum error correcting programs. 
-
 
 We introduce a robust framework for parsing and interpretating quantum error-correcting programs and its associated assertion logic. It then encodes the derived verification conditions into logical formulas. Leveraging SMT solvers building upon a parallel solving framework, the tool efficiently checks the satisfiability of these formulas.
 
 
 ### Getting Started for Evaluation
+
+#### Package lists in Zenodo
+
+Here are the contents of the archive files in Zenodo.
+
+- docker-veriqec.tar: The archive file for the docker environment containing the artifact Veri-qec.
+
+- dirac-project-veriqec.zip: The source codes and Dockerfile for the verified verifier developed in Coq.  
+
+- Veri-qec.zip: The source codes and Dockerfile for Veri-qec along with the output scripts.
 
 #### Preparation for docker container
 A docker image is provided for evaluation, so you don't need to install all of the dependencies by yourself.
@@ -82,31 +92,27 @@ docker run -v ${PWD}$ /eval-Output:/Veri-qec/eval-Output --rm -it docker-veriqec
 
 We set the default working directory to be `/Veri-qec/` and you can use `pwd` at the initial interface to verify whether the working directory is correct.
 
-### Package lists in Zenodo
-
-- docker-veriqec.tar: The archive file for the docker environment containing the artifact Veri-qec.
-
-- dirac-project-veriqec.zip: The source codes and Dockerfile for the verified verifier developed in Coq. 
-
-- Veri-qec.zip: The source codes and Dockerfile for Veri-qec along with the output scripts.
 
 #### Artifact Usage 
 
 We primarily evaluate the effectiveness of the tool in verifying the following three functionalities for quantum error correcting programs:
 
 - Accurately decode the syndromes and correct the errors (full-verification)
-- Accurately correct errors with constraints on the errors (part-verification)
+- Accurately correct errors with constraints on the errors (partial-verification)
 - Accurately detect all errors (full-verification)
 
+We designed the test scripts from two perspectives: for users wishing to test specific quantum error correction codes, we provide scripts that accept input parameters; to reproduce the experimental results in the paper, we have also integrated the test cases used in the paper into automated test scripts.
 
-We use argparse to support the parsing of parameters. The explanations of the parameters can be seen below: 
+**Scripts accept input parameters**
+
+In the scripts that accept input parameters, we use argparse to support the parsing of parameters. The explanations of the parameters can be seen below: 
 
 | **Parameters** | **Explanation**| 
 | ---------------| ---------------| 
 | --cpucount     |  The number of CPU cores you wish to use | 
 | --code         |  The type of the QEC code | 
-| --param1       |  Additional Parameter #1 for the QEC code (Optional) |
-| --param2       |  Additional Parameter #2 for the QEC code (Optional) | 
+| --param1 (--p1)  |  Additional Parameter #1 for the QEC code (Optional) |
+| --param2 (--p2)  |  Additional Parameter #2 for the QEC code (Optional) | 
 
 For some simple codes, e.g. carbon codes or Steane code additional parameters are not required. For other codes, additional parameters are necessary to determine the exact construction and the code distances. For example, to verify the properties of XZZX codes the distances for Pauli $X$ and Pauli $Z$ errors ($d_x, d_z$) should be provided. 
 
@@ -118,23 +124,23 @@ python3 src/execute_verify.py \
 ```
 
 To evaluate the results of the first functionality, using the command above and adjust the additional parameter (which is the distance of the surface code) from the set $\{3,5,7,9,11\}$. 
-In terminal, the output is like:
-```
-cond_checker took 3.611sec
-```
 
-**You can find the detailed output results in the `eval-Output/correction` directory.** The typical output for this example will be (the running time is obtained using 240 cores): 
+*You can find the detailed output results in the `eval-Output/correction` directory.* The typical output for this example will be (the running time is obtained using 240 cores): 
+
 ```
+Distance 7:
 Task generated. Start checking.
 total_job: 4018
 tasks for X error: 2009 | tasks for Z error: 2009
-task generation time: 0.46747398376464844
+verification condition generation time: 0.46747 sec
+-----------------
 No counterexample found, all errors can be corrected.
 
-Finish all jobs. Checking time: 3.138540744781494
+All tasks finished, total time for verification: 3.13854 sec
+cond_checker_verify took 3.60601 sec
 ```
 
-The second line illustrates the total subtasks we divide and the third line is the time consumed to parsing and generate the logical formulas. If there are no counterexamples (which means all of the subtasks will output `unsat`), then you'll see the fourth line which reports success. The final line displays the time taken by the solver to resolve all subtasks. If it takes a relatively long time ($>10s$, or $>60s$, depending on the estimated time cost in total) to finish the check, then we present the phased verification results and the current progress in the following way:
+The third line illustrates the total subtasks we divide into and the fifth line is the time consumed to parsing and generate the logical formulas. If there are no counterexamples (which means all of the subtasks will output `unsat`), then you'll see the sixths line which reports success. The penultimate line displays the time consumed by invoking the SMT solver to resolve all subtasks; The final line is the total running time for this case. If it takes a relatively long time ($>60s$, or $>300s$, depending on the estimated time cost in total) to finish the check, then we present the phased verification results and the current progress in the following way: 
 
 ```
 3078/67800: finish job file[3191], cost_time: 0.19430899620056152
@@ -165,19 +171,134 @@ num_bit: 11 | num_zero: 8 | num_one: 3 | one_pos: [8, 9, 10]
 
 It may take a long time ($\approx 19.25$ CPU days or $\approx 24$ hours for a 16-core CPU) to reproduce the result when the code distance equals to $11$, so you may refer to the `/Output/` directory for the experimental results for all of the benchmark codes while waiting for the results.
 
+**Automated test scripts**:
+We also integrate test cases into four automated test scripts with names starting with `evaluate`, according to the quantitative experiments we carried out in the paper and their results (Figure 4, 6,7 and Table 4). You can reproduce the results simply by running these test scripts. The detailed introduction is postponed to the next section.
+
+#### Finish the evaluation 
 You can exit the container by typing `exit`. The test outputs will remain available in `pwd/eval-Output`. You can refer to it for evaluation. Once you have finished all evaluation, you can delete the docker image from the Docker environment:
 
 ```bash 
 docker rmi docker-veriqec
 ```
+</br>
+
 ### Detailed Instructions for Evaluation
 
+In this section we carefully go through the experiments in the paper, and provide guidances on how to reproduce those results. The output of all experiments conducted on your device will be redirected to the `eval-Output` directory. Besides, given that reproducing all experimental results may take a considerable amount of time, we have provided the output scripts from running the experiments on our device in `Output` directory.
 
-#### Benchmarks 
-During our evaluation of the tool's functionality, we use a total of 14 types of stabilizer codes and their implementations. Based on their properties (primarily code distance), we divided them into two categories: Error Correcting codes and Error Detecting codes. Most of the stabilizer codes can detect and correct errors below certain thresholds; these codes often have odd code distances to saturate the upper bound of correctable errors; typical examples are surface codes (and the variants) and quantum reed-muller code. Error Detecting codes, for example the basic [8,3,2] color code or the campbell-howard code have even code distance (for Z error, it is $2$), indicating that they can only detect a single Pauli $Z$ error but are not capable of determining the locations and correct it. For these codes along with some codes with even code distances, we tend to verify their abilities to detect certain number of errors. 
+#### Claims and Updates for the evaluation results in the paper
+
+The experimental results produced by Veri-QEC can support the following claims mentioned in the paper:
+
+- Veri-QEC can verify the accurate-correction property for all error configurations on surface codes with up to 121 qubits in $\sim 200$ minutes (see `./Output/correction/correction_surface_11.txt`); 
+
+- Veri-QEC can verify the correct-detection property on surface code with distance up to 23; It can detect an counterexample when distance is set to be the real value + 1 for surface codes with distance up to 25 (see `./Output/detection_surface/detection_surface_(23,25).txt`). 
+
+- Veri-QEC can perform partial verification for certain user-provided constraints up to 361 qubits within $\sim 100$ minutes (see `./Output/userprov_constraint/usrprov_comb_19.txt`).
+
+- Veri-QEC can verify simple examples of fault-tolerant gadgets. (See Section 7.4 in the paper, and the outputs of `src/logical_op_test.py`).
+
+- Veri-QEC can verify a benchmark of 14 kinds of QEC codes. (see the results reproduced by `src/evaluate_userprov.py`).
+
+In following sections, we're going to introduce how to reproduce the results that supports those claims. 
+
+#### Accurately correct errors (Figure 4)
+The first experiment explores the speedup we achieved in verifying the property of correcting errors accurately. 
+
+- *Evaluation commands*: `python3 src/evaluate_verify.py --cpucount nc`.
+- *Output location*: `eval-Output/eval_correction_surface.txt`.
+- *Results for reference*: `./Output/correction/correction_surface_{3,5,7,9,11}.txt`
+- *Details*: We provide programs to reproduce both baseline results 'sequential' and our results 'parallel'. Please notice that only setting the CPU cores $nc = 1$ cannot obtain the results of 'sequential'. The reason is that although only 1 CPU core is used, this script still divides the whole problem into subtasks and it just sequentially executes these subtasks. The 'sequential' flag means that the logical formula to be checked is viewed as a single task and executed in a single CPU core. You can refer to `src/execute_serial.py` to look at how we implement the baseline method. 
+
+#### Accurately detect errors (Figure 7)
+In this experiment we explore the our tool's capability to verifying the detection properties of quantum error correcting codes. We still use the rotated surface code as the benchmark but extend the maximum code distance to 25.
+
+- *Evaluation commands*: `pythonse src/evaluate_detect.py --cpucount nc`
+- *Output location*: `eval-Output/eval_detection_surface.txt`.
+- *Results for reference*: `./Output/detection_surface`
+- *Details*: For each code distance $d$, we verify two properties with different values $d_t$: (1) When $d_t = d$, the code can detect all of the errors with weight $< d_t$; (2) When $d_t = d + 1$, there exist an error with weight $< d_t $ that cannot be detected. The typical outputs are illustrated below:
+```
+Distance 7
+Verifying the correctness when dt = d
+Check condition: dx = 7, dz = 7
+tasks for X error: 39 | tasks for Z error: 39
+total_job: 78
+Task generated. Start checking.
+verification condition generation time for dt = 7: 1.619 sec <- a
+--------------
+No counterexample for Z error is found, all errors can be detected.
+
+No counterexample for X error is found, all errors can be detected.
+-----------------
+All tasks finished, total time for verification: 2.364 sec <- b 
+cond_checker_detect took 3.98310 sec <- c
+-------------
+Detecting counterexamples when dt = d + 1
+Check condition: dx = 8, dz = 8
+tasks for X error: 33 | tasks for Z error: 33
+total_job: 66
+Task generated. Start checking.
+verification condition generation time for dt = 8: 1.760 sec <-a 
+--------------
+Counterexample found, there exists Z errors cannot be corrected.
+
+Counterexample Info:
+
+rank: 21 | id: 21 | time: 0.11774206161499023 | result: sat
+
+[0, 0, 0, 0, 0, 0, 1]
+num_bit: 7 | num_zero: 6 | num_one: 1 | one_pos: [6]
+
+About to terminate
+Time to detect a Z-type error: 0.921 sec <- c1 
+------------------
+Counterexample found, there exists X errors cannot be corrected.
+
+Counterexample Info:
+
+rank: 65 | id: 65 | time: 0.07342076301574707 | result: sat
+
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+num_bit: 17 | num_zero: 17 | num_one: 0 | one_pos: []
+
+About to terminate
+Time to detect an X-type error: 0.897 sec <- c2 
+---------------
+All tasks finished, total time for verification: 1.818 sec <- c
+cond_checker_detect took 3.578 sec <- d
+```
+The basic information, including description and counts for tasks are shown first. Then the time to generate verification condition and subtasks in Figure 6(a) are printed. Afterwards the checking results along with the time consumed in this stage are presented. (*a*: Condition generation time, *b*: Verify time with $d_t = d$, c: Verify time with $d_t = d+1$, *$c_1$*: detect Z error, *$c_2$*: detect X error.) Finally the total time consumed by cond_checker_detect is shown. It is obvious that $a+b \approx d$ and $c = c_1 + c_2$. 
+
+#### Verification using user-provided constraints (Figure 7)
+In this experiment we investigate the efficiency improvement when user-provided constraints are imposed. 
+- *Evaluation command*: `python3 src/evaluate_userprov.py --cpucount nc`
+
+- *Output location*: `eval-Output/userprov_surface.txt`
+- *Results for reference*: `./Output/userprov_constraint`
+- *Details*: We use surface code as the benchmark code here. The evaluated code distances for three types of constraints are:
+
+|cstype | distance |
+|------- | --------|
+| discrete | {3,5,7,9,11} | 
+| local | {5,7,9,11,13} | 
+| combined | {7,9,11,13,15,17,19} |
+
+If you want to test a single case instead of go through the experiment, you may use the following command:
+`python3 src/execute_user_provide.py --cpucount nc --distance d --cstype (your input)`.
+
+#### Benchmarks (Table 4)
+
+During our evaluation of the tool's functionality, we use a total of 14 types of stabilizer codes and their implementations as a benchmark set. We show how to reproduce the results in Table 4.
+
+- *Evaluation command*: `python3 src/evaluate_benchmark.py --cpucount nc`.
+
+- *Output location*: `eval-Output/eval_correction_benchmark.py`, `eval-Output/eval_detection_benchmark.py`
+
+- *Results for reference*: `.Output/correction`, `.Output/detection`. 
+
+- *Details*: Based on the properties of these codes (primarily code distance), we divided them into two categories: Error Correcting codes and Error Detecting codes. Most of the stabilizer codes can detect and correct errors below certain thresholds; these codes often have odd code distances to saturate the upper bound of correctable errors; typical examples are surface codes (and the variants) and quantum reed-muller code. Error Detecting codes, for example the basic [8,3,2] color code or the campbell-howard code have even code distance (for Z error, it is $2$), indicating that they can only detect a single Pauli $Z$ error but are not capable of determining the locations and correct it. For these codes along with some codes with even code distances, we tend to verify their abilities to detect certain number of errors. 
 
 We list the benchmarks of codes and properties we aim to verify for them in the table below. For scalable codes with svariable parameters we provide the general forms. 
-
 
 <table>
   <tr>
@@ -242,7 +363,7 @@ We list the benchmarks of codes and properties we aim to verify for them in the 
 
 For Hypergraph product code and quantum Tanner code we fix the classical codes used as constructors. 
 
-The evaluation commands and parameters set for verification are as follows.
+If you do not want to go through all of the candidate codes like what we did in `evaluate_benchmark.py`, you could use the following commands to verify a single instance of QEC codes.
 
 - Evaluation for error correcting property (full verification)
 ```bash
@@ -258,20 +379,6 @@ Parameters for verification:
 | Honeycomb | {3,5} | / | 
 | steane | / | /|
 | dodecacode | / | / | 
-
-
-- Evaluation for error correcting property with user-provided constraints (partial verification)
-```bash
-python3 src/execute_user_provide.py --cpucount nc --distance d --constraint cstype 
-```
-
-We use surface code as the benchmark code here and the distances for three types of constraints are:
-
-|cstype | distance |
-|------- | --------|
-| discrete | {3,5,7,9,11} | 
-| local | {5,7,9,11,13} | 
-| combined | {7,9,11,13,15,17,19} |
 
 - Evaluation for error detecting property (full-verification)
 
@@ -291,59 +398,38 @@ The only exception is quantum Tanner code. Due to the number of qubits and relat
 ```bash 
 python3 src/execute_detect_Tanner.py --cpucount nc --basis (Ham7, Rep5)
 ```
-
 Ham7 refers to the quantum Tanner code which have 343 qubits; Rep5 refers to the code with 125 qubits. 
 
 Detailed discussions for verification of quantum Tanner code in the following section. 
 
-- Evaluation for examples of fault-tolerant gadgets 
-
+#### Evaluation for examples of fault-tolerant gadgets (Figure 9 & 10)
 Our tool supports the verification of simple fault-tolerant gadgets, with or without propagated errors from the previous QEC cycle. We choose the logical GHZ state preparation (without propagated errors) and a logical CNOT gate (with propagated errors) as the examples. To see the results, you can execute the following command:
 ```bash 
 python3 src/logical_op_test.py
 ```
-#### Automated scripts and improved readability of outputs
-We provide four scripts to help automate the evaluation and reproduce the data in the paper. Below is a brief introduction about those scripts.
 
-- src/evaluate_verify.py: reproduces the results generated by our method in Figure 4. (Verification of the correction property on surface codes with different distances)
+#### Updates compared with the submitted version of the paper
 
-- src/evaluate_detect.py: reproduces the results in Figure 6. (Verification of the detection property on surface codes with different distances)
-
-- src/evaluate_userprov.py: reproduces the results in Figure 7. (Verification of the correction property on surface codes, with user-provided constraints.)
-(A special note: when the *locality* constraints is included, the regions where errors may occur are randomly chosen, which may extensively affect the running time. )
-
-- src/evaluate_benchmark.py: reproduces the results in Table 4. (Verification on code benchmarks)
-
-Through these automated scripts you can directly view all the results without the need to input all the parameters one by one. 
-
-To enhance the readability of the output results, we have increased the time interval for progress updates. Now, intermediate progress is output every five minutes, highlighting the time consumption of each step as well as the final results (whether all qualifying errors can be corrected/detected or counterexamples exist).
-
-#### Claims and Updates for the evaluation results in the paper
-
-I. The experimental results produced by Veri-QEC can support the following claims mentioned in the paper:
-
-- Veri-QEC can perform general verification for all error configurations on surface codes with up to 121 qubits in $\sim 200$ minutes (see `Output/correction/correction_surface_11.txt`); 
-
-- Veri-QEC can verify the correctness detection property on surface code with distance up to 23; It can detect an counterexample when distance is set to be the real value + 1 for surface codes with distance up to 25 (see `Output/detection_surface/detection_surface_(23,25).txt`). 
-
-- Veri-QEC can perform partial verification for certain user-provided constraints up to 361 qubits within $\sim 100$ minutes (see `Output/userprov_constraint/usrprov_comb_19.txt`).
-
-- Veri-QEC can verify simple examples of fault-tolerant gadgets. (See Section 7.4 in the paper, and the outputs of `src/logical_op_test.py`).
-
-- Veri-QEC can verify a benchmark of 14 kinds of QEC codes. 
-
-II. When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. The updates of experimental results include:
+When revising the experimental results for the QEC code benchmarks, we identified opportunities for updates and improvements. The updates of experimental results include:
 
 1) Results of quantum reed-muller code. We extend the scale of the code to $r = 9$ and verified the correctness of the program implementation for this $[511,1,3]$ code within $\sim 47$ hours. The time consumption is large but it has been the largest code we verified. 
 
-
 2) Results of Triorthogonal code. We first extend the scale of the code to $r = 64$ and further verify that the distance for $X$ error is $6$ for both codes. 
 
-
 3) Results of quantum Tanner code. We selected two sets of classical linear codes: the 5-bit repetition code and its dual, as well as the 7-bit Hamming code and its dual. We also choose *bitwuzla* as the SMT solver for Tanner code. We claim that the data in the paper should be updated from two perspectives:
-    - For Tanner code constructed with the 5-qubit repetition code Rep5, we verify the exact code distance **$d = 4$** in about **$20.5$** minutes, following the termination condition $4*d * N(ones) + 3 * N(bits) > N$. This matches the results in Table 4. We remove the result with running time being $137$ seconds because the verification condition is not correctly set. The details are illustrated in `Veri-qec/Output/detection/detection_Tanner_Rep5_4.txt`.
 
-    - For Tanner code constructed with the Hamming [7,4,3] code, the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$\approx 2$** hours to verify. The details are illustrated in `Veri-qec/Output/detection/detection_Tanner_Ham7_4_4.txt`.
+    - For Tanner code constructed with the 5-qubit repetition code (Rep5), we verify the code distance **$d = 4$** in about **$20.5$** minutes, following the termination condition $4*d * N(ones) + 3 * N(bits) > N$. This matches the results in Table 4. We remove the result with running time being $137$ seconds because the verification condition is not correctly set. The details are illustrated in `./Output/detection/detection_Tanner_Rep5_4.txt`.
+
+    - For Tanner code constructed with the Hamming [7,4,3] code (Ham7), the upper bound **$d <= 12$** is directly obtained from the construction of logical operators; However, due to the exceedingly large problem size, which surpasses the solvable range of current SMT solvers, we ultimately provide a formally verified lower bound for the code distance, namely **$d >= 4$** and it already takes **$\approx 2$** hours to verify. The details are illustrated in `./Output/detection/detection_Tanner_Ham7_4_4.txt`.
 
 
-### Appendix: Instructions on adding new codes
+### Instructions on adding new codes
+Our artifact supports verification of user-defined codes. You can follow this instruction to add a new code to the dataset and verify it. Try yourself!
+
+Generally speaking, define/add a new code requires two types of information: the parity-check matrix (a binary matrix encoding its stabilizers and logical operators) and the supposed code distance. If users want to define a new code, we provide interfaces for the following two scenarios separately:
+
+- The user knows the construction of the code with respect to some parameters (for example, the stabilizers of surface code with respect to distance $d$). In this case they can define a customized function to mathematically describe the code, similar to what we've done in qldpc_codes.py and special_codes.py. Then they can invoke cond_checker to verify if the supposed code distance satisfies the properties.
+
+- The user is aware of the matrix of a specific instance of this code. We provide a sample interface in `src/execute_verify.py`, which supports direct matrix reading from a file. The user will be asked to provide the file path of the matrix and the code distances to be verified.
+
+Moreover, the efficiency of SMT solver depends heavily on how we divide the problem to be checked into subtasks. Too many subtasks will lead to overflows; Too few subtasks can make it exceedingly difficult for the solver to address an individual problem. If you encounter each of these issues, you can try to adjust the termination condition by yourself. We provide the termination condition in the `easy_enough` member function of the `subtask_generator` class. You can adjust the coefficients of `assigned_one_num` and `assigned_bit_num` to adjust the number of subtasks. For large codes, we recommend an average run time $0.5s$ to $10s$ for each instance. W

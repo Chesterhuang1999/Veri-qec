@@ -23,7 +23,7 @@ if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 
-file_name_corr = f'{output_dir}/correction_benchmarks.txt'
+file_name_corr = f'{output_dir}/eval_correction_benchmarks.txt'
 with open(file_name_corr, 'w') as f:
     with redirect_stdout(f):
 
@@ -72,7 +72,7 @@ with open(file_name_corr, 'w') as f:
         print("Finish all the evaluation.")
 
 
-file_name_dete = f'{output_dir}/detection_benchmarks.txt'
+file_name_dete = f'{output_dir}/eval_detection_benchmarks.txt'
 with open(file_name_dete, 'w') as f:
     with redirect_stdout(f):
         print(f"Verifying detection property on code benchmarks:")

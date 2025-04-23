@@ -17,12 +17,12 @@ parser.add_argument('--cpucount', type=int, default = 8, help='Number of CPU cor
 args = parser.parse_args()
 max_proc_num = args.cpucount
 
-distance_candidate = [3, 5, 7]
+distance_candidate = [3, 5, 7, 9, 11]
 
 output_dir = './eval-Output'
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-file_name_head = f'{output_dir}/correction_surface.txt'
+file_name_head = f'{output_dir}/eval_correction_surface.txt'
 with open(file_name_head, 'w') as f:
     with redirect_stdout(f):
         print("Verifying correction property on surface code")

@@ -19,12 +19,11 @@ args = parser.parse_args()
 max_proc_num = args.cpucount
 
 output_dir = './eval-Output'
-# distance_candidate = [5, 7, 9, 11, 13, 17, 21, 23, 25]
+distance_candidate = [5, 7, 9, 11, 13, 17, 21, 23, 25]
 
-distance_candidate = [7, 9, 11]
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
-file_name_head = f'{output_dir}/detection_surface.txt'
+file_name_head = f'{output_dir}/eval_detection_surface.txt'
 with open(file_name_head, 'w') as f:
     with redirect_stdout(f):
         print("Verifying detection property on surface code")
