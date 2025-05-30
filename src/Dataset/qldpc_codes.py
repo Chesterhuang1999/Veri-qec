@@ -13,6 +13,7 @@ import galois
 
 from .linalg_GF import *
 from scipy.sparse import csr_matrix, csc_matrix, coo_matrix, kron
+from scipy.linalg import block_diag
 
 
 ### Check matrix generation for Quantum LDPC codes
@@ -168,4 +169,55 @@ classical734 = np.array([[1, 1, 0, 1, 0, 0, 0],
                         [0, 1, 0, 0, 0, 1, 1],
                         [1, 0, 1, 0, 0, 0, 1]], dtype = int)
 
+## Bivariate bicycle code [[]]
+def cyc_shift(l):
+    """Cyclic shift matrix of size l"""
+    mat = np.zeros((l, l), dtype = int)
+    for i in range(l):
+        mat[i, (i + 1) % l] = 1
+    return mat
+def mat_pow(A, n):
+    """Matrix power"""
+    if n == 0:
+        return np.eye(A.shape[0], dtype = int)
+    elif n == 1:
+        return A
+    else:
+        return np.linalg.matrix_power(A, n)
+bi_choice_A = [[3, 1, 2],
+               [9, 1, 2],
+               [3, 1, 2],
+               [3, 1, 2],
+               [3, 2, 7],
+               [9, 1, 2],
+               [3, 10, 17]]
+bi_choice_B = [[3, 1, 2],
+               [0, 2, 7],
+               [3, 1, 2],
+               [3, 1, 2],
+               [3, 1, 2],
+               [3, 25, 26],
+               [5, 3, 19]]
+numq_set = np.array([72, 90, 108, 144, 288, 360, 756])
+def bivariate_bicycle(l, m):
+    """Bivariate bicycle code for code parameter (l, m)"""
+    """"""
+    matx = np.kron(cyc_shift(l), np.eye(m, dtype = int))
+    maty = np.kron(np.eye(l, dtype = int), cyc_shift(m))
+    numq = 2*l*m
+    choice = np.where(numq_set == numq)[0][0]
+    # print(f"numq = {numq}, choice = {choice}")
+    matA = mat_pow(matx, bi_choice_A[choice][0]) + mat_pow(maty, bi_choice_A[choice][1]) + mat_pow(maty, bi_choice_A[choice][2])
+    matB = mat_pow(maty, bi_choice_B[choice][0]) + mat_pow(matx, bi_choice_B[choice][1]) + mat_pow(matx, bi_choice_B[choice][2])
+    Hx = np.concatenate((matA, matB), axis = 1)
+    Hz = np.concatenate((matB.T, matA.T), axis = 1)
+
+    stabilizer = block_diag(Hx, Hz)
+
+    rank = gf2_matrix_rank(Hx)
+    k = numq - stabilizer.shape[0]
+    log_X, log_Z = logical_op_gen(stabilizer, rank, numq, k)
+    
+    total_mat = np.concatenate((stabilizer, log_X, log_Z), axis = 0)
+    return total_mat
 

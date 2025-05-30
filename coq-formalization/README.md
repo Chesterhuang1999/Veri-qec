@@ -31,10 +31,12 @@ Then, you can compile the development by just typing `make` (or `opam
 config exec -- make` if you used a local opam switch to install the
 dependencies).
 
-Remark: if any unexpected error occurs, please follow the exact version of the 
+Remark I: if any unexpected error occurs, please follow the exact version of the 
 above libraries. It's known that dune-configurator >= 3.13.0 will kill the 
 compilation (incompatible with coq.8.18.0 if use `-(notation)` attribute 
 for importing files).
+
+Remark II: suppose that you already have opam and basic ocaml packages installed, the time expected to install all the dependencies is approximately 43.5 minutes, while compiling the projects using make takes roughly 22.5 minutes.
 
 <br>
 

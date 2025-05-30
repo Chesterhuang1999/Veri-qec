@@ -389,7 +389,13 @@ if __name__ == "__main__":
             with redirect_stdout(f):
                 cond_checker_verify(matrix, 3, 3, max_proc_num)
 
-
+    elif user_input == 'BB':
+        ## Verify Bivariate bicycle code, from quantum LDPC code famly ##
+        ## Due to the scale of the code, verification may take a long time ##
+        if args.param1 is None or args.param2 is None:
+            raise ValueError("Shape parameter should be provided.")
+        mat1, mat2 = qldpc_codes.bivariate_bicycle(args.param1, args.param2)
+        
     elif user_input == 'Others': #### User-defined code and properties
         file_path = input("Please enter the file path of the code:")
         dx = input("Enter dx:")
